@@ -1,0 +1,84 @@
+<div class="overview">
+  <section class="welcome centered" *ngIf="!transactions.length">
+    <label class="text-35 lh-300">Welcome! {{ currentUser.firstName ? currentUser.firstName : currentUser.email }} </label>
+    <label class="text-20">Manage all your finances in simplest way</label>
+    <br>
+    <label class="text-16">1. Click on the + button to add your first transaction</label>
+    <label class="text-16">2. To set your currency or to add categories, go to settings</label>
+    <mat-spinner [color]="color" *ngIf="isLoading"></mat-spinner>
+  </section>
+
+  <section class="filter flexStart mg-t15 mg-l10 mg-r10" *ngIf="transactions.length">
+    <div class="filter mg-r10">
+      <mat-icon>filter_list</mat-icon>
+      <label class="text-14 uppercase">Filter</label>
+    </div>
+    <mat-form-field>
+      <mat-label>Select Month</mat-label>
+      <mat-select [(ngModel)]="selectedMonth" (selectionChange)="filterByDate()">
+        <mat-option *ngFor="let month of transactionMonths" [value]="month.key">{{month.value}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Select Year</mat-label>
+      <mat-select [(ngModel)]="selectedYear" (selectionChange)="filterByDate()">
+        <mat-option *ngFor="let year of transactionYears" [value]="year">{{year}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <!-- <div class="flexCenter mg-l10">
+      <mat-icon class="pointer" [matTooltip]="'Clear Filter'">clear</mat-icon>
+    </div> -->
+  </section>
+
+  <section class="summary">
+    <div class="charts" [hidden]="!transactions.length">
+      <div class="flexCol">
+        <!--Income Expense Summary-->
+        <mat-card class="overview-bar">
+          <div #IncomeExpenseSummaryContainer id="IncomeExpenseSummaryContainer">
+            <span class="dataNotAvailable">Data is not available for this metric yet.</span>
+          </div>
+        </mat-card>
+
+        <!--Total Savings-->
+        <mat-card class="totalSavings-pie">
+          <div #TotalSavingsContainer id="TotalSavingsContainer">
+            <span class="dataNotAvailable">Data is not available for this metric yet.</span>
+          </div>
+        </mat-card>
+      </div>
+
+      <div class="flexCol min-w60">
+        <mat-card class="overview-pie">
+          <highcharts-chart *ngIf="expenseDistOptions" [Highcharts]="Highcharts" [options]="expenseDistOptions">
+          </highcharts-chart>
+        </mat-card>
+
+        <!--Calendar-->
+        <mat-card class="calendar">
+          <full-calendar [options]="calendarOptions"></full-calendar>
+        </mat-card>
+      </div>
+    </div>
+
+    <!--Transactions List-->
+    <div class="recent-transactions">
+      <mat-form-field class="search mg-10" [hidden]="!transactions.length">
+        <input type="text" matInput placeholder="Search by date, category and note" name="search" [(ngModel)]="search"
+          (ngModelChange)="filterbySearch()">
+        <button matSuffix mat-button>
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
+      <!-- <label class="text-20 mg-t10">Recent Transactions</label> -->
+      <div class="transaction-list" *ngIf="filteredTransactions.length">
+        <app-transaction-list [transactions]="filteredTransactions" [currencySymbol]="currencySymbol"></app-transaction-list>
+      </div>
+    </div>
+
+    <!--Add Transaction Button-->
+    <button mat-icon-button class="add-transaction" (click)="openAddTransactionModal()">
+      <i class="fa fa-plus fa-2x plus-icon"></i>
+    </button>
+  </section>
+</div>

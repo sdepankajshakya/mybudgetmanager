@@ -1,0 +1,32 @@
+.signup-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3rem;
+  padding: 30px;
+}
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  .signup {
+    margin-top: 1rem;
+    margin-left: 15rem;
+  }
+}
+
+.logo {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 715px) {
+  .signup-card {
+    display: flex;
+    align-items: center;
+    flex-direction: column-reverse;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+}

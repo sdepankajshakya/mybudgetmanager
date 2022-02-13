@@ -1,0 +1,29 @@
+<div class="navbar">
+  <div class="flexStart">
+    <button mat-icon-button (click)="toggleSidebar()" *ngIf="isLoggedIn">
+      <i [ngClass]="sidenav ? 'fa fa-arrow-left fa-2x' : 'fa fa-bars fa-2x'"></i>
+    </button>
+    <div class="logo">
+      <a href="javascript:void(0)" (click)="goToHome()">
+        <img src="/assets/images/icon.png" alt="logo" width="60px" />
+      </a>
+      <label class="text-20 mg-l5">Budget Manager</label>
+    </div>
+  </div>
+  <div class="profile">
+    <mat-slide-toggle class="text-16" [color]="color" (click)="toggleDarkmode()" [(ngModel)]="isDarkMode">Dark Mode</mat-slide-toggle>
+    <button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="isLoggedIn">
+      <i class='fa fa-user-circle fa-3x'></i>
+    </button>
+    <mat-menu #menu="matMenu" class="profile-items">
+      <button mat-menu-item (click)="onEditProfile()">
+        <mat-icon>account_circle</mat-icon>
+        <span>Profile</span>
+      </button>
+      <button mat-menu-item (click)="onLogout()">
+        <mat-icon>exit_to_app</mat-icon>
+        <span>Logout</span>
+      </button>
+    </mat-menu>
+  </div>
+</div>

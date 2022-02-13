@@ -1,0 +1,34 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 100px;
+  width: 300px;
+}
+
+.sidebar-items {
+  // text-align: center;
+  a {
+    font-size: 16px;
+  }
+}
+
+.sidebar a {
+  display: block;
+  color: black;
+  padding: 16px;
+  text-decoration: none;
+}
+
+.sidebar a.active {
+  background-color: #f2b341;
+  color: black;
+}
+
+.sidebar a:hover:not(.active) {
+  background-color: #2f323e;
+  color: white;
+}
+
+.footer {
+  padding: 15px;
+}

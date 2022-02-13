@@ -1,0 +1,35 @@
+<h2 mat-dialog-title>Add a transaction</h2>
+<mat-dialog-content>
+  <form class="add-transaction-form" [formGroup]="addTransactionForm" (ngSubmit)="newTransaction()">
+    <mat-form-field>
+      <mat-label>Category</mat-label>
+      <mat-select appearance="outline" [compareWith]="compareWith" formControlName="category">
+        <mat-option *ngFor="let category of categories" [value]="category">
+          <img class="category-icon" aria-hidden [src]="category.icon" height="25">
+            <span>{{category.name}}</span>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Amount</mat-label>
+      <input matInput type="number" class="numberic-text" formControlName="amount" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Date</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="date" placeholder="mm/dd/yyyy" required>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Add a note</mat-label>
+      <input matInput formControlName="note">
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button type="button" mat-button [mat-dialog-close]="true">Cancel</button>
+  <button type="submit" mat-raised-button color="accent" (click)="newTransaction()">Save</button>
+</mat-dialog-actions>

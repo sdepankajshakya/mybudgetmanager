@@ -1,0 +1,15 @@
+.add-transaction-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.category-icon {
+  margin: 10px;
+}
+
+@media (max-width: 330px) {
+  .add-transaction-form {
+    justify-content: space-between;
+  }
+}

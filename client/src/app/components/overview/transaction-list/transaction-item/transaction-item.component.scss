@@ -1,0 +1,105 @@
+.transaction-card {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
+  margin: 10px;
+  min-width: 300px;
+  // max-width: 300px;
+  background-color: #fff;
+  color: #000;
+}
+
+.transaction-card:hover {
+  transform: scale(1.04);
+  /* transition: all 0.20s ease-in-out; */
+}
+
+.modify {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.3rem;
+}
+
+.date-icon {
+  font-size: 15px; /* change icon size */
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  display: block;
+  position: relative;
+  width: 7em;
+  height: 8em;
+  background-color: #fff;
+  border-radius: 0.6em;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25) !important;
+  overflow: hidden;
+  margin-right: 10px;
+}
+
+.date-icon * {
+  display: block;
+  width: 100%;
+  font-size: 15px;
+  font-style: normal;
+  text-align: center;
+}
+
+.date-icon strong {
+  position: absolute;
+  top: 0;
+  padding: 0.4em 0;
+  color: #fff;
+  background-color: #f2b341;
+  border-bottom: 1px dashed #f2b341;
+  box-shadow: 0 2px 0 #f2b341;
+}
+
+.date-icon em {
+  position: absolute;
+  bottom: 1em;
+  color: #f2b341;
+}
+
+.date-icon span {
+  font-size: 1.8em;
+  padding-top: 2em;
+  color: #2f2f2f;
+}
+
+.transaction-details {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1em;
+}
+
+.transaction-desc {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1em;
+}
+
+.transaction-price {
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+
+.expense-item {
+  color: red;
+}
+
+.income-item {
+  color: green;
+}
+
+@media (max-width: 330px) {
+  .transaction-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 2em;
+  }
+
+  .transaction-desc {
+    align-items: center;
+  }
+}

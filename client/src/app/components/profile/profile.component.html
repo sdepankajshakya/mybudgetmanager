@@ -1,0 +1,29 @@
+<div class="profile flexRowCenter centered">
+    <div class="profile-picture">
+        <label class="hoverable" for="fileInput">
+            <img [src]="url ? url : '/assets/images/blank-profile.png'">
+            <div class="hover-text">Choose file</div>
+            <div class="background"></div>
+        </label>
+        <br />
+        <input id="fileInput" type='file' (change)="onSelectFile($event)">
+        <button mat-raised-button color="warn" *ngIf="url" (click)="delete()">Remove</button>
+    </div>
+
+    <div class="update-profile flexColCenter">
+        <mat-form-field appearance="outline">
+            <mat-label>First Name</mat-label>
+            <input matInput type="text">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Last Name</mat-label>
+            <input matInput type="text">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput type="text">
+        </mat-form-field>
+
+        <button mat-raised-button color="accent">Save</button>
+    </div>
+</div>

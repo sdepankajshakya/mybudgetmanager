@@ -1,0 +1,29 @@
+<mat-card class="transaction-card">
+  <mat-card-content>
+    <div class="transaction-details">
+      <time class="date-icon">
+        <em>{{transaction.displayDate.weekday}}</em>
+        <strong>{{transaction.displayDate.month}} {{transaction.displayDate.year}}</strong>
+        <span>{{transaction.displayDate.day}}</span>
+      </time>
+      <div class="transaction-desc">
+        <label class="text-16">{{transaction.category.name}}</label>
+        <img class="category-icon" aria-hidden [src]="getCategoryIcon(transaction.category?.name!)" height="40">
+        <span class="transaction-price text-25"
+          [ngClass]="transaction.category ? (getCategoryType(transaction.category?.name!) === 'expense' ? 'expense-item' : 'income-item') : 'expense-item'">
+          {{currencySymbol}}{{transaction.amount}}
+        </span>
+      </div>
+    </div>
+    <label class="text-16 mg-t20" *ngIf="transaction.note">{{transaction.note}}</label>
+  </mat-card-content>
+
+  <mat-card-actions class="modify">
+    <button mat-icon-button color="primary" class="mg-t5" (click)="openAddTransactionModal()">
+      <i class="fa fa-edit fa-2x"></i>
+    </button>
+    <button mat-icon-button color="warn" (click)="confirmDialog()">
+      <i class="fa fa-trash fa-2x"></i>
+    </button>
+  </mat-card-actions>
+</mat-card>

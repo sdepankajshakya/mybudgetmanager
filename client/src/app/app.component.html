@@ -1,0 +1,9 @@
+<app-header></app-header>
+<mat-sidenav-container class="sidebar" (backdropClick)="close('backdrop')" autosize>
+  <mat-sidenav #sidenav (keydown.escape)="close('escape')" *ngIf="isLoggedIn">
+    <app-sidebar></app-sidebar>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

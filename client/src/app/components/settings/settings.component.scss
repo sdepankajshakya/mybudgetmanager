@@ -1,0 +1,38 @@
+.settingsForm {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 5px;
+}
+
+.settings {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+}
+
+.backup-restore {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+}
+
+.income {
+  color: green;
+}
+
+.expense {
+  color: red;
+}
+
+.upload_instructions {
+  margin-left: 2rem;
+}
+
+@media (max-width: 750px) {
+  .settingsForm {
+    flex-direction: column;
+  }
+}

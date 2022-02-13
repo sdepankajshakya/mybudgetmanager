@@ -1,0 +1,157 @@
+const express = require("express");
+const router = express.Router();
+const mongoose = require("mongoose");
+const multer = require("multer");
+const xlsx = require("xlsx");
+
+const checkAuth = require("../middleware/checkAuth");
+const SettingsModel = require("../models/settings");
+const utils = require("../utilities/utils");
+const TransactionModel = require("../models/transaction");
+const CategoryModel = require("../models/category");
+const CurrencyModel = require("../models/currency");
+
+const MIME_TYPE_MAP = {
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": "xlsx",
+  "application/vnd.ms-excel.sheet.binary.macroEnabled.12": "xlsb",
+  "application/vnd.ms-excel": "xls",
+  "application/vnd.ms-excel.sheet.macroEnabled.12": "xlsm",
+};
+
+const storageConfig = multer.diskStorage({
+  destination: (req, file, callback) => {
+    const isValid = MIME_TYPE_MAP[file.mimetype];
+    let error = new Error("Invalid mime type");
+    if (isValid) {
+      error = null;
+    }
+    callback(error, "spreadsheets"); // filePath
+  },
+  filename: (req, file, callback) => {
+    callback(null, file.originalname);
+  },
+});
+
+router.get("/api/getsettings", checkAuth, (req, res, next) => {
+  SettingsModel.find({ user: req.currentUser.userId }, (err, settings) => {
+    if (err) {
+      utils.sendErrorResponse(res, 500, err.name, err.message);
+    } else {
+      utils.sendSuccessResponse(res, 200, "Settings fetched succesfully!", settings);
+    }
+  });
+});
+
+router.post("/api/updatesettings", checkAuth, (req, res, next) => {
+  if (!req.body) {
+    utils.sendErrorResponse(res, 400, "Failed to update", "Request body not found");
+  } else {
+    const settings = new SettingsModel(req.body);
+    settings.user = req.currentUser.userId;
+
+    if (!req.body._id) {
+      // insert
+      settings.save((err, result) => {
+        if (err) {
+          utils.sendErrorResponse(res, 400, err.name, err.message);
+        } else {
+          utils.sendSuccessResponse(res, 201, "Settings saved succesfully!", null);
+        }
+      });
+    } else {
+      // update
+      if (!mongoose.Types.ObjectId.isValid(req.body._id)) utils.sendErrorResponse(res, 400, "Bad Request", "Invalid object id received. Cannot update settings.");
+
+      SettingsModel.findOneAndUpdate({ _id: settings._id, user: req.currentUser.userId }, settings, { runValidators: true }, (err, result) => {
+        if (err) {
+          utils.sendErrorResponse(res, 400, err.name, err.message);
+        } else {
+          utils.sendSuccessResponse(res, 200, "Settings updated succesfully!", null);
+        }
+      });
+    }
+  }
+});
+
+router.get("/api/getCategories", checkAuth, (req, res, next) => {
+  CategoryModel.find({}, (err, settings) => {
+    if (err) {
+      utils.sendErrorResponse(res, 500, err.name, err.message);
+    } else {
+      utils.sendSuccessResponse(res, 200, "Categories fetched succesfully!", settings);
+    }
+  });
+});
+
+router.get("/api/getCurrencies", checkAuth, (req, res, next) => {
+  CurrencyModel.find({}, (err, settings) => {
+    if (err) {
+      utils.sendErrorResponse(res, 500, err.name, err.message);
+    } else {
+      utils.sendSuccessResponse(res, 200, "Currencies fetched succesfully!", settings);
+    }
+  });
+});
+
+router.post("/api/uploadSpreadsheet", checkAuth, multer({ storage: storageConfig }).single("spreadsheet"), (req, res, next) => {
+  if (!req.file) {
+    utils.sendErrorResponse(res, 400, "Failed to upload", "Invalid file");
+  } else {
+    let transactionsObj = sheetToJson(req.file.path);
+    for (const [index, trans] of transactionsObj.entries()) {
+      let isValid = false;
+      if (trans.hasOwnProperty("amount") && trans.hasOwnProperty("date")) {
+        isValid = true; // if trans obj has amount and date
+      }
+
+      if (isValid) {
+        CategoryModel.find({ name: trans.category }, (err, result) => {
+          let lastIndex = false;
+          if (index === transactionsObj.length - 1) {
+            lastIndex = true; // last index of transactions array
+          }
+
+          if (!!Object.keys(result).length) {
+            trans.category = result[0]; // converting the category string from sheet to category object
+            trans.user = req.currentUser.userId; // adding the userId to every transaction
+            trans.date = excelDateToJSDate(trans.date);
+            insertIntoDB(trans, res, transactionsObj, lastIndex);
+          }
+        });
+      } else {
+        utils.sendErrorResponse(res, 400, "Failed to upload", "Error parsing the file");
+        break;
+      }
+    }
+  }
+});
+
+function sheetToJson(filePath) {
+  const workbook = xlsx.readFile(filePath);
+  const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+  let transactions = xlsx.utils.sheet_to_json(worksheet);
+
+  return transactions;
+}
+
+function excelDateToJSDate(excelDate) {
+  let date = new Date(Math.round((excelDate - (25567 + 2)) * 86400 * 1000));
+  let converted_date = date.toISOString().split("T")[0];
+  return converted_date;
+}
+
+function insertIntoDB(trans, res, transactionsObj, lastIndex) {
+  if (trans) {
+    const transaction = new TransactionModel(trans);
+    transaction.save((err, result) => {
+      if (result && lastIndex) {
+        utils.sendSuccessResponse(res, 201, "Transactions added successfully!", transactionsObj); // send success response only after the entire transaction array has been iterated
+      }
+      if (err) {
+        console.log(err);
+      }
+    });
+  }
+}
+
+module.exports = router;
