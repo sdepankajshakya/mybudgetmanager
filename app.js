@@ -19,14 +19,14 @@ app.use((req, res, next) => {
 });
 
 // user routes
-app.use("/api/user", userRoutes);
 app.use(transactionRoutes, settingsRoute);
+app.use("/api/user", userRoutes);
 
 // serve the static files
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/dist"));
+  app.use(express.static("public"));
   app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "client/dist/index.html"));
+    res.sendFile(path.join(__dirname, "public/index.html"));
   });
 }
 
