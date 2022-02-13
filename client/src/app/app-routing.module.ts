@@ -8,6 +8,7 @@ import { AuthenticationGuard } from './guards/authentication.guard';
 import { SettingsComponent } from './components/settings/settings.component';
 import { SettingsService } from './services/settings.service';
 import { ProfileComponent } from './components/profile/profile.component';
+import { ContactUsComponent } from './components/contact-us/contact-us.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -23,6 +24,11 @@ const routes: Routes = [
   {
     path: 'settings',
     component: SettingsComponent,
+    canActivate: [AuthenticationGuard],
+  },
+  {
+    path: 'contactus',
+    component: ContactUsComponent,
     canActivate: [AuthenticationGuard],
   },
 ];

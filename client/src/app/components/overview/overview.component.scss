@@ -28,6 +28,10 @@
   padding: 10px;
 }
 
+.overview {
+  overflow: hidden;
+}
+
 .overview-pie,
 .overview-bar,
 .calendar,
@@ -104,6 +108,9 @@
   .add-transaction {
     height: 60px;
     width: 60px;
+  }
+  .filter {
+    flex-direction: column;
   }
 }
 

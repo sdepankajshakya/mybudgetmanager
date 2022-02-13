@@ -1,4 +1,4 @@
-.profile {
+.edit-profile {
   gap: 50px;
 }
 
@@ -50,4 +50,12 @@ img {
 
 #fileInput {
   display: none;
+}
+
+@media (max-width: 546px) {
+  .edit-profile {
+    flex-direction: column;
+    gap: 10px;
+    padding: 18rem 0;
+  }
 }

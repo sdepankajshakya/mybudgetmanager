@@ -217,6 +217,10 @@ input.numberic-text {
   background: #f3a513;
 }
 
+.mat-card {
+  overflow: hidden !important;
+}
+
 @media (max-width: 555px) {
   .sidebar,
   .settingsForm {

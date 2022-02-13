@@ -56,6 +56,7 @@ import {
   GoogleLoginProvider,
   FacebookLoginProvider,
 } from 'angularx-social-login';
+import { ContactUsComponent } from './components/contact-us/contact-us.component';
 
 const web = {
   client_id:
@@ -85,6 +86,7 @@ FullCalendarModule.registerPlugins([interactionPlugin, dayGridPlugin]);
     ErrorHandlerComponent,
     SettingsComponent,
     ProfileComponent,
+    ContactUsComponent,
   ],
   imports: [
     BrowserModule,
