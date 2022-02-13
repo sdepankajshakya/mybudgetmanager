@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const db = require("./db");
 const bodyParser = require("body-parser");
+const path = require("path");
 
 const transactionRoutes = require("./routes/transactions");
 const userRoutes = require("./routes/user");
@@ -20,5 +21,13 @@ app.use((req, res, next) => {
 // user routes
 app.use("/api/user", userRoutes);
 app.use(transactionRoutes, settingsRoute);
+
+// serve the static files
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/dist"));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "public/index.html"));
+  });
+}
 
 module.exports = app;
