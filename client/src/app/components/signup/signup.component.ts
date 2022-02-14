@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { ThemePalette } from '@angular/material/core';
 
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -23,6 +24,7 @@ export class SignupComponent implements OnInit {
 
   hide = true;
   isLoading = false;
+  color: ThemePalette = 'accent';
 
   ngOnInit(): void {}
 

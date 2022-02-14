@@ -13,6 +13,7 @@ import {
   FacebookLoginProvider,
   GoogleLoginProvider,
 } from 'angularx-social-login';
+import { ThemePalette } from '@angular/material/core';
 
 @Component({
   selector: 'app-login',
@@ -39,6 +40,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   hide = true;
   isLoading = false;
   tokenTimer: any;
+  color: ThemePalette = 'accent';
 
   ngOnInit(): void {
     if (this.isLoggedIn) {
