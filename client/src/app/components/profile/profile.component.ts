@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { SharedService } from 'src/app/services/shared.service';
+import { User } from 'src/app/models/user';
 
 @Component({
   selector: 'app-profile',
@@ -6,11 +8,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit {
-  constructor() {}
+  constructor(private sharedService: SharedService) {}
 
   url: any;
+  currentUser!: User;
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const current_user =
+      this.sharedService.getItemFromLocalStorage('current_user');
+    if (current_user) {
+      this.currentUser = current_user;
+    }
+  }
 
   onSelectFile(event: any) {
     if (event.target.files && event.target.files[0]) {
