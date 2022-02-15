@@ -9,6 +9,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MessageService } from 'src/app/services/message.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SharedService } from 'src/app/services/shared.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-transaction',
@@ -22,6 +23,7 @@ export class AddTransactionComponent implements OnInit {
     private dialog: MatDialog,
     private messageService: MessageService,
     private sharedService: SharedService,
+    private toastr: ToastrService,
     @Inject(MAT_DIALOG_DATA) private transactionDetails: Transaction
   ) {}
 
@@ -74,9 +76,15 @@ export class AddTransactionComponent implements OnInit {
 
     this.transactionService
       .newTransaction(this.addTransactionForm.value)
-      .subscribe((res) => {
-        this.dialogRef.close();
-        this.messageService.sendMessage('transaction saved');
-      });
+      .subscribe(
+        (res) => {
+          this.dialogRef.close();
+          this.messageService.sendMessage('transaction saved');
+          this.toastr.success('Transaction added successfully', 'Success!');
+        },
+        (err) => {
+          this.toastr.success('Failed to add the transaction', 'Error!');
+        }
+      );
   }
 }

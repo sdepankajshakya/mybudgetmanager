@@ -57,6 +57,7 @@ import {
   FacebookLoginProvider,
 } from 'angularx-social-login';
 import { ContactUsComponent } from './components/contact-us/contact-us.component';
+import { CurrencyPipe } from '@angular/common';
 
 const web = {
   client_id:
@@ -147,6 +148,7 @@ FullCalendarModule.registerPlugins([interactionPlugin, dayGridPlugin]);
         ],
       } as SocialAuthServiceConfig,
     },
+    CurrencyPipe,
   ],
   bootstrap: [AppComponent],
   // entryComponents: [ErrorHandlerComponent]

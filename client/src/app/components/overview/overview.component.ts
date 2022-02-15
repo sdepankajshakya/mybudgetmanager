@@ -16,11 +16,28 @@ import { SharedService } from 'src/app/services/shared.service';
 import { ThemePalette } from '@angular/material/core';
 import { SettingsService } from 'src/app/services/settings.service';
 import { ToastrService } from 'ngx-toastr';
+import { CurrencyPipe } from '@angular/common';
+import { Calendar } from '@fullcalendar/core';
+import interactionPlugin from '@fullcalendar/interaction';
+import dayGridPlugin from '@fullcalendar/daygrid';
 
 export interface DialogData {
   animal: string;
   name: string;
 }
+
+let transactionViewCalendar = document.getElementById(
+  'transactionViewCalendar'
+)!;
+let calendar = new Calendar(transactionViewCalendar, {
+  plugins: [interactionPlugin, dayGridPlugin],
+  selectable: true,
+  longPressDelay: 1,
+
+  select: function (info) {
+    alert('Clicked on: ' + info);
+  },
+});
 
 @Component({
   selector: 'app-overview',
@@ -56,7 +73,8 @@ export class OverviewComponent implements OnInit {
     private messageService: MessageService,
     private sharedService: SharedService,
     private settingsService: SettingsService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private currencyPipe: CurrencyPipe
   ) {
     this.messageSubscription = this.messageService
       .getMessage()
@@ -474,17 +492,21 @@ export class OverviewComponent implements OnInit {
       },
       series: [
         {
-          name: 'Savings',
+          name: '',
           data: [
             ['Total Income', totalIncome],
             ['Total Expense', totalExpense],
           ],
+          tooltip: {
+            valuePrefix: this.currencySymbol,
+          },
           colors: ['green', 'red'],
           size: '60%',
           innerSize: '90%',
           showInLegend: false,
           dataLabels: {
-            enabled: false,
+            enabled: true,
+            format: this.currencySymbol + '{y}',
           },
         },
       ],

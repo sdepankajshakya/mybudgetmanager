@@ -116,10 +116,14 @@ export class TransactionItemComponent implements OnInit {
   }
 
   deleteTransaction() {
-    this.transactionService
-      .deleteTransaction(this.transaction)
-      .subscribe((res) => {
+    this.transactionService.deleteTransaction(this.transaction).subscribe(
+      (res) => {
         this.messageService.sendMessage('transaction deleted');
-      });
+        this.toastr.success('Transaction deleted successfully', 'Success!');
+      },
+      (err) => {
+        this.toastr.success('Failed to delete the transaction', 'Error!');
+      }
+    );
   }
 }
