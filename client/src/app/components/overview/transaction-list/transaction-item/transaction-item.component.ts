@@ -101,6 +101,10 @@ export class TransactionItemComponent implements OnInit {
     });
   }
 
+  sendMessage() {
+    this.messageService.sendMessage('edit a transaction');
+  }
+
   confirmDialog(): void {
     const message = `Are you sure you want delete this transaction?`;
     const dialogData = new ConfirmDialogModel('Confirm Action', message);

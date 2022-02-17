@@ -10,6 +10,7 @@ import { MessageService } from 'src/app/services/message.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SharedService } from 'src/app/services/shared.service';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-add-transaction',
@@ -17,6 +18,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./add-transaction.component.scss'],
 })
 export class AddTransactionComponent implements OnInit {
+  messageSubscription: Subscription;
   constructor(
     private transactionService: TransactionService,
     private dialogRef: MatDialogRef<AddTransactionComponent>,
@@ -25,9 +27,18 @@ export class AddTransactionComponent implements OnInit {
     private sharedService: SharedService,
     private toastr: ToastrService,
     @Inject(MAT_DIALOG_DATA) private transactionDetails: Transaction
-  ) {}
+  ) {
+    this.messageSubscription = this.messageService
+      .getMessage()
+      .subscribe((message) => {
+        if (message.text === 'edit a transaction') {
+          this.isEditTransaction = true;
+        }
+      });
+  }
 
   categories: any[] = [];
+  isEditTransaction: boolean = false;
 
   addTransactionForm = new FormGroup({
     _id: new FormControl(null),
@@ -57,7 +68,7 @@ export class AddTransactionComponent implements OnInit {
     );
   }
 
-  newTransaction() {
+  addTransaction() {
     if (this.addTransactionForm.invalid) {
       this.dialog.open(ErrorHandlerComponent, {
         data: { message: 'Invalid fields' },
@@ -65,6 +76,14 @@ export class AddTransactionComponent implements OnInit {
       return;
     }
 
+    if (!this.isEditTransaction) {
+      this.newTransaction();
+    } else {
+      this.editTransaction();
+    }
+  }
+
+  newTransaction() {
     let transDate = this.addTransactionForm.get('date')!.value;
     // converting single digit date and month to double digits because fullCalendar accepts 2 digits
     let date = ('0' + transDate.getDate()).slice(-2);
@@ -74,6 +93,14 @@ export class AddTransactionComponent implements OnInit {
       .get('date')!
       .patchValue(year + '-' + month + '-' + date); // ISO Format (yyyy-mm-dd)
 
+    this.saveTransaction();
+  }
+
+  editTransaction() {
+    this.saveTransaction();
+  }
+
+  saveTransaction() {
     this.transactionService
       .newTransaction(this.addTransactionForm.value)
       .subscribe(

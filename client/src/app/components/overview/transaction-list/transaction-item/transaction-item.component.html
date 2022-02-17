@@ -19,7 +19,7 @@
   </mat-card-content>
 
   <mat-card-actions class="modify">
-    <button mat-icon-button color="primary" class="mg-t5" (click)="openAddTransactionModal()">
+    <button mat-icon-button color="primary" class="mg-t5" (click)="openAddTransactionModal(); sendMessage();">
       <i class="fa fa-edit fa-2x"></i>
     </button>
     <button mat-icon-button color="warn" (click)="confirmDialog()">
