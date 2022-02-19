@@ -6,6 +6,7 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { MessageService } from './services/message.service';
 import { AuthenticationService } from './services/authentication.service';
 import { SharedService } from './services/shared.service';
+import { SettingsService } from './services/settings.service';
 
 @Component({
   selector: 'app-root',
@@ -19,11 +20,13 @@ export class AppComponent implements OnDestroy {
   loginStatusSubsciption: Subscription;
   @ViewChild('sidenav') sidenav!: MatSidenav;
   isDarkMode: boolean = false;
+  currentSettings: any;
 
   constructor(
     private authService: AuthenticationService,
     private messageService: MessageService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private settingsService: SettingsService
   ) {
     this.loginStatusSubsciption = this.authService
       .getLoginStatus()
@@ -41,18 +44,26 @@ export class AppComponent implements OnDestroy {
         if (message.text === 'close sidebar') {
           this.close('toggle button');
         }
+
+        // set/unset darkMode based on the toggle on header
         if (message.text === 'darkMode') {
           this.isDarkMode = true;
         }
         if (message.text === 'lightMode') {
           this.isDarkMode = false;
         }
+
+        // set/unset darkMode based on settings API
+        if (message.text === 'enable darkMode') {
+          this.isDarkMode = true;
+        }
+        if (message.text === 'enable lightMode') {
+          this.isDarkMode = false;
+        }
       });
   }
 
-  ngOnInit() {
-    this.isDarkMode = this.sharedService.getItemFromLocalStorage('darkMode');
-  }
+  ngOnInit() {}
 
   close(reason: string) {
     this.sidenav.close();

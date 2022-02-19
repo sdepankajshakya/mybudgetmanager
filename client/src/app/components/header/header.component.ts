@@ -6,6 +6,7 @@ import { ThemePalette } from '@angular/material/core';
 import { MessageService } from 'src/app/services/message.service';
 import { SharedService } from 'src/app/services/shared.service';
 import { Router } from '@angular/router';
+import { SettingsService } from 'src/app/services/settings.service';
 
 @Component({
   selector: 'app-header',
@@ -19,11 +20,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   sidenav = false; // hamburger menu icon
   color: ThemePalette = 'accent';
   isDarkMode: boolean = false;
+  currentSettings: any;
 
   constructor(
     private authService: AuthenticationService,
     private messageService: MessageService,
     private sharedService: SharedService,
+    private settingsService: SettingsService,
     private router: Router
   ) {
     this.loginStatusSubsciption = this.authService
@@ -42,21 +45,36 @@ export class HeaderComponent implements OnInit, OnDestroy {
         ) {
           this.sidenav = false;
         }
+        // enable/disable darkMode toggle based on settings API
+        if (message.text === 'enable lightMode') {
+          this.isDarkMode = false;
+        }
+        if (message.text === 'enable darkMode') {
+          this.isDarkMode = true;
+        }
       });
   }
 
-  ngOnInit(): void {
-    this.isDarkMode = this.sharedService.getItemFromLocalStorage('darkMode');
-  }
+  ngOnInit(): void {}
 
   toggleDarkmode() {
-    if (!this.isDarkMode) {
-      this.sharedService.setItemToLocalStorage('darkMode', true);
-      this.messageService.sendMessage('darkMode');
-    } else {
-      this.sharedService.setItemToLocalStorage('darkMode', false);
+    this.currentSettings =
+      this.sharedService.getItemFromLocalStorage('settings');
+    if (this.isDarkMode) {
+      this.currentSettings.darkMode = false;
       this.messageService.sendMessage('lightMode');
+    } else {
+      this.currentSettings.darkMode = true;
+      this.messageService.sendMessage('darkMode');
     }
+
+    this.updateSettings();
+  }
+
+  updateSettings() {
+    this.settingsService
+      .updateSettings(this.currentSettings)
+      .subscribe(() => {});
   }
 
   toggleSidebar() {

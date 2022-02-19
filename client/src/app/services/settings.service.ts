@@ -4,12 +4,16 @@ import { HttpClient } from '@angular/common/http';
 import { config } from '../configuration/config';
 import { tap } from 'rxjs/operators';
 import { Resolve } from '@angular/router';
+import { MessageService } from './message.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SettingsService implements Resolve<any> {
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private messageService: MessageService
+  ) {}
 
   resolve() {
     return this.http
@@ -18,6 +22,7 @@ export class SettingsService implements Resolve<any> {
         tap((response) => {
           if (response && response.data && response.data.length) {
             localStorage.setItem('settings', JSON.stringify(response.data[0]));
+            this.isDarkMode(response.data[0]);
           }
         })
       );
@@ -30,9 +35,18 @@ export class SettingsService implements Resolve<any> {
         tap((response) => {
           if (response && response.data && response.data.length) {
             localStorage.setItem('settings', JSON.stringify(response.data[0]));
+            this.isDarkMode(response.data[0]);
           }
         })
       );
+  }
+
+  isDarkMode(settings: any) {
+    if (settings && settings.darkMode) {
+      this.messageService.sendMessage('enable darkMode');
+    } else {
+      this.messageService.sendMessage('enable lightMode');
+    }
   }
 
   getCurrencies() {
