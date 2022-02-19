@@ -1,41 +1,39 @@
 <div class="centered">
-  <mat-card>
-    <mat-card-content class="login-card">
-      <form class="login-form" (submit)="onLogin(loginForm)" #loginForm="ngForm">
-        <mat-form-field>
-          <mat-label>Email</mat-label>
-          <input matInput name="email" ngModel #email="ngModel" required email>
-        </mat-form-field>
-        <mat-error *ngIf="email.touched && email.invalid">Please enter a valid email</mat-error>
+  <div class="login-card">
+    <form class="login-form" (submit)="onLogin(loginForm)" #loginForm="ngForm">
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input matInput name="email" ngModel #email="ngModel" required email>
+      </mat-form-field>
+      <mat-error *ngIf="email.touched && email.invalid">Please enter a valid email</mat-error>
 
-        <mat-form-field>
-          <mat-label>Password</mat-label>
-          <input matInput [type]="hide ? 'password' : 'text'" name="password" ngModel #password="ngModel" required>
-          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
-            [attr.aria-pressed]="hide">
-            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-          </button>
-        </mat-form-field>
-        <mat-error *ngIf="password.touched && password.invalid">Please enter a password</mat-error>
+      <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input matInput [type]="hide ? 'password' : 'text'" name="password" ngModel #password="ngModel" required>
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+      <mat-error *ngIf="password.touched && password.invalid">Please enter a password</mat-error>
 
-        <mat-spinner [color]="color" class="login" [diameter]="30" *ngIf="isLoading"></mat-spinner>
-        <button type="submit" class="login" mat-raised-button color="accent" *ngIf="!isLoading">Login</button>
-        <label class="text-16 mg-t20">Don't have an account? <a [routerLink]="'/signup'">Sign up</a></label>
+      <mat-spinner [color]="color" class="login" [diameter]="30" *ngIf="isLoading"></mat-spinner>
+      <button type="submit" class="login" mat-raised-button color="accent" *ngIf="!isLoading">Login</button>
+      <label class="text-16 mg-t20">Don't have an account? <a [routerLink]="'/signup'">Sign up</a></label>
 
-        <div class="social">
-          <button type="button" class="text-16 mg-t20 google google-btn" (click)="signInWithGoogle()"><i
-              class="fa fa-google pd-r10"></i>Login with
-            Google</button>
-        </div>
-      </form>
-      <div class="logo">
-        <img src="assets/images/icon.png" width="150px">
-        <label class="text-20 primary-color">Budget Manager</label>
+      <div class="social">
+        <button type="button" class="text-16 mg-t20 google google-btn" (click)="signInWithGoogle()"><i
+            class="fa fa-google pd-r10"></i>Login with
+          Google</button>
       </div>
-    </mat-card-content>
+    </form>
+    <div class="logo">
+      <img src="assets/images/icon.png" width="150px">
+      <label class="text-20 primary-color">Budget Manager</label>
+    </div>
+  </div>
 
-    <mat-card-footer>
-      <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
-    </mat-card-footer>
-  </mat-card>
+  <mat-card-footer>
+    <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+  </mat-card-footer>
 </div>

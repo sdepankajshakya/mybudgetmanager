@@ -35,13 +35,19 @@ $my-app-dark-theme: mat-dark-theme(
 
 .darkMode {
   @include angular-material-theme($my-app-dark-theme);
+  .highcharts-background {
+    fill: #d3d3d3;
+  }
+  .mat-card {
+    background-color: #d3d3d3 !important;
+  }
 }
 
 /* You can add global styles to this file, and also import other style files */
 html,
 body {
   height: 100vh;
-  font-family: Verdana, Geneva, Tahoma, sans-serif !important;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
 }
 
 @import "assets/scss/global.scss";
@@ -50,7 +56,7 @@ body {
 @import "~bootstrap/scss/bootstrap";
 
 /* Importing Bootstrap SCSS file. */
-@import '~bootstrap/scss/bootstrap';
+@import "~bootstrap/scss/bootstrap";
 
 /* Importing Bootstrap SCSS file. */
 @import "~bootstrap/scss/bootstrap";

@@ -1,6 +1,6 @@
 <div class="overview">
   <section class="welcome centered" *ngIf="!transactions.length">
-    <label class="text-35 lh-300">Welcome! {{ currentUser.firstName ? currentUser.firstName : currentUser.email }} </label>
+    <label class="welcome-text lh-300">Welcome! {{ currentUser.firstName ? currentUser.firstName : currentUser.email }} </label>
     <label class="text-20">Manage all your finances in simplest way</label>
     <br>
     <label class="text-16">1. Click on the + button to add your first transaction</label>
@@ -13,21 +13,23 @@
       <mat-icon>filter_list</mat-icon>
       <label class="text-14 uppercase">Filter</label>
     </div>
-    <mat-form-field>
-      <mat-label>Select Month</mat-label>
-      <mat-select [(ngModel)]="selectedMonth" (selectionChange)="filterByDate()">
-        <mat-option *ngFor="let month of transactionMonths" [value]="month.key">{{month.value}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Select Year</mat-label>
-      <mat-select [(ngModel)]="selectedYear" (selectionChange)="filterByDate()">
-        <mat-option *ngFor="let year of transactionYears" [value]="year">{{year}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <!-- <div class="flexCenter mg-l10">
-      <mat-icon class="pointer" [matTooltip]="'Clear Filter'">clear</mat-icon>
-    </div> -->
+    <div class="filter-condition">
+      <mat-form-field>
+        <mat-label>Select Month</mat-label>
+        <mat-select [(ngModel)]="selectedMonth" (selectionChange)="filterByDate()">
+          <mat-option *ngFor="let month of transactionMonths" [value]="month.key">{{month.value}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Select Year</mat-label>
+        <mat-select [(ngModel)]="selectedYear" (selectionChange)="filterByDate()">
+          <mat-option *ngFor="let year of transactionYears" [value]="year">{{year}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="flexCenter mg-l10">
+      <mat-icon class="pointer" [matTooltip]="'Clear Filter'" (click)="clearFilter()">clear</mat-icon>
+    </div>
   </section>
 
   <section class="summary">

@@ -44,7 +44,7 @@ export class AddTransactionComponent implements OnInit {
     _id: new FormControl(null),
     category: new FormControl(null),
     amount: new FormControl(null, Validators.required),
-    date: new FormControl(null, Validators.required),
+    date: new FormControl(new Date(), Validators.required),
     note: new FormControl(null),
   });
 

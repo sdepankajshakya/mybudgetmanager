@@ -99,6 +99,14 @@ export class OverviewComponent implements OnInit {
 
     this.currentUser =
       this.sharedService.getItemFromLocalStorage('current_user');
+
+    this.selectedMonth = this.sharedService.now.month;
+    this.selectedYear = this.sharedService.now.year;
+  }
+
+  clearFilter() {
+    this.selectedMonth = this.selectedYear = 0;
+    this.filterByDate();
   }
 
   openAddTransactionModal() {
