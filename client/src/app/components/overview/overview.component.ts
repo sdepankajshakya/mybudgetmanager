@@ -17,28 +17,6 @@ import { ThemePalette } from '@angular/material/core';
 import { SettingsService } from 'src/app/services/settings.service';
 import { ToastrService } from 'ngx-toastr';
 import { CurrencyPipe } from '@angular/common';
-import { Calendar } from '@fullcalendar/core';
-import interactionPlugin from '@fullcalendar/interaction';
-import dayGridPlugin from '@fullcalendar/daygrid';
-
-export interface DialogData {
-  animal: string;
-  name: string;
-}
-
-let transactionViewCalendar = document.getElementById(
-  'transactionViewCalendar'
-)!;
-let calendar = new Calendar(transactionViewCalendar, {
-  plugins: [interactionPlugin, dayGridPlugin],
-  selectable: true,
-  longPressDelay: 1,
-
-  select: function (info) {
-    alert('Clicked on: ' + info);
-  },
-});
-
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
@@ -61,6 +39,17 @@ export class OverviewComponent implements OnInit {
   calendarOptions: any;
   isLoading: boolean = false;
   color: ThemePalette = 'accent';
+  private transaction: Transaction = {
+    _id: null as any,
+    category: {
+      name: '',
+      type: '',
+    },
+    date: new Date(),
+    displayDate: {},
+    amount: null as any,
+    note: '',
+  };
 
   @ViewChild('IncomeExpenseSummaryContainer', { static: false })
   IncomeExpenseSummaryContainer: ElementRef<HTMLInputElement> = {} as ElementRef;
@@ -109,9 +98,11 @@ export class OverviewComponent implements OnInit {
     this.filterByDate();
   }
 
-  openAddTransactionModal() {
+  openAddTransactionModal(dateSelectedFromCalendar?: any) {
+    this.transaction.date = dateSelectedFromCalendar;
     this.dialog.open(AddTransactionComponent, {
       width: '550px',
+      data: this.transaction,
     });
   }
 
@@ -219,7 +210,7 @@ export class OverviewComponent implements OnInit {
           // loop through the keys and create a calendar event
           for (const [key, value] of transDebitMap.entries()) {
             let transactionEvent = {
-              title: '-' + value,
+              title: '-' + this.currencySymbol + value,
               color: '#FFF',
               textColor: 'red',
               date: key, // calender event accepts date in the iso format yyyy-mm-dd
@@ -244,7 +235,7 @@ export class OverviewComponent implements OnInit {
           // loop through the keys and create a calendar event
           for (const [key, value] of transCreditMap.entries()) {
             let transactionEvent = {
-              title: '+' + value,
+              title: '+' + this.currencySymbol + value,
               color: '#FFF',
               textColor: 'green',
               date: key,
@@ -255,12 +246,17 @@ export class OverviewComponent implements OnInit {
           this.calendarOptions = {
             initialView: 'dayGridMonth',
             events: calendarEvents,
+            dateClick: this.handleDateClick.bind(this),
           };
         }
 
         this.filterByDate();
       }
     });
+  }
+
+  handleDateClick(arg: any) {
+    this.openAddTransactionModal(arg.date);
   }
 
   filterByDate() {

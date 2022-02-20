@@ -21,6 +21,9 @@ router.post("/api/newtransaction", checkAuth, (req, res, next) => {
     utils.sendErrorResponse(res, 400, "Validation Error", "Invalid fields");
   } else {
     const transaction = new TransactionModel(req.body);
+    if (!transaction.category.type) {
+      transaction.category.type = "expense";
+    }
     transaction.user = req.currentUser.userId; // associate the new transaction with current user
 
     if (!req.body._id) {

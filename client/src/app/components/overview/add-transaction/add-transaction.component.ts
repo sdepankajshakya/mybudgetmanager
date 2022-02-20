@@ -110,7 +110,7 @@ export class AddTransactionComponent implements OnInit {
           this.toastr.success('Transaction added successfully', 'Success!');
         },
         (err) => {
-          this.toastr.success('Failed to add the transaction', 'Error!');
+          this.toastr.error('Failed to add the transaction', 'Error!');
         }
       );
   }

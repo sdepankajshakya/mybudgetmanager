@@ -2,15 +2,15 @@
   <mat-card-content>
     <div class="transaction-details">
       <time class="date-icon">
-        <em>{{transaction.displayDate.weekday}}</em>
-        <strong>{{transaction.displayDate.month}} {{transaction.displayDate.year}}</strong>
-        <span>{{transaction.displayDate.day}}</span>
+        <em>{{transaction.displayDate?.weekday}}</em>
+        <strong>{{transaction.displayDate?.month}} {{transaction.displayDate?.year}}</strong>
+        <span>{{transaction.displayDate?.day}}</span>
       </time>
       <div class="transaction-desc">
-        <label class="text-16">{{transaction.category.name}}</label>
+        <label class="text-16">{{transaction.category?.name}}</label>
         <img class="category-icon" aria-hidden [src]="getCategoryIcon(transaction.category?.name!)" height="40">
         <span class="transaction-price text-25"
-          [ngClass]="transaction.category ? (getCategoryType(transaction.category?.name!) === 'expense' ? 'expense-item' : 'income-item') : 'expense-item'">
+          [ngClass]="(transaction.category.type === 'expense') ? 'expense-item' : 'income-item'">
           {{currencySymbol}}{{transaction.amount}}
         </span>
       </div>
