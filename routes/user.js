@@ -37,7 +37,7 @@ router.post("/login", (req, res, next) => {
             utils.sendSuccessResponse(res, 200, "Login successful!", {
               access_token: token,
               expiresIn: 3600,
-              current_user: { firstName: user.firstName, lastName: user.lastName, email: user.email }
+              current_user: { _id: user._id, firstName: user.firstName, lastName: user.lastName, email: user.email },
             });
           } catch (err) {
             console.log(err);

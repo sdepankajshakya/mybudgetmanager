@@ -32,6 +32,7 @@ export class SettingsComponent implements OnInit {
   categoryList: any[] = [];
   currencyCtrl = new FormControl();
   categoryCtrl = new FormControl();
+  currentUser: any;
 
   currentSettings = {
     currency: null,
@@ -46,6 +47,9 @@ export class SettingsComponent implements OnInit {
 
     this.categoryList =
       this.sharedService.getItemFromLocalStorage('categories');
+
+    this.currentUser =
+      this.sharedService.getItemFromLocalStorage('current_user');
   }
 
   getSettings() {
@@ -119,6 +123,26 @@ export class SettingsComponent implements OnInit {
           this.toastr.error('Failed to process spreadsheet data', 'Error!');
         }
       );
+    }
+  }
+
+  deleteTransactions() {
+    if (confirm('Are you sure you want to delete all transactions?')) {
+      if (this.currentUser) {
+        this.settingsService.deleteTransactions(this.currentUser).subscribe(
+          () => {
+            this.toastr.success(
+              'Transactions deleted successfully',
+              'Success!'
+            );
+          },
+          (err) => {
+            this.toastr.error('Failed to delete transactions', 'Error!');
+          }
+        );
+      } else {
+        this.toastr.error('Invalid user', 'Error!');
+      }
     }
   }
 

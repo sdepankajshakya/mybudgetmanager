@@ -70,4 +70,11 @@ export class SettingsService implements Resolve<any> {
       file
     );
   }
+
+  deleteTransactions(user: any) {
+    return this.http.post(
+      config.apiBaseUrl + config.urls.deleteAllTransactions,
+      user
+    );
+  }
 }

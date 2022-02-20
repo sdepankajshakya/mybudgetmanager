@@ -9,11 +9,12 @@ export let config = {
     getTransactions: '/transactions',
     newTransaction: '/newtransaction',
     deleteTransaction: '/deletetransaction',
+    deleteAllTransactions: '/deletealltransactions',
     getSettings: '/getsettings',
     getCurrencies: '/getcurrencies',
     updateSettings: '/updatesettings',
     getCategories: '/getcategories',
-    uploadSpreadsheet: '/uploadSpreadsheet'
+    uploadSpreadsheet: '/uploadSpreadsheet',
   },
 
   months: [

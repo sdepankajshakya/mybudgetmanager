@@ -1,19 +1,15 @@
 .settingsForm {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-evenly;
   gap: 50px;
+  padding: 50px;
   overflow-x: hidden;
 }
 
-.settings {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 5px;
-}
-
-.backup-restore {
+.settings,
+.backup-restore,
+.danger-section {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -35,11 +31,5 @@
 @media (max-width: 750px) {
   .settingsForm {
     flex-direction: column;
-  }
-}
-
-@media (max-width: 450px) {
-  .backup-restore {
-    padding: 0 30px;
   }
 }

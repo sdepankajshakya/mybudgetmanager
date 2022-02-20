@@ -8,6 +8,7 @@ const checkAuth = require("../middleware/checkAuth");
 const SettingsModel = require("../models/settings");
 const utils = require("../utilities/utils");
 const TransactionModel = require("../models/transaction");
+const UserModel = require("../models/user");
 const CategoryModel = require("../models/category");
 const CurrencyModel = require("../models/currency");
 
@@ -91,6 +92,21 @@ router.get("/api/getCurrencies", checkAuth, (req, res, next) => {
       utils.sendSuccessResponse(res, 200, "Currencies fetched succesfully!", settings);
     }
   });
+});
+
+router.post("/api/deletealltransactions", checkAuth, (req, res, next) => {
+  const user = req.body;
+
+  if (!user._id) utils.sendErrorResponse(res, 400, "Bad Request", "Invalid object id received. Cannot find the user.");
+  else {
+    TransactionModel.deleteMany({ user: user._id }, (err, result) => {
+      if (err) {
+        utils.sendErrorResponse(res, 400, err.name, err.message);
+      } else {
+        utils.sendSuccessResponse(res, 200, "Transactions deleted succesfully!", null);
+      }
+    });
+  }
 });
 
 router.post("/api/uploadSpreadsheet", checkAuth, multer({ storage: storageConfig }).single("spreadsheet"), (req, res, next) => {

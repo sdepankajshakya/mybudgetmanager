@@ -1,4 +1,4 @@
-<form class="settingsForm centered">
+<section class="settingsForm">
   <div class="settings">
     <mat-form-field appearance="fill">
       <mat-label>Currency</mat-label>
@@ -43,13 +43,17 @@
     <p>Insert data into your account by uploading a spreadsheet</p>
     <div class="flexStart">
       <button type="button" mat-raised-button color="primary" (click)="openModal(confirmUploadModal)"
-        [disabled]="isLoading">Upload
-        Spreadsheet</button>
-      <mat-spinner [diameter]="30" *ngIf="isLoading"></mat-spinner>
+        [disabled]="isLoading">Upload Spreadsheet</button>
+      <mat-spinner class="mg-l5" [diameter]="30" *ngIf="isLoading"></mat-spinner>
     </div>
     <input class="hidden" type="file" accept=".xlsx" #filePicker (change)="uploadSpreadsheet($event)">
   </div>
-</form>
+
+  <div class="danger-section">
+    <h2>Danger Section</h2>
+    <button type="button" mat-raised-button color="warn" (click)="deleteTransactions()">Delete all transactions</button>
+  </div>
+</section>
 
 <ng-template #confirmUploadModal>
   <div class="modal-header">
