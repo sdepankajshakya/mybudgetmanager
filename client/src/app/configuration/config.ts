@@ -15,6 +15,7 @@ export let config = {
     updateSettings: '/updatesettings',
     getCategories: '/getcategories',
     uploadSpreadsheet: '/uploadSpreadsheet',
+    downloadSpreadsheet: '/downloadSpreadsheet',
   },
 
   months: [

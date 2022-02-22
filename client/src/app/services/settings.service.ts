@@ -5,6 +5,7 @@ import { config } from '../configuration/config';
 import { tap } from 'rxjs/operators';
 import { Resolve } from '@angular/router';
 import { MessageService } from './message.service';
+import { Transaction } from '../models/transaction';
 
 @Injectable({
   providedIn: 'root',
@@ -69,6 +70,10 @@ export class SettingsService implements Resolve<any> {
       config.apiBaseUrl + config.urls.uploadSpreadsheet,
       file
     );
+  }
+
+  downloadSpreadsheet() {
+    return this.http.get(config.apiBaseUrl + config.urls.downloadSpreadsheet);
   }
 
   deleteTransactions(user: any) {

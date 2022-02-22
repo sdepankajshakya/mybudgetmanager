@@ -9,7 +9,7 @@
       </mat-select>
     </mat-form-field>
 
-    <!-- <div class="flexStart">
+    <div class="flexStart">
       <mat-form-field appearance="fill">
         <mat-label>Categories</mat-label>
         <mat-select [formControl]="categoryCtrl" multiple>
@@ -24,13 +24,13 @@
         </mat-select>
       </mat-form-field>
 
-      <button mat-icon-button color="primary" (click)="openAddCategoryModal()" [matTooltip]="'Add category'">
+      <!-- <button mat-icon-button color="primary" (click)="openAddCategoryModal()" [matTooltip]="'Add category'">
         <mat-icon>add_circle</mat-icon>
       </button>
       <button mat-icon-button color="primary" (click)="deleteCategoryModal()" [matTooltip]="'Delete categories'">
         <mat-icon>delete</mat-icon>
-      </button>
-    </div> -->
+      </button> -->
+    </div>
 
     <button type="submit" mat-raised-button color="accent" (click)="updateSettings()">Save</button>
   </div>
@@ -38,7 +38,7 @@
   <div class="backup-restore">
     <h2>Backup and Restore</h2>
     <p>Backup your data by exporting it to a spreadsheet</p>
-    <button type="button" mat-raised-button color="primary">Export Spreadsheet</button>
+    <button type="button" mat-raised-button color="primary" (click)="downloadSpreadsheet()">Download Spreadsheet</button>
     <br>
     <p>Insert data into your account by uploading a spreadsheet</p>
     <div class="flexStart">

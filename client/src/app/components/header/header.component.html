@@ -11,7 +11,11 @@
     </div>
   </div>
   <div class="profile">
-    <mat-slide-toggle class="text-16" [color]="color" (click)="toggleDarkmode()" [(ngModel)]="isDarkMode" *ngIf="isLoggedIn">Dark Mode</mat-slide-toggle>
+    <mat-slide-toggle class="text-16" [color]="color" (click)="toggleDarkmode()" [(ngModel)]="isDarkMode" *ngIf="isLoggedIn">
+    </mat-slide-toggle>
+    <mat-icon *ngIf="!isDarkMode && isLoggedIn">wb_sunny</mat-icon>
+    <mat-icon *ngIf="isDarkMode isLoggedIn">brightness_2</mat-icon>
+
     <button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="isLoggedIn">
       <i class='fa fa-user-circle fa-3x'></i>
     </button>

@@ -8,7 +8,6 @@ const checkAuth = require("../middleware/checkAuth");
 const SettingsModel = require("../models/settings");
 const utils = require("../utilities/utils");
 const TransactionModel = require("../models/transaction");
-const UserModel = require("../models/user");
 const CategoryModel = require("../models/category");
 const CurrencyModel = require("../models/currency");
 
@@ -169,5 +168,35 @@ function insertIntoDB(trans, res, transactionsObj, lastIndex) {
     });
   }
 }
+
+router.get("/api/downloadSpreadsheet", checkAuth, (req, res, next) => {
+  TransactionModel.find({ user: req.currentUser.userId }, (err, transactions) => {
+    if (err) {
+      utils.sendErrorResponse(res, 500, err.name, err.message);
+    } else {
+      const workbook = xlsx.utils.book_new();
+      try {
+        let modifiedTransactions = [];
+        transactions.forEach((trans) => {
+          modifiedTransactions.push({
+            date: trans.date,
+            category: trans.category.name,
+            amount: trans.amount,
+            note: trans.note,
+          });
+        });
+        const worksheet = xlsx.utils.json_to_sheet(modifiedTransactions);
+        xlsx.utils.sheet_add_aoa(worksheet, [["date", "category", "amount", "note"]], { origin: "A1" });
+        xlsx.utils.book_append_sheet(workbook, worksheet, "Transactions");
+        xlsx.writeFile(workbook, "BudgetManager.xlsx");
+      } catch (error) {
+        console.log(error);
+        utils.sendErrorResponse(res, 500, err.name, err.message);
+      } finally {
+        utils.sendSuccessResponse(res, 201, "Transactions fetched successfully!", modifiedTransactions);
+      }
+    }
+  });
+});
 
 module.exports = router;

@@ -10,8 +10,10 @@ import { FormControl } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 import { ToastrService } from 'ngx-toastr';
+import { Transaction } from 'src/app/models/transaction';
 import { SettingsService } from 'src/app/services/settings.service';
 import { SharedService } from 'src/app/services/shared.service';
+import { TransactionService } from 'src/app/services/transaction.service';
 
 @Component({
   selector: 'app-settings',
@@ -23,7 +25,8 @@ export class SettingsComponent implements OnInit {
     private settingsService: SettingsService,
     private sharedService: SharedService,
     private toastr: ToastrService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private transactionService: TransactionService
   ) {}
 
   isLoading: boolean = false;
@@ -124,6 +127,17 @@ export class SettingsComponent implements OnInit {
         }
       );
     }
+  }
+
+  downloadSpreadsheet() {
+    this.settingsService.downloadSpreadsheet().subscribe(
+      (res) => {
+        this.toastr.success('Download spreadsheet successful', 'Success!');
+      },
+      (err) => {
+        this.toastr.error('Failed to download spreadsheet', 'Error!');
+      }
+    );
   }
 
   deleteTransactions() {
