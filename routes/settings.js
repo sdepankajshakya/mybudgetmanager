@@ -190,10 +190,9 @@ router.get("/api/downloadSpreadsheet", checkAuth, (req, res, next) => {
         xlsx.utils.book_append_sheet(workbook, worksheet, "Transactions");
         xlsx.writeFile(workbook, "BudgetManager.xlsx");
       } catch (error) {
-        console.log(error);
         utils.sendErrorResponse(res, 500, err.name, err.message);
       } finally {
-        utils.sendSuccessResponse(res, 201, "Transactions fetched successfully!", modifiedTransactions);
+        utils.sendSuccessResponse(res, 201, "Transactions fetched successfully!", transactions);
       }
     }
   });
