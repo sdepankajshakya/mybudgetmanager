@@ -100,4 +100,9 @@ db.categories.insertMany([
     type: "expense",
     icon: "assets/images/categories/transportation.png",
   },
+  {
+    name: "Vacation",
+    type: "expense",
+    icon: "assets/images/categories/vacation.png",
+  },
 ]);
