@@ -17,8 +17,11 @@
         </svg>
       </div>
     </a>
-    <mat-spinner [color]="color" *ngIf="isLoading"></mat-spinner>
   </section>
+  
+  <div class="centered">
+    <mat-spinner [color]="color" *ngIf="isLoading"></mat-spinner>
+  </div>
 
   <section class="filter flexStart mg-t15 mg-l10 mg-r10" *ngIf="transactions.length">
     <div class="filter mg-r10">

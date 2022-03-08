@@ -45,10 +45,10 @@ $my-app-dark-theme: mat-dark-theme(
 .darkMode {
   @include angular-material-theme($my-app-dark-theme);
   .highcharts-background {
-    fill: #d3d3d3;
+    fill: #b7b7b7;
   }
   .mat-card {
-    background-color: #d3d3d3 !important;
+    background-color: #b7b7b7 !important;
   }
   
   a {
