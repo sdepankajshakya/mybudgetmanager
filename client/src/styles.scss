@@ -31,6 +31,15 @@ $my-app-dark-theme: mat-dark-theme(
 
 .lightMode {
   @include angular-material-theme($my-app-theme);
+
+  a {
+    color: #000 !important;
+  }
+  
+  a:hover {
+    color: #f7a105 !important;
+    text-decoration: none !important;
+  }
 }
 
 .darkMode {
@@ -40,6 +49,15 @@ $my-app-dark-theme: mat-dark-theme(
   }
   .mat-card {
     background-color: #d3d3d3 !important;
+  }
+  
+  a {
+    color: #fff !important;
+  }
+  
+  a:hover {
+    color: #f7a105 !important;
+    text-decoration: none !important;
   }
 }
 

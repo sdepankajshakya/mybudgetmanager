@@ -14,20 +14,18 @@
 
 .sidebar a {
   display: block;
-  color: black;
   padding: 16px;
   text-decoration: none;
 }
 
 .sidebar a.active {
   background-color: #f2b341;
-  color: black;
+  color: #fff !important;
 }
 
-.sidebar a:hover:not(.active) {
-  background-color: #2f323e;
-  color: white;
-}
+// .sidebar a:hover:not(.active) {
+//   background-color: #f2b341;
+// }
 
 .footer {
   padding: 15px;

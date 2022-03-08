@@ -1,10 +1,22 @@
 <div class="overview">
   <section class="welcome centered" *ngIf="!transactions.length">
-    <label class="welcome-text lh-300">Welcome! {{ currentUser.firstName ? currentUser.firstName : currentUser.email }} </label>
+    <label class="welcome-text lh-300">Welcome! {{ currentUser.firstName ? currentUser.firstName : currentUser.email }}
+    </label>
     <label class="text-20">Manage all your finances in simplest way</label>
     <br>
-    <label class="text-16">1. Click on the + button to add your first transaction</label>
-    <label class="text-16">2. To set your currency, go to settings</label>
+    <a class="link" [routerLink]="'/gettingstarted'">
+      Get Started
+      <div class="link-icon">
+        <svg class="icon" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd"
+          clip-rule="evenodd">
+          <path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z" />
+        </svg>
+        <svg class="icon" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd"
+          clip-rule="evenodd">
+          <path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z" />
+        </svg>
+      </div>
+    </a>
     <mat-spinner [color]="color" *ngIf="isLoading"></mat-spinner>
   </section>
 
@@ -74,7 +86,8 @@
       </mat-form-field>
       <!-- <label class="text-20 mg-t10">Recent Transactions</label> -->
       <div class="transaction-list" *ngIf="filteredTransactions.length">
-        <app-transaction-list [transactions]="filteredTransactions" [currencySymbol]="currencySymbol"></app-transaction-list>
+        <app-transaction-list [transactions]="filteredTransactions" [currencySymbol]="currencySymbol">
+        </app-transaction-list>
       </div>
     </div>
 

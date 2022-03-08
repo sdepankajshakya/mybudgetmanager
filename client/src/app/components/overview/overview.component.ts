@@ -98,7 +98,7 @@ export class OverviewComponent implements OnInit {
     this.filterByDate();
   }
 
-  openAddTransactionModal(dateSelectedFromCalendar?: any) {
+  openAddTransactionModal(dateSelectedFromCalendar: Date = new Date()) {
     this.transaction.date = dateSelectedFromCalendar;
     this.dialog.open(AddTransactionComponent, {
       width: '550px',
