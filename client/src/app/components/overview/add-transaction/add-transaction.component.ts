@@ -11,6 +11,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SharedService } from 'src/app/services/shared.service';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
+import { Category } from 'src/app/models/Category';
 
 @Component({
   selector: 'app-add-transaction',
@@ -37,7 +38,7 @@ export class AddTransactionComponent implements OnInit {
       });
   }
 
-  categories: any[] = [];
+  categories: Category[] = [];
   isEditTransaction: boolean = false;
 
   addTransactionForm = new FormGroup({

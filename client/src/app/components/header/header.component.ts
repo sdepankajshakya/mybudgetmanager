@@ -7,6 +7,7 @@ import { MessageService } from 'src/app/services/message.service';
 import { SharedService } from 'src/app/services/shared.service';
 import { Router } from '@angular/router';
 import { SettingsService } from 'src/app/services/settings.service';
+import { Settings } from 'src/app/models/Settings';
 
 @Component({
   selector: 'app-header',
@@ -20,7 +21,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   sidenav = false; // hamburger menu icon
   color: ThemePalette = 'accent';
   isDarkMode: boolean = false;
-  currentSettings: any;
+  currentSettings!: Settings;
 
   constructor(
     private authService: AuthenticationService,

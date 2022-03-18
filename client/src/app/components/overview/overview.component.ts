@@ -16,7 +16,6 @@ import { SharedService } from 'src/app/services/shared.service';
 import { ThemePalette } from '@angular/material/core';
 import { SettingsService } from 'src/app/services/settings.service';
 import { ToastrService } from 'ngx-toastr';
-import { CurrencyPipe } from '@angular/common';
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
@@ -62,8 +61,7 @@ export class OverviewComponent implements OnInit {
     private messageService: MessageService,
     private sharedService: SharedService,
     private settingsService: SettingsService,
-    private toastr: ToastrService,
-    private currencyPipe: CurrencyPipe
+    private toastr: ToastrService
   ) {
     this.messageSubscription = this.messageService
       .getMessage()
@@ -260,18 +258,23 @@ export class OverviewComponent implements OnInit {
   }
 
   filterByDate() {
-    if (this.selectedMonth && this.selectedYear) {
+    if ((this.selectedMonth && this.selectedYear)) {
       this.filteredTransactions = this.transactions.filter((trans) => {
         let transDate = new Date(trans.date);
         const month = transDate.getMonth() + 1;
         const year = transDate.getFullYear();
         return month === this.selectedMonth && year === this.selectedYear;
       });
-
-      // this.filterbySearch();
-
+      this.formatChartData(this.filteredTransactions);
+    } else if (this.selectedYear) {
+      this.filteredTransactions = this.transactions.filter((trans) => {
+        let transDate = new Date(trans.date);
+        const year = transDate.getFullYear();
+        return year === this.selectedYear;
+      });
       this.formatChartData(this.filteredTransactions);
     } else {
+      this.filteredTransactions = this.transactions;
       this.formatChartData(this.transactions);
     }
   }
@@ -279,9 +282,16 @@ export class OverviewComponent implements OnInit {
   filterbySearch() {
     if (this.search) {
       let keyword = this.search.toLowerCase();
-      this.filteredTransactions = this.transactions.filter((trans) =>
-        trans.note ? trans.note.toLowerCase().indexOf(keyword) > -1 : null
-      );
+      let filterTransactionsBasedOnKeyword: Transaction[] = [];
+      this.transactions.forEach((trans) => {
+        if (
+          (trans.category && trans.category.name.toLowerCase().indexOf(keyword) > -1) ||
+          (trans.note && trans.note.toLowerCase().indexOf(keyword) > -1)
+        ) {
+          filterTransactionsBasedOnKeyword.push(trans);
+        }
+      });
+      this.filteredTransactions = filterTransactionsBasedOnKeyword;
     } else {
       this.filteredTransactions = this.transactions;
     }

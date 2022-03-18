@@ -9,19 +9,22 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue
-$my-app-primary: mat-palette($mat-grey, 700);
+$my-app-primary: mat-palette($mat-grey, 900);
+$my-app-primary-dark: mat-palette($mat-grey, 200);
 $my-app-accent: mat-palette($mat-amber, 400);
 $my-app-success: mat-palette($mat-green);
 
 // The warn palette is optional (defaults to red).
 $my-app-warn: mat-palette($mat-red);
+$my-app-warn-dark: mat-palette($mat-red, 800);
+
 
 // Create the theme object (a Sass map containing all of the palettes).
 $my-app-theme: mat-light-theme($my-app-primary, $my-app-accent, $my-app-warn);
 $my-app-dark-theme: mat-dark-theme(
-  $my-app-primary,
+  $my-app-primary-dark,
   $my-app-accent,
-  $my-app-warn
+  $my-app-warn-dark
 );
 
 // Include theme styles for core and each component used in your app.
@@ -35,7 +38,7 @@ $my-app-dark-theme: mat-dark-theme(
   a {
     color: #000 !important;
   }
-  
+
   a:hover {
     color: #f7a105 !important;
     text-decoration: none !important;
@@ -45,16 +48,33 @@ $my-app-dark-theme: mat-dark-theme(
 .darkMode {
   @include angular-material-theme($my-app-dark-theme);
   .highcharts-background {
-    fill: #b7b7b7;
+    fill: #696969;
   }
   .mat-card {
-    background-color: #b7b7b7 !important;
+    background-color: #696969 !important;
   }
-  
+
+  .highcharts-title,
+  .highcharts-subtitle,
+  .highcharts-axis-labels text {
+    fill: #fff !important;
+  }
+  .fc .fc-toolbar-title, .mat-card-content {
+    color: #fff;
+  }
+
+  .income-item {
+    color: #014201 !important;
+  }
+
+  .expense-item {
+    color: #b00000 !important;
+  }
+
   a {
     color: #fff !important;
   }
-  
+
   a:hover {
     color: #f7a105 !important;
     text-decoration: none !important;

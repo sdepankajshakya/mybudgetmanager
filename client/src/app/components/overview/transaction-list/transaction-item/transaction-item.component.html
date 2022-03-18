@@ -19,10 +19,10 @@
   </mat-card-content>
 
   <mat-card-actions class="modify">
-    <button mat-icon-button color="primary" class="mg-t5" (click)="openAddTransactionModal(); sendMessage();">
+    <button mat-icon-button color="primary" class="mg-t5" [matTooltip]="'Edit'" (click)="openAddTransactionModal(); sendMessage();">
       <i class="fa fa-edit fa-2x"></i>
     </button>
-    <button mat-icon-button color="warn" (click)="confirmDialog()">
+    <button mat-icon-button color="warn" [matTooltip]="'Delete'" (click)="confirmDialog()">
       <i class="fa fa-trash fa-2x"></i>
     </button>
   </mat-card-actions>

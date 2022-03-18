@@ -10,7 +10,8 @@ import { FormControl } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 import { ToastrService } from 'ngx-toastr';
-import { Transaction } from 'src/app/models/transaction';
+import { Settings } from 'src/app/models/Settings';
+import { User } from 'src/app/models/User';
 import { SettingsService } from 'src/app/services/settings.service';
 import { SharedService } from 'src/app/services/shared.service';
 import { TransactionService } from 'src/app/services/transaction.service';
@@ -35,11 +36,8 @@ export class SettingsComponent implements OnInit {
   categoryList: any[] = [];
   currencyCtrl = new FormControl();
   categoryCtrl = new FormControl();
-  currentUser: any;
-
-  currentSettings = {
-    currency: null,
-  };
+  currentUser!: User;
+  currentSettings!: Settings;
 
   confirmUploadmodalRef!: BsModalRef;
   @ViewChild('filePicker') filePicker!: ElementRef<HTMLElement>;

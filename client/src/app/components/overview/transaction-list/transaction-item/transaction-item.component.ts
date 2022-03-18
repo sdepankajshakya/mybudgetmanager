@@ -14,6 +14,7 @@ import { SharedService } from 'src/app/services/shared.service';
 import { SettingsService } from 'src/app/services/settings.service';
 
 import { ToastrService } from 'ngx-toastr';
+import { Category } from 'src/app/models/Category';
 
 @Component({
   selector: 'app-transaction-item',
@@ -42,7 +43,7 @@ export class TransactionItemComponent implements OnInit {
     note: '',
   };
 
-  categories: any[] = [];
+  categories: Category[] = [];
 
   @Input() currencySymbol: string = '';
 

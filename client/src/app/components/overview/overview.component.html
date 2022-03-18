@@ -81,7 +81,7 @@
     <!--Transactions List-->
     <div class="recent-transactions">
       <mat-form-field class="search mg-10" [hidden]="!transactions.length">
-        <input type="text" matInput placeholder="Search by date, category and note" name="search" [(ngModel)]="search"
+        <input type="text" matInput placeholder="Search by category or note" name="search" [(ngModel)]="search"
           (ngModelChange)="filterbySearch()">
         <button matSuffix mat-button>
           <mat-icon>search</mat-icon>

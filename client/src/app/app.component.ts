@@ -20,13 +20,10 @@ export class AppComponent implements OnDestroy {
   loginStatusSubsciption: Subscription;
   @ViewChild('sidenav') sidenav!: MatSidenav;
   isDarkMode: boolean = false;
-  currentSettings: any;
 
   constructor(
     private authService: AuthenticationService,
-    private messageService: MessageService,
-    private sharedService: SharedService,
-    private settingsService: SettingsService
+    private messageService: MessageService
   ) {
     this.loginStatusSubsciption = this.authService
       .getLoginStatus()

@@ -5,7 +5,8 @@ import { config } from '../configuration/config';
 import { tap } from 'rxjs/operators';
 import { Resolve } from '@angular/router';
 import { MessageService } from './message.service';
-import { Transaction } from '../models/transaction';
+import { Settings } from '../models/Settings';
+import { User } from '../models/User';
 
 @Injectable({
   providedIn: 'root',
@@ -42,7 +43,7 @@ export class SettingsService implements Resolve<any> {
       );
   }
 
-  isDarkMode(settings: any) {
+  isDarkMode(settings: Settings) {
     if (settings && settings.darkMode) {
       this.messageService.sendMessage('enable darkMode');
     } else {
@@ -58,7 +59,7 @@ export class SettingsService implements Resolve<any> {
     return this.http.get(config.apiBaseUrl + config.urls.getCategories);
   }
 
-  updateSettings(settings: any) {
+  updateSettings(settings: Settings) {
     return this.http.post(
       config.apiBaseUrl + config.urls.updateSettings,
       settings
@@ -76,7 +77,7 @@ export class SettingsService implements Resolve<any> {
     return this.http.get(config.apiBaseUrl + config.urls.downloadSpreadsheet);
   }
 
-  deleteTransactions(user: any) {
+  deleteTransactions(user: User) {
     return this.http.post(
       config.apiBaseUrl + config.urls.deleteAllTransactions,
       user
