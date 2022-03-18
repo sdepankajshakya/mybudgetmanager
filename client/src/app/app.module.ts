@@ -23,7 +23,9 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatRadioModule } from '@angular/material/radio';
 import { ToastrModule } from 'ngx-toastr';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 import { AppComponent } from './app.component';
 import { OverviewComponent } from './components/overview/overview.component';
@@ -120,6 +122,8 @@ FullCalendarModule.registerPlugins([interactionPlugin, dayGridPlugin]);
     ScrollingModule,
     FullCalendarModule,
     SocialLoginModule,
+    MatRadioModule,
+    MatButtonToggleModule,
     ModalModule.forRoot(),
   ],
   providers: [

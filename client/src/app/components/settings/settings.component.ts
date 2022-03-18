@@ -5,16 +5,15 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
-
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 import { ToastrService } from 'ngx-toastr';
-import { Settings } from 'src/app/models/Settings';
 import { User } from 'src/app/models/User';
+import { Settings } from 'src/app/models/Settings';
 import { SettingsService } from 'src/app/services/settings.service';
 import { SharedService } from 'src/app/services/shared.service';
-import { TransactionService } from 'src/app/services/transaction.service';
+import { Icon } from 'src/app/models/Icon';
 
 @Component({
   selector: 'app-settings',
@@ -26,8 +25,7 @@ export class SettingsComponent implements OnInit {
     private settingsService: SettingsService,
     private sharedService: SharedService,
     private toastr: ToastrService,
-    private modalService: BsModalService,
-    private transactionService: TransactionService
+    private modalService: BsModalService
   ) {}
 
   isLoading: boolean = false;
@@ -38,9 +36,118 @@ export class SettingsComponent implements OnInit {
   categoryCtrl = new FormControl();
   currentUser!: User;
   currentSettings!: Settings;
+  icons: Icon[] = [
+    {
+      name: "Bills",
+      type: "expense",
+      path: "assets/images/categories/bills.png",
+    },
+    {
+      name: "Cosmetics",
+      type: "expense",
+      path: "assets/images/categories/cosmetics.png",
+    },
+    {
+      name: "Education",
+      type: "expense",
+      path: "assets/images/categories/education.png",
+    },
+    {
+      name: "Entertainment",
+      type: "expense",
+      path: "assets/images/categories/entertainment.png",
+    },
+    {
+      name: "Fitness",
+      type: "expense",
+      path: "assets/images/categories/fitness.png",
+    },
+    {
+      name: "Food",
+      type: "expense",
+      path: "assets/images/categories/food.png",
+    },
+    {
+      name: "Fuel",
+      type: "expense",
+      path: "assets/images/categories/fuel.png",
+    },
+    {
+      name: "Grocery",
+      type: "expense",
+      path: "assets/images/categories/grocery.png",
+    },
+    {
+      name: "HealthCare",
+      type: "expense",
+      path: "assets/images/categories/healthcare.png",
+    },
+    {
+      name: "Home",
+      type: "expense",
+      path: "assets/images/categories/home.png",
+    },
+    {
+      name: "Insurance",
+      type: "expense",
+      path: "assets/images/categories/insurance.png",
+    },
+    {
+      name: "Investment",
+      type: "expense",
+      path: "assets/images/categories/investment.png",
+    },
+    {
+      name: "Other Income",
+      type: "income",
+      path: "assets/images/categories/other_income.png",
+    },
+    {
+      name: "Party",
+      type: "expense",
+      path: "assets/images/categories/party.png",
+    },
+    {
+      name: "Pets",
+      type: "expense",
+      path: "assets/images/categories/pets.png",
+    },
+    {
+      name: "Repairs",
+      type: "expense",
+      path: "assets/images/categories/repairs.png",
+    },
+    {
+      name: "Salary",
+      type: "income",
+      path: "assets/images/categories/salary.png",
+    },
+    {
+      name: "Shopping",
+      type: "expense",
+      path: "assets/images/categories/shopping.png",
+    },
+    {
+      name: "Transportation",
+      type: "expense",
+      path: "assets/images/categories/transportation.png",
+    },
+    {
+      name: "Vacation",
+      type: "expense",
+      path: "assets/images/categories/vacation.png",
+    },
+  ]
 
   confirmUploadmodalRef!: BsModalRef;
+  addCategoryModalRef!: BsModalRef;
   @ViewChild('filePicker') filePicker!: ElementRef<HTMLElement>;
+
+  addCategoryForm = new FormGroup({
+    name: new FormControl(null, Validators.required),
+    type: new FormControl(null, Validators.required),
+    path: new FormControl(null),
+  });
 
   ngOnInit() {
     this.getSettings();
@@ -93,10 +200,6 @@ export class SettingsComponent implements OnInit {
         this.toastr.success('Settings have been updated', 'Success!');
       });
   }
-
-  openAddCategoryModal() {}
-
-  deleteCategoryModal() {}
 
   browseFile() {
     let el: HTMLElement = this.filePicker.nativeElement;
@@ -158,6 +261,10 @@ export class SettingsComponent implements OnInit {
     }
   }
 
+  addCategory() {
+
+  }
+
   openModal(modal: TemplateRef<any>) {
     this.confirmUploadmodalRef = this.modalService.show(modal, {
       class: 'modal-lg',
@@ -166,5 +273,6 @@ export class SettingsComponent implements OnInit {
 
   closeModal() {
     this.confirmUploadmodalRef?.hide();
+    this.addCategoryModalRef?.hide();
   }
 }

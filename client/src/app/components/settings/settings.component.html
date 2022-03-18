@@ -24,12 +24,12 @@
         </mat-select>
       </mat-form-field>
 
-      <!-- <button mat-icon-button color="primary" (click)="openAddCategoryModal()" [matTooltip]="'Add category'">
+      <button mat-icon-button color="primary" (click)="openModal(addCategoryModal)" [matTooltip]="'Add category'">
         <mat-icon>add_circle</mat-icon>
       </button>
-      <button mat-icon-button color="primary" (click)="deleteCategoryModal()" [matTooltip]="'Delete categories'">
+      <button mat-icon-button color="primary" [matTooltip]="'Delete categories'">
         <mat-icon>delete</mat-icon>
-      </button> -->
+      </button>
     </div>
 
     <button type="submit" mat-raised-button color="accent" (click)="updateSettings()">Save</button>
@@ -38,7 +38,8 @@
   <div class="backup-restore">
     <h2>Backup and Restore</h2>
     <p>Backup your data by exporting it to a spreadsheet</p>
-    <button type="button" mat-raised-button color="primary" (click)="downloadSpreadsheet()">Download Spreadsheet</button>
+    <button type="button" mat-raised-button color="primary" (click)="downloadSpreadsheet()">Download
+      Spreadsheet</button>
     <br>
     <p>Insert data into your account by uploading a spreadsheet</p>
     <div class="flexStart">
@@ -83,5 +84,39 @@
   <div class="modal-footer">
     <button type="button" mat-button (click)="closeModal()">No</button>
     <button type="submit" mat-raised-button color="accent" (click)="browseFile()">Yes</button>
+  </div>
+</ng-template>
+
+<ng-template #addCategoryModal>
+  <div class="modal-header">
+    <h2 class="modal-title">Add a category</h2>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="addCategoryModalRef?.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="add-category-form" [formGroup]="addCategoryForm" (ngSubmit)="addCategory()">
+      <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" required>
+      </mat-form-field>
+
+      <label class="text-14"><strong>Transaction type</strong></label>
+      <mat-radio-group aria-label="Type" formControlName="type" required>
+        <mat-radio-button class="pd-r10" value="expense">Expense</mat-radio-button>
+        <mat-radio-button value="income">Income</mat-radio-button>
+      </mat-radio-group>
+
+      <label class="text-14 pd-t10"><strong>Choose an icon</strong></label>
+      <mat-button-toggle-group name="icon" aria-label="icon" formControlName="icon">
+        <mat-button-toggle value="icon" *ngFor="let icon of icons">
+          <img class="icon" aria-hidden [src]="icon.path">
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" mat-button (click)="closeModal()">Cancel</button>
+    <button type="submit" mat-raised-button color="accent">Add</button>
   </div>
 </ng-template>

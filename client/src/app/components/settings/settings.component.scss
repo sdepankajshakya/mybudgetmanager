@@ -28,6 +28,24 @@
   margin-left: 2rem;
 }
 
+.add-category-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.mat-button-toggle-group {
+  flex-wrap: wrap;
+  border: 0;
+  .mat-button-toggle {
+    border: 0;
+  }
+}
+
+.icon {
+  width: 41px;
+}
+
 @media (max-width: 850px) {
   .settingsForm {
     flex-direction: column;
