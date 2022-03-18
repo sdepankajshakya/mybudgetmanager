@@ -8,7 +8,7 @@
       </time>
       <div class="transaction-desc">
         <label class="text-16">{{transaction.category?.name}}</label>
-        <img class="category-icon" aria-hidden [src]="getCategoryIcon(transaction.category?.name!)" height="40">
+        <img class="category-icon" aria-hidden [src]="getCategoryIcon(transaction.category?.name!)" height="55">
         <span class="transaction-price text-25"
           [ngClass]="(transaction.category.type === 'expense') ? 'expense-item' : 'income-item'">
           {{currencySymbol}}{{transaction.amount}}

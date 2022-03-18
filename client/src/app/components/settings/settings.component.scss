@@ -37,6 +37,8 @@
 .mat-button-toggle-group {
   flex-wrap: wrap;
   border: 0;
+  height: 200px;
+  overflow: scroll;
   .mat-button-toggle {
     border: 0;
   }

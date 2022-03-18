@@ -90,7 +90,7 @@
 <ng-template #addCategoryModal>
   <div class="modal-header">
     <h2 class="modal-title">Add a category</h2>
-    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="addCategoryModalRef?.hide()">
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="closeModal()">
       <span aria-hidden="true" class="visually-hidden">&times;</span>
     </button>
   </div>
@@ -109,8 +109,8 @@
 
       <label class="text-14 pd-t10"><strong>Choose an icon</strong></label>
       <mat-button-toggle-group name="icon" aria-label="icon" formControlName="icon">
-        <mat-button-toggle value="icon" *ngFor="let icon of icons">
-          <img class="icon" aria-hidden [src]="icon.path">
+        <mat-button-toggle value="icon" *ngFor="let path of iconPaths">
+          <img class="icon" aria-hidden [src]="path">
         </mat-button-toggle>
       </mat-button-toggle-group>
     </form>

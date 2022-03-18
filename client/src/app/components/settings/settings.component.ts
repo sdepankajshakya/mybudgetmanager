@@ -13,7 +13,6 @@ import { User } from 'src/app/models/User';
 import { Settings } from 'src/app/models/Settings';
 import { SettingsService } from 'src/app/services/settings.service';
 import { SharedService } from 'src/app/services/shared.service';
-import { Icon } from 'src/app/models/Icon';
 
 @Component({
   selector: 'app-settings',
@@ -36,108 +35,56 @@ export class SettingsComponent implements OnInit {
   categoryCtrl = new FormControl();
   currentUser!: User;
   currentSettings!: Settings;
-  icons: Icon[] = [
-    {
-      name: "Bills",
-      type: "expense",
-      path: "assets/images/categories/bills.png",
-    },
-    {
-      name: "Cosmetics",
-      type: "expense",
-      path: "assets/images/categories/cosmetics.png",
-    },
-    {
-      name: "Education",
-      type: "expense",
-      path: "assets/images/categories/education.png",
-    },
-    {
-      name: "Entertainment",
-      type: "expense",
-      path: "assets/images/categories/entertainment.png",
-    },
-    {
-      name: "Fitness",
-      type: "expense",
-      path: "assets/images/categories/fitness.png",
-    },
-    {
-      name: "Food",
-      type: "expense",
-      path: "assets/images/categories/food.png",
-    },
-    {
-      name: "Fuel",
-      type: "expense",
-      path: "assets/images/categories/fuel.png",
-    },
-    {
-      name: "Grocery",
-      type: "expense",
-      path: "assets/images/categories/grocery.png",
-    },
-    {
-      name: "HealthCare",
-      type: "expense",
-      path: "assets/images/categories/healthcare.png",
-    },
-    {
-      name: "Home",
-      type: "expense",
-      path: "assets/images/categories/home.png",
-    },
-    {
-      name: "Insurance",
-      type: "expense",
-      path: "assets/images/categories/insurance.png",
-    },
-    {
-      name: "Investment",
-      type: "expense",
-      path: "assets/images/categories/investment.png",
-    },
-    {
-      name: "Other Income",
-      type: "income",
-      path: "assets/images/categories/other_income.png",
-    },
-    {
-      name: "Party",
-      type: "expense",
-      path: "assets/images/categories/party.png",
-    },
-    {
-      name: "Pets",
-      type: "expense",
-      path: "assets/images/categories/pets.png",
-    },
-    {
-      name: "Repairs",
-      type: "expense",
-      path: "assets/images/categories/repairs.png",
-    },
-    {
-      name: "Salary",
-      type: "income",
-      path: "assets/images/categories/salary.png",
-    },
-    {
-      name: "Shopping",
-      type: "expense",
-      path: "assets/images/categories/shopping.png",
-    },
-    {
-      name: "Transportation",
-      type: "expense",
-      path: "assets/images/categories/transportation.png",
-    },
-    {
-      name: "Vacation",
-      type: "expense",
-      path: "assets/images/categories/vacation.png",
-    },
-  ]
+  iconPaths = [
+    'assets/images/categories/vacation.png',
+    'assets/images/categories/balloons.png',
+    'assets/images/categories/bills.png',
+    'assets/images/categories/books.png',
+    'assets/images/categories/cake.png',
+    'assets/images/categories/calendar.png',
+    'assets/images/categories/car.png',
+    'assets/images/categories/computer.png',
+    'assets/images/categories/cosmetics.png',
+    'assets/images/categories/credit.png',
+    'assets/images/categories/diet.png',
+    'assets/images/categories/education.png',
+    'assets/images/categories/emergency-call.png',
+    'assets/images/categories/entertainment.png',
+    'assets/images/categories/fitness.png',
+    'assets/images/categories/food-delivery.png',
+    'assets/images/categories/food.png',
+    'assets/images/categories/fruit.png',
+    'assets/images/categories/fuel.png',
+    'assets/images/categories/giftbox.png',
+    'assets/images/categories/graduation-hat.png',
+    'assets/images/categories/grocery.png',
+    'assets/images/categories/hamburger.png',
+    'assets/images/categories/health-insurance.png',
+    'assets/images/categories/healthcare.png',
+    'assets/images/categories/home.png',
+    'assets/images/categories/hospital-building.png',
+    'assets/images/categories/insurance.png',
+    'assets/images/categories/investing.png',
+    'assets/images/categories/investment.png',
+    'assets/images/categories/lotus.png',
+    'assets/images/categories/other_income.png',
+    'assets/images/categories/party.png',
+    'assets/images/categories/pets-allowed.png',
+    'assets/images/categories/pets.png',
+    'assets/images/categories/pizza.png',
+    'assets/images/categories/plane.png',
+    'assets/images/categories/repairs.png',
+    'assets/images/categories/salary.png',
+    'assets/images/categories/shopping.png',
+    'assets/images/categories/smart-tv.png',
+    'assets/images/categories/smartphone.png',
+    'assets/images/categories/social-media.png',
+    'assets/images/categories/train.png',
+    'assets/images/categories/transportation.png',
+    'assets/images/categories/trekking.png',
+    'assets/images/categories/vacation.png',
+    'assets/images/categories/vegetables.png',
+  ];
 
   confirmUploadmodalRef!: BsModalRef;
   addCategoryModalRef!: BsModalRef;
@@ -261,9 +208,7 @@ export class SettingsComponent implements OnInit {
     }
   }
 
-  addCategory() {
-
-  }
+  addCategory() {}
 
   openModal(modal: TemplateRef<any>) {
     this.confirmUploadmodalRef = this.modalService.show(modal, {
