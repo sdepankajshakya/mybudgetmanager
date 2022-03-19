@@ -16,7 +16,7 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Running Angular build
-      - ng build
+      - cd client && ng build
   post_build:
     commands:
       - echo Build completed on `date`
