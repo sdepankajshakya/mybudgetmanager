@@ -11,18 +11,20 @@ phases:
     commands:
       - echo Installing source NPM dependencies...
       - npm install
+      - npm i -g @angular/cli
   build:
     commands:
       - echo Build started on `date`
       - echo Compiling the Node.js code
       - npm run test
+      - echo Running Angular build
+      - ng build
   post_build:
     commands:
       - echo Build completed on `date`
 # Include only the files required for your application to run.
 artifacts:
   files:
-    - src/server.js
-    - src/app.js
-    - package.json
-    - node_modules/**/*
+    - "**/*"
+  discard-paths: no
+  base-directory: client/public
