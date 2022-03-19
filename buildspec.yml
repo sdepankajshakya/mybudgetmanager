@@ -15,11 +15,9 @@ phases:
   build:
     commands:
       - echo Build started on `date`
+      - cd client
       - echo Running Angular build
-      - cd client && ng build
-  post_build:
-    commands:
-      - echo Build completed on `date`
+      - ng build
 # Include only the files required for your application to run.
 artifacts:
   files:
