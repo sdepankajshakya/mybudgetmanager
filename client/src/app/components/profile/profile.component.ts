@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from 'src/app/models/User';
 import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
@@ -11,7 +10,7 @@ export class ProfileComponent implements OnInit {
   constructor(private sharedService: SharedService) {}
 
   url: any;
-  currentUser!: User;
+  currentUser: any;
 
   ngOnInit(): void {
     const current_user =

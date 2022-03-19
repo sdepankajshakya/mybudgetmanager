@@ -9,7 +9,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 import { ToastrService } from 'ngx-toastr';
-import { User } from 'src/app/models/User';
 import { Settings } from 'src/app/models/Settings';
 import { SettingsService } from 'src/app/services/settings.service';
 import { SharedService } from 'src/app/services/shared.service';
@@ -33,7 +32,7 @@ export class SettingsComponent implements OnInit {
   categoryList: any[] = [];
   currencyCtrl = new FormControl();
   categoryCtrl = new FormControl();
-  currentUser!: User;
+  currentUser!: any;
   currentSettings!: Settings;
   iconPaths = [
     'assets/images/categories/vacation.png',
