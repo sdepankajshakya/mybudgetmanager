@@ -16,7 +16,8 @@ phases:
     commands:
       - echo Build started on `date`
       - cd client
-      - npm run-script build
+      - npm install
+      - ng build
 # Include only the files required for your application to run.
 artifacts:
   files:
