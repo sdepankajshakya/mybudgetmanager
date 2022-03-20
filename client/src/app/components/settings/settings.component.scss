@@ -48,6 +48,15 @@
   width: 41px;
 }
 
+.categories-list {
+  height: 200px;
+  overflow-y: scroll;
+}
+
+// .mat-list-item:nth-child(odd) {
+//   background-color: #f7a105;
+// }
+
 @media (max-width: 850px) {
   .settingsForm {
     flex-direction: column;

@@ -53,12 +53,20 @@
   padding-top: 10px;
 }
 
+.pd-tr10 {
+  padding: 10px 10px 0 0 ;
+}
+
 .pd-t20 {
   padding-top: 20px;
 }
 
 .pd-r10 {
   padding-right: 10px;
+}
+
+.pd-l40 {
+  padding-left: 40px;
 }
 
 .text-14 {
@@ -83,6 +91,10 @@
 
 .text-35 {
   font-size: 35px;
+}
+
+.text-right {
+  text-align: right;
 }
 
 .italics {
@@ -219,6 +231,10 @@ input.numberic-text {
 
 .mat-card {
   overflow: hidden !important;
+}
+
+.mat-list-base .mat-list-item .mat-list-item-content {
+  justify-content: space-between !important;
 }
 
 @media (max-width: 555px) {

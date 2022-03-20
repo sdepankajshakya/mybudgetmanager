@@ -6,6 +6,7 @@ import { tap } from 'rxjs/operators';
 import { Resolve } from '@angular/router';
 import { MessageService } from './message.service';
 import { Settings } from '../models/Settings';
+import { Category } from '../models/Category';
 
 @Injectable({
   providedIn: 'root',
@@ -74,6 +75,20 @@ export class SettingsService implements Resolve<any> {
 
   downloadSpreadsheet() {
     return this.http.get(config.apiBaseUrl + config.urls.downloadSpreadsheet, { responseType: 'blob'});
+  }
+
+  addCategory(category: Category) {
+    return this.http.post(
+      config.apiBaseUrl + config.urls.addCategory,
+      category
+    );
+  }
+
+  deleteCategory(category: Category) {
+    return this.http.post(
+      config.apiBaseUrl + config.urls.deleteCategory,
+      category
+    );
   }
 
   deleteTransactions(user: any) {

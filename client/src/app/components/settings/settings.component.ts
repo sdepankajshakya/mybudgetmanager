@@ -10,6 +10,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FileSaverService } from 'ngx-filesaver';
 
 import { ToastrService } from 'ngx-toastr';
+import { Category } from 'src/app/models/Category';
 import { Settings } from 'src/app/models/Settings';
 import { SettingsService } from 'src/app/services/settings.service';
 import { SharedService } from 'src/app/services/shared.service';
@@ -33,7 +34,6 @@ export class SettingsComponent implements OnInit {
   currencyList: any[] = [];
   categoryList: any[] = [];
   currencyCtrl = new FormControl();
-  categoryCtrl = new FormControl();
   currentUser!: any;
   currentSettings!: Settings;
   iconPaths = [
@@ -87,25 +87,31 @@ export class SettingsComponent implements OnInit {
     'assets/images/categories/vegetables.png',
   ];
 
+  editCategory: boolean = false;
   confirmUploadmodalRef!: BsModalRef;
   addCategoryModalRef!: BsModalRef;
   @ViewChild('filePicker') filePicker!: ElementRef<HTMLElement>;
 
   addCategoryForm = new FormGroup({
+    _id: new FormControl(null),
     name: new FormControl(null, Validators.required),
     type: new FormControl(null, Validators.required),
-    path: new FormControl(null),
+    icon: new FormControl(null),
+    user: new FormControl(null),
   });
 
   ngOnInit() {
     this.getSettings();
     this.getCurrencies();
-
-    this.categoryList =
-      this.sharedService.getItemFromLocalStorage('categories');
+    this.fetchCategoryList();
 
     this.currentUser =
       this.sharedService.getItemFromLocalStorage('current_user');
+  }
+
+  fetchCategoryList() {
+    this.categoryList =
+    this.sharedService.getItemFromLocalStorage('categories');
   }
 
   getSettings() {
@@ -210,9 +216,53 @@ export class SettingsComponent implements OnInit {
     }
   }
 
-  addCategory() {}
+  addCategory() {
+    if (this.addCategoryForm.valid) {
+      this.settingsService
+        .addCategory(this.addCategoryForm.value)
+        .subscribe((res) => {
+          this.toastr.success('Category added successfully', 'Success!');
+          this.fetchCategories();
+        });
+    } else {
+      this.toastr.error('Failed to add the category', 'Error! Invalid fields');
+    }
 
-  openModal(modal: TemplateRef<any>) {
+    this.closeModal();
+  }
+
+  fetchCategories() {
+    this.settingsService.getCategories().subscribe(
+      (res) => {
+        let response = res as any;
+        this.sharedService.setItemToLocalStorage('categories', response.data);
+        this.fetchCategoryList();
+      },
+      (err) => {
+        this.toastr.error('Failed to fetch transaction categories', 'Error!');
+      }
+    );
+  }
+
+  deleteCategory(category: Category) {
+    this.settingsService.deleteCategory(category).subscribe(
+      (res) => {
+        this.toastr.success('Category deleted successfully', 'Success!');
+        this.fetchCategories();
+      },
+      (err) => {
+        this.toastr.error('Failed to delete the category', 'Error!');
+      }
+    );
+  }
+
+  openModal(modal: TemplateRef<any>, category?: Category) {
+    this.editCategory = category ? true : false;
+    this.addCategoryForm.get('_id')!.setValue(category?._id);
+    this.addCategoryForm.get('name')!.setValue(category?.name);
+    this.addCategoryForm.get('type')!.setValue(category?.type);
+    this.addCategoryForm.get('icon')!.setValue(category?.icon);
+    this.addCategoryForm.get('user')!.setValue(category?.user);
     this.confirmUploadmodalRef = this.modalService.show(modal, {
       class: 'modal-lg',
     });

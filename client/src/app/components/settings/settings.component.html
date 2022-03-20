@@ -9,30 +9,31 @@
       </mat-select>
     </mat-form-field>
 
-    <div class="flexStart">
-      <mat-form-field appearance="fill">
-        <mat-label>Categories</mat-label>
-        <mat-select [formControl]="categoryCtrl" multiple>
-          <mat-select-trigger>
-            {{categoryCtrl.value ? categoryCtrl.value[0]?.name : ''}}
-            <span *ngIf="categoryCtrl.value?.length > 1">
-              (+{{categoryCtrl.value.length - 1}} {{categoryCtrl.value?.length === 2 ? 'other' : 'others'}})
-            </span>
-          </mat-select-trigger>
-          <mat-option *ngFor="let category of categoryList" [value]="category"><img src={{category.icon}}
-              width="25px" /> {{category.name}}</mat-option>
-        </mat-select>
-      </mat-form-field>
+    <button type="submit" mat-raised-button color="accent" (click)="updateSettings()">Save</button>
 
-      <button mat-icon-button color="primary" (click)="openModal(addCategoryModal)" [matTooltip]="'Add category'">
-        <mat-icon>add_circle</mat-icon>
-      </button>
-      <button mat-icon-button color="primary" [matTooltip]="'Delete categories'">
-        <mat-icon>delete</mat-icon>
+    <div class="pd-t10">
+      <label class="text-14 pd-tr10"><strong>Categories</strong></label>
+      <button mat-icon-button (click)="openModal(addCategoryModal)" [matTooltip]="'Add category'">
+        <img src="/assets/images/plus.png" alt="Add Category" width="30px" />
       </button>
     </div>
-
-    <button type="submit" mat-raised-button color="accent" (click)="updateSettings()">Save</button>
+    <div class="flexStart">
+      <mat-list role="list" class="categories-list">
+        <mat-list-item role="listitem" *ngFor="let category of categoryList">
+          <div>
+            <img src={{category.icon}} width="25px" /> {{category.name}}
+          </div>
+          <div class="pd-l40" *ngIf="category.user">
+            <button mat-icon-button color="primary" class="mg-t5" [matTooltip]="'Edit'" (click)="openModal(addCategoryModal, category)">
+              <i class="fa fa-edit fa-2x"></i>
+            </button>
+            <button mat-icon-button color="warn" [matTooltip]="'Delete'" (click)="deleteCategory(category)">
+              <i class="fa fa-trash fa-2x"></i>
+            </button>
+          </div>
+        </mat-list-item>
+      </mat-list>
+    </div>
   </div>
 
   <div class="backup-restore">
@@ -89,13 +90,13 @@
 
 <ng-template #addCategoryModal>
   <div class="modal-header">
-    <h2 class="modal-title">Add a category</h2>
+    <h2 class="modal-title">{{editCategory ? 'Modify' : 'Add'}} a category</h2>
     <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="closeModal()">
       <span aria-hidden="true" class="visually-hidden">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <form class="add-category-form" [formGroup]="addCategoryForm" (ngSubmit)="addCategory()">
+    <form class="add-category-form" [formGroup]="addCategoryForm">
       <mat-form-field appearance="outline">
         <mat-label>Name</mat-label>
         <input matInput formControlName="name" required>
@@ -108,15 +109,15 @@
       </mat-radio-group>
 
       <label class="text-14 pd-t10"><strong>Choose an icon</strong></label>
-      <mat-button-toggle-group name="icon" aria-label="icon" formControlName="icon">
-        <mat-button-toggle value="icon" *ngFor="let path of iconPaths">
-          <img class="icon" aria-hidden [src]="path">
+      <mat-button-toggle-group name="iconPath" aria-label="icon" formControlName="icon">
+        <mat-button-toggle [value]="icon" *ngFor="let icon of iconPaths">
+          <img class="icon" aria-hidden [src]="icon">
         </mat-button-toggle>
       </mat-button-toggle-group>
     </form>
   </div>
   <div class="modal-footer">
     <button type="button" mat-button (click)="closeModal()">Cancel</button>
-    <button type="submit" mat-raised-button color="accent">Add</button>
+    <button type="submit" mat-raised-button color="accent" (click)="addCategory()">{{editCategory ? 'Modify' : 'Add'}}</button>
   </div>
 </ng-template>

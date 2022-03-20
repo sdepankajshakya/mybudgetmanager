@@ -16,6 +16,8 @@ export let config = {
     getCategories: '/getcategories',
     uploadSpreadsheet: '/uploadSpreadsheet',
     downloadSpreadsheet: '/downloadSpreadsheet',
+    addCategory: '/addcategory',
+    deleteCategory: '/deletecategory'
   },
 
   months: [

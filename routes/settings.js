@@ -75,7 +75,7 @@ router.post("/api/updatesettings", checkAuth, (req, res, next) => {
 });
 
 router.get("/api/getCategories", checkAuth, (req, res, next) => {
-  CategoryModel.find({}, (err, settings) => {
+  CategoryModel.find({ user: { $in: [null, req.currentUser.userId] } }, (err, settings) => {
     if (err) {
       utils.sendErrorResponse(res, 500, err.name, err.message);
     } else {
@@ -200,6 +200,55 @@ router.get("/api/downloadSpreadsheet", checkAuth, (req, res, next) => {
       }
     }
   });
+});
+
+router.post("/api/addcategory", checkAuth, (req, res, next) => {
+  if (!req.body) {
+    utils.sendErrorResponse(res, 400, "Validation Error", "Invalid fields");
+  } else {
+    const category = new CategoryModel(req.body);
+    category.user = req.currentUser.userId;
+    if (!req.body._id) {
+      CategoryModel.find({ name: req.body.name }, (err, result) => {
+        if (result) {
+          utils.sendErrorResponse(res, 400, "Error!", "Category already exits");
+        } else {
+          category.save((err, result) => {
+            if (err) {
+              utils.sendErrorResponse(res, 400, err.name, err.message);
+            } else {
+              utils.sendSuccessResponse(res, 201, "Category added succesfully!", null);
+            }
+          });
+        }
+      });
+    } else {
+      if (!mongoose.Types.ObjectId.isValid(req.body._id)) utils.sendErrorResponse(res, 400, "Bad Request", "Invalid object id received. Cannot update category.");
+      CategoryModel.findOneAndUpdate({ _id: category._id, user: req.currentUser.userId }, category, { runValidators: true }, (err, result) => {
+        if (err) {
+          utils.sendErrorResponse(res, 400, err.name, err.message);
+        } else {
+          utils.sendSuccessResponse(res, 200, "Category updated succesfully!", null);
+        }
+      });
+    }
+  }
+});
+
+router.post("/api/deletecategory", checkAuth, (req, res, next) => {
+  const category = new CategoryModel(req.body);
+  category.user = req.currentUser.userId;
+
+  if (!req.body._id) utils.sendErrorResponse(res, 400, "Bad Request", "Invalid object id received. Cannot delete category.");
+  else {
+    CategoryModel.findByIdAndRemove({ _id: category._id, user: req.currentUser.userId }, (err, result) => {
+      if (err) {
+        utils.sendErrorResponse(res, 400, err.name, err.message);
+      } else {
+        utils.sendSuccessResponse(res, 200, "Category deleted succesfully!", null);
+      }
+    });
+  }
 });
 
 module.exports = router;
