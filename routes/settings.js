@@ -209,17 +209,11 @@ router.post("/api/addcategory", checkAuth, (req, res, next) => {
     const category = new CategoryModel(req.body);
     category.user = req.currentUser.userId;
     if (!req.body._id) {
-      CategoryModel.find({ name: req.body.name }, (err, result) => {
-        if (result) {
-          utils.sendErrorResponse(res, 400, "Error!", "Category already exits");
+      category.save((err, result) => {
+        if (err) {
+          utils.sendErrorResponse(res, 400, err.name, err.message);
         } else {
-          category.save((err, result) => {
-            if (err) {
-              utils.sendErrorResponse(res, 400, err.name, err.message);
-            } else {
-              utils.sendSuccessResponse(res, 201, "Category added succesfully!", null);
-            }
-          });
+          utils.sendSuccessResponse(res, 201, "Category added succesfully!", null);
         }
       });
     } else {
