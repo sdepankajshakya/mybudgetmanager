@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const multer = require("multer");
 const xlsx = require("xlsx");
+const fs = require("fs");
 
 const checkAuth = require("../middleware/checkAuth");
 const SettingsModel = require("../models/settings");
@@ -129,8 +130,12 @@ router.post("/api/uploadSpreadsheet", checkAuth, multer({ storage: storageConfig
           if (!!Object.keys(result).length) {
             trans.category = result[0]; // converting the category string from sheet to category object
             trans.user = req.currentUser.userId; // adding the userId to every transaction
-            trans.date = excelDateToJSDate(trans.date);
-            insertIntoDB(trans, res, transactionsObj, lastIndex);
+            try {
+              trans.date = trans.date;
+              insertIntoDB(trans, res, transactionsObj, lastIndex);
+            } catch (err) {
+              return res.status(400).end();
+            }
           }
         });
       } else {
@@ -147,12 +152,6 @@ function sheetToJson(filePath) {
   let transactions = xlsx.utils.sheet_to_json(worksheet);
 
   return transactions;
-}
-
-function excelDateToJSDate(excelDate) {
-  let date = new Date(Math.round((excelDate - (25567 + 2)) * 86400 * 1000));
-  let converted_date = date.toISOString().split("T")[0];
-  return converted_date;
 }
 
 function insertIntoDB(trans, res, transactionsObj, lastIndex) {
@@ -174,7 +173,7 @@ router.get("/api/downloadSpreadsheet", checkAuth, (req, res, next) => {
     if (err) {
       utils.sendErrorResponse(res, 500, err.name, err.message);
     } else {
-      const workbook = xlsx.utils.book_new();
+      const workbook = xlsx.utils.book_new(); // create workbook
       try {
         let modifiedTransactions = [];
         transactions.forEach((trans) => {
@@ -185,14 +184,19 @@ router.get("/api/downloadSpreadsheet", checkAuth, (req, res, next) => {
             note: trans.note,
           });
         });
-        const worksheet = xlsx.utils.json_to_sheet(modifiedTransactions);
+        const worksheet = xlsx.utils.json_to_sheet(modifiedTransactions); // convert data to sheet
         xlsx.utils.sheet_add_aoa(worksheet, [["date", "category", "amount", "note"]], { origin: "A1" });
-        xlsx.utils.book_append_sheet(workbook, worksheet, "Transactions");
-        xlsx.writeFile(workbook, "BudgetManager.xlsx");
-      } catch (error) {
+        xlsx.utils.book_append_sheet(workbook, worksheet, "Transactions"); // add sheet to workbook
+        const fileName = "BudgetManager.xlsx";
+        const workbook_opts = { bookType: "xlsx", type: "binary" }; // workbook options
+        xlsx.writeFile(workbook, fileName, workbook_opts); // write workbook file
+        const stream = fs.createReadStream(fileName);
+        stream.pipe(res);
+      } catch (err) {
+        console.log(err);
         utils.sendErrorResponse(res, 500, err.name, err.message);
       } finally {
-        utils.sendSuccessResponse(res, 201, "Transactions fetched successfully!", transactions);
+        // utils.sendSuccessResponse(res, 201, "Transactions fetched successfully!", transactions);
       }
     }
   });

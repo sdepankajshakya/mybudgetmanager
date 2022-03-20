@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { FileSaverService } from 'ngx-filesaver';
 
 import { ToastrService } from 'ngx-toastr';
 import { Settings } from 'src/app/models/Settings';
@@ -23,7 +24,8 @@ export class SettingsComponent implements OnInit {
     private settingsService: SettingsService,
     private sharedService: SharedService,
     private toastr: ToastrService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private fileSaverService: FileSaverService
   ) {}
 
   isLoading: boolean = false;
@@ -179,6 +181,7 @@ export class SettingsComponent implements OnInit {
   downloadSpreadsheet() {
     this.settingsService.downloadSpreadsheet().subscribe(
       (res) => {
+        this.fileSaverService.save(res, 'BudgetManager.xlsx');
         this.toastr.success('Download spreadsheet successful', 'Success!');
       },
       (err) => {

@@ -61,6 +61,7 @@ import {
 import { ContactUsComponent } from './components/contact-us/contact-us.component';
 import { CurrencyPipe } from '@angular/common';
 import { GettingStartedComponent } from './components/getting-started/getting-started.component';
+import { FileSaverModule } from 'ngx-filesaver';
 
 const web = {
   client_id:
@@ -124,6 +125,7 @@ FullCalendarModule.registerPlugins([interactionPlugin, dayGridPlugin]);
     SocialLoginModule,
     MatRadioModule,
     MatButtonToggleModule,
+    FileSaverModule,
     ModalModule.forRoot(),
   ],
   providers: [

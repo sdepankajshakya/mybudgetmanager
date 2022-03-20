@@ -73,7 +73,7 @@ export class SettingsService implements Resolve<any> {
   }
 
   downloadSpreadsheet() {
-    return this.http.get(config.apiBaseUrl + config.urls.downloadSpreadsheet);
+    return this.http.get(config.apiBaseUrl + config.urls.downloadSpreadsheet, { responseType: 'blob'});
   }
 
   deleteTransactions(user: any) {
