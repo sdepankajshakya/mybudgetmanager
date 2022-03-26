@@ -16,6 +16,7 @@ import { SharedService } from 'src/app/services/shared.service';
 import { ThemePalette } from '@angular/material/core';
 import { SettingsService } from 'src/app/services/settings.service';
 import { ToastrService } from 'ngx-toastr';
+import { Category } from 'src/app/models/Category';
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
@@ -135,6 +136,7 @@ export class OverviewComponent implements OnInit {
       this.settingsService.getCategories().subscribe(
         (res) => {
           let response = res as any;
+          response.sort((a: Category, b: Category) => a.name.localeCompare(b.name));
           this.sharedService.setItemToLocalStorage('categories', response.data);
         },
         (err) => {

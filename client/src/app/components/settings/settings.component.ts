@@ -44,6 +44,7 @@ export class SettingsComponent implements OnInit {
     'assets/images/categories/cake.png',
     'assets/images/categories/calendar.png',
     'assets/images/categories/car.png',
+    'assets/images/categories/cashback.png',
     'assets/images/categories/computer.png',
     'assets/images/categories/cosmetics.png',
     'assets/images/categories/credit.png',
