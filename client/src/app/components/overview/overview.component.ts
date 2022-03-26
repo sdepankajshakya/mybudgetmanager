@@ -185,6 +185,10 @@ export class OverviewComponent implements OnInit {
               }
             });
 
+            if(this.transactionMonths && this.transactionMonths.length) {
+              this.transactionMonths.sort((a,b) => (a.key > b.key) ? 1 : ((b.key > a.key) ? -1 : 0));
+            }
+
             if (!this.transactionYears.includes(year))
               this.transactionYears.push(year);
           });
