@@ -75,10 +75,10 @@ $my-app-dark-theme: mat-dark-theme(
     fill: $white !important;
   }
   
-  .highcharts-data-label text {
-    text-shadow: 0 0 3px #000000, 0 0 3px #000000 !important;
-    fill: $white !important;
-  }
+  // .highcharts-data-label text {
+  //   text-shadow: 0 0 3px #000000, 0 0 3px #000000 !important;
+  //   fill: $white !important;
+  // }
 
   // calendar
   .fc .fc-toolbar-title,
