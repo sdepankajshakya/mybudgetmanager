@@ -17,6 +17,7 @@ import { ThemePalette } from '@angular/material/core';
 import { SettingsService } from 'src/app/services/settings.service';
 import { ToastrService } from 'ngx-toastr';
 import { Category } from 'src/app/models/Category';
+
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
@@ -214,7 +215,7 @@ export class OverviewComponent implements OnInit {
             let transactionEvent = {
               title: '-' + this.currencySymbol + value,
               color: '#FFF',
-              textColor: 'red',
+              textColor: '#FF3131',
               date: key, // calender event accepts date in the iso format yyyy-mm-dd
             };
 
@@ -239,7 +240,7 @@ export class OverviewComponent implements OnInit {
             let transactionEvent = {
               title: '+' + this.currencySymbol + value,
               color: '#FFF',
-              textColor: 'green',
+              textColor: '#32CD32',
               date: key,
             };
             calendarEvents.push(transactionEvent);
@@ -518,7 +519,7 @@ export class OverviewComponent implements OnInit {
           tooltip: {
             valuePrefix: this.currencySymbol,
           },
-          colors: ['green', 'red'],
+          colors: ['#32CD32', '#FF3131'],
           size: '60%',
           innerSize: '90%',
           showInLegend: false,
