@@ -136,8 +136,10 @@ export class OverviewComponent implements OnInit {
       this.settingsService.getCategories().subscribe(
         (res) => {
           let response = res as any;
-          response.sort((a: Category, b: Category) => a.name.localeCompare(b.name));
-          this.sharedService.setItemToLocalStorage('categories', response.data);
+          if (response && response.data && response.data.length) {
+            response.data.sort((a: Category, b: Category) => a.name.localeCompare(b.name));
+            this.sharedService.setItemToLocalStorage('categories', response.data);
+          }
         },
         (err) => {
           this.toastr.error('Failed to fetch transaction categories', 'Error!');

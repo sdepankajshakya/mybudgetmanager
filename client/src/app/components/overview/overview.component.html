@@ -19,8 +19,8 @@
     </a>
   </section>
   
-  <div class="centered">
-    <mat-spinner [color]="color" *ngIf="isLoading"></mat-spinner>
+  <div class="centered pd-tb20" *ngIf="isLoading">
+    <mat-spinner [color]="color" [diameter]="70"></mat-spinner>
   </div>
 
   <section class="filter flexStart mg-t15 mg-l10 mg-r10" *ngIf="transactions.length">
