@@ -77,11 +77,7 @@ export class AddTransactionComponent implements OnInit {
       return;
     }
 
-    if (!this.isEditTransaction) {
-      this.newTransaction();
-    } else {
-      this.editTransaction();
-    }
+    this.newTransaction();
   }
 
   newTransaction() {
@@ -94,10 +90,6 @@ export class AddTransactionComponent implements OnInit {
       .get('date')!
       .patchValue(year + '-' + month + '-' + date); // ISO Format (yyyy-mm-dd)
 
-    this.saveTransaction();
-  }
-
-  editTransaction() {
     this.saveTransaction();
   }
 
