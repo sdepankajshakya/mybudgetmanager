@@ -17,17 +17,22 @@ import { ThemePalette } from '@angular/material/core';
 import { SettingsService } from 'src/app/services/settings.service';
 import { ToastrService } from 'ngx-toastr';
 import { Category } from 'src/app/models/Category';
-
+import { fade } from 'src/app/shared/animations';
+import { formatNumber } from '@angular/common';
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.scss'],
+  animations: [
+    fade
+  ]
 })
 export class OverviewComponent implements OnInit {
   messageSubscription: Subscription;
   transactions: Transaction[] = [];
   filteredTransactions: Transaction[] = [];
-  currencySymbol: string = '';
+  currency: any;
+  userLocale: string = '';
   Highcharts = Highcharts;
   expenseDistOptions: any;
   totalSavingOptions: any;
@@ -49,6 +54,7 @@ export class OverviewComponent implements OnInit {
     date: new Date(),
     displayDate: {},
     amount: null as any,
+    displayAmount: '',
     note: '',
   };
 
@@ -81,9 +87,13 @@ export class OverviewComponent implements OnInit {
     this.getCategories();
     this.getTransactions();
 
+    const userLocale = navigator.languages && navigator.languages.length ? navigator.languages[0] : navigator.language;
+    this.sharedService.setItemToLocalStorage('userLocale', userLocale);
+    this.userLocale = this.sharedService.getItemFromLocalStorage('userLocale') || 'en-IN';
+
     let settings = this.sharedService.getItemFromLocalStorage('settings');
     if (settings && settings.currency) {
-      this.currencySymbol = settings.currency.symbol;
+      this.currency = settings.currency;
     }
 
     this.currentUser =
@@ -160,9 +170,10 @@ export class OverviewComponent implements OnInit {
         );
 
         this.transactions = this.filteredTransactions = sortedTransactions;
-
+        
         this.filteredTransactions.forEach((trans) => {
           trans.displayDate = this.setDate(trans.date);
+          trans.displayAmount = formatNumber(trans.amount, this.userLocale);
         });
 
         this.isLoading = false;
@@ -217,7 +228,7 @@ export class OverviewComponent implements OnInit {
           // loop through the keys and create a calendar event
           for (const [key, value] of transDebitMap.entries()) {
             let transactionEvent = {
-              title: '-' + this.currencySymbol + value,
+              title: '-' + this.currency.symbol + formatNumber(value, this.userLocale),
               color: '#FFF',
               textColor: '#FF3131',
               date: key, // calender event accepts date in the iso format yyyy-mm-dd
@@ -242,7 +253,7 @@ export class OverviewComponent implements OnInit {
           // loop through the keys and create a calendar event
           for (const [key, value] of transCreditMap.entries()) {
             let transactionEvent = {
-              title: '+' + this.currencySymbol + value,
+              title: '+' + this.currency.symbol + formatNumber(value, this.userLocale),
               color: '#FFF',
               textColor: '#32CD32',
               date: key,
@@ -388,7 +399,7 @@ export class OverviewComponent implements OnInit {
         text: 'Expense Distribution by Category',
       },
       tooltip: {
-        pointFormat: this.currencySymbol + '{point.y}',
+        pointFormat: this.currency.symbol + '{point.y}',
       },
       plotOptions: {
         pie: {
@@ -448,7 +459,7 @@ export class OverviewComponent implements OnInit {
         },
       },
       tooltip: {
-        pointFormat: this.currencySymbol + '{point.y}',
+        pointFormat: this.currency.symbol + '{point.y}',
       },
       colors: ['#F2B341'],
       plotOptions: {
@@ -456,7 +467,7 @@ export class OverviewComponent implements OnInit {
           dataLabels: {
             enabled: true,
             inside: true,
-            format: this.currencySymbol + '{y}',
+            format: this.currency.symbol + '{y}',
           },
           pointPadding: 0.1,
           groupPadding: 0,
@@ -501,7 +512,7 @@ export class OverviewComponent implements OnInit {
         text: 'Total Savings',
       },
       subtitle: {
-        text: this.currencySymbol + '' + (totalIncome - totalExpense),
+        text: this.currency.symbol + '' + (totalIncome - totalExpense),
         verticalAlign: 'middle',
         y: 40,
         style: {
@@ -521,7 +532,7 @@ export class OverviewComponent implements OnInit {
             ['Total Expense', totalExpense],
           ],
           tooltip: {
-            valuePrefix: this.currencySymbol,
+            valuePrefix: this.currency.symbol,
           },
           colors: ['#32CD32', '#FF3131'],
           size: '60%',
@@ -529,7 +540,7 @@ export class OverviewComponent implements OnInit {
           showInLegend: false,
           dataLabels: {
             enabled: true,
-            format: this.currencySymbol + '{y}',
+            format: this.currency.symbol + '{y}',
           },
         },
       ],
@@ -547,3 +558,4 @@ export class OverviewComponent implements OnInit {
     this.messageSubscription.unsubscribe();
   }
 }
+

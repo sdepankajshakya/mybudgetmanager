@@ -92,7 +92,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   goToHome() {
-    this.router.navigate(['overview']);
+    this.isLoggedIn ? this.router.navigate(['overview']) : this.goToLogin();
+  }
+
+  goToLogin() {
+    this.router.navigate(['login']);
   }
 
   onLogout() {

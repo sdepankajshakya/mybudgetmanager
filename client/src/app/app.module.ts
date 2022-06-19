@@ -38,6 +38,7 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { LoginComponent } from './components/login/login.component';
+import { ProfileComponent } from './components/profile/profile.component';
 import { ErrorHandlerComponent } from './components/error-handler/error-handler.component';
 import { HttpInterceptorService } from './services/http-interceptor.service';
 import { AuthenticationService } from './services/authentication.service';
@@ -49,7 +50,6 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import interactionPlugin from '@fullcalendar/interaction';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { ProfileComponent } from './components/profile/profile.component';
 
 import {
   SocialLoginModule,

@@ -11,7 +11,7 @@
         <img class="category-icon" aria-hidden [src]="getCategoryIcon(transaction.category?.name!)" height="55">
         <span class="transaction-price text-25"
           [ngClass]="(transaction.category.type === 'expense') ? 'expense-item' : 'income-item'">
-          {{currencySymbol}}{{transaction.amount}}
+          {{currencySymbol}}{{transaction.displayAmount}}
         </span>
       </div>
     </div>

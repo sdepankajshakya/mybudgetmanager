@@ -33,7 +33,6 @@ export class SettingsComponent implements OnInit {
 
   currencyList: any[] = [];
   categoryList: any[] = [];
-  currencyCtrl = new FormControl();
   currentUser!: any;
   currentSettings!: Settings;
   iconPaths = [

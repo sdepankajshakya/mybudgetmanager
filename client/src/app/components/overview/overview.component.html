@@ -23,6 +23,7 @@
     <mat-spinner [color]="color" [diameter]="70"></mat-spinner>
   </div>
 
+  <!--Filter-->
   <section class="filter flexStart mg-t15 mg-l10 mg-r10" *ngIf="transactions.length">
     <div class="filter mg-r10">
       <mat-icon>filter_list</mat-icon>
@@ -89,13 +90,13 @@
       </mat-form-field>
       <!-- <label class="text-20 mg-t10">Recent Transactions</label> -->
       <div class="transaction-list" *ngIf="filteredTransactions.length">
-        <app-transaction-list [transactions]="filteredTransactions" [currencySymbol]="currencySymbol">
+        <app-transaction-list [transactions]="filteredTransactions" [currencySymbol]="currency.symbol">
         </app-transaction-list>
       </div>
     </div>
 
     <!--Add Transaction Button-->
-    <button mat-icon-button class="add-transaction" (click)="openAddTransactionModal()">
+    <button mat-icon-button class="add-transaction" (click)="openAddTransactionModal()" @fade>
       <img src="/assets/images/plus.png" alt="Add Transaction" width="60px" />
     </button>
   </section>

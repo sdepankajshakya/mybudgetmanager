@@ -1,3 +1,25 @@
 <section class="contact-details">
-    <p>Connect with us at <a href="mailto:dev.pankajshakya@gmail.com">dev.pankajshakya@gmail.com</a></p>
+    <mat-card>
+        <h1>How can we help?</h1>
+        <h3>For all enquires, please email us using the form below.</h3>
+        <form class="contact-us-form" [formGroup]="contactUsForm">
+            <mat-form-field appearance="outline">
+                <mat-label>First Name</mat-label>
+                <input matInput type="text" formControlName="firstName">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Last Name</mat-label>
+                <input matInput type="text" formControlName="lastName">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Email</mat-label>
+                <input matInput type="text" formControlName="email">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Message</mat-label>
+                <textarea matInput formControlName="message"></textarea>
+            </mat-form-field>
+          </form>
+          <button mat-raised-button color="accent">Submit</button>
+    </mat-card>
 </section>

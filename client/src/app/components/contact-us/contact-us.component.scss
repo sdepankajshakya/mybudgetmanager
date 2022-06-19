@@ -1,3 +1,9 @@
 .contact-details {
   padding: 1rem;
 }
+
+.contact-us-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}

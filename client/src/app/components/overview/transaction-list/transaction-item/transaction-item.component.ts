@@ -40,6 +40,7 @@ export class TransactionItemComponent implements OnInit {
     date: new Date(),
     displayDate: {},
     amount: 0,
+    displayAmount: '',
     note: '',
   };
 

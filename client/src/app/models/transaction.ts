@@ -7,5 +7,6 @@ export interface Transaction {
   date: Date;
   displayDate: any;
   amount: number;
+  displayAmount: string;
   note: string;
 }
