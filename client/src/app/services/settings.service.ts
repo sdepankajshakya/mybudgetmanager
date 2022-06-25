@@ -7,6 +7,7 @@ import { Resolve } from '@angular/router';
 import { MessageService } from './message.service';
 import { Settings } from '../models/Settings';
 import { Category } from '../models/Category';
+import { ContactUs } from '../models/ContactUs';
 
 @Injectable({
   providedIn: 'root',
@@ -95,6 +96,13 @@ export class SettingsService implements Resolve<any> {
     return this.http.post(
       config.apiBaseUrl + config.urls.deleteAllTransactions,
       user
+    );
+  }
+
+  contactUs(message: ContactUs) {
+    return this.http.post(
+      config.apiBaseUrl + config.urls.contactUs,
+      message
     );
   }
 }

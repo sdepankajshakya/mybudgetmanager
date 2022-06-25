@@ -224,11 +224,11 @@ export class SettingsComponent implements OnInit {
           this.toastr.success('Category added successfully', 'Success!');
           this.fetchCategories();
         });
+
+      this.closeModal();
     } else {
       this.toastr.error('Failed to add the category', 'Error! Invalid fields');
     }
-
-    this.closeModal();
   }
 
   fetchCategories() {

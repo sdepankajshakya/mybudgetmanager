@@ -7,6 +7,7 @@ const path = require("path");
 const transactionRoutes = require("./routes/transactions");
 const userRoutes = require("./routes/user");
 const settingsRoute = require("./routes/settings");
+const contactUsRoute = require("./routes/contactus");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -20,7 +21,7 @@ app.use((req, res, next) => {
 
 // user routes
 app.use(transactionRoutes, settingsRoute);
-app.use("/api/user", userRoutes);
+app.use("/api/user", userRoutes, contactUsRoute);
 
 // serve the static files
 if (process.env.NODE_ENV === "production") {

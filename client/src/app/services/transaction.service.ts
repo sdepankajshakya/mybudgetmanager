@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { config } from '../configuration/config';
-import { Transaction } from '../models/transaction';
+import { Transaction } from '../models/Transaction';
 
 @Injectable({
   providedIn: 'root',

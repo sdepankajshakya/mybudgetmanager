@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 import { MessageService } from 'src/app/services/message.service';
-import { Transaction } from 'src/app/models/transaction';
+import { Transaction } from 'src/app/models/Transaction';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { AddTransactionComponent } from '../../add-transaction/add-transaction.component';
 

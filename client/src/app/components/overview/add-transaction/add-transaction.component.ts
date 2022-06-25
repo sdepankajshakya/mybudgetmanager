@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
-import { Transaction } from 'src/app/models/transaction';
+import { Transaction } from 'src/app/models/Transaction';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { ErrorHandlerComponent } from '../../error-handler/error-handler.component';
 

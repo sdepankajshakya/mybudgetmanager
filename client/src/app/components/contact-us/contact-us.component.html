@@ -1,5 +1,5 @@
 <section class="contact-details">
-    <mat-card>
+    <mat-card *ngIf="!messageSent && !contactedUs">
         <h1>How can we help?</h1>
         <h3>For all enquires, please email us using the form below.</h3>
         <form class="contact-us-form" [formGroup]="contactUsForm">
@@ -20,6 +20,11 @@
                 <textarea matInput formControlName="message"></textarea>
             </mat-form-field>
           </form>
-          <button mat-raised-button color="accent">Submit</button>
+          <button mat-raised-button color="accent" (click)="onSubmit()">Submit</button>
+    </mat-card>
+
+    <mat-card class="pd-10" *ngIf="messageSent || contactedUs">
+        <mat-icon class="check-circle icon-2x">check_circle</mat-icon>
+        <h2>Thank you for getting in touch. We have received your message. Someone from team will connect with you soon!</h2>
     </mat-card>
 </section>
