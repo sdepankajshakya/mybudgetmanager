@@ -40,7 +40,7 @@ export class ContactUsComponent implements OnInit {
 
   onSubmit() {
     let contactUsMessage = this.contactUsForm.getRawValue();
-    if (contactUsMessage) {
+    if (contactUsMessage.message) {
       this.settingsService.contactUs(contactUsMessage).subscribe(res => {
         this.contactUsForm.reset();
         this.messageSent = true;
@@ -49,6 +49,8 @@ export class ContactUsComponent implements OnInit {
       }, err => {
         this.toastr.error('Please try again', 'Something went wrong!');
       })
+    } else {
+      this.toastr.error('Your message can\'t be empty');
     }
   }
 

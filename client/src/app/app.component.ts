@@ -5,8 +5,6 @@ import { MatSidenav } from '@angular/material/sidenav';
 
 import { MessageService } from './services/message.service';
 import { AuthenticationService } from './services/authentication.service';
-import { SharedService } from './services/shared.service';
-import { SettingsService } from './services/settings.service';
 
 @Component({
   selector: 'app-root',
