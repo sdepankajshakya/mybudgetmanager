@@ -1,4 +1,3 @@
-import { NumberSymbol } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
@@ -7,6 +6,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { config } from '../configuration/config';
+import { LoginResponse } from '../models/LoginResponse';
 import { SharedService } from './shared.service';
 
 @Injectable({
@@ -40,27 +40,38 @@ export class AuthenticationService {
 
   login(user: any) {
     return this.http
-      .post<{
-        data: {
-          access_token: string;
-          expiresIn: NumberSymbol;
-          current_user: any;
-        };
-      }>(config.apiBaseUrl + config.urls.login, user)
+      .post<LoginResponse>(config.apiBaseUrl + config.urls.login, user)
       .pipe(
         tap((response) => {
-          localStorage.setItem('access_token', response.data.access_token);
-          this.sharedService.setItemToLocalStorage(
-            'current_user',
-            response.data.current_user
-          );
-
-          // automatically logout after expiresIn
-          this.tokenTimer = setTimeout(() => {
-            this.logout();
-          }, response.data.expiresIn * 1000);
+          this.saveTokenInLocalStorage(response);
         })
       );
+  }
+
+  signInWithGoogle(socialUser: any) {
+    return this.http
+      .post<LoginResponse>(
+        config.apiBaseUrl + config.urls.signInWithGoogle,
+        socialUser
+      )
+      .pipe(
+        tap((response) => {
+          this.saveTokenInLocalStorage(response);
+        })
+      );
+  }
+
+  saveTokenInLocalStorage(response: LoginResponse) {
+    localStorage.setItem('access_token', response.data.access_token);
+    this.sharedService.setItemToLocalStorage(
+      'current_user',
+      response.data.current_user
+    );
+
+    // automatically logout after expiresIn
+    this.tokenTimer = setTimeout(() => {
+      this.logout();
+    }, response.data.expiresIn * 1000);
   }
 
   logout() {

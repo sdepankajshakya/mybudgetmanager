@@ -14,6 +14,7 @@ import {
   GoogleLoginProvider,
 } from 'angularx-social-login';
 import { ThemePalette } from '@angular/material/core';
+import { LoginResponse } from 'src/app/models/LoginResponse';
 
 @Component({
   selector: 'app-login',
@@ -59,7 +60,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this.authService.login(form.value).subscribe(
       (res) => {
-        const response = res as any;
+        const response = res as LoginResponse;
         if (response.data) {
           this.authService.setLoginStatus(true);
           this.router.navigate(['overview']);
@@ -72,7 +73,22 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   signInWithGoogle(): void {
-    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
+    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then((socialUser) => {
+      this.authService.signInWithGoogle(socialUser).subscribe(
+        (res) => {
+          const response = res as LoginResponse;
+          if (response.data) {
+            this.authService.setLoginStatus(true);
+            this.router.navigate(['overview']);
+          }
+        },
+        (err) => {
+          this.isLoading = false;
+        }
+      );
+    }).catch(data => {
+      this.router.navigate(['login']);
+    });
   }
 
   signInWithFB(): void {

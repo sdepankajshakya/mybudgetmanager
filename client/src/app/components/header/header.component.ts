@@ -61,6 +61,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
   toggleDarkmode() {
     this.currentSettings =
       this.sharedService.getItemFromLocalStorage('settings');
+    
+    if (!this.currentSettings) {
+      // default current settings
+      this.currentSettings = {
+        currency: null as any,
+        darkMode: false
+      };
+    }
+    
     if (this.isDarkMode) {
       this.currentSettings.darkMode = false;
       this.messageService.sendMessage('lightMode');

@@ -1,6 +1,6 @@
 <section class="settingsForm">
   <div class="settings">
-    <mat-form-field appearance="fill" *ngIf="currentSettings">
+    <mat-form-field appearance="fill">
       <mat-label>Currency</mat-label>
       <mat-select [compareWith]="compareWith" [(ngModel)]="currentSettings.currency">
         <mat-option *ngFor="let currency of currencyList" [value]="currency">

@@ -27,14 +27,19 @@ export class SettingsComponent implements OnInit {
     private toastr: ToastrService,
     private modalService: BsModalService,
     private fileSaverService: FileSaverService
-  ) {}
+  ) {
+    this.currentSettings = {
+      currency: null as any,
+      darkMode: false
+    };
+  }
 
   isLoading: boolean = false;
 
   currencyList: any[] = [];
   categoryList: any[] = [];
   currentUser!: any;
-  currentSettings!: Settings;
+  currentSettings: Settings;
   iconPaths = [
     'assets/images/categories/vacation.png',
     'assets/images/categories/balloons.png',
@@ -117,9 +122,8 @@ export class SettingsComponent implements OnInit {
   getSettings() {
     this.settingsService.getSettings().subscribe((res) => {
       let response = res as any;
-      if (response && response.data && response.data.length) {
-        this.currentSettings = response.data[0];
-      }
+      if (response && response.data && response.data.length) this.currentSettings = response.data[0];
+      
     });
   }
 

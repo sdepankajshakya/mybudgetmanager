@@ -71,6 +71,13 @@ export class OverviewComponent implements OnInit {
     private settingsService: SettingsService,
     private toastr: ToastrService
   ) {
+    // set default currency
+    this.currency = {
+      code: '',
+      decimal_digits: 0,
+      name: '',
+      symbol: ''
+    };
     this.messageSubscription = this.messageService
       .getMessage()
       .subscribe((message) => {

@@ -6,6 +6,7 @@ export let config = {
   urls: {
     signup: '/user/signup',
     login: '/user/login',
+    signInWithGoogle: '/user/signInWithGoogle',
     getTransactions: '/transactions',
     newTransaction: '/newtransaction',
     deleteTransaction: '/deletetransaction',
