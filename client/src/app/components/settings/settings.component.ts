@@ -91,6 +91,7 @@ export class SettingsComponent implements OnInit {
     'assets/images/categories/vacation.png',
     'assets/images/categories/vegetables.png',
   ];
+  searchCurrency: string = '';
 
   editCategory: boolean = false;
   confirmUploadmodalRef!: BsModalRef;

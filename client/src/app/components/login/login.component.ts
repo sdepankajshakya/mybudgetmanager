@@ -78,6 +78,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         (res) => {
           const response = res as LoginResponse;
           if (response.data) {
+            this.isLoading = true;
             this.authService.setLoginStatus(true);
             this.router.navigate(['overview']);
           }

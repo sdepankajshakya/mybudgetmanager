@@ -3,7 +3,13 @@
     <mat-form-field appearance="fill">
       <mat-label>Currency</mat-label>
       <mat-select [compareWith]="compareWith" [(ngModel)]="currentSettings.currency">
-        <mat-option *ngFor="let currency of currencyList" [value]="currency">
+        <mat-option>
+          <ngx-mat-select-search [(ngModel)]="searchCurrency"
+          placeholderLabel="Search country..." 
+          noEntriesFoundLabel="'No Currency found'">
+          </ngx-mat-select-search>
+        </mat-option>
+        <mat-option *ngFor="let currency of currencyList | filter:'name':searchCurrency" [value]="currency">
           {{currency.name}}({{currency.symbol}})
         </mat-option>
       </mat-select>
@@ -51,10 +57,10 @@
     <input class="hidden" type="file" accept=".xlsx" #filePicker (change)="uploadSpreadsheet($event)">
   </div>
 
-  <div class="danger-section">
+  <!-- <div class="danger-section">
     <h2>Danger Section</h2>
     <button type="button" mat-raised-button color="warn" (click)="deleteTransactions()">Delete all transactions</button>
-  </div>
+  </div> -->
 </section>
 
 <ng-template #confirmUploadModal>

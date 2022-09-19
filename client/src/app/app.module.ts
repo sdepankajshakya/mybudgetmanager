@@ -50,6 +50,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import interactionPlugin from '@fullcalendar/interaction';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 import {
   SocialLoginModule,
@@ -63,6 +64,7 @@ import { ContactUsComponent } from './components/contact-us/contact-us.component
 import { CurrencyPipe } from '@angular/common';
 import { GettingStartedComponent } from './components/getting-started/getting-started.component';
 import { FileSaverModule } from 'ngx-filesaver';
+import { FilterPipe } from './shared/filter.pipe';
 
 const web = {
   client_id:
@@ -94,6 +96,7 @@ FullCalendarModule.registerPlugins([interactionPlugin, dayGridPlugin]);
     ProfileComponent,
     ContactUsComponent,
     GettingStartedComponent,
+    FilterPipe,
   ],
   imports: [
     BrowserModule,
@@ -129,6 +132,7 @@ FullCalendarModule.registerPlugins([interactionPlugin, dayGridPlugin]);
     FileSaverModule,
     MatListModule,
     ModalModule.forRoot(),
+    NgxMatSelectSearchModule
   ],
   providers: [
     {
