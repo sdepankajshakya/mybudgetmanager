@@ -24,4 +24,19 @@ export class SharedService {
   setItemToLocalStorage(item: string, data: any) {
     localStorage.setItem(item, JSON.stringify(data));
   }
+
+  getTopValues(obj: any, numOfValues = 1) {
+    let max: any = {};
+
+    if (numOfValues > Object.keys(obj).length) {
+      return false;
+    }
+
+    Object.keys(obj).sort((a, b) => obj[b] - obj[a]).forEach((key, ind) => {
+      if (ind < numOfValues) {
+        max[key] = obj[key];
+      }
+    });
+    return max;
+  }
 }

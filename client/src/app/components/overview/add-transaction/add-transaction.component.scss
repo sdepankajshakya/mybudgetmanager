@@ -8,6 +8,13 @@
   margin: 10px;
 }
 
+.mostly-used-categories {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  overflow: auto;
+}
+
 @media (max-width: 330px) {
   .add-transaction-form {
     justify-content: space-between;

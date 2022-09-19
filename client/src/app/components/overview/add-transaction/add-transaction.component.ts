@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, Form } from '@angular/forms';
 
 import { Transaction } from 'src/app/models/Transaction';
 import { TransactionService } from 'src/app/services/transaction.service';
@@ -39,18 +39,30 @@ export class AddTransactionComponent implements OnInit {
   }
 
   categories: Category[] = [];
+  mostUsedCategories: Category[] = [];
   isEditTransaction: boolean = false;
-
-  addTransactionForm = new FormGroup({
-    _id: new FormControl(null),
-    category: new FormControl(null),
-    amount: new FormControl(null, Validators.required),
-    date: new FormControl(new Date(), Validators.required),
-    note: new FormControl(null),
-  });
+  addTransactionForm: any;
 
   ngOnInit(): void {
     this.categories = this.sharedService.getItemFromLocalStorage('categories');
+    const mostUsedCategoryNames = this.sharedService.getItemFromLocalStorage('mostUsedCategories');
+
+    if (this.categories?.length) {
+      this.categories.forEach(category => {
+        if (mostUsedCategoryNames.includes(category.name)) {
+          this.mostUsedCategories.push(category);
+        }
+      });
+    }
+
+    this.addTransactionForm = new FormGroup({
+      _id: new FormControl(null),
+      category: new FormControl(null),
+      amount: new FormControl(null, Validators.required),
+      date: new FormControl(new Date(), Validators.required),
+      note: new FormControl(null),
+    });
+    
     if (this.transactionDetails) {
       const { _id, category, amount, date, note } = this.transactionDetails;
       this.addTransactionForm.patchValue({
@@ -67,6 +79,10 @@ export class AddTransactionComponent implements OnInit {
     return (
       category && selectedCategory && category.name === selectedCategory.name
     );
+  }
+
+  setCategory(category: Category) {
+    this.addTransactionForm.get('category').patchValue(category);
   }
 
   addTransaction() {

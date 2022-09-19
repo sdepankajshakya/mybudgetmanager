@@ -23,9 +23,7 @@ import { formatNumber } from '@angular/common';
   selector: 'app-overview',
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.scss'],
-  animations: [
-    fade
-  ]
+  animations: [fade],
 })
 export class OverviewComponent implements OnInit {
   messageSubscription: Subscription;
@@ -45,6 +43,7 @@ export class OverviewComponent implements OnInit {
   calendarOptions: any;
   isLoading: boolean = false;
   color: ThemePalette = 'accent';
+  categoryCount: any = {};
   private transaction: Transaction = {
     _id: null as any,
     category: {
@@ -76,7 +75,7 @@ export class OverviewComponent implements OnInit {
       code: '',
       decimal_digits: 0,
       name: '',
-      symbol: ''
+      symbol: '',
     };
     this.messageSubscription = this.messageService
       .getMessage()
@@ -94,9 +93,13 @@ export class OverviewComponent implements OnInit {
     this.getCategories();
     this.getTransactions();
 
-    const userLocale = navigator.languages && navigator.languages.length ? navigator.languages[0] : navigator.language;
+    const userLocale =
+      navigator.languages && navigator.languages.length
+        ? navigator.languages[0]
+        : navigator.language;
     this.sharedService.setItemToLocalStorage('userLocale', userLocale);
-    this.userLocale = this.sharedService.getItemFromLocalStorage('userLocale') || 'en-IN';
+    this.userLocale =
+      this.sharedService.getItemFromLocalStorage('userLocale') || 'en-IN';
 
     let settings = this.sharedService.getItemFromLocalStorage('settings');
     if (settings && settings.currency) {
@@ -155,14 +158,26 @@ export class OverviewComponent implements OnInit {
         (res) => {
           let response = res as any;
           if (response && response.data && response.data.length) {
-            response.data.sort((a: Category, b: Category) => a.name.localeCompare(b.name));
-            this.sharedService.setItemToLocalStorage('categories', response.data);
+            response.data.sort((a: Category, b: Category) =>
+              a.name.localeCompare(b.name)
+            );
+            this.sharedService.setItemToLocalStorage(
+              'categories',
+              response.data
+            );
           }
         },
         (err) => {
           this.toastr.error('Failed to fetch transaction categories', 'Error!');
         }
       );
+    }
+
+    if (savedCategories?.length) {
+      savedCategories.forEach((category: any) => {
+        const categoryName = category.name;
+        this.categoryCount[categoryName] = 0;
+      });
     }
   }
 
@@ -177,7 +192,7 @@ export class OverviewComponent implements OnInit {
         );
 
         this.transactions = this.filteredTransactions = sortedTransactions;
-        
+
         this.filteredTransactions.forEach((trans) => {
           trans.displayDate = this.setDate(trans.date);
           trans.displayAmount = formatNumber(trans.amount, this.userLocale);
@@ -190,6 +205,10 @@ export class OverviewComponent implements OnInit {
           let calendarEvents: any[] = [];
 
           this.transactions.forEach((trans) => {
+            if (trans.category?.name) {
+              this.categoryCount[trans.category.name]++;
+            }
+
             let transDate = new Date(trans.date);
             const month = transDate.getMonth() + 1;
             const year = transDate.getFullYear();
@@ -203,13 +222,19 @@ export class OverviewComponent implements OnInit {
               }
             });
 
-            if(this.transactionMonths && this.transactionMonths.length) {
-              this.transactionMonths.sort((a,b) => (a.key > b.key) ? 1 : ((b.key > a.key) ? -1 : 0));
+            if (this.transactionMonths && this.transactionMonths.length) {
+              this.transactionMonths.sort((a, b) =>
+                a.key > b.key ? 1 : b.key > a.key ? -1 : 0
+              );
             }
 
             if (!this.transactionYears.includes(year))
               this.transactionYears.push(year);
           });
+
+          const mostUsedCategories = this.sharedService.getTopValues(this.categoryCount, 7);
+          const categoryNames = Object.keys(mostUsedCategories);
+          this.sharedService.setItemToLocalStorage('mostUsedCategories', categoryNames)
 
           // filter all the debit and credit transactions
           let transDebit = this.transactions.filter(
@@ -235,7 +260,10 @@ export class OverviewComponent implements OnInit {
           // loop through the keys and create a calendar event
           for (const [key, value] of transDebitMap.entries()) {
             let transactionEvent = {
-              title: '-' + this.currency.symbol + formatNumber(value, this.userLocale),
+              title:
+                '-' +
+                this.currency.symbol +
+                formatNumber(value, this.userLocale),
               color: '#FFF',
               textColor: '#FF3131',
               date: key, // calender event accepts date in the iso format yyyy-mm-dd
@@ -260,7 +288,10 @@ export class OverviewComponent implements OnInit {
           // loop through the keys and create a calendar event
           for (const [key, value] of transCreditMap.entries()) {
             let transactionEvent = {
-              title: '+' + this.currency.symbol + formatNumber(value, this.userLocale),
+              title:
+                '+' +
+                this.currency.symbol +
+                formatNumber(value, this.userLocale),
               color: '#FFF',
               textColor: '#32CD32',
               date: key,
@@ -285,7 +316,7 @@ export class OverviewComponent implements OnInit {
   }
 
   filterByDate() {
-    if ((this.selectedMonth && this.selectedYear)) {
+    if (this.selectedMonth && this.selectedYear) {
       this.filteredTransactions = this.transactions.filter((trans) => {
         let transDate = new Date(trans.date);
         const month = transDate.getMonth() + 1;
@@ -312,7 +343,8 @@ export class OverviewComponent implements OnInit {
       let filterTransactionsBasedOnKeyword: Transaction[] = [];
       this.transactions.forEach((trans) => {
         if (
-          (trans.category && trans.category.name.toLowerCase().indexOf(keyword) > -1) ||
+          (trans.category &&
+            trans.category.name.toLowerCase().indexOf(keyword) > -1) ||
           (trans.note && trans.note.toLowerCase().indexOf(keyword) > -1)
         ) {
           filterTransactionsBasedOnKeyword.push(trans);
@@ -565,4 +597,3 @@ export class OverviewComponent implements OnInit {
     this.messageSubscription.unsubscribe();
   }
 }
-
