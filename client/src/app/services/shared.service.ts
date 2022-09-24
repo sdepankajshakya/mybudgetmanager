@@ -33,10 +33,11 @@ export class SharedService {
     }
 
     Object.keys(obj).sort((a, b) => obj[b] - obj[a]).forEach((key, ind) => {
-      if (ind < numOfValues) {
+      if (ind < numOfValues && obj[key] > 0) {
         max[key] = obj[key];
       }
     });
+    
     return max;
   }
 }
