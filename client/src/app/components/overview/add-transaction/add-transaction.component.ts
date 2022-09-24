@@ -47,7 +47,7 @@ export class AddTransactionComponent implements OnInit {
     this.categories = this.sharedService.getItemFromLocalStorage('categories');
     const mostUsedCategoryNames = this.sharedService.getItemFromLocalStorage('mostUsedCategories');
 
-    if (this.categories?.length) {
+    if (this.categories?.length && mostUsedCategoryNames?.length) {
       this.categories.forEach(category => {
         if (mostUsedCategoryNames.includes(category.name)) {
           this.mostUsedCategories.push(category);

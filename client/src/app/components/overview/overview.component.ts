@@ -453,7 +453,7 @@ export class OverviewComponent implements OnInit {
       },
       series: [
         {
-          data: data,
+          data: data
         },
       ],
     };

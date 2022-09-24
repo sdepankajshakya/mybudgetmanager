@@ -7,7 +7,7 @@
         <span>{{transaction.displayDate?.day}}</span>
       </time>
       <div class="transaction-desc">
-        <label class="text-16">{{transaction.category?.name}}</label>
+        <label class="text-16 word-break">{{transaction.category?.name}}</label>
         <img class="category-icon" aria-hidden [src]="getCategoryIcon(transaction.category?.name!)" height="55">
         <span class="transaction-price text-25"
           [ngClass]="(transaction.category.type === 'expense') ? 'expense-item' : 'income-item'">
@@ -15,7 +15,7 @@
         </span>
       </div>
     </div>
-    <label class="text-16 mg-t20" *ngIf="transaction.note">{{transaction.note}}</label>
+    <label class="text-16 mg-t20 word-break" *ngIf="transaction.note">{{transaction.note}}</label>
   </mat-card-content>
 
   <mat-card-actions class="modify">

@@ -105,7 +105,7 @@
     <form class="add-category-form" [formGroup]="addCategoryForm">
       <mat-form-field appearance="outline">
         <mat-label>Name</mat-label>
-        <input matInput formControlName="name" required>
+        <input matInput formControlName="name" [maxlength]="20" required>
       </mat-form-field>
 
       <label class="text-14"><strong>Transaction type</strong></label>

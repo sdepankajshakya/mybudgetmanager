@@ -1,14 +1,13 @@
 <h2 mat-dialog-title>{{isEditTransaction? 'Edit transaction' : 'Add transaction'}}</h2>
 <mat-dialog-content>
-  <section class="pd-b10" *ngIf="mostUsedCategories">
+  <section class="pd-b10" *ngIf="mostUsedCategories?.length">
     <mat-label>Mostly used categories</mat-label>
     <div class="mostly-used-categories pd-10">
       <button *ngFor="let category of mostUsedCategories" mat-fab color="accent" 
       [style.backgroundImage]="'url(' + category.icon + ')'"
       [style.backgroundSize]="'cover'"
       [matTooltip]="category.name"
-      (click)="setCategory(category)">
-      </button>
+      (click)="setCategory(category)"></button>
     </div>
   </section>
 

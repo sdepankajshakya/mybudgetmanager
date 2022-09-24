@@ -263,6 +263,10 @@ input.numberic-text {
   transform: scale(3);
 }
 
+.word-break {
+ word-break: break-all; 
+}
+
 @media (max-width: 490px) {
   .sidebar,
   .settingsForm {
