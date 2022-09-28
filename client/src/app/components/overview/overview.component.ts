@@ -537,7 +537,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
           dataLabels: {
             enabled: true,
             inside: true,
-            format: this.currency.symbol + '{y}',
+            format: this.currency.symbol + '{point.y:,.0f}',
           },
           pointPadding: 0.1,
           groupPadding: 0,
@@ -610,7 +610,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
           showInLegend: false,
           dataLabels: {
             enabled: true,
-            format: this.currency.symbol + '{y}',
+            format: this.currency.symbol + '{point.y:,.0f}',
           },
         },
       ],
