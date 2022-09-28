@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs/internal/Subscription';
 
 import { config } from 'src/app/configuration/config';
@@ -19,13 +19,15 @@ import { ToastrService } from 'ngx-toastr';
 import { Category } from 'src/app/models/Category';
 import { fade } from 'src/app/shared/animations';
 import { formatNumber } from '@angular/common';
+import { FullCalendarComponent } from '@fullcalendar/angular/lib/fullcalendar.component';
+import { Calendar } from '@fullcalendar/angular';
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.scss'],
   animations: [fade],
 })
-export class OverviewComponent implements OnInit {
+export class OverviewComponent implements OnInit, AfterViewInit {
   messageSubscription: Subscription;
   transactions: Transaction[] = [];
   filteredTransactions: Transaction[] = [];
@@ -41,6 +43,7 @@ export class OverviewComponent implements OnInit {
   selectedYear: number = 0;
   search: string = '';
   calendarOptions: any;
+  calendarApi!: Calendar;
   isLoading: boolean = false;
   color: ThemePalette = 'accent';
   categoryCount: any = {};
@@ -61,6 +64,7 @@ export class OverviewComponent implements OnInit {
   IncomeExpenseSummaryContainer: ElementRef<HTMLInputElement> = {} as ElementRef;
   @ViewChild('TotalSavingsContainer', { static: false })
   TotalSavingsContainer: ElementRef<HTMLInputElement> = {} as ElementRef;
+  @ViewChild("fullCalendar", { static: false }) fullCalendar!: FullCalendarComponent;
 
   constructor(
     private transactionService: TransactionService,
@@ -113,6 +117,10 @@ export class OverviewComponent implements OnInit {
     this.selectedYear = this.sharedService.now.year;
   }
 
+  ngAfterViewInit(): void {
+    this.calendarApi = this.fullCalendar.getApi();
+  }
+
   clearFilter() {
     this.selectedMonth = this.selectedYear = 0;
     this.filterByDate();
@@ -151,7 +159,7 @@ export class OverviewComponent implements OnInit {
   }
 
   getCategories() {
-    const savedCategories =
+    let savedCategories =
       this.sharedService.getItemFromLocalStorage('categories');
     if (!savedCategories) {
       this.settingsService.getCategories().subscribe(
@@ -165,6 +173,8 @@ export class OverviewComponent implements OnInit {
               'categories',
               response.data
             );
+
+            this.setCategoryCount(response.data);
           }
         },
         (err) => {
@@ -174,7 +184,13 @@ export class OverviewComponent implements OnInit {
     }
 
     if (savedCategories?.length) {
-      savedCategories.forEach((category: any) => {
+      this.setCategoryCount(savedCategories);
+    }
+  }
+
+  setCategoryCount(data: Category[]) {
+    if (data?.length) {
+      data.forEach((category: any) => {
         const categoryName = category.name;
         this.categoryCount[categoryName] = 0;
       });
@@ -232,9 +248,18 @@ export class OverviewComponent implements OnInit {
               this.transactionYears.push(year);
           });
 
-          const mostUsedCategories = this.sharedService.getTopValues(this.categoryCount, 7);
-          const categoryNames = Object.keys(mostUsedCategories);
-          this.sharedService.setItemToLocalStorage('mostUsedCategories', categoryNames)
+          // set most used categories
+          if (this.categoryCount) {
+            const mostUsedCategories = this.sharedService.getTopValues(
+              this.categoryCount,
+              7
+            );
+            const categoryNames = Object.keys(mostUsedCategories);
+            this.sharedService.setItemToLocalStorage(
+              'mostUsedCategories',
+              categoryNames
+            );
+          }
 
           // filter all the debit and credit transactions
           let transDebit = this.transactions.filter(
@@ -324,6 +349,9 @@ export class OverviewComponent implements OnInit {
         return month === this.selectedMonth && year === this.selectedYear;
       });
       this.formatChartData(this.filteredTransactions);
+
+      let selectedDate = new Date(this.selectedYear, this.selectedMonth - 1, 1);
+      this.calendarApi.gotoDate(selectedDate);
     } else if (this.selectedYear) {
       this.filteredTransactions = this.transactions.filter((trans) => {
         let transDate = new Date(trans.date);
@@ -331,6 +359,9 @@ export class OverviewComponent implements OnInit {
         return year === this.selectedYear;
       });
       this.formatChartData(this.filteredTransactions);
+
+      let selectedDate = new Date(this.selectedYear, 0, 1);
+      this.calendarApi.gotoDate(selectedDate);
     } else {
       this.filteredTransactions = this.transactions;
       this.formatChartData(this.transactions);
@@ -453,7 +484,7 @@ export class OverviewComponent implements OnInit {
       },
       series: [
         {
-          data: data
+          data: data,
         },
       ],
     };
