@@ -10,9 +10,10 @@ import { SettingsService } from './services/settings.service';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ContactUsComponent } from './components/contact-us/contact-us.component';
 import { GettingStartedComponent } from './components/getting-started/getting-started.component';
+import { HomepageComponent } from './components/homepage/homepage.component';
 
 const routes: Routes = [
-  { path: '', component: LoginComponent },
+  { path: '', component: HomepageComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'login', component: LoginComponent },
   { path: 'profile', component: ProfileComponent },

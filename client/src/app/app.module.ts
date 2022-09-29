@@ -65,6 +65,7 @@ import { CurrencyPipe } from '@angular/common';
 import { GettingStartedComponent } from './components/getting-started/getting-started.component';
 import { FileSaverModule } from 'ngx-filesaver';
 import { FilterPipe } from './shared/filter.pipe';
+import { HomepageComponent } from './components/homepage/homepage.component';
 
 const web = {
   client_id:
@@ -97,6 +98,7 @@ FullCalendarModule.registerPlugins([interactionPlugin, dayGridPlugin]);
     ContactUsComponent,
     GettingStartedComponent,
     FilterPipe,
+    HomepageComponent,
   ],
   imports: [
     BrowserModule,

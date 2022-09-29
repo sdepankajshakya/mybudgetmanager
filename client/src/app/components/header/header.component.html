@@ -10,13 +10,13 @@
       <label class="text-20 mg-l5">Budget Manager</label>
     </div>
   </div>
-  <div class="profile">
-    <mat-icon *ngIf="isDarkMode && isLoggedIn">wb_sunny</mat-icon>
+  <div class="profile" *ngIf="isLoggedIn">
+    <mat-icon *ngIf="isDarkMode">wb_sunny</mat-icon>
     <mat-slide-toggle class="text-16" [color]="color" (click)="toggleDarkmode()" [(ngModel)]="isDarkMode" *ngIf="isLoggedIn">
     </mat-slide-toggle>
-    <mat-icon *ngIf="!isDarkMode && isLoggedIn">brightness_2</mat-icon>
+    <mat-icon *ngIf="!isDarkMode">brightness_2</mat-icon>
 
-    <button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="isLoggedIn">
+    <button mat-icon-button [matMenuTriggerFor]="menu">
       <i class='fa fa-user-circle fa-3x'></i>
     </button>
     <mat-menu #menu="matMenu" class="profile-items">
@@ -30,4 +30,8 @@
       </button>
     </mat-menu>
   </div>
+  <button mat-raised-button color="accent" class="login-btn" *ngIf="!isLoggedIn" (click)="goToLogin()">
+    Go to login
+    <mat-icon>arrow_right_alt</mat-icon>
+  </button>
 </div>
