@@ -61,3 +61,15 @@ nav ul li a {
     font-weight: 600;
     letter-spacing: .1em;
 }
+
+@media (max-width: 490px) {
+    .title .text h1 {
+        font-size: 30px;
+    }
+    .title .text h1 span {
+        font-size: 40px;
+    }
+    .title .text p {
+        font-size: 13px;
+    }
+}

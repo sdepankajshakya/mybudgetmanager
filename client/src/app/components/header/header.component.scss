@@ -33,15 +33,6 @@
   }
 }
 
-@media (max-width: 330px) {
-  .navbar {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-}
-
 $color: #f7a105;
 
 .login-btn {
@@ -79,6 +70,18 @@ $color: #f7a105;
     &:before {
       width: 100%;
     }
+  }
+}
+
+@media (max-width: 490px) {
+  .navbar {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .login-btn {
+    margin: 15px;
   }
 }
 
