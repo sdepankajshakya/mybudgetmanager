@@ -598,7 +598,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
         {
           name: '',
           data: [
-            ['Total Income', totalIncome],
+            ['Remaining balance', totalIncome- totalExpense],
             ['Total Expense', totalExpense],
           ],
           tooltip: {
@@ -609,7 +609,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
           innerSize: '90%',
           showInLegend: false,
           dataLabels: {
-            enabled: true,
+            enabled: false,
             format: this.currency.symbol + '{point.y:,.0f}',
           },
         },
