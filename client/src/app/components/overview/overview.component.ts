@@ -582,7 +582,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
         text: 'Total Savings',
       },
       subtitle: {
-        text: this.currency.symbol + '' + (totalIncome - totalExpense),
+        text: this.currency.symbol + '' + formatNumber((totalIncome - totalExpense), this.userLocale),
         verticalAlign: 'middle',
         y: 40,
         style: {
