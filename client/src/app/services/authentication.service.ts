@@ -69,9 +69,9 @@ export class AuthenticationService {
     );
 
     // automatically logout after expiresIn
-    // this.tokenTimer = setTimeout(() => {
-    //   this.logout();
-    // }, response.data.expiresIn * 1000);
+    this.tokenTimer = setTimeout(() => {
+      this.logout();
+    }, 1000 * 60 * 60 * 24);
   }
 
   logout() {
