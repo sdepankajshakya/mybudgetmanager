@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-// const connectionUrl = "mongodb+srv://admin:fnurq8EzMN8JH7sV@cluster0.tpeau.mongodb.net/budget-manager?retryWrites=true&w=majority";
-const connectionUrl = "mongodb://127.0.0.1:27017/budget-manager"; // local connection url
+const connectionUrl = "mongodb+srv://admin:fnurq8EzMN8JH7sV@cluster0.tpeau.mongodb.net/budget-manager?retryWrites=true&w=majority";
+// const connectionUrl = "mongodb://127.0.0.1:27017/budget-manager"; // local connection url
 
 mongoose.connect(
   process.env.MONGODB_URI || connectionUrl,

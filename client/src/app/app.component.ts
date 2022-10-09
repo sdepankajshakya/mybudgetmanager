@@ -5,6 +5,7 @@ import { MatSidenav } from '@angular/material/sidenav';
 
 import { MessageService } from './services/message.service';
 import { AuthenticationService } from './services/authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +22,8 @@ export class AppComponent implements OnDestroy {
 
   constructor(
     private authService: AuthenticationService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private router: Router
   ) {
     this.loginStatusSubsciption = this.authService
       .getLoginStatus()
@@ -56,6 +58,8 @@ export class AppComponent implements OnDestroy {
           this.isDarkMode = false;
         }
       });
+
+    if (this.isLoggedIn) this.router.navigate(['overview']);
   }
 
   ngOnInit() {}
