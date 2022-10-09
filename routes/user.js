@@ -38,10 +38,10 @@ router.post("/login", (req, res, next) => {
         if (result) {
           try {
             const obj = { email: user.email, userId: user._id };
-            const token = jwt.sign(obj, config.secret_key, { expiresIn: 3600 });
+            const token = jwt.sign(obj, config.secret_key, { expiresIn: '24h' });
             utils.sendSuccessResponse(res, 200, "Login successful!", {
               access_token: token,
-              expiresIn: 3600,
+              expiresIn: '24h',
               current_user: { _id: user._id, firstName: user.firstName, lastName: user.lastName, email: user.email },
             });
           } catch (err) {
@@ -74,10 +74,10 @@ router.post("/signInWithGoogle", (req, res, next) => {
     UserModel.findOne({ email: userDetails.email }).then((user) => {
       if (user) {
         const obj = { email: user.email, userId: user._id };
-        const token = jwt.sign(obj, config.secret_key, { expiresIn: 3600 });
+        const token = jwt.sign(obj, config.secret_key, { expiresIn: '24h' });
         utils.sendSuccessResponse(res, 200, "Login successful!", {
           access_token: token,
-          expiresIn: 3600,
+          expiresIn: '24h',
           current_user: { _id: user._id, firstName: user.firstName, lastName: user.lastName, email: user.email },
         });
       } else {

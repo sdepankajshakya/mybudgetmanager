@@ -1,7 +1,7 @@
 export interface LoginResponse {
   data: {
     access_token: string;
-    expiresIn: number;
+    expiresIn: string;
     current_user: any;
   };
 }
