@@ -1,13 +1,20 @@
 .background {
     height: 100vh;
     width: 100%;
-    background-image: url(../../../assets/images/bg.png);
+    // background-image: url(../../../assets/images/bg.png);
     background-position: center;
     background-size: cover;
     padding-right: 3%;
     padding-left: 5%;
     box-sizing: border-box;
     position: relative;
+}
+
+.bg-gold {
+    background: -webkit-linear-gradient(134deg, #fdcd3b 60%, #ffed4b 60%);
+    background: -o-linear-gradient(134deg, #fdcd3b 60%, #ffed4b 60%);
+    background: -moz-linear-gradient(134deg, #fdcd3b 60%, #ffed4b 60%);
+    background: linear-gradient(134deg, #fdcd3b 60%, #ffed4b 60%);
 }
 
 .header {
@@ -66,9 +73,11 @@ nav ul li a {
     .title .text h1 {
         font-size: 30px;
     }
+
     .title .text h1 span {
         font-size: 40px;
     }
+
     .title .text p {
         font-size: 13px;
     }

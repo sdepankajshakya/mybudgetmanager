@@ -475,6 +475,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
         pie: {
           allowPointSelect: true,
           cursor: 'pointer',
+          shadow: true,
           dataLabels: {
             enabled: true,
             format: '<b>{point.name}</b>: {point.percentage:.1f} %',
@@ -591,7 +592,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
       },
       plotOptions: {
         pie: {
-          shadow: false,
+          shadow: true,
         },
       },
       series: [
