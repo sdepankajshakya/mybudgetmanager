@@ -53,6 +53,15 @@
   }
 }
 
+:host ::ng-deep {
+  .fc-daygrid {
+    cursor: pointer;
+  }
+  .fc-event-main {
+    cursor: default;
+  }
+}
+
 .overview-pie {
   width: 100%;
 }
