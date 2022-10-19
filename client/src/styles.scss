@@ -118,7 +118,8 @@ $my-app-dark-theme: mat-dark-theme(
 /* You can add global styles to this file, and also import other style files */
 html,
 body {
-  height: 100vh;
+  height: 100%;
+  overflow: hidden;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
 }
 

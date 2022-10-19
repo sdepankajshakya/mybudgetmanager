@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Subscription } from 'rxjs/internal/Subscription';
 
 import { config } from 'src/app/configuration/config';
@@ -64,7 +70,8 @@ export class OverviewComponent implements OnInit, AfterViewInit {
   IncomeExpenseSummaryContainer: ElementRef<HTMLInputElement> = {} as ElementRef;
   @ViewChild('TotalSavingsContainer', { static: false })
   TotalSavingsContainer: ElementRef<HTMLInputElement> = {} as ElementRef;
-  @ViewChild("fullCalendar", { static: false }) fullCalendar!: FullCalendarComponent;
+  @ViewChild('fullCalendar', { static: false })
+  fullCalendar!: FullCalendarComponent;
 
   constructor(
     private transactionService: TransactionService,
@@ -479,8 +486,9 @@ export class OverviewComponent implements OnInit, AfterViewInit {
           dataLabels: {
             enabled: true,
             format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+            distance: 5,
           },
-          // size: 150,
+          size: '50%',
         },
       },
       series: [
@@ -583,7 +591,10 @@ export class OverviewComponent implements OnInit, AfterViewInit {
         text: 'Total Savings',
       },
       subtitle: {
-        text: this.currency.symbol + '' + formatNumber((totalIncome - totalExpense), this.userLocale),
+        text:
+          this.currency.symbol +
+          '' +
+          formatNumber(totalIncome - totalExpense, this.userLocale),
         verticalAlign: 'middle',
         y: 40,
         style: {
@@ -599,7 +610,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
         {
           name: '',
           data: [
-            ['Remaining balance', totalIncome- totalExpense],
+            ['Remaining balance', totalIncome - totalExpense],
             ['Total Expense', totalExpense],
           ],
           tooltip: {

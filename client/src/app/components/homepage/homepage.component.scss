@@ -26,6 +26,12 @@
     justify-content: flex-end;
 }
 
+.fixed {
+    position: fixed;
+    z-index: 1;
+    backdrop-filter: blur(5px);
+}
+
 nav ul li {
     display: inline-block;
     list-style: none;
