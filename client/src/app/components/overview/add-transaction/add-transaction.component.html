@@ -34,6 +34,16 @@
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
 
+    <mat-form-field>
+      <mat-label>Mode of Payment</mat-label>
+      <mat-select appearance="outline" formControlName="paymentMode">
+        <mat-option *ngFor="let mode of paymentModesList" [value]="mode.type">
+          <img class="payment-icon" aria-hidden [src]="mode.icon" height="25">
+            <span>{{mode.name}}</span>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
     <mat-form-field appearance="outline">
       <mat-label>Add a note</mat-label>
       <input matInput formControlName="note">

@@ -11,6 +11,7 @@ const utils = require("../utilities/utils");
 const TransactionModel = require("../models/transaction");
 const CategoryModel = require("../models/category");
 const CurrencyModel = require("../models/currency");
+const PaymentMode = require("../models/paymentMode");
 
 const MIME_TYPE_MAP = {
   "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": "xlsx",
@@ -75,21 +76,31 @@ router.post("/api/updatesettings", checkAuth, (req, res, next) => {
 });
 
 router.get("/api/getCategories", checkAuth, (req, res, next) => {
-  CategoryModel.find({ user: { $in: [null, req.currentUser.userId] } }, (err, settings) => {
+  CategoryModel.find({ user: { $in: [null, req.currentUser.userId] } }, (err, categories) => {
     if (err) {
       utils.sendErrorResponse(res, 500, err.name, err.message);
     } else {
-      utils.sendSuccessResponse(res, 200, "Categories fetched succesfully!", settings);
+      utils.sendSuccessResponse(res, 200, "Categories fetched succesfully!", categories);
     }
   });
 });
 
 router.get("/api/getCurrencies", checkAuth, (req, res, next) => {
-  CurrencyModel.find({}, (err, settings) => {
+  CurrencyModel.find({}, (err, currencies) => {
     if (err) {
       utils.sendErrorResponse(res, 500, err.name, err.message);
     } else {
-      utils.sendSuccessResponse(res, 200, "Currencies fetched succesfully!", settings);
+      utils.sendSuccessResponse(res, 200, "Currencies fetched succesfully!", currencies);
+    }
+  });
+});
+
+router.get("/api/getPaymentModes", checkAuth, (req, res, next) => {
+  PaymentMode.find({ user: { $in: [null, req.currentUser.userId] } }, (err, payments) => {
+    if (err) {
+      utils.sendErrorResponse(res, 500, err.name, err.message);
+    } else {
+      utils.sendSuccessResponse(res, 200, "Payment Modes fetched succesfully!", payments);
     }
   });
 });
@@ -242,6 +253,33 @@ router.post("/api/deletecategory", checkAuth, (req, res, next) => {
         utils.sendSuccessResponse(res, 200, "Category deleted succesfully!", null);
       }
     });
+  }
+});
+
+router.post("/api/addPaymentMode", checkAuth, (req, res, next) => {
+  if (!req.body) {
+    utils.sendErrorResponse(res, 400, "Validation Error", "Invalid fields");
+  } else {
+    const mode = new PaymentMode(req.body);
+    mode.user = req.currentUser.userId;
+    if (!req.body._id) {
+      mode.save((err, result) => {
+        if (err) {
+          utils.sendErrorResponse(res, 400, err.name, err.message);
+        } else {
+          utils.sendSuccessResponse(res, 201, "Payment mode added succesfully!", null);
+        }
+      });
+    } else {
+      if (!mongoose.Types.ObjectId.isValid(req.body._id)) utils.sendErrorResponse(res, 400, "Bad Request", "Invalid object id received. Cannot update payment mode.");
+      PaymentMode.findOneAndUpdate({ _id: mode._id, user: req.currentUser.userId }, mode, { runValidators: true }, (err, result) => {
+        if (err) {
+          utils.sendErrorResponse(res, 400, err.name, err.message);
+        } else {
+          utils.sendSuccessResponse(res, 200, "Payment mode updated succesfully!", null);
+        }
+      });
+    }
   }
 });
 

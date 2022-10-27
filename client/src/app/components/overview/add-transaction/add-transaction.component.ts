@@ -42,6 +42,7 @@ export class AddTransactionComponent implements OnInit {
   mostUsedCategories: Category[] = [];
   isEditTransaction: boolean = false;
   addTransactionForm: any;
+  paymentModesList: any;
 
   ngOnInit(): void {
     this.categories = this.sharedService.getItemFromLocalStorage('categories');
@@ -60,6 +61,7 @@ export class AddTransactionComponent implements OnInit {
       category: new FormControl(null),
       amount: new FormControl(null, Validators.required),
       date: new FormControl(new Date(), Validators.required),
+      paymentMode: new FormControl(null),
       note: new FormControl(null),
     });
     
@@ -73,11 +75,19 @@ export class AddTransactionComponent implements OnInit {
         note,
       });
     }
+
+    this.fetchPaymentModeList();
   }
 
   compareWith(category: any, selectedCategory: any) {
     return (
       category && selectedCategory && category.name === selectedCategory.name
+    );
+  }
+
+  comparePaymentModeWith(paymentMode: any, selectedPaymentMode: any) {
+    return (
+      paymentMode && selectedPaymentMode && paymentMode.name === selectedPaymentMode.name
     );
   }
 
@@ -136,4 +146,10 @@ export class AddTransactionComponent implements OnInit {
         }
       );
   }
+
+  fetchPaymentModeList() {
+    this.paymentModesList =
+    this.sharedService.getItemFromLocalStorage('paymentModes');
+  }
+
 }

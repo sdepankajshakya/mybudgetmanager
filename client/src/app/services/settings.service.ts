@@ -8,6 +8,7 @@ import { MessageService } from './message.service';
 import { Settings } from '../models/Settings';
 import { Category } from '../models/Category';
 import { ContactUs } from '../models/ContactUs';
+import { PaymentMode } from '../models/PaymentMode';
 
 @Injectable({
   providedIn: 'root',
@@ -60,6 +61,10 @@ export class SettingsService implements Resolve<any> {
     return this.http.get(config.apiBaseUrl + config.urls.getCategories);
   }
 
+  getPaymentModes() {
+    return this.http.get(config.apiBaseUrl + config.urls.getPaymentModes);
+  }
+
   updateSettings(settings: Settings) {
     return this.http.post(
       config.apiBaseUrl + config.urls.updateSettings,
@@ -96,6 +101,13 @@ export class SettingsService implements Resolve<any> {
     return this.http.post(
       config.apiBaseUrl + config.urls.deleteAllTransactions,
       user
+    );
+  }
+
+  addPaymentMode(mode: PaymentMode) {
+    return this.http.post(
+      config.apiBaseUrl + config.urls.addPaymentMode,
+      mode
     );
   }
 

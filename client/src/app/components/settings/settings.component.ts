@@ -38,9 +38,10 @@ export class SettingsComponent implements OnInit {
 
   currencyList: any[] = [];
   categoryList: any[] = [];
+  paymentModesList: any[] = [];
   currentUser!: any;
   currentSettings: Settings;
-  iconPaths = [
+  categoryIconPaths = [
     'assets/images/categories/vacation.png',
     'assets/images/categories/balloons.png',
     'assets/images/categories/bills.png',
@@ -91,11 +92,29 @@ export class SettingsComponent implements OnInit {
     'assets/images/categories/vacation.png',
     'assets/images/categories/vegetables.png',
   ];
+  paymentIconPaths = [
+    'assets/images/paymentModes/bank.png',
+    'assets/images/paymentModes/bank2.png',
+    'assets/images/paymentModes/card.png',
+    'assets/images/paymentModes/card1.png',
+    'assets/images/paymentModes/card2.png',
+    'assets/images/paymentModes/card3.png',
+    'assets/images/paymentModes/card4.png',
+    'assets/images/paymentModes/cash.png',
+    'assets/images/paymentModes/cash1.png',
+    'assets/images/paymentModes/cash2.png',
+    'assets/images/paymentModes/cashless.png',
+    'assets/images/paymentModes/cheque.png',
+    'assets/images/paymentModes/cheque1.png',
+    'assets/images/paymentModes/invoice.png',
+    'assets/images/paymentModes/mobile-wallet.png',
+    'assets/images/paymentModes/wallet.png',
+  ]
   searchCurrency: string = '';
 
   editCategory: boolean = false;
+  editPaymentMode: boolean = false;
   confirmUploadmodalRef!: BsModalRef;
-  addCategoryModalRef!: BsModalRef;
   @ViewChild('filePicker') filePicker!: ElementRef<HTMLElement>;
 
   addCategoryForm = new FormGroup({
@@ -106,10 +125,19 @@ export class SettingsComponent implements OnInit {
     user: new FormControl(null),
   });
 
+  addPaymentModeForm = new FormGroup({
+    _id: new FormControl(null),
+    name: new FormControl(null, Validators.required),
+    type: new FormControl(null),
+    icon: new FormControl(null),
+    user: new FormControl(null),
+  });
+
   ngOnInit() {
     this.getSettings();
     this.getCurrencies();
     this.fetchCategoryList();
+    this.fetchPaymentModeList();
 
     this.currentUser =
       this.sharedService.getItemFromLocalStorage('current_user');
@@ -124,7 +152,6 @@ export class SettingsComponent implements OnInit {
     this.settingsService.getSettings().subscribe((res) => {
       let response = res as any;
       if (response && response.data && response.data.length) this.currentSettings = response.data[0];
-      
     });
   }
 
@@ -261,6 +288,41 @@ export class SettingsComponent implements OnInit {
     );
   }
 
+  fetchPaymentModeList() {
+    this.paymentModesList =
+    this.sharedService.getItemFromLocalStorage('paymentModes');
+  }
+
+  addPaymentMode() {
+    const paymentModesCount = this.paymentModesList.length + 1;
+    this.addPaymentModeForm.get('type')?.patchValue(paymentModesCount);
+    if (this.addPaymentModeForm.valid) {
+      this.settingsService
+        .addPaymentMode(this.addPaymentModeForm.value)
+        .subscribe((res) => {
+          this.toastr.success('Payment mode added successfully', 'Success!');
+          this.fetchPaymentModes();
+        });
+
+      this.closeModal();
+    } else {
+      this.toastr.error('Failed to add the payment mode', 'Error! Invalid fields');
+    }
+  }
+
+  fetchPaymentModes() {
+    this.settingsService.getPaymentModes().subscribe(
+      (res) => {
+        let response = res as any;
+        this.sharedService.setItemToLocalStorage('paymentModes', response.data);
+        this.fetchPaymentModeList();
+      },
+      (err) => {
+        this.toastr.error('Failed to fetch payment modes', 'Error!');
+      }
+    );
+  }
+
   openModal(modal: TemplateRef<any>, category?: Category) {
     this.editCategory = category ? true : false;
     this.addCategoryForm.get('_id')!.setValue(category?._id);
@@ -275,6 +337,5 @@ export class SettingsComponent implements OnInit {
 
   closeModal() {
     this.confirmUploadmodalRef?.hide();
-    this.addCategoryModalRef?.hide();
   }
 }

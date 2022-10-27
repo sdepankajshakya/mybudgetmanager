@@ -19,7 +19,9 @@ export let config = {
     downloadSpreadsheet: '/downloadSpreadsheet',
     addCategory: '/addcategory',
     deleteCategory: '/deletecategory',
-    contactUs: '/user/contactus'
+    contactUs: '/user/contactus',
+    getPaymentModes: '/getPaymentModes',
+    addPaymentMode: '/addPaymentMode'
   },
 
   months: [

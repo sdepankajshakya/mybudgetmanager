@@ -54,7 +54,7 @@
 }
 
 .pd-tr10 {
-  padding: 10px 10px 0 0 ;
+  padding: 10px 10px 0 0;
 }
 
 .pd-t20 {
@@ -164,6 +164,10 @@
   text-overflow: ellipsis;
 }
 
+.flex {
+  display: flex;
+}
+
 .flexStart {
   display: flex;
   align-items: center;
@@ -264,10 +268,24 @@ input.numberic-text {
 }
 
 .word-break {
- word-break: break-all; 
+  word-break: break-all;
+}
+
+.text-overflow {
+  text-overflow: ellipsis;
+  width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.box-shadow {
+  -webkit-box-shadow: 10px 10px 10px -7px rgba(0, 0, 0, 0.33);
+  -moz-box-shadow: 10px 10px 10px -7px rgba(0, 0, 0, 0.33);
+  box-shadow: 10px 10px 10px -7px rgba(0, 0, 0, 0.33);
 }
 
 @media (max-width: 490px) {
+
   .sidebar,
   .settingsForm {
     padding-top: 66px;

@@ -5,6 +5,7 @@ const schema = mongoose.Schema({
   date: { type: String, require: true },
   amount: { type: Number, require: true },
   note: { type: String, require: false },
+  paymentMode: { type: Number, require: false},
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
 });
 

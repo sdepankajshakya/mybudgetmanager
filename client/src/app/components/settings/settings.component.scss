@@ -39,6 +39,7 @@
   border: 0;
   height: 200px;
   overflow: scroll;
+
   .mat-button-toggle {
     border: 0;
   }
@@ -48,16 +49,12 @@
   width: 41px;
 }
 
-.categories-list {
+.categories-list, .payment-list {
   height: 200px;
   overflow-y: scroll;
 }
 
-// .mat-list-item:nth-child(odd) {
-//   background-color: #f7a105;
-// }
-
-@media (max-width: 850px) {
+@media (max-width: 930px) {
   .settingsForm {
     flex-direction: column;
   }

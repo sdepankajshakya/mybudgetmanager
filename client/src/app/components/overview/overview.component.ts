@@ -103,6 +103,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.getCategories();
     this.getTransactions();
+    this.getPaymentModes();
 
     const userLocale =
       navigator.languages && navigator.languages.length
@@ -193,6 +194,18 @@ export class OverviewComponent implements OnInit, AfterViewInit {
     if (savedCategories?.length) {
       this.setCategoryCount(savedCategories);
     }
+  }
+
+  getPaymentModes() {
+    this.settingsService.getPaymentModes().subscribe(
+      (res) => {
+        let response = res as any;
+        this.sharedService.setItemToLocalStorage('paymentModes', response.data);
+      },
+      (err) => {
+        this.toastr.error('Failed to fetch payment modes', 'Error!');
+      }
+    );
   }
 
   setCategoryCount(data: Category[]) {

@@ -61,6 +61,10 @@ $my-app-dark-theme: mat-dark-theme(
     border-color: $offwhite !important;
     background-color: $offwhite !important;
   }
+
+  .mat-list-item:nth-child(odd) {
+    background-color: rgb(230, 228, 228);
+  }
 }
 
 .darkMode {
@@ -112,6 +116,10 @@ $my-app-dark-theme: mat-dark-theme(
   a:hover {
     color: #f7a105 !important;
     text-decoration: none !important;
+  }
+
+  .mat-list-item:nth-child(odd) {
+    background-color: rgb(128, 128, 128);
   }
 }
 
