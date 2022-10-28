@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { MessageService } from 'src/app/services/message.service';
 import { ErrorHandlerComponent } from '../error-handler/error-handler.component';
 
 @Component({
@@ -19,28 +20,28 @@ export class SignupComponent implements OnInit {
     private dialog: MatDialog,
     private authService: AuthenticationService,
     private toastr: ToastrService,
+    private messageService: MessageService,
     private router: Router
   ) {}
 
   hide = true;
-  isLoading = false;
   color: ThemePalette = 'accent';
 
   ngOnInit(): void {}
 
   onSignup(form: NgForm) {
-    this.isLoading = true;
+    this.messageService.setIsLoading(true);
 
     if (form.invalid) {
       this.dialog.open(ErrorHandlerComponent, {
         data: { message: 'Invalid fields' },
       });
-      this.isLoading = false;
+      this.messageService.setIsLoading(false);
       return;
     }
 
     this.authService.createUser(form.value).subscribe((res) => {
-      this.isLoading = false;
+      this.messageService.setIsLoading(false);
       this.toastr.success(
         'Your account has been successfully created',
         'Success!'

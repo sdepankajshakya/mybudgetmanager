@@ -15,6 +15,7 @@ import {
 } from 'angularx-social-login';
 import { ThemePalette } from '@angular/material/core';
 import { LoginResponse } from 'src/app/models/LoginResponse';
+import { MessageService } from 'src/app/services/message.service';
 
 @Component({
   selector: 'app-login',
@@ -29,7 +30,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private router: Router,
     private authService: AuthenticationService,
-    private socialAuthService: SocialAuthService
+    private socialAuthService: SocialAuthService,
+    private messageService: MessageService
   ) {
     this.loginStatusSubsciption = this.authService
       .getLoginStatus()
@@ -39,7 +41,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   hide = true;
-  isLoading = false;
   color: ThemePalette = 'accent';
 
   ngOnInit(): void {
@@ -49,12 +50,12 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   onLogin(form: NgForm) {
-    this.isLoading = true;
+    this.messageService.setIsLoading(true);
     if (form.invalid) {
       this.dialog.open(ErrorHandlerComponent, {
         data: { message: 'Invalid fields' },
       });
-      this.isLoading = false;
+      this.messageService.setIsLoading(false);
       return;
     }
 
@@ -67,7 +68,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
       },
       (err) => {
-        this.isLoading = false;
+        this.messageService.setIsLoading(false);
       }
     );
   }
@@ -76,15 +77,15 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then((socialUser) => {
       this.authService.signInWithGoogle(socialUser).subscribe(
         (res) => {
+          this.messageService.setIsLoading(true);
           const response = res as LoginResponse;
           if (response.data) {
-            this.isLoading = true;
             this.authService.setLoginStatus(true);
             this.router.navigate(['overview']);
           }
         },
         (err) => {
-          this.isLoading = false;
+          this.messageService.setIsLoading(false);
         }
       );
     }).catch(data => {

@@ -50,7 +50,6 @@ export class OverviewComponent implements OnInit, AfterViewInit {
   search: string = '';
   calendarOptions: any;
   calendarApi!: Calendar;
-  isLoading: boolean = false;
   color: ThemePalette = 'accent';
   categoryCount: any = {};
   private transaction: Transaction = {
@@ -218,7 +217,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
   }
 
   getTransactions() {
-    this.isLoading = true;
+    this.messageService.setIsLoading(true);
     this.transactionService.getTransations().subscribe((res) => {
       const response = res as any;
       if (response) {
@@ -234,7 +233,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
           trans.displayAmount = formatNumber(trans.amount, this.userLocale);
         });
 
-        this.isLoading = false;
+        this.messageService.setIsLoading(false);
 
         // populate month and year dropdown filter
         if (this.transactions.length) {

@@ -76,9 +76,7 @@
     <br>
     <p>Insert data into your account by uploading a spreadsheet</p>
     <div class="flexStart">
-      <button type="button" mat-raised-button color="primary" (click)="openModal(confirmUploadModal)"
-        [disabled]="isLoading">Upload Spreadsheet</button>
-      <mat-spinner class="mg-l5" [diameter]="30" *ngIf="isLoading"></mat-spinner>
+      <button type="button" mat-raised-button color="primary" (click)="openModal(confirmUploadModal)">Upload Spreadsheet</button>
     </div>
     <input class="hidden" type="file" accept=".xlsx" #filePicker (change)="uploadSpreadsheet($event)">
   </div>

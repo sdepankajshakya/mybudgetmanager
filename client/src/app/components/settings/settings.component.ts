@@ -12,6 +12,7 @@ import { FileSaverService } from 'ngx-filesaver';
 import { ToastrService } from 'ngx-toastr';
 import { Category } from 'src/app/models/Category';
 import { Settings } from 'src/app/models/Settings';
+import { MessageService } from 'src/app/services/message.service';
 import { SettingsService } from 'src/app/services/settings.service';
 import { SharedService } from 'src/app/services/shared.service';
 
@@ -26,15 +27,14 @@ export class SettingsComponent implements OnInit {
     private sharedService: SharedService,
     private toastr: ToastrService,
     private modalService: BsModalService,
-    private fileSaverService: FileSaverService
+    private fileSaverService: FileSaverService,
+    private messageService: MessageService
   ) {
     this.currentSettings = {
       currency: null as any,
       darkMode: false
     };
   }
-
-  isLoading: boolean = false;
 
   currencyList: any[] = [];
   categoryList: any[] = [];
@@ -194,7 +194,7 @@ export class SettingsComponent implements OnInit {
   }
 
   uploadSpreadsheet(event: Event) {
-    this.isLoading = true;
+    this.messageService.setIsLoading(true);
     const file = (event.target as HTMLInputElement).files![0];
 
     if (file) {
@@ -206,10 +206,10 @@ export class SettingsComponent implements OnInit {
             'Spreadsheet data successfully added',
             'Success!'
           );
-          this.isLoading = false;
+          this.messageService.setIsLoading(false);
         },
         (err) => {
-          this.isLoading = false;
+          this.messageService.setIsLoading(false);
           this.toastr.error('Failed to process spreadsheet data', 'Error!');
         }
       );

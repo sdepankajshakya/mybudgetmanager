@@ -27,8 +27,7 @@
       </mat-form-field>
       <mat-error *ngIf="password.touched && password.invalid">Please enter a password</mat-error>
 
-      <mat-spinner [color]="color" class="signup" [diameter]="30" *ngIf="isLoading"></mat-spinner>
-      <button type="submit" class="signup" mat-raised-button color="accent" *ngIf="!isLoading">Signup</button>
+      <button type="submit" class="signup" mat-raised-button color="accent">Signup</button>
       <label class="text-16 mg-t20">Have you an account? <a [routerLink]="'/login'">Sign In</a></label>
     </form>
     <div class="logo">
@@ -36,8 +35,4 @@
       <label class="text-20 primary-color">Budget Manager</label>
     </div>
   </div>
-
-  <!-- <mat-card-footer>
-    <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
-  </mat-card-footer> -->
 </div>

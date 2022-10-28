@@ -17,8 +17,11 @@ export class AppComponent implements OnDestroy {
   isLoggedIn: boolean = false;
   messageSubscription: Subscription;
   loginStatusSubsciption: Subscription;
+  isLoadingSubcription: Subscription;
+
   @ViewChild('sidenav') sidenav!: MatSidenav;
   isDarkMode: boolean = false;
+  isLoading: boolean = false;
 
   constructor(
     private authService: AuthenticationService,
@@ -60,6 +63,11 @@ export class AppComponent implements OnDestroy {
       });
 
     if (this.isLoggedIn) this.router.navigate(['overview']);
+
+    this.isLoadingSubcription = this.messageService.isLoading.subscribe(value => {
+      console.log('isLoading ->', value);
+      this.isLoading = value;
+    })
   }
 
   ngOnInit() {}
@@ -76,5 +84,6 @@ export class AppComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.loginStatusSubsciption.unsubscribe();
+    this.isLoadingSubcription.unsubscribe();
   }
 }
