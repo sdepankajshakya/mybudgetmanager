@@ -66,12 +66,13 @@ export class AddTransactionComponent implements OnInit {
     });
     
     if (this.transactionDetails) {
-      const { _id, category, amount, date, note } = this.transactionDetails;
+      const { _id, category, amount, date, note, paymentMode } = this.transactionDetails;
       this.addTransactionForm.patchValue({
         _id,
         category,
         amount,
         date,
+        paymentMode,
         note,
       });
     }

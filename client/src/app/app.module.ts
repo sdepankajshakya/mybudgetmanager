@@ -66,7 +66,7 @@ import { GettingStartedComponent } from './components/getting-started/getting-st
 import { FileSaverModule } from 'ngx-filesaver';
 import { FilterPipe } from './shared/filter.pipe';
 import { HomepageComponent } from './components/homepage/homepage.component';
-import { SpinnerComponent } from './shared/spinner/spinner/spinner.component';
+import { SpinnerComponent } from './shared/spinner/spinner.component';
 
 const web = {
   client_id:

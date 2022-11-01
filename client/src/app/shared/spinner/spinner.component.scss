@@ -1,0 +1,40 @@
+.spinner {
+   position: relative;
+   width: 43.2px;
+   height: 43.2px;
+   perspective: 86.4px;
+   position: fixed;
+   top: calc(50% - (58px / 2));
+   right: calc(50% - (58px / 2));
+}
+
+.spinner {
+   width: 72px;
+   height: 72px;
+   animation: spinner-coin 3s infinite;
+   border-radius: 50%;
+   background-color: #f7a105;
+   transform-origin: center;
+   opacity: 0;
+}
+
+@keyframes spinner-coin {
+   0% {
+      transform: perspective(288px) rotateY(0deg) rotateX(0deg);
+   }
+
+   10% {
+      opacity: 1;
+      transform: perspective(288px) rotateY(-65deg) rotateX(0deg);
+   }
+
+   70% {
+      opacity: 1;
+      transform: perspective(288px) rotateY(1440deg) rotateX(0deg);
+   }
+
+   90%, 100% {
+      opacity: 1;
+      transform: perspective(288px) rotateY(2880deg) rotateX(90deg);
+   }
+}

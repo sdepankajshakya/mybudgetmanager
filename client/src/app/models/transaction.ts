@@ -7,6 +7,7 @@ export interface Transaction {
   date: Date;
   displayDate: any;
   amount: number;
+  paymentMode: number;
   displayAmount: string;
   note: string;
 }

@@ -60,6 +60,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
     },
     date: new Date(),
     displayDate: {},
+    paymentMode: 0,
     amount: null as any,
     displayAmount: '',
     note: '',
@@ -498,7 +499,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
           dataLabels: {
             enabled: true,
             format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-            distance: 5,
+            distance: 10,
           },
           size: '50%',
         },

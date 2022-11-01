@@ -65,7 +65,6 @@ export class AppComponent implements OnDestroy {
     if (this.isLoggedIn) this.router.navigate(['overview']);
 
     this.isLoadingSubcription = this.messageService.isLoading.subscribe(value => {
-      console.log('isLoading ->', value);
       this.isLoading = value;
     })
   }
