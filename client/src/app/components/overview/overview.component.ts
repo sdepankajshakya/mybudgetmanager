@@ -52,6 +52,9 @@ export class OverviewComponent implements OnInit, AfterViewInit {
   calendarApi!: Calendar;
   color: ThemePalette = 'accent';
   categoryCount: any = {};
+  paymentModes: any;
+
+
   private transaction: Transaction = {
     _id: null as any,
     category: {
@@ -200,6 +203,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
     this.settingsService.getPaymentModes().subscribe(
       (res) => {
         let response = res as any;
+        this.paymentModes = response.data;
         this.sharedService.setItemToLocalStorage('paymentModes', response.data);
       },
       (err) => {
@@ -453,19 +457,22 @@ export class OverviewComponent implements OnInit, AfterViewInit {
       });
     });
 
+    if (budgetData?.length)
     this.createExpenseDistributionChart(budgetData);
 
     let IncomeExpenseData = [totalIncome, totalExpense];
-    this.createIncomeExpenseSummaryChart(
-      this.IncomeExpenseSummaryContainer.nativeElement.id,
-      IncomeExpenseData
-    );
+    if (IncomeExpenseData?.length && (totalExpense > 0 || totalIncome > 0)) {
+      this.createIncomeExpenseSummaryChart(
+        this.IncomeExpenseSummaryContainer.nativeElement.id,
+        IncomeExpenseData
+      );
 
-    this.createTotalSavingsChart(
-      this.TotalSavingsContainer.nativeElement.id,
-      totalIncome,
-      totalExpense
-    );
+      this.createTotalSavingsChart(
+        this.TotalSavingsContainer.nativeElement.id,
+        totalIncome,
+        totalExpense
+      );
+    }
   }
 
   createExpenseDistributionChart(data: any) {
@@ -646,6 +653,16 @@ export class OverviewComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       window.dispatchEvent(new Event('resize'));
     }, 300);
+  }
+
+  onViewChange(paymentMode: number) {
+    if (paymentMode === 0) {
+      this.filteredTransactions = this.transactions;
+    } else {
+      this.filteredTransactions = this.transactions.filter((trans) => trans.paymentMode === paymentMode);
+    }
+
+    this.formatChartData(this.filteredTransactions);
   }
 
   ngOnDestroy() {

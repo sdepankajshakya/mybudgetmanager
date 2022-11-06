@@ -21,43 +21,55 @@
 
   <!--Filter-->
   <section class="filter flexStart mg-t15 mg-l10 mg-r10" *ngIf="transactions.length">
-    <div class="filter mg-r10">
-      <mat-icon>filter_list</mat-icon>
-      <label class="text-14 uppercase">Filter</label>
+    <div class="filter-by-date">
+      <div class="filter mg-r10">
+        <mat-icon>filter_list</mat-icon>
+        <label class="text-14 uppercase">Filter</label>
+      </div>
+      <div class="filter-condition">
+        <mat-form-field>
+          <mat-label>Select Month</mat-label>
+          <mat-select [(ngModel)]="selectedMonth" (selectionChange)="filterByDate()">
+            <mat-option *ngFor="let month of transactionMonths" [value]="month.key">{{month.value}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Select Year</mat-label>
+          <mat-select [(ngModel)]="selectedYear" (selectionChange)="filterByDate()">
+            <mat-option *ngFor="let year of transactionYears" [value]="year">{{year}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="flexCenter mg-l10">
+        <mat-icon class="pointer" [matTooltip]="'Clear Filter'" (click)="clearFilter()">clear</mat-icon>
+      </div>
     </div>
-    <div class="filter-condition">
+
+    <div class="dashboard-view">
       <mat-form-field>
-        <mat-label>Select Month</mat-label>
-        <mat-select [(ngModel)]="selectedMonth" (selectionChange)="filterByDate()">
-          <mat-option *ngFor="let month of transactionMonths" [value]="month.key">{{month.value}}</mat-option>
+        <mat-label>Change Dashboard View</mat-label>
+        <mat-select (selectionChange)="onViewChange($event.value)">
+          <mat-option [value]="0">Summary</mat-option>
+          <mat-option *ngFor="let mode of paymentModes" [value]="mode.type">{{mode.name}}</mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field>
-        <mat-label>Select Year</mat-label>
-        <mat-select [(ngModel)]="selectedYear" (selectionChange)="filterByDate()">
-          <mat-option *ngFor="let year of transactionYears" [value]="year">{{year}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="flexCenter mg-l10">
-      <mat-icon class="pointer" [matTooltip]="'Clear Filter'" (click)="clearFilter()">clear</mat-icon>
     </div>
   </section>
 
   <section class="summary">
-    <div class="charts" [hidden]="!transactions.length">
+    <div class="charts" [hidden]="!filteredTransactions.length">
       <div class="flexCol">
         <!--Income Expense Summary-->
         <mat-card class="overview-bar">
           <div #IncomeExpenseSummaryContainer id="IncomeExpenseSummaryContainer">
-            <span class="dataNotAvailable">Data is not available for this metric yet.</span>
+            <span class="dataNotAvailable">Data is not available for this metric.</span>
           </div>
         </mat-card>
 
         <!--Total Savings-->
         <mat-card class="totalSavings-pie">
           <div #TotalSavingsContainer id="TotalSavingsContainer">
-            <span class="dataNotAvailable">Data is not available for this metric yet.</span>
+            <span class="dataNotAvailable">Data is not available for this metric.</span>
           </div>
         </mat-card>
       </div>
@@ -67,6 +79,7 @@
         <mat-card class="overview-pie">
           <highcharts-chart *ngIf="expenseDistOptions" [Highcharts]="Highcharts" [options]="expenseDistOptions">
           </highcharts-chart>
+          <span *ngIf="!expenseDistOptions" class="dataNotAvailable">Data is not available for this metric.</span>
         </mat-card>
 
         <!--Calendar-->
@@ -77,7 +90,7 @@
     </div>
 
     <!--Transactions List-->
-    <div class="recent-transactions">
+    <div class="recent-transactions" *ngIf="filteredTransactions.length">
       <mat-form-field class="search mg-10" [hidden]="!transactions.length">
         <input type="text" matInput placeholder="Search by category or note" name="search" [(ngModel)]="search"
           (ngModelChange)="filterbySearch()">
@@ -86,7 +99,7 @@
         </button>
       </mat-form-field>
       <!-- <label class="text-20 mg-t10">Recent Transactions</label> -->
-      <div class="transaction-list" *ngIf="filteredTransactions.length">
+      <div class="transaction-list">
         <app-transaction-list [transactions]="filteredTransactions" [currencySymbol]="currency.symbol">
         </app-transaction-list>
       </div>
@@ -96,5 +109,10 @@
     <button mat-icon-button class="add-transaction" (click)="openAddTransactionModal()" @fade>
       <img src="/assets/images/plus.png" alt="Add Transaction" width="60px" />
     </button>
+  </section>
+
+  <section class="welcome centered" *ngIf="!filteredTransactions.length && transactions.length">
+    <img src="/assets/images/warning.png" alt="Data not available" width="40px" />
+    <h2>Transactions not available</h2>
   </section>
 </div>

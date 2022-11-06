@@ -1,4 +1,4 @@
-import { Component, HostBinding, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, HostBinding, OnDestroy, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { MatSidenav } from '@angular/material/sidenav';
@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnDestroy {
+export class AppComponent implements AfterViewChecked, OnDestroy {
   title = 'budget-manager';
   isLoggedIn: boolean = false;
   messageSubscription: Subscription;
@@ -26,7 +26,8 @@ export class AppComponent implements OnDestroy {
   constructor(
     private authService: AuthenticationService,
     private messageService: MessageService,
-    private router: Router
+    private router: Router,
+    private cd: ChangeDetectorRef
   ) {
     this.loginStatusSubsciption = this.authService
       .getLoginStatus()
@@ -70,6 +71,10 @@ export class AppComponent implements OnDestroy {
   }
 
   ngOnInit() {}
+
+  ngAfterViewChecked(): void {
+    this.cd.detectChanges();
+  }
 
   close(reason: string) {
     this.sidenav.close();

@@ -12,6 +12,14 @@
 .filter {
   display: flex;
   gap: 15px;
+  justify-content: space-between;
+}
+
+.filter-by-date {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  padding-right: 11px;
 }
 
 .filter-condition {
@@ -202,5 +210,15 @@
   .add-transaction {
     height: 60px;
     width: 60px;
+  }
+}
+
+@media (max-width: 752px) {
+  .filter {
+    display: flex;
+    flex-direction: column;
+  }
+  .dashboard-view {
+    padding-left: 5px;
   }
 }
