@@ -21,7 +21,8 @@ export let config = {
     deleteCategory: '/deletecategory',
     contactUs: '/user/contactus',
     getPaymentModes: '/getPaymentModes',
-    addPaymentMode: '/addPaymentMode'
+    addPaymentMode: '/addPaymentMode',
+    deletePaymentMode: '/deletePaymentMode'
   },
 
   months: [

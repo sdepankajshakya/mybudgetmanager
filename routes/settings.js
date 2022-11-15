@@ -283,4 +283,19 @@ router.post("/api/addPaymentMode", checkAuth, (req, res, next) => {
   }
 });
 
+router.post("/api/deletePaymentMode", checkAuth, (req, res, next) => {
+  const mode = new PaymentMode(req.body);
+
+  if (!req.body._id) utils.sendErrorResponse(res, 400, "Bad Request", "Invalid object id received. Cannot delete payment mode.");
+  else {
+    PaymentMode.findByIdAndRemove({ _id: mode._id, user: req.currentUser.userId }, (err, result) => {
+      if (err) {
+        utils.sendErrorResponse(res, 400, err.name, err.message);
+      } else {
+        utils.sendSuccessResponse(res, 200, "Payment mode deleted succesfully!", null);
+      }
+    });
+  }
+});
+
 module.exports = router;

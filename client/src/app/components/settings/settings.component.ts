@@ -11,6 +11,7 @@ import { FileSaverService } from 'ngx-filesaver';
 
 import { ToastrService } from 'ngx-toastr';
 import { Category } from 'src/app/models/Category';
+import { PaymentMode } from 'src/app/models/PaymentMode';
 import { Settings } from 'src/app/models/Settings';
 import { MessageService } from 'src/app/services/message.service';
 import { SettingsService } from 'src/app/services/settings.service';
@@ -277,15 +278,17 @@ export class SettingsComponent implements OnInit {
   }
 
   deleteCategory(category: Category) {
-    this.settingsService.deleteCategory(category).subscribe(
-      (res) => {
-        this.toastr.success('Category deleted successfully', 'Success!');
-        this.fetchCategories();
-      },
-      (err) => {
-        this.toastr.error('Failed to delete the category', 'Error!');
-      }
-    );
+    if (confirm(`Are you sure you want to delete category ${category.name}?`)) {
+      this.settingsService.deleteCategory(category).subscribe(
+        (res) => {
+          this.toastr.success('Category deleted successfully', 'Success!');
+          this.fetchCategories();
+        },
+        (err) => {
+          this.toastr.error('Failed to delete the category', 'Error!');
+        }
+      );
+    }
   }
 
   fetchPaymentModeList() {
@@ -321,6 +324,20 @@ export class SettingsComponent implements OnInit {
         this.toastr.error('Failed to fetch payment modes', 'Error!');
       }
     );
+  }
+
+  onDeletePaymentMode(mode: PaymentMode) {
+    if (confirm(`Are you sure you want to delete category ${mode.name}?`)) {
+      this.settingsService.deletePaymentMode(mode).subscribe(
+        (res) => {
+          this.toastr.success('Payment mode deleted successfully', 'Success!');
+          this.fetchPaymentModes();
+        },
+        (err) => {
+          this.toastr.error('Failed to delete the payment mode', 'Error!');
+        }
+      );
+    }
   }
 
   openModal(modal: TemplateRef<any>, category?: Category) {

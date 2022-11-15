@@ -34,7 +34,7 @@
             <button mat-icon-button color="primary" class="mg-t5" [matTooltip]="'Edit'" (click)="openModal(addCategoryModal, mode)">
               <i class="fa fa-edit fa-2x"></i>
             </button>
-            <button mat-icon-button color="warn" [matTooltip]="'Delete'">
+            <button mat-icon-button color="warn" [matTooltip]="'Delete'" (click)="onDeletePaymentMode(mode)">
               <i class="fa fa-trash fa-2x"></i>
             </button>
           </div>
@@ -163,7 +163,7 @@
     <form class="add-category-form" [formGroup]="addPaymentModeForm">
       <mat-form-field appearance="outline">
         <mat-label>Name</mat-label>
-        <input matInput formControlName="name" [maxlength]="20" required>
+        <input matInput formControlName="name" [maxlength]="50" required>
       </mat-form-field>
 
       <label class="text-14 pd-t10"><strong>Choose an icon</strong></label>

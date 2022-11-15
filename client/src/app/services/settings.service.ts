@@ -111,6 +111,13 @@ export class SettingsService implements Resolve<any> {
     );
   }
 
+  deletePaymentMode(category: PaymentMode) {
+    return this.http.post(
+      config.apiBaseUrl + config.urls.deletePaymentMode,
+      category
+    );
+  }
+
   contactUs(message: ContactUs) {
     return this.http.post(
       config.apiBaseUrl + config.urls.contactUs,
