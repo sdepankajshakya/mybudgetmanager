@@ -405,7 +405,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
           filterTransactionsBasedOnKeyword.push(trans);
         }
       });
-      this.filteredTransactions = filterTransactionsBasedOnKeyword;
+      this.filteredTransactions = filterTransactionsBasedOnKeyword.length ? filterTransactionsBasedOnKeyword : this.transactions;
     } else {
       this.filteredTransactions = this.transactions;
     }

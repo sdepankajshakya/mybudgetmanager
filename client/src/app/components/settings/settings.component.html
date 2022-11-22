@@ -20,7 +20,7 @@
     <!--Mode of Payment-->
     <section class="pd-t10">
       <label class="text-16 pd-tr10"><strong>Modes of Payment</strong></label>
-      <button mat-icon-button (click)="openModal(addPaymentModeModal)" [matTooltip]="'Add Mode of Payment'">
+      <button mat-icon-button (click)="openPaymentModal(addPaymentModeModal)" [matTooltip]="'Add Mode of Payment'">
         <img src="/assets/images/plus.png" alt="Add Mode of Payment" width="30px" />
       </button>
     </section>
@@ -31,7 +31,7 @@
             <img src={{mode.icon}} width="25px" /> {{mode.name}}
           </div>
           <div class="pd-l40 flex" *ngIf="mode.user">
-            <button mat-icon-button color="primary" class="mg-t5" [matTooltip]="'Edit'" (click)="openModal(addCategoryModal, mode)">
+            <button mat-icon-button color="primary" class="mg-t5" [matTooltip]="'Edit'" (click)="openPaymentModal(addPaymentModeModal, mode)">
               <i class="fa fa-edit fa-2x"></i>
             </button>
             <button mat-icon-button color="warn" [matTooltip]="'Delete'" (click)="onDeletePaymentMode(mode)">
@@ -45,7 +45,7 @@
     <!--Category-->
     <section class="pd-t10">
       <label class="text-16 pd-tr10"><strong>Categories</strong></label>
-      <button mat-icon-button (click)="openModal(addCategoryModal)" [matTooltip]="'Add category'">
+      <button mat-icon-button (click)="openCategoryModal(addCategoryModal)" [matTooltip]="'Add category'">
         <img src="/assets/images/plus.png" alt="Add Category" width="30px" />
       </button>
     </section>
@@ -56,7 +56,7 @@
             <img src={{category.icon}} width="25px" /> {{category.name}}
           </div>
           <div class="pd-l40 flex" *ngIf="category.user">
-            <button mat-icon-button color="primary" class="mg-t5" [matTooltip]="'Edit'" (click)="openModal(addCategoryModal, category)">
+            <button mat-icon-button color="primary" class="mg-t5" [matTooltip]="'Edit'" (click)="openCategoryModal(addCategoryModal, category)">
               <i class="fa fa-edit fa-2x"></i>
             </button>
             <button mat-icon-button color="warn" [matTooltip]="'Delete'" (click)="deleteCategory(category)">
@@ -76,7 +76,7 @@
     <br>
     <p>Insert data into your account by uploading a spreadsheet</p>
     <div class="flexStart">
-      <button type="button" mat-raised-button color="primary" (click)="openModal(confirmUploadModal)">Upload Spreadsheet</button>
+      <button type="button" mat-raised-button color="primary" (click)="openCategoryModal(confirmUploadModal)">Upload Spreadsheet</button>
     </div>
     <input class="hidden" type="file" accept=".xlsx" #filePicker (change)="uploadSpreadsheet($event)">
   </div>
@@ -129,7 +129,7 @@
     <form class="add-category-form" [formGroup]="addCategoryForm">
       <mat-form-field appearance="outline">
         <mat-label>Name</mat-label>
-        <input matInput formControlName="name" [maxlength]="20" required>
+        <input matInput formControlName="name" [maxlength]="30" required>
       </mat-form-field>
 
       <label class="text-14"><strong>Transaction type</strong></label>
