@@ -1,40 +1,93 @@
+// .spinner {
+//    width: 72px;
+//    height: 72px;
+//    perspective: 86.4px;
+//    position: fixed;
+//    top: calc(50% - (58px / 2));
+//    right: calc(50% - (58px / 2));
+//    animation: spinner-coin 3s infinite;
+//    border-radius: 50%;
+//    background-color: #f7a105;
+//    transform-origin: center;
+//    opacity: 0;
+// }
+
+// @keyframes spinner-coin {
+//    0% {
+//       transform: perspective(288px) rotateY(0deg) rotateX(0deg);
+//    }
+
+//    10% {
+//       opacity: 1;
+//       transform: perspective(288px) rotateY(-65deg) rotateX(0deg);
+//    }
+
+//    70% {
+//       opacity: 1;
+//       transform: perspective(288px) rotateY(1440deg) rotateX(0deg);
+//    }
+
+//    90% {
+//       opacity: 1;
+//       transform: perspective(288px) rotateY(2880deg) rotateX(90deg);
+//    }
+
+//    100% {
+//       opacity: 1;
+//       transform: perspective(288px) rotateY(2880deg) rotateX(90deg);
+//    }
+// }
+
 .spinner {
-   position: relative;
-   width: 43.2px;
-   height: 43.2px;
-   perspective: 86.4px;
    position: fixed;
    top: calc(50% - (58px / 2));
    right: calc(50% - (58px / 2));
+   width: 39.6px;
+   height: 39.6px;
+   perspective: 67.2px;
 }
 
-.spinner {
-   width: 72px;
-   height: 72px;
-   animation: spinner-coin 3s infinite;
-   border-radius: 50%;
-   background-color: #f7a105;
-   transform-origin: center;
-   opacity: 0;
+.spinner div {
+   width: 100%;
+   height: 100%;
+   background: #f7a105;
+   position: absolute;
+   left: 50%;
+   transform-origin: left;
+   animation: spinner-16s03x 2s infinite;
 }
 
-@keyframes spinner-coin {
+.spinner div:nth-child(1) {
+   animation-delay: 0.15s;
+}
+
+.spinner div:nth-child(2) {
+   animation-delay: 0.3s;
+}
+
+.spinner div:nth-child(3) {
+   animation-delay: 0.45s;
+}
+
+.spinner div:nth-child(4) {
+   animation-delay: 0.6s;
+}
+
+.spinner div:nth-child(5) {
+   animation-delay: 0.75s;
+}
+
+@keyframes spinner-16s03x {
    0% {
-      transform: perspective(288px) rotateY(0deg) rotateX(0deg);
+      transform: rotateY(0deg);
    }
 
-   10% {
-      opacity: 1;
-      transform: perspective(288px) rotateY(-65deg) rotateX(0deg);
-   }
-
-   70% {
-      opacity: 1;
-      transform: perspective(288px) rotateY(1440deg) rotateX(0deg);
+   50%, 80% {
+      transform: rotateY(-180deg);
    }
 
    90%, 100% {
-      opacity: 1;
-      transform: perspective(288px) rotateY(2880deg) rotateX(90deg);
+      opacity: 0;
+      transform: rotateY(-180deg);
    }
 }
