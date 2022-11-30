@@ -21,12 +21,8 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-builders/custom-webpack:browser",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "customWebpackConfig": {
-              "path": "src/custom-webpack.config.js",
-              "replaceDuplicatePlugins": true
-            },
             "outputPath": "public/",
             "index": "src/index.html",
             "main": "src/main.ts",
