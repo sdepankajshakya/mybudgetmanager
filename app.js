@@ -3,12 +3,14 @@ const app = express();
 const db = require("./db");
 const bodyParser = require("body-parser");
 const path = require("path");
+const compression = require('compression');
 
 const transactionRoutes = require("./routes/transactions");
 const userRoutes = require("./routes/user");
 const settingsRoute = require("./routes/settings");
 const contactUsRoute = require("./routes/contactus");
 
+app.use(compression());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
