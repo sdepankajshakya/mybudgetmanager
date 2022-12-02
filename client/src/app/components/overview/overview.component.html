@@ -48,9 +48,12 @@
     <div class="dashboard-view">
       <mat-form-field>
         <mat-label>Change Dashboard View</mat-label>
-        <mat-select (selectionChange)="onViewChange($event.value)">
+        <mat-select [(ngModel)]="selectedView" (selectionChange)="onViewChange($event.value)">
           <mat-option [value]="0">Summary</mat-option>
-          <mat-option *ngFor="let mode of paymentModes" [value]="mode.type">{{mode.name}}</mat-option>
+          <mat-option *ngFor="let mode of paymentModes" [value]="mode.type">
+            <img src="{{mode.icon}}" alt="{{mode.type}}" width="30px">
+            {{mode.name}}
+          </mat-option>
         </mat-select>
       </mat-form-field>
     </div>

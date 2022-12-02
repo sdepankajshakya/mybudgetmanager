@@ -27,6 +27,7 @@ import { fade } from 'src/app/shared/animations';
 import { formatNumber } from '@angular/common';
 import { FullCalendarComponent } from '@fullcalendar/angular/lib/fullcalendar.component';
 import { Calendar } from '@fullcalendar/angular';
+import { PaymentMode } from 'src/app/models/PaymentMode';
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
@@ -47,13 +48,13 @@ export class OverviewComponent implements OnInit, AfterViewInit {
   transactionYears: number[] = [];
   selectedMonth: number = 0;
   selectedYear: number = 0;
+  selectedView = null;
   search: string = '';
   calendarOptions: any;
   calendarApi!: Calendar;
   color: ThemePalette = 'accent';
   categoryCount: any = {};
-  paymentModes: any;
-
+  paymentModes: PaymentMode[] = [];
 
   private transaction: Transaction = {
     _id: null as any,
@@ -134,6 +135,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
 
   clearFilter() {
     this.selectedMonth = this.selectedYear = 0;
+    this.selectedView = null;
     this.filterByDate();
   }
 
@@ -506,9 +508,9 @@ export class OverviewComponent implements OnInit, AfterViewInit {
           dataLabels: {
             enabled: true,
             format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-            distance: 10,
+            distance: 5,
           },
-          size: '50%',
+          size: '70%',
         },
       },
       series: [
