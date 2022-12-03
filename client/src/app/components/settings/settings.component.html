@@ -20,7 +20,7 @@
     <!--Mode of Payment-->
     <section class="pd-t10">
       <label class="text-16 pd-tr10"><strong>Modes of Payment</strong></label>
-      <button mat-icon-button (click)="openPaymentModal(addPaymentModeModal)" [matTooltip]="'Add Mode of Payment'">
+      <button mat-icon-button (click)="openPaymentModal(addPaymentModeModal)" [matTooltip]="'Add Mode of Payment'" [attr.aria-label]="'addPayment'">
         <img src="/assets/images/plus.png" alt="Add Mode of Payment" width="30px" />
       </button>
     </section>
@@ -28,13 +28,13 @@
       <mat-list role="list" class="payment-list">
         <mat-list-item role="listitem" *ngFor="let mode of paymentModesList">
           <div>
-            <img src={{mode.icon}} width="25px" /> {{mode.name}}
+            <img src={{mode.icon}} width="25px" alt="payment-icon" /> {{mode.name}}
           </div>
           <div class="pd-l40 flex" *ngIf="mode.user">
-            <button mat-icon-button color="primary" class="mg-t5" [matTooltip]="'Edit'" (click)="openPaymentModal(addPaymentModeModal, mode)">
+            <button mat-icon-button color="primary" class="mg-t5" [matTooltip]="'Edit'" (click)="openPaymentModal(addPaymentModeModal, mode)" [attr.aria-label]="'edit'">
               <i class="fa fa-edit fa-2x"></i>
             </button>
-            <button mat-icon-button color="warn" [matTooltip]="'Delete'" (click)="onDeletePaymentMode(mode)">
+            <button mat-icon-button color="warn" [matTooltip]="'Delete'" (click)="onDeletePaymentMode(mode)" [attr.aria-label]="'delete'">
               <i class="fa fa-trash fa-2x"></i>
             </button>
           </div>
@@ -45,7 +45,7 @@
     <!--Category-->
     <section class="pd-t10">
       <label class="text-16 pd-tr10"><strong>Categories</strong></label>
-      <button mat-icon-button (click)="openCategoryModal(addCategoryModal)" [matTooltip]="'Add category'">
+      <button mat-icon-button (click)="openCategoryModal(addCategoryModal)" [matTooltip]="'Add category'" [attr.aria-label]="'addCategory'">
         <img src="/assets/images/plus.png" alt="Add Category" width="30px" />
       </button>
     </section>
@@ -53,13 +53,13 @@
       <mat-list role="list" class="categories-list">
         <mat-list-item role="listitem" *ngFor="let category of categoryList">
           <div>
-            <img src={{category.icon}} width="25px" /> {{category.name}}
+            <img src={{category.icon}} width="25px" alt="category-icon" /> {{category.name}}
           </div>
           <div class="pd-l40 flex" *ngIf="category.user">
-            <button mat-icon-button color="primary" class="mg-t5" [matTooltip]="'Edit'" (click)="openCategoryModal(addCategoryModal, category)">
+            <button mat-icon-button color="primary" class="mg-t5" [matTooltip]="'Edit'" (click)="openCategoryModal(addCategoryModal, category)" [attr.aria-label]="'edit'">
               <i class="fa fa-edit fa-2x"></i>
             </button>
-            <button mat-icon-button color="warn" [matTooltip]="'Delete'" (click)="deleteCategory(category)">
+            <button mat-icon-button color="warn" [matTooltip]="'Delete'" (click)="deleteCategory(category)" [attr.aria-label]="'delete'">
               <i class="fa fa-trash fa-2x"></i>
             </button>
           </div>
@@ -141,7 +141,7 @@
       <label class="text-14 pd-t10"><strong>Choose an icon</strong></label>
       <mat-button-toggle-group name="iconPath" aria-label="icon" formControlName="icon">
         <mat-button-toggle [value]="icon" *ngFor="let icon of categoryIconPaths">
-          <img class="icon" aria-hidden [src]="icon">
+          <img class="icon" aria-hidden [src]="icon" alt="category-icon">
         </mat-button-toggle>
       </mat-button-toggle-group>
     </form>
@@ -169,7 +169,7 @@
       <label class="text-14 pd-t10"><strong>Choose an icon</strong></label>
       <mat-button-toggle-group name="iconPath" aria-label="icon" formControlName="icon">
         <mat-button-toggle [value]="icon" *ngFor="let icon of paymentIconPaths">
-          <img class="icon" aria-hidden [src]="icon">
+          <img class="icon" aria-hidden [src]="icon" alt="payment-icon">
         </mat-button-toggle>
       </mat-button-toggle-group>
     </form>
