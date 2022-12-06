@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'https://mybudgetmanager.vercel.app/api',
+  apiBaseUrl: 'https://mybudgetmanager.onrender.com/api',
 };
