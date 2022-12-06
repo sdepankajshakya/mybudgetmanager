@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'https://mybudgetmanager.onrender.com/api',
+  apiBaseUrl: 'https://mybudgetmanager.up.railway.app/api',
 };

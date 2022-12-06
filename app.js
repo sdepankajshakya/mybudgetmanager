@@ -22,6 +22,7 @@ app.use((req, res, next) => {
 });
 
 // user routes
+app.get('/api', (req, res) => res.send('Budget Manager API Working successfully ✅'))
 app.use(transactionRoutes, settingsRoute);
 app.use("/api/user", userRoutes, contactUsRoute);
 
