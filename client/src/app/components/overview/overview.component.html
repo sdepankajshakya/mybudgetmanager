@@ -80,7 +80,7 @@
       <!--Expense Distribution by Category-->
       <div class="flexCol min-w60">
         <mat-card class="overview-pie">
-          <highcharts-chart *ngIf="expenseDistOptions" [Highcharts]="Highcharts" [options]="expenseDistOptions">
+          <highcharts-chart *ngIf="expenseDistOptions" [Highcharts]="Highcharts" [options]="expenseDistOptions" [callbackFunction]="expenseDistChartCb">
           </highcharts-chart>
           <span *ngIf="!expenseDistOptions" class="dataNotAvailable">Data is not available for this metric.</span>
         </mat-card>

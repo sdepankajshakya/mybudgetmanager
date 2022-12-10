@@ -358,6 +358,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
         }
 
         this.filterByDate();
+        if (this.search) this.filterbySearch();
       }
     });
   }
@@ -510,7 +511,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
             format: '<b>{point.name}</b>: {point.percentage:.1f} %',
             distance: 5,
           },
-          size: '70%',
+          // size: '30%',
         },
       },
       series: [
@@ -526,6 +527,10 @@ export class OverviewComponent implements OnInit, AfterViewInit {
       window.dispatchEvent(new Event('resize'));
     }, 300);
   }
+
+  expenseDistChartCb: Highcharts.ChartCallbackFunction = (chart) => {
+    chart.reflow();
+  };
 
   createIncomeExpenseSummaryChart(container: any, data: any) {
     const options: any = {
