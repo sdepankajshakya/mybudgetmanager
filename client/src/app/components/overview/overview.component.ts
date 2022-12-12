@@ -71,7 +71,8 @@ export class OverviewComponent implements OnInit, AfterViewInit {
   };
 
   @ViewChild('IncomeExpenseSummaryContainer', { static: false })
-  IncomeExpenseSummaryContainer: ElementRef<HTMLInputElement> = {} as ElementRef;
+  IncomeExpenseSummaryContainer: ElementRef<HTMLInputElement> =
+    {} as ElementRef;
   @ViewChild('TotalSavingsContainer', { static: false })
   TotalSavingsContainer: ElementRef<HTMLInputElement> = {} as ElementRef;
   @ViewChild('fullCalendar', { static: false })
@@ -408,7 +409,9 @@ export class OverviewComponent implements OnInit, AfterViewInit {
           filterTransactionsBasedOnKeyword.push(trans);
         }
       });
-      this.filteredTransactions = filterTransactionsBasedOnKeyword.length ? filterTransactionsBasedOnKeyword : this.transactions;
+      this.filteredTransactions = filterTransactionsBasedOnKeyword.length
+        ? filterTransactionsBasedOnKeyword
+        : this.transactions;
     } else {
       this.filteredTransactions = this.transactions;
     }
@@ -460,8 +463,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
       });
     });
 
-    if (budgetData?.length)
-    this.createExpenseDistributionChart(budgetData);
+    if (budgetData?.length) this.createExpenseDistributionChart(budgetData);
 
     let IncomeExpenseData = [totalIncome, totalExpense];
     if (IncomeExpenseData?.length && (totalExpense > 0 || totalIncome > 0)) {
@@ -501,6 +503,14 @@ export class OverviewComponent implements OnInit, AfterViewInit {
       tooltip: {
         pointFormat: this.currency.symbol + '{point.y}',
       },
+      legend: {
+        itemStyle: {
+          color: '#A0A0A0',
+        },
+        itemHoverStyle: {
+          color: '#A0A0A0',
+        },
+      },
       plotOptions: {
         pie: {
           allowPointSelect: true,
@@ -511,6 +521,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
             format: '<b>{point.name}</b>: {point.percentage:.1f} %',
             distance: 5,
           },
+          showInLegend: true,
           // size: '30%',
         },
       },
@@ -567,7 +578,6 @@ export class OverviewComponent implements OnInit, AfterViewInit {
       tooltip: {
         pointFormat: this.currency.symbol + '{point.y}',
       },
-      colors: ['#F2B341'],
       plotOptions: {
         series: {
           dataLabels: {
@@ -577,6 +587,8 @@ export class OverviewComponent implements OnInit, AfterViewInit {
           },
           pointPadding: 0.1,
           groupPadding: 0,
+          colorByPoint: true,
+          colors: [' #32CD32', '#FF3131'],
         },
       },
       legend: {
@@ -596,6 +608,23 @@ export class OverviewComponent implements OnInit, AfterViewInit {
     };
 
     Highcharts.chart(container, options);
+    const colors: any = Highcharts.getOptions().colors?.map(function (color: string) {
+      return {
+        radialGradient: {
+          cx: 0.4,
+          cy: 0.3,
+          r: 0.5,
+        },
+        stops: [
+          [0, color],
+          [1, Highcharts.color(color).brighten(-0.3).get('rgb')],
+        ],
+      };
+    });
+
+    // Highcharts.setOptions({
+    //   colors: colors,
+    // });
 
     setTimeout(() => {
       window.dispatchEvent(new Event('resize'));
@@ -666,7 +695,9 @@ export class OverviewComponent implements OnInit, AfterViewInit {
     if (paymentMode === 0) {
       this.filteredTransactions = this.transactions;
     } else {
-      this.filteredTransactions = this.transactions.filter((trans) => trans.paymentMode === paymentMode);
+      this.filteredTransactions = this.transactions.filter(
+        (trans) => trans.paymentMode === paymentMode
+      );
     }
 
     this.formatChartData(this.filteredTransactions);
