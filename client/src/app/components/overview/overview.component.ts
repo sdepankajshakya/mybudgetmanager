@@ -608,19 +608,19 @@ export class OverviewComponent implements OnInit, AfterViewInit {
     };
 
     Highcharts.chart(container, options);
-    const colors: any = Highcharts.getOptions().colors?.map(function (color: string) {
-      return {
-        radialGradient: {
-          cx: 0.4,
-          cy: 0.3,
-          r: 0.5,
-        },
-        stops: [
-          [0, color],
-          [1, Highcharts.color(color).brighten(-0.3).get('rgb')],
-        ],
-      };
-    });
+    // const colors: any = Highcharts.getOptions().colors?.map(function (color: string) {
+    //   return {
+    //     radialGradient: {
+    //       cx: 0.4,
+    //       cy: 0.3,
+    //       r: 0.5,
+    //     },
+    //     stops: [
+    //       [0, color],
+    //       [1, Highcharts.color(color).brighten(-0.3).get('rgb')],
+    //     ],
+    //   };
+    // });
 
     // Highcharts.setOptions({
     //   colors: colors,
