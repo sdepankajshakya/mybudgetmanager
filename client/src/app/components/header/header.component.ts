@@ -5,7 +5,7 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 import { ThemePalette } from '@angular/material/core';
 import { MessageService } from 'src/app/services/message.service';
 import { SharedService } from 'src/app/services/shared.service';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { SettingsService } from 'src/app/services/settings.service';
 import { Settings } from 'src/app/models/Settings';
 
@@ -22,6 +22,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   color: ThemePalette = 'accent';
   isDarkMode: boolean = false;
   currentSettings!: Settings;
+  currentRoute: string = '';
 
   constructor(
     private authService: AuthenticationService,
@@ -54,6 +55,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
           this.isDarkMode = true;
         }
       });
+
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd)
+        this.currentRoute = event.url;
+    });
   }
 
   ngOnInit(): void {}
@@ -61,15 +67,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
   toggleDarkmode() {
     this.currentSettings =
       this.sharedService.getItemFromLocalStorage('settings');
-    
+
     if (!this.currentSettings) {
       // default current settings
       this.currentSettings = {
         currency: null as any,
-        darkMode: false
+        darkMode: false,
       };
     }
-    
+
     if (this.isDarkMode) {
       this.currentSettings.darkMode = false;
       this.messageService.sendMessage('lightMode');
@@ -101,7 +107,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   goToHome() {
-    this.isLoggedIn ? this.router.navigate(['overview']) : this.router.navigate(['']);
+    this.isLoggedIn
+      ? this.router.navigate(['overview'])
+      : this.router.navigate(['']);
   }
 
   goToLogin() {

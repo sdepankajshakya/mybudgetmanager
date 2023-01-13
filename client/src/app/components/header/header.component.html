@@ -30,7 +30,7 @@
       </button>
     </mat-menu>
   </div>
-  <button mat-raised-button color="accent" class="login-btn pd-10" *ngIf="!isLoggedIn" (click)="goToLogin()">
+  <button mat-raised-button color="accent" class="login-btn pd-10" *ngIf="!isLoggedIn && currentRoute !== '/login'" (click)="goToLogin()">
     Go to login
     <mat-icon>arrow_right_alt</mat-icon>
   </button>
