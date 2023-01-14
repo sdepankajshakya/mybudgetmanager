@@ -35,8 +35,7 @@ const routes: Routes = [
   },
   {
     path: 'contactus',
-    component: ContactUsComponent,
-    canActivate: [AuthenticationGuard],
+    component: ContactUsComponent
   },
 ];
 

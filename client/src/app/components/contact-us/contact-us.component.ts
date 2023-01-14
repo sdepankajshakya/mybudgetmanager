@@ -31,9 +31,9 @@ export class ContactUsComponent implements OnInit {
     }
 
     this.contactUsForm = this.fb.group({
-      firstName: new FormControl(this.currentUser.firstName),
-      lastName: new FormControl(this.currentUser.lastName),
-      email: new FormControl(this.currentUser.email, Validators.required),
+      firstName: new FormControl(this.currentUser ? this.currentUser.firstName: ''),
+      lastName: new FormControl(this.currentUser ? this.currentUser.lastName: ''),
+      email: new FormControl(this.currentUser ? this.currentUser.email : '', Validators.required),
       message: new FormControl('', Validators.required),
     });
   }

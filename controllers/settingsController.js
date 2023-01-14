@@ -15,7 +15,6 @@ exports.contactus = (req, res, next) => {
     utils.sendErrorResponse(res, 400, "Failed to send", "Request body not found");
   } else {
     const contactus = new ContactUs(req.body);
-    contactus.user = req.currentUser.userId;
 
     if (!req.body._id) {
       // insert
