@@ -24,7 +24,7 @@ import { SettingsService } from 'src/app/services/settings.service';
 import { ToastrService } from 'ngx-toastr';
 import { Category } from 'src/app/models/Category';
 import { fade } from 'src/app/shared/animations';
-import { formatNumber } from '@angular/common';
+import { formatNumber, getCurrencySymbol } from '@angular/common';
 import { FullCalendarComponent } from '@fullcalendar/angular/lib/fullcalendar.component';
 import { Calendar } from '@fullcalendar/angular';
 import { PaymentMode } from 'src/app/models/PaymentMode';
@@ -504,11 +504,18 @@ export class OverviewComponent implements OnInit, AfterViewInit {
         pointFormat: this.currency.symbol + '{point.y}',
       },
       legend: {
+        enabled: true,
         itemStyle: {
           color: '#A0A0A0',
         },
         itemHoverStyle: {
           color: '#A0A0A0',
+        },
+        labelFormatter: function () {
+          const chart = this as any;
+          return (
+            chart.name + ': ' + Highcharts.numberFormat(chart.percentage, 2) + '%'
+          );
         },
       },
       plotOptions: {
