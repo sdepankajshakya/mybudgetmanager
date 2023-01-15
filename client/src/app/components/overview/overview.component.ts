@@ -511,10 +511,13 @@ export class OverviewComponent implements OnInit, AfterViewInit {
         itemHoverStyle: {
           color: '#A0A0A0',
         },
+        labelFormat: '{point.name}' + this.currency.symbol,
         labelFormatter: function () {
           const chart = this as any;
           return (
-            chart.name + ': ' + chart.y + '(' + Highcharts.numberFormat(chart.percentage, 2) + '%' + ')'
+            chart.name + ': ' +
+            Highcharts.numberFormat(chart.y, 0, '.', ',') +
+            ' (' + Highcharts.numberFormat(chart.percentage, 2) + '%' + ')'
           );
         },
       },
