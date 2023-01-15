@@ -514,7 +514,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
         labelFormatter: function () {
           const chart = this as any;
           return (
-            chart.name + ': ' + Highcharts.numberFormat(chart.percentage, 2) + '%'
+            chart.name + ': ' + chart.y + '(' + Highcharts.numberFormat(chart.percentage, 2) + '%' + ')'
           );
         },
       },
