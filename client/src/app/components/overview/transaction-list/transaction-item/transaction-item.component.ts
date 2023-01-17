@@ -82,7 +82,7 @@ export class TransactionItemComponent implements OnInit {
       );
       return selectedCategory[0]?.icon;
     } else {
-      return '';
+      return '/assets/images/categories/corrupt.png';
     }
   }
 
