@@ -175,6 +175,7 @@
   }
   .recent-transactions {
     padding-top: 40px;
+    width: 40%;
   }
 }
 
@@ -183,9 +184,20 @@
     display: flex;
     flex-direction: column;
   }
-  // .recent-transactions {
-  //   width: 80%;
-  // }
+  .recent-transactions {
+    width: 40%;
+  }
+}
+
+@media (max-width: 752px) {
+  .filter {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+  }
+  .dashboard-view {
+    padding-left: 5px;
+  }
 }
 
 @media (max-width: 575px) {
@@ -202,25 +214,29 @@
   .filter-condition {
     flex-direction: column;
   }
+  .recent-transactions {
+    min-width: 0;
+    width: 100%;
+  }
 }
 
 @media (max-width: 330px) {
-  .summary {
-    padding: 140px 0;
+  .filter {
+    align-items: center;
   }
+  // .summary {
+  //   padding: 140px 0;
+  // }
   .add-transaction {
     height: 60px;
     width: 60px;
   }
-}
-
-@media (max-width: 752px) {
-  .filter {
-    display: flex;
-    flex-direction: column;
-    padding: 0;
+  .recent-transactions {
+    min-width: 0;
+    width: 100%;
   }
-  .dashboard-view {
-    padding-left: 5px;
+  .filter-by-date {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
