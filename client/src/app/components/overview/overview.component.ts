@@ -564,7 +564,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
   createExpenseDistributionBarChart(data: any) {
     this.expenseDistBarOptions = {
       chart: {
-        type: 'column',
+        type: 'bar',
       },
       title: {
         text: 'Expense Distribution by Category',
@@ -598,11 +598,11 @@ export class OverviewComponent implements OnInit, AfterViewInit {
         // pointFormat: '<b>{point.name}</b>: {point.percentage:.1f} %',
         formatter: function () {
           const chart = this as any;
-          let percent =
-            (100 * chart.y) /
-            (chart.series.data[0].y +
-              chart.series.data[1].y +
-              chart.series.data[2].y);
+          let sum = 0;
+          for (let i = 0; i < data.length; i++) {
+            sum = sum + chart.series.data[i].y;
+          }
+          let percent = (100 * chart.y) / sum;
           percent = +percent.toFixed(1);
           return chart.point.name + ': ' + percent + '%';
         },

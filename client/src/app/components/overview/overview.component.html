@@ -82,9 +82,9 @@
 
       <!--Expense Distribution by Category-->
       <div class="flexCol min-w60">
-        <mat-card class="overview-pie card-wrapper">
+        <mat-card class="overview-pie">
           <button mat-raised-button class="align-right" (click)="flip = !flip">
-            <img src="/assets/images/exchange.png" alt="logo" width="30px" />
+            <img src="/assets/images/exchange.png" alt="flip" width="30px" />
           </button>
           <highcharts-chart *ngIf="expenseDistOptions && !flip" [Highcharts]="Highcharts" [options]="expenseDistOptions" [callbackFunction]="expenseDistChartCb">
           </highcharts-chart>
