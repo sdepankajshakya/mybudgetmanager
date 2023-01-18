@@ -6,6 +6,9 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Subscription } from 'rxjs/internal/Subscription';
+import { MatDialog } from '@angular/material/dialog';
+import { ThemePalette } from '@angular/material/core';
+import { formatNumber } from '@angular/common';
 
 import { config } from 'src/app/configuration/config';
 import { MessageService } from 'src/app/services/message.service';
@@ -16,17 +19,14 @@ import { Transaction } from 'src/app/models/Transaction';
 import * as Highcharts from 'highcharts';
 
 import HC_exporting from 'highcharts/modules/exporting';
+import { FullCalendarComponent } from '@fullcalendar/angular/lib/fullcalendar.component';
+import { Calendar } from '@fullcalendar/angular';
 
-import { MatDialog } from '@angular/material/dialog';
 import { SharedService } from 'src/app/services/shared.service';
-import { ThemePalette } from '@angular/material/core';
 import { SettingsService } from 'src/app/services/settings.service';
 import { ToastrService } from 'ngx-toastr';
 import { Category } from 'src/app/models/Category';
 import { fade } from 'src/app/shared/animations';
-import { formatNumber, getCurrencySymbol } from '@angular/common';
-import { FullCalendarComponent } from '@fullcalendar/angular/lib/fullcalendar.component';
-import { Calendar } from '@fullcalendar/angular';
 import { PaymentMode } from 'src/app/models/PaymentMode';
 @Component({
   selector: 'app-overview',
@@ -42,6 +42,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
   userLocale: string = '';
   Highcharts = Highcharts;
   expenseDistOptions: any;
+  expenseDistBarOptions: any;
   totalSavingOptions: any;
   currentUser: any;
   transactionMonths: any[] = [];
@@ -55,6 +56,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
   color: ThemePalette = 'accent';
   categoryCount: any = {};
   paymentModes: PaymentMode[] = [];
+  flip: boolean = false;
 
   private transaction: Transaction = {
     _id: null as any,
@@ -463,7 +465,10 @@ export class OverviewComponent implements OnInit, AfterViewInit {
       });
     });
 
-    if (budgetData?.length) this.createExpenseDistributionChart(budgetData);
+    if (budgetData?.length) {
+      this.createExpenseDistributionChart(budgetData);
+      this.createExpenseDistributionBarChart(budgetData);
+    }
 
     let IncomeExpenseData = [totalIncome, totalExpense];
     if (IncomeExpenseData?.length && (totalExpense > 0 || totalIncome > 0)) {
@@ -504,7 +509,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
         pointFormat: this.currency.symbol + '{point.y}',
       },
       legend: {
-        enabled: true,
+        enabled: false,
         itemStyle: {
           color: '#A0A0A0',
         },
@@ -514,9 +519,13 @@ export class OverviewComponent implements OnInit, AfterViewInit {
         labelFormatter: function () {
           const chart = this as any;
           return (
-            chart.name + ': ' +
+            chart.name +
+            ': ' +
             Highcharts.numberFormat(chart.y, 0, '.', ',') +
-            ' (' + Highcharts.numberFormat(chart.percentage, 2) + '%' + ')'
+            ' (' +
+            Highcharts.numberFormat(chart.percentage, 2) +
+            '%' +
+            ')'
           );
         },
       },
@@ -551,6 +560,62 @@ export class OverviewComponent implements OnInit, AfterViewInit {
   expenseDistChartCb: Highcharts.ChartCallbackFunction = (chart) => {
     chart.reflow();
   };
+
+  createExpenseDistributionBarChart(data: any) {
+    this.expenseDistBarOptions = {
+      chart: {
+        type: 'column',
+      },
+      title: {
+        text: 'Expense Distribution by Category',
+      },
+      xAxis: {
+        type: 'category',
+      },
+      yAxis: {
+        title: false,
+        gridLineColor: 'transparent',
+      },
+      credits: {
+        enabled: false,
+      },
+      exporting: {
+        enabled: false,
+      },
+      legend: {
+        enabled: false,
+      },
+      plotOptions: {
+        series: {
+          borderWidth: 0,
+          dataLabels: {
+            enabled: true,
+            format: this.currency.symbol + '{point.y}',
+          },
+        },
+      },
+      tooltip: {
+        // pointFormat: '<b>{point.name}</b>: {point.percentage:.1f} %',
+        formatter: function () {
+          const chart = this as any;
+          let percent =
+            (100 * chart.y) /
+            (chart.series.data[0].y +
+              chart.series.data[1].y +
+              chart.series.data[2].y);
+          percent = +percent.toFixed(1);
+          return chart.point.name + ': ' + percent + '%';
+        },
+      },
+      series: [
+        {
+          name: 'Expense',
+          colorByPoint: true,
+          data: data,
+        },
+      ],
+    };
+  }
 
   createIncomeExpenseSummaryChart(container: any, data: any) {
     const options: any = {

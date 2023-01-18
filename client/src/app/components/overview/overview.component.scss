@@ -239,4 +239,7 @@
     flex-direction: column;
     align-items: flex-start;
   }
+  .card-wrapper {
+    transform-style: preserve-3d;
+  }
 }

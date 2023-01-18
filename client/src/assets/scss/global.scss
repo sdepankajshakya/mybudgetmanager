@@ -158,6 +158,13 @@
   align-items: center;
 }
 
+.align-right {
+  position: absolute !important;
+  right: 10px;
+  top: 15px;
+  z-index: 1;
+}
+
 .text-truction {
   overflow: hidden;
   white-space: nowrap;
@@ -294,7 +301,6 @@ input.numberic-text {
 }
 
 @media (max-width: 490px) {
-
   .sidebar,
   .settingsForm {
     padding-top: 66px;

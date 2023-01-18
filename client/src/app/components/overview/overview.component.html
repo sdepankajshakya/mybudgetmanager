@@ -82,10 +82,16 @@
 
       <!--Expense Distribution by Category-->
       <div class="flexCol min-w60">
-        <mat-card class="overview-pie">
-          <highcharts-chart *ngIf="expenseDistOptions" [Highcharts]="Highcharts" [options]="expenseDistOptions" [callbackFunction]="expenseDistChartCb">
+        <mat-card class="overview-pie card-wrapper">
+          <button mat-raised-button class="align-right" (click)="flip = !flip">
+            <img src="/assets/images/exchange.png" alt="logo" width="30px" />
+          </button>
+          <highcharts-chart *ngIf="expenseDistOptions && !flip" [Highcharts]="Highcharts" [options]="expenseDistOptions" [callbackFunction]="expenseDistChartCb">
+          </highcharts-chart>
+          <highcharts-chart *ngIf="expenseDistBarOptions && flip" [Highcharts]="Highcharts" [options]="expenseDistBarOptions">
           </highcharts-chart>
           <span *ngIf="!expenseDistOptions" class="dataNotAvailable">Data is not available for this metric.</span>
+          <span *ngIf="!expenseDistBarOptions" class="dataNotAvailable">Data is not available for this metric.</span>
         </mat-card>
 
         <!--Calendar-->
