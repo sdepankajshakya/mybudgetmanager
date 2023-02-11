@@ -35,12 +35,15 @@ const routes: Routes = [
   },
   {
     path: 'contactus',
-    component: ContactUsComponent
+    component: ContactUsComponent,
   },
+  { path: '**', redirectTo: '/' }, // redirect to homepage if route not found
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
+  imports: [
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
+  ],
   exports: [RouterModule],
   providers: [AuthenticationGuard],
 })

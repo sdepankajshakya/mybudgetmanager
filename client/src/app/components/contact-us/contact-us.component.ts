@@ -46,8 +46,6 @@ export class ContactUsComponent implements OnInit {
         this.messageSent = true;
         this.sharedService.setItemToLocalStorage('contacted_us', true);
         this.toastr.success('Your message has been sent!');
-      }, err => {
-        this.toastr.error('Please try again', 'Something went wrong!');
       })
     } else {
       this.toastr.error('Your message can\'t be empty');
