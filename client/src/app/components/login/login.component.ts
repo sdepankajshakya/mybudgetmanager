@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.messageService.setIsLoading(true);
     if (form.invalid) {
       this.dialog.open(ErrorHandlerComponent, {
-        data: { message: 'Invalid fields' },
+        data: { message: 'Invalid email or password' },
       });
       this.messageService.setIsLoading(false);
       return;

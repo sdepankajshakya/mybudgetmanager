@@ -22,7 +22,7 @@ exports.contactus = (req, res, next) => {
         if (err) {
           utils.sendErrorResponse(res, 400, err.name, err.message);
         } else {
-          utils.sendSuccessResponse(res, 201, "Message sent succesfully!", null);
+          utils.sendSuccessResponse(res, 200, "Message sent succesfully!", null);
         }
       });
     }
@@ -52,7 +52,7 @@ exports.updatesettings = (req, res, next) => {
         if (err) {
           utils.sendErrorResponse(res, 400, err.name, err.message);
         } else {
-          utils.sendSuccessResponse(res, 201, "Settings saved succesfully!", null);
+          utils.sendSuccessResponse(res, 200, "Settings saved succesfully!", null);
         }
       });
     } else {

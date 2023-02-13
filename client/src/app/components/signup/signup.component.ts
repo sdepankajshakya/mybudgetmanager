@@ -34,19 +34,21 @@ export class SignupComponent implements OnInit {
 
     if (form.invalid) {
       this.dialog.open(ErrorHandlerComponent, {
-        data: { message: 'Invalid fields' },
+        data: { message: 'Invalid email or password' },
       });
-      this.messageService.setIsLoading(false);
+       this.messageService.setIsLoading(false);
       return;
     }
 
     this.authService.createUser(form.value).subscribe((res) => {
       this.messageService.setIsLoading(false);
       this.toastr.success(
-        'Your account has been successfully created',
+        'Your account has been successfully created. Please login to continue.',
         'Success!'
       );
       this.router.navigate(['login']);
+    }, (err) => {
+      this.messageService.setIsLoading(false);
     });
   }
 }
