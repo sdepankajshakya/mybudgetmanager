@@ -12,7 +12,7 @@ const settingsRoute = require("./routes/settings");
 const contactUsRoute = require("./routes/contactus");
 
 app.use(helmet({
-  contentSecurityPolicy: {  useDefaults: true, directives: { 'script-src': ["'self'", "https://mybudgetmanager.up.railway.app/"]  }  } 
+  contentSecurityPolicy: {  useDefaults: true, directives: { 'script-src': ["'self'", "https://apis.google.com/js/platform.js"]  }  } 
 }));
 app.use(compression());
 app.use(bodyParser.urlencoded({ extended: true }));
