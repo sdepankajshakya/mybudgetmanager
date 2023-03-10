@@ -11,13 +11,6 @@ const userRoutes = require("./routes/user");
 const settingsRoute = require("./routes/settings");
 const contactUsRoute = require("./routes/contactus");
 
-app.use(helmet.contentSecurityPolicy({
-  useDefaults: true,
-  directives: {
-    "script-src": ["'self'", "https://mybudgetmanager.up.railway.app"],
-  },
-})
-);
 app.use(compression());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
