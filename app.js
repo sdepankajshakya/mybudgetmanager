@@ -15,7 +15,6 @@ app.use(helmet.contentSecurityPolicy({
   useDefaults: true,
   directives: {
     "script-src": ["'self'", "https://mybudgetmanager.up.railway.app"],
-    "style-src": null,
   },
 })
 );
