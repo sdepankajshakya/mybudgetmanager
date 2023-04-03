@@ -188,6 +188,7 @@ exports.downloadSpreadsheet = (req, res, next) => {
             category: trans.category.name,
             amount: trans.amount,
             note: trans.note,
+            paymentMode: trans.paymentMode
           });
         });
         const worksheet = xlsx.utils.json_to_sheet(modifiedTransactions); // convert data to sheet
