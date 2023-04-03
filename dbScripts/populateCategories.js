@@ -1,9 +1,3 @@
-/**
- * to add the entries run this script with the db name, for eg
- * for local : mongo localhost:27017/budget-manager ./dbScripts/populateCategories.js
- * for cloud: mongo mongodb+srv://admin:fnurq8EzMN8JH7sV@cluster0.tpeau.mongodb.net/budget-manager ./dbScripts/populateCategories.js
- */
-
 db.categories.insertMany([
   {
     name: "Bills",

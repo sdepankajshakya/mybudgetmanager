@@ -19,7 +19,7 @@ const storageConfig = multer.diskStorage({
     if (isValid) {
       error = null;
     }
-    callback(error, "spreadsheets"); // filePath
+    callback(error, ""); // upload the file on the root directory
   },
   filename: (req, file, callback) => {
     callback(null, file.originalname);
