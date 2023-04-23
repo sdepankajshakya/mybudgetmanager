@@ -129,7 +129,7 @@ export class SettingsComponent implements OnInit {
   addPaymentModeForm = new FormGroup({
     _id: new FormControl(null),
     name: new FormControl(null, Validators.required),
-    type: new FormControl(null),
+    type: new FormControl<number | null>(null),
     icon: new FormControl(null),
     user: new FormControl(null),
   });
@@ -251,8 +251,9 @@ export class SettingsComponent implements OnInit {
 
   addCategory() {
     if (this.addCategoryForm.valid) {
+      const formValue: any = this.addCategoryForm.getRawValue();
       this.settingsService
-        .addCategory(this.addCategoryForm.value)
+        .addCategory(formValue)
         .subscribe((res) => {
           this.toastr.success('Category added successfully', 'Success!');
           this.fetchCategories();
@@ -300,8 +301,9 @@ export class SettingsComponent implements OnInit {
     const paymentModesCount = this.paymentModesList.length + 1;
     this.addPaymentModeForm.get('type')?.patchValue(paymentModesCount);
     if (this.addPaymentModeForm.valid) {
+      const formValue: any = this.addPaymentModeForm.getRawValue();
       this.settingsService
-        .addPaymentMode(this.addPaymentModeForm.value)
+        .addPaymentMode(formValue)
         .subscribe((res) => {
           this.toastr.success('Payment mode added successfully', 'Success!');
           this.fetchPaymentModes();
@@ -342,11 +344,11 @@ export class SettingsComponent implements OnInit {
 
   openCategoryModal(modal: TemplateRef<any>, category?: Category) {
     this.editCategory = category ? true : false;
-    this.addCategoryForm.get('_id')!.setValue(category?._id);
-    this.addCategoryForm.get('name')!.setValue(category?.name);
-    this.addCategoryForm.get('type')!.setValue(category?.type);
-    this.addCategoryForm.get('icon')!.setValue(category?.icon);
-    this.addCategoryForm.get('user')!.setValue(category?.user);
+    // this.addCategoryForm.get('_id')!.setValue(category?._id);
+    // this.addCategoryForm.get('name')!.setValue(category?.name);
+    // this.addCategoryForm.get('type')!.setValue(category?.type);
+    // this.addCategoryForm.get('icon')!.setValue(category?.icon);
+    // this.addCategoryForm.get('user')!.setValue(category?.user);
     this.confirmUploadmodalRef = this.modalService.show(modal, {
       class: 'modal-lg',
     });
@@ -354,11 +356,11 @@ export class SettingsComponent implements OnInit {
 
   openPaymentModal(modal: TemplateRef<any>, mode?: PaymentMode) {
     this.editPaymentMode = mode ? true : false;
-    this.addPaymentModeForm.get('_id')!.setValue(mode?._id);
-    this.addPaymentModeForm.get('name')!.setValue(mode?.name);
-    this.addPaymentModeForm.get('type')!.setValue(mode?.type);
-    this.addPaymentModeForm.get('icon')!.setValue(mode?.icon);
-    this.addPaymentModeForm.get('user')!.setValue(mode?.user);
+    // this.addPaymentModeForm.get('_id')!.setValue(mode?._id);
+    // this.addPaymentModeForm.get('name')!.setValue(mode?.name);
+    // this.addPaymentModeForm.get('type')!.setValue(mode?.type);
+    // this.addPaymentModeForm.get('icon')!.setValue(mode?.icon);
+    // this.addPaymentModeForm.get('user')!.setValue(mode?.user);
     this.confirmUploadmodalRef = this.modalService.show(modal, {
       class: 'modal-lg',
     });
