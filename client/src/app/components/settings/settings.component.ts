@@ -5,7 +5,7 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FileSaverService } from 'ngx-filesaver';
 
@@ -118,20 +118,20 @@ export class SettingsComponent implements OnInit {
   confirmUploadmodalRef!: BsModalRef;
   @ViewChild('filePicker') filePicker!: ElementRef<HTMLElement>;
 
-  addCategoryForm = new FormGroup({
-    _id: new FormControl(null),
-    name: new FormControl(null, Validators.required),
-    type: new FormControl(null, Validators.required),
-    icon: new FormControl(null),
-    user: new FormControl(null),
+  addCategoryForm = new UntypedFormGroup({
+    _id: new UntypedFormControl(null),
+    name: new UntypedFormControl(null, Validators.required),
+    type: new UntypedFormControl(null, Validators.required),
+    icon: new UntypedFormControl(null),
+    user: new UntypedFormControl(null),
   });
 
-  addPaymentModeForm = new FormGroup({
-    _id: new FormControl(null),
-    name: new FormControl(null, Validators.required),
-    type: new FormControl<number | null>(null),
-    icon: new FormControl(null),
-    user: new FormControl(null),
+  addPaymentModeForm = new UntypedFormGroup({
+    _id: new UntypedFormControl(null),
+    name: new UntypedFormControl(null, Validators.required),
+    type: new UntypedFormControl(null),
+    icon: new UntypedFormControl(null),
+    user: new UntypedFormControl(null),
   });
 
   ngOnInit() {

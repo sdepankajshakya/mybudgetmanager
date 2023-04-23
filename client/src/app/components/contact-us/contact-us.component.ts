@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { User } from 'src/app/models/User';
 import { SettingsService } from 'src/app/services/settings.service';
@@ -15,11 +15,11 @@ export class ContactUsComponent implements OnInit {
   constructor(
     private sharedService: SharedService, 
     private settingsService: SettingsService, 
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private toastr: ToastrService) { }
 
   currentUser!: User;
-  contactUsForm!: FormGroup;
+  contactUsForm!: UntypedFormGroup;
   messageSent: boolean = false;
   contactedUs: boolean = false;
 
@@ -31,10 +31,10 @@ export class ContactUsComponent implements OnInit {
     }
 
     this.contactUsForm = this.fb.group({
-      firstName: new FormControl(this.currentUser ? this.currentUser.firstName: ''),
-      lastName: new FormControl(this.currentUser ? this.currentUser.lastName: ''),
-      email: new FormControl(this.currentUser ? this.currentUser.email : '', Validators.required),
-      message: new FormControl('', Validators.required),
+      firstName: new UntypedFormControl(this.currentUser ? this.currentUser.firstName: ''),
+      lastName: new UntypedFormControl(this.currentUser ? this.currentUser.lastName: ''),
+      email: new UntypedFormControl(this.currentUser ? this.currentUser.email : '', Validators.required),
+      message: new UntypedFormControl('', Validators.required),
     });
   }
 

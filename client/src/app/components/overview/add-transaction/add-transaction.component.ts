@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators, Form } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators, Form } from '@angular/forms';
 
 import { Transaction } from 'src/app/models/Transaction';
 import { TransactionService } from 'src/app/services/transaction.service';
@@ -56,13 +56,13 @@ export class AddTransactionComponent implements OnInit {
       });
     }
 
-    this.addTransactionForm = new FormGroup({
-      _id: new FormControl(null),
-      category: new FormControl(null),
-      amount: new FormControl(null, Validators.required),
-      date: new FormControl(new Date(), Validators.required),
-      paymentMode: new FormControl(null),
-      note: new FormControl(null),
+    this.addTransactionForm = new UntypedFormGroup({
+      _id: new UntypedFormControl(null),
+      category: new UntypedFormControl(null),
+      amount: new UntypedFormControl(null, Validators.required),
+      date: new UntypedFormControl(new Date(), Validators.required),
+      paymentMode: new UntypedFormControl(null),
+      note: new UntypedFormControl(null),
     });
     
     if (this.transactionDetails) {
