@@ -4,7 +4,7 @@ const utils = require("../utilities/utils");
 const TransactionModel = require("../models/transaction");
 
 exports.getTransactions = (req, res, next) => {
-  TransactionModel.find({ })
+  TransactionModel.find({ user: req.currentUser.userId })
     .then((result) => utils.sendSuccessResponse(res, 200, "Transaction fetched succesfully!", result))
     .catch((err) => utils.sendErrorResponse(res, 500, err.name, err.message));
 };
