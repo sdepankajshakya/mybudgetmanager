@@ -7,8 +7,8 @@
         <span>{{transaction.displayDate?.day}}</span>
       </time>
       <div class="transaction-desc">
-        <label class="text-16 word-break">{{transaction.category?.name}}</label>
-        <img class="category-icon" aria-hidden [src]="getCategoryIcon(transaction.category?.name!)" alt="category-icon" height="55">
+        <label class="text-16 word-break">{{transaction.category.name}}</label>
+        <img class="category-icon" aria-hidden [src]="getCategoryIcon(transaction.category.name!)" alt="category-icon" height="55">
         <span class="transaction-price text-25"
           [ngClass]="(transaction.category.type === 'expense') ? 'expense-item' : 'income-item'">
           {{currencySymbol}}{{transaction.displayAmount}}
