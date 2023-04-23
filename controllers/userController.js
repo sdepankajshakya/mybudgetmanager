@@ -11,78 +11,70 @@ const GOOGLE_CLIENT_ID = "530562955070-2r62masjenjk4oksn7s87a9g1f4aq655.apps.goo
 const client = new OAuth2Client(GOOGLE_CLIENT_ID);
 
 exports.signup = (req, res, next) => {
-    bcrypt.hash(req.body.password, 10).then((hash) => {
-        const user = new UserModel({
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            email: req.body.email,
-            password: hash,
-        });
-
-        user.save((err, result) => {
-            if (err) {
-                utils.sendErrorResponse(res, 400, err.name, err.message);
-            } else {
-                utils.sendSuccessResponse(res, 201, "Account created successfully!", null);
-            }
-        });
+  bcrypt.hash(req.body.password, 10).then((hash) => {
+    const user = new UserModel({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      password: hash,
     });
+
+    user
+      .save()
+      .then((result) => utils.sendSuccessResponse(res, 201, "Account created successfully!", null))
+      .catch((err) => utils.sendErrorResponse(res, 400, err.name, err.message));
+  });
 };
 
 exports.login = (req, res, next) => {
-    UserModel.findOne({ email: req.body.email }).then((user) => {
-        if (user) {
-            bcrypt.compare(req.body.password, user.password).then((result) => {
-                if (result) {
-                    try {
-                        const obj = { email: user.email, userId: user._id };
-                        const token = jwt.sign(obj, config.secret_key, { expiresIn: '24h' });
-                        utils.sendSuccessResponse(res, 200, "Login successful!", {
-                            access_token: token,
-                            expiresIn: '24h',
-                            current_user: { _id: user._id, firstName: user.firstName, lastName: user.lastName, email: user.email },
-                        });
-                    } catch (err) {
-                        console.log(err);
-                    }
-                } else {
-                    utils.sendErrorResponse(res, 401, "Unauthorized!", "Incorrect password!");
-                }
+  UserModel.findOne({ email: req.body.email })
+    .then((user) => {
+      bcrypt
+        .compare(req.body.password, user.password)
+        .then((result) => {
+          try {
+            const obj = { email: user.email, userId: user._id };
+            const token = jwt.sign(obj, config.secret_key, { expiresIn: "24h" });
+            utils.sendSuccessResponse(res, 200, "Login successful!", {
+              access_token: token,
+              expiresIn: "24h",
+              current_user: { _id: user._id, firstName: user.firstName, lastName: user.lastName, email: user.email },
             });
-        } else {
-            utils.sendErrorResponse(res, 401, "Unauthorized!", "Incorrect email address!");
-        }
-    });
+          } catch (err) {
+            console.log(err);
+          }
+        })
+        .catch((err) => utils.sendErrorResponse(res, 401, "Unauthorized!", "Incorrect password!"));
+    })
+    .catch((err) => utils.sendErrorResponse(res, 401, "Unauthorized!", "Incorrect email address!"));
 };
 
 exports.signInWithGoogle = (req, res, next) => {
-    async function verify() {
-        const ticket = await client.verifyIdToken({
-            idToken: req.body.idToken,
-            audience: GOOGLE_CLIENT_ID,
+  async function verify() {
+    const ticket = await client.verifyIdToken({
+      idToken: req.body.idToken,
+      audience: GOOGLE_CLIENT_ID,
+    });
+
+    const payload = ticket.getPayload();
+    const userDetails = {
+      email: payload["email"],
+      firstname: payload["given_name"],
+      lastname: payload["family_name"],
+    };
+
+    UserModel.findOne({ email: userDetails.email })
+      .then((user) => {
+        const obj = { email: user.email, userId: user._id };
+        const token = jwt.sign(obj, config.secret_key, { expiresIn: "24h" });
+        utils.sendSuccessResponse(res, 200, "Login successful!", {
+          access_token: token,
+          expiresIn: "24h",
+          current_user: { _id: user._id, firstName: user.firstName, lastName: user.lastName, email: user.email },
         });
+      })
+      .catch((err) => utils.sendErrorResponse(res, 401, "Unauthorized!", "Incorrect email address!"));
+  }
 
-        const payload = ticket.getPayload();
-        const userDetails = {
-            email: payload["email"],
-            firstname: payload["given_name"],
-            lastname: payload["family_name"],
-        };
-
-        UserModel.findOne({ email: userDetails.email }).then((user) => {
-            if (user) {
-                const obj = { email: user.email, userId: user._id };
-                const token = jwt.sign(obj, config.secret_key, { expiresIn: '24h' });
-                utils.sendSuccessResponse(res, 200, "Login successful!", {
-                    access_token: token,
-                    expiresIn: '24h',
-                    current_user: { _id: user._id, firstName: user.firstName, lastName: user.lastName, email: user.email },
-                });
-            } else {
-                utils.sendErrorResponse(res, 401, "Unauthorized!", "Incorrect email address!");
-            }
-        });
-    }
-
-    verify().catch(console.error);
+  verify().catch(console.error);
 };

@@ -19,8 +19,10 @@ import { Transaction } from 'src/app/models/Transaction';
 import * as Highcharts from 'highcharts';
 
 import HC_exporting from 'highcharts/modules/exporting';
-import { FullCalendarComponent } from '@fullcalendar/angular/lib/fullcalendar.component';
-import { Calendar } from '@fullcalendar/angular';
+import { FullCalendarComponent } from '@fullcalendar/angular';
+import { CalendarOptions } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
 
 import { SharedService } from 'src/app/services/shared.service';
 import { SettingsService } from 'src/app/services/settings.service';
@@ -28,6 +30,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Category } from 'src/app/models/Category';
 import { fade } from 'src/app/shared/animations';
 import { PaymentMode } from 'src/app/models/PaymentMode';
+
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
@@ -51,8 +54,11 @@ export class OverviewComponent implements OnInit, AfterViewInit {
   selectedYear: number = 0;
   selectedView = null;
   search: string = '';
-  calendarOptions: any;
-  calendarApi!: Calendar;
+  calendarOptions: CalendarOptions = {
+    initialView: 'dayGridMonth',
+    plugins: [dayGridPlugin, interactionPlugin]
+  };
+  calendarApi!: any;
   color: ThemePalette = 'accent';
   categoryCount: any = {};
   paymentModes: PaymentMode[] = [];
@@ -354,7 +360,6 @@ export class OverviewComponent implements OnInit, AfterViewInit {
           }
 
           this.calendarOptions = {
-            initialView: 'dayGridMonth',
             events: calendarEvents,
             dateClick: this.handleDateClick.bind(this),
           };

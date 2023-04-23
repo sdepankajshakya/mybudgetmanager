@@ -48,8 +48,6 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { FullCalendarModule } from '@fullcalendar/angular';
-import interactionPlugin from '@fullcalendar/interaction';
-import dayGridPlugin from '@fullcalendar/daygrid';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 import {
@@ -80,7 +78,6 @@ const web = {
   javascript_origins: ['https://mybudgetmanager.up.railway.app/'],
 };
 
-FullCalendarModule.registerPlugins([interactionPlugin, dayGridPlugin]);
 @NgModule({
   declarations: [
     AppComponent,
