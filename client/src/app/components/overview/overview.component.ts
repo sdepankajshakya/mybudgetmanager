@@ -56,7 +56,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
   search: string = '';
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
-    plugins: [dayGridPlugin, interactionPlugin]
+    plugins: [dayGridPlugin, interactionPlugin],
   };
   calendarApi!: any;
   color: ThemePalette = 'accent';
@@ -236,7 +236,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
     this.messageService.setIsLoading(true);
     this.transactionService.getTransations().subscribe((res) => {
       const response = res as any;
-      if (response) {
+      if (response?.data) {
         let sortedTransactions = response.data.sort(
           (d1: any, d2: any) =>
             new Date(d2.date).getTime() - new Date(d1.date).getTime()
