@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const connectionUrl = "mongodb://127.0.0.1:27017/mybudgetmanager"; // local connection url
+const connectionUrl = "mongodb://127.0.0.1:27017/mybudgetmanager";
 
 mongoose.set("strictQuery", true);
 
