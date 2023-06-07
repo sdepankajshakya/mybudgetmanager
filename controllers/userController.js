@@ -32,19 +32,22 @@ exports.login = (req, res, next) => {
       bcrypt
         .compare(req.body.password, user.password)
         .then((result) => {
-          try {
-            const obj = { email: user.email, userId: user._id };
-            const token = jwt.sign(obj, config.secret_key, { expiresIn: "24h" });
-            utils.sendSuccessResponse(res, 200, "Login successful!", {
-              access_token: token,
-              expiresIn: "24h",
-              current_user: { _id: user._id, firstName: user.firstName, lastName: user.lastName, email: user.email },
-            });
-          } catch (err) {
-            console.log(err);
+          if (result) {
+            try {
+              const obj = { email: user.email, userId: user._id };
+              const token = jwt.sign(obj, config.secret_key, { expiresIn: "24h" });
+              utils.sendSuccessResponse(res, 200, "Login successful!", {
+                access_token: token,
+                expiresIn: "24h",
+                current_user: { _id: user._id, firstName: user.firstName, lastName: user.lastName, email: user.email },
+              });
+            } catch (err) {
+              console.log(err);
+            }
+          } else {
+            utils.sendErrorResponse(res, 401, "Unauthorized!", "Incorrect password!");
           }
         })
-        .catch((err) => utils.sendErrorResponse(res, 401, "Unauthorized!", "Incorrect password!"));
     })
     .catch((err) => utils.sendErrorResponse(res, 401, "Unauthorized!", "Incorrect email address!"));
 };

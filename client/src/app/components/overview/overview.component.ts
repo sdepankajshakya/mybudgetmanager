@@ -156,30 +156,6 @@ export class OverviewComponent implements OnInit, AfterViewInit {
     });
   }
 
-  setDate(transactionDate: any) {
-    let transDate = {
-      day: '',
-      month: '',
-      weekday: '',
-      year: '',
-    };
-    let date = new Date(transactionDate);
-
-    transDate.day = date.toLocaleString('default', {
-      day: 'numeric',
-    });
-    transDate.month = date.toLocaleString('default', {
-      month: 'short',
-    });
-    transDate.weekday = date.toLocaleString('default', {
-      weekday: 'short',
-    });
-    transDate.year = date.toLocaleString('default', {
-      year: 'numeric',
-    });
-    return transDate;
-  }
-
   getCategories() {
     let savedCategories =
       this.sharedService.getItemFromLocalStorage('categories');
@@ -245,7 +221,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
         this.transactions = this.filteredTransactions = sortedTransactions;
 
         this.filteredTransactions.forEach((trans) => {
-          trans.displayDate = this.setDate(trans.date);
+          trans.displayDate = this.sharedService.setDate(trans.date);
           trans.displayAmount = formatNumber(trans.amount, this.userLocale);
         });
 

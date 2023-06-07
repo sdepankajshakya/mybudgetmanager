@@ -32,12 +32,38 @@ export class SharedService {
       return false;
     }
 
-    Object.keys(obj).sort((a, b) => obj[b] - obj[a]).forEach((key, ind) => {
-      if (ind < numOfValues && obj[key] > 0) {
-        max[key] = obj[key];
-      }
-    });
-    
+    Object.keys(obj)
+      .sort((a, b) => obj[b] - obj[a])
+      .forEach((key, ind) => {
+        if (ind < numOfValues && obj[key] > 0) {
+          max[key] = obj[key];
+        }
+      });
+
     return max;
+  }
+
+  setDate(transactionDate: any) {
+    let transDate = {
+      day: '',
+      month: '',
+      weekday: '',
+      year: '',
+    };
+    let date = new Date(transactionDate);
+
+    transDate.day = date.toLocaleString('default', {
+      day: 'numeric',
+    });
+    transDate.month = date.toLocaleString('default', {
+      month: 'short',
+    });
+    transDate.weekday = date.toLocaleString('default', {
+      weekday: 'short',
+    });
+    transDate.year = date.toLocaleString('default', {
+      year: 'numeric',
+    });
+    return transDate;
   }
 }
