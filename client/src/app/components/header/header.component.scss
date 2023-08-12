@@ -42,6 +42,7 @@ $color: #f7a105;
   position: relative;
   overflow: hidden;
   z-index: 1;
+
   &:after {
     content: '';
     position: absolute;
@@ -53,6 +54,7 @@ $color: #f7a105;
     border-radius: 10rem;
     z-index: -2;
   }
+
   &:before {
     content: '';
     position: absolute;
@@ -65,8 +67,10 @@ $color: #f7a105;
     border-radius: 10rem;
     z-index: -1;
   }
+
   &:hover {
     color: #fff;
+
     &:before {
       width: 100%;
     }
@@ -80,8 +84,46 @@ $color: #f7a105;
     flex-direction: column;
     justify-content: space-between;
   }
+
   .login-btn {
     margin: 15px;
   }
 }
 
+input {
+  --s: 25px;
+  /* control the size */
+
+  height: var(--s);
+  width: calc(2*var(--s));
+  border-radius: var(--s);
+  border: calc(var(--s)/10) solid #0000;
+  padding: calc(var(--s)/10);
+  background:
+    conic-gradient(#8FBE00 50%, #CC333F 0)
+    /* the colors here */
+    border-box var(--p, left)/200%;
+  mask:
+    radial-gradient(50% 50%, #000 98%, #0000) no-repeat var(--p, left)/calc(3*var(--s)/5) content-box,
+    linear-gradient(#000 0 0) padding-box,
+    linear-gradient(#000 0 0);
+  mask-composite: source-over, xor;
+  mask-composite: add, exclude;
+  transition: .5s;
+  cursor: pointer;
+  appearance: none;
+}
+
+input:checked {
+  --p: right;
+}
+
+input:disabled {
+  background: #948C75;
+  cursor: not-allowed;
+  --p: center;
+}
+
+input:focus-visible {
+  border-color: #0009;
+}
