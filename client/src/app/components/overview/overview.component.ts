@@ -30,12 +30,37 @@ import { ToastrService } from 'ngx-toastr';
 import { Category } from 'src/app/models/Category';
 import { fade } from 'src/app/shared/animations';
 import { PaymentMode } from 'src/app/models/PaymentMode';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.scss'],
-  animations: [fade],
+  animations: [
+    fade,
+    trigger('flipState', [
+      state(
+        'true',
+        style({
+          transform: 'rotateY(180deg)',
+        })
+      ),
+      state(
+        'false',
+        style({
+          transform: 'none',
+        })
+      ),
+      transition('true => false', animate('500ms ease-out')),
+      transition('false => true', animate('500ms ease-in')),
+    ]),
+  ],
 })
 export class OverviewComponent implements OnInit, AfterViewInit {
   messageSubscription: Subscription;
@@ -140,6 +165,10 @@ export class OverviewComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.calendarApi = this.fullCalendar.getApi();
+  }
+
+  toggleFlip() {
+    this.flip = !this.flip;
   }
 
   clearFilter() {

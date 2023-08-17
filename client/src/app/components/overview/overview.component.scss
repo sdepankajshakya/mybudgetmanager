@@ -240,3 +240,11 @@
     align-items: flex-start;
   }
 }
+
+.card-wrapper {
+  transform-style: preserve-3d;
+}
+
+.front {
+  transform: rotateY(180deg);
+}
