@@ -456,7 +456,6 @@ export class OverviewComponent implements OnInit, AfterViewInit {
       });
 
       if (filterTransactionsBasedOnKeyword?.length) {
-        console.log(this.selectedMonth, this.selectedYear);
         filterTransactionsBasedOnKeyword.forEach((trans) => {
           let transDate = new Date(trans.date);
           const transMonth = transDate.getMonth() + 1;
