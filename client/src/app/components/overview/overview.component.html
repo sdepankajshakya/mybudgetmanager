@@ -118,7 +118,7 @@
           <mat-icon>search</mat-icon>
         </button>
       </mat-form-field>
-      <!-- <label class="text-20 mg-t10">Recent Transactions</label> -->
+      <label class="text-24 mg-lr10" *ngIf="total">Total: {{currency.symbol}} {{total | currency:'':''}}</label>
       <div class="transaction-list">
         <app-transaction-list [transactions]="filteredTransactions" [currencySymbol]="currency.symbol">
         </app-transaction-list>

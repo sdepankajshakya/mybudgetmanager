@@ -88,6 +88,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
   categoryCount: any = {};
   paymentModes: PaymentMode[] = [];
   flip: boolean = false;
+  total: number = 0;
 
   private transaction: Transaction = {
     _id: null as any,
@@ -174,6 +175,8 @@ export class OverviewComponent implements OnInit, AfterViewInit {
   clearFilter() {
     this.selectedMonth = this.selectedYear = 0;
     this.selectedView = null;
+    this.total = 0;
+    this.search = '';
     this.filterByDate();
   }
 
@@ -381,12 +384,25 @@ export class OverviewComponent implements OnInit, AfterViewInit {
   }
 
   filterByDate() {
+    let keyword = this.search?.toLowerCase();
+    this.total = 0;
+    
     if (this.selectedMonth && this.selectedYear) {
       this.filteredTransactions = this.transactions.filter((trans) => {
         let transDate = new Date(trans.date);
         const month = transDate.getMonth() + 1;
         const year = transDate.getFullYear();
-        return month === this.selectedMonth && year === this.selectedYear;
+
+        if (keyword) {
+          return (
+            month === this.selectedMonth &&
+            year === this.selectedYear &&
+            (trans.category?.name.toLowerCase().indexOf(keyword) > -1 ||
+              trans.note?.toLowerCase().indexOf(keyword) > -1)
+          );
+        } else {
+          return month === this.selectedMonth && year === this.selectedYear;
+        }
       });
       this.formatChartData(this.filteredTransactions);
 
@@ -396,7 +412,16 @@ export class OverviewComponent implements OnInit, AfterViewInit {
       this.filteredTransactions = this.transactions.filter((trans) => {
         let transDate = new Date(trans.date);
         const year = transDate.getFullYear();
-        return year === this.selectedYear;
+
+        if (keyword) {
+          return (
+            year === this.selectedYear &&
+            (trans.category?.name.toLowerCase().indexOf(keyword) > -1 ||
+              trans.note?.toLowerCase().indexOf(keyword) > -1)
+          );
+        } else {
+          return year === this.selectedYear;
+        }
       });
       this.formatChartData(this.filteredTransactions);
 
@@ -406,12 +431,20 @@ export class OverviewComponent implements OnInit, AfterViewInit {
       this.filteredTransactions = this.transactions;
       this.formatChartData(this.transactions);
     }
+
+    if (this.filteredTransactions.length && keyword) {
+      this.filteredTransactions.forEach((trans) => {
+        this.total += trans.amount;
+      });
+    }
   }
 
   filterbySearch() {
+    this.total = 0;
     if (this.search) {
       let keyword = this.search.toLowerCase();
       let filterTransactionsBasedOnKeyword: Transaction[] = [];
+      let filterTransactionsBasedOnKeywordAndDate: Transaction[] = [];
       this.transactions.forEach((trans) => {
         if (
           (trans.category &&
@@ -421,9 +454,50 @@ export class OverviewComponent implements OnInit, AfterViewInit {
           filterTransactionsBasedOnKeyword.push(trans);
         }
       });
-      this.filteredTransactions = filterTransactionsBasedOnKeyword.length
+
+      if (filterTransactionsBasedOnKeyword?.length) {
+        console.log(this.selectedMonth, this.selectedYear);
+        filterTransactionsBasedOnKeyword.forEach((trans) => {
+          let transDate = new Date(trans.date);
+          const transMonth = transDate.getMonth() + 1;
+          const transYear = transDate.getFullYear();
+
+          if (
+            this.selectedMonth &&
+            this.selectedYear &&
+            transMonth === this.selectedMonth &&
+            transYear === this.selectedYear
+          ) {
+            filterTransactionsBasedOnKeywordAndDate.push(trans);
+          }
+          if (
+            !this.selectedMonth &&
+            this.selectedYear &&
+            transYear === this.selectedYear
+          ) {
+            filterTransactionsBasedOnKeywordAndDate.push(trans);
+          }
+        });
+      }
+
+      this.filteredTransactions = filterTransactionsBasedOnKeywordAndDate.length
+        ? filterTransactionsBasedOnKeywordAndDate
+        : filterTransactionsBasedOnKeyword.length
         ? filterTransactionsBasedOnKeyword
         : this.transactions;
+
+      // set Total Expenses
+      if (filterTransactionsBasedOnKeywordAndDate.length) {
+        filterTransactionsBasedOnKeywordAndDate.forEach((trans) => {
+          this.total += trans.amount;
+        });
+      } else if (filterTransactionsBasedOnKeyword.length) {
+        filterTransactionsBasedOnKeyword.forEach((trans) => {
+          this.total += trans.amount;
+        });
+      } else if (this.transactions.length) {
+        this.total = 0;
+      }
     } else {
       this.filteredTransactions = this.transactions;
     }
