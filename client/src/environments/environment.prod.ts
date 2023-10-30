@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'https://mybudgetmanager-hsm1.onrender.com/api',
+  apiBaseUrl: 'https://mybudgetmanager.azurewebsites.net/api',
 };
