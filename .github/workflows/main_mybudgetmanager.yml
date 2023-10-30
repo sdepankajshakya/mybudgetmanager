@@ -27,8 +27,9 @@ jobs:
           npm run build --if-present
           npm run test --if-present
       
-      - name: install angular cli
-        run: install -g @angular/cli
+      - name: Install Angular CLI
+        run: |
+          npm install -g @angular/cli
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
