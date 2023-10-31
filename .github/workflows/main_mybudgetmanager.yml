@@ -24,11 +24,12 @@ jobs:
       - name: Install NPM Packages
         run: |
           npm install
+          npm i -g @angular/cli
       
       - name: Install Angular CLI and Run Angular Build
         working-directory: ./client
         run: |
-          npm install -g @angular/cli
+          npm install
           ng build
 
       - name: Upload artifact for deployment job
