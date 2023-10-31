@@ -25,15 +25,18 @@ jobs:
         run: |
           npm install
       
-      - name: Install Angular CLI
-        run: |
+      - script: |
+          cd client/
           npm install -g @angular/cli
+          npm install
+          ng build
+        displayName: 'npm install and build'
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
           name: mybudgetmanager
-          path: .
+          path: client/public
 
   deploy:
     runs-on: ubuntu-latest
