@@ -26,7 +26,7 @@ jobs:
           npm install
       
       - name: Install Angular CLI and Run Angular Build
-        working-directory: client/
+        working-directory: ./client
         run: |
           npm install -g @angular/cli
           ng build
