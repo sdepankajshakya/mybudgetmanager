@@ -29,11 +29,6 @@ jobs:
         run: |
           npm install -g @angular/cli
 
-      - name: Run Angular Build
-        run: |
-          cd client
-          ng build
-
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
