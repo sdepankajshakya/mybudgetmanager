@@ -33,7 +33,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: mybudgetmanager
-          path: client/public
+          path: .
 
   deploy:
     runs-on: ubuntu-latest
