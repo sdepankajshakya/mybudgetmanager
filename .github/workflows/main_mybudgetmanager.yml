@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
@@ -21,16 +21,20 @@ jobs:
         with:
           node-version: '18.x'
 
-      - name: Install Dependencies
+      - name: npm install, build, and test
         run: |
           npm install
-          npm i -g @angular/cli
+          npm run build --if-present
+          npm run test --if-present
+
+      - name: Zip artifact for deployment
+        run: zip release.zip ./* -r
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
-          name: mybudgetmanager
-          path: client/public
+          name: node-app
+          path: release.zip
 
   deploy:
     runs-on: ubuntu-latest
@@ -43,13 +47,16 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
-          name: mybudgetmanager
+          name: node-app
+
+      - name: Unzip artifact for deployment
+        run: unzip release.zip
 
       - name: 'Deploy to Azure Web App'
-        uses: azure/webapps-deploy@v2
         id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
         with:
           app-name: 'mybudgetmanager'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3AD0EC86482B436DA1FFAE5EDE6F2F11 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_1321D9EF79264750BCE67DA516704947 }}
           package: .
