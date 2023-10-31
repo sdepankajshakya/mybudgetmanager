@@ -74,8 +74,8 @@ const web = {
   token_uri: 'https://oauth2.googleapis.com/token',
   auth_provider_x509_cert_url: 'https://www.googleapis.com/oauth2/v1/certs',
   client_secret: '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',
-  redirect_uris: ['https://mybudgetmanager.azurewebsites.net/'],
-  javascript_origins: ['https://mybudgetmanager.azurewebsites.net/'],
+  redirect_uris: ['https://mybudgetmanager-hsm1.onrender.com/'],
+  javascript_origins: ['https://mybudgetmanager-hsm1.onrender.com/'],
 };
 
 @NgModule({
