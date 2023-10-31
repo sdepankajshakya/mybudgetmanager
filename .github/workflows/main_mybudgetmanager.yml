@@ -58,5 +58,5 @@ jobs:
         with:
           app-name: 'mybudgetmanager'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_1321D9EF79264750BCE67DA516704947 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_05FB2F30737241159EC9CF20B5A66EA6 }}
           package: .
