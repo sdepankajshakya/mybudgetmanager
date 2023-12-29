@@ -8,11 +8,8 @@ import { Subscription } from 'rxjs';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { ErrorHandlerComponent } from '../error-handler/error-handler.component';
 
-import { SocialAuthService } from 'angularx-social-login';
-import {
-  FacebookLoginProvider,
-  GoogleLoginProvider,
-} from 'angularx-social-login';
+import { SocialAuthService } from "@abacritt/angularx-social-login";
+import { FacebookLoginProvider, GoogleLoginProvider } from "@abacritt/angularx-social-login";
 import { ThemePalette } from '@angular/material/core';
 import { LoginResponse } from 'src/app/models/LoginResponse';
 import { MessageService } from 'src/app/services/message.service';

@@ -50,14 +50,9 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
-import {
-  SocialLoginModule,
-  SocialAuthServiceConfig,
-} from 'angularx-social-login';
-import {
-  GoogleLoginProvider,
-  FacebookLoginProvider,
-} from 'angularx-social-login';
+import { SocialLoginModule, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
+import { GoogleLoginProvider, FacebookLoginProvider } from '@abacritt/angularx-social-login';
+
 import { ContactUsComponent } from './components/contact-us/contact-us.component';
 import { CurrencyPipe } from '@angular/common';
 import { GettingStartedComponent } from './components/getting-started/getting-started.component';
@@ -74,8 +69,8 @@ const web = {
   token_uri: 'https://oauth2.googleapis.com/token',
   auth_provider_x509_cert_url: 'https://www.googleapis.com/oauth2/v1/certs',
   client_secret: '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',
-  redirect_uris: ['https://mybudgetmanager-hsm1.onrender.com/'],
-  javascript_origins: ['https://mybudgetmanager-hsm1.onrender.com/'],
+  redirect_uris: ['https://mybudgetmanager.azurewebsites.net/'],
+  javascript_origins: ['https://mybudgetmanager.azurewebsites.net/'],
 };
 
 @NgModule({
