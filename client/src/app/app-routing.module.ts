@@ -13,29 +13,33 @@ import { GettingStartedComponent } from './components/getting-started/getting-st
 import { HomepageComponent } from './components/homepage/homepage.component';
 
 const routes: Routes = [
-  { path: '', component: HomepageComponent },
-  { path: 'signup', component: SignupComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'profile', component: ProfileComponent },
+  { path: '', component: HomepageComponent, title: 'Home' },
+  { path: 'signup', component: SignupComponent, title: 'Sign up' },
+  { path: 'login', component: LoginComponent, title: 'Login' },
+  { path: 'profile', component: ProfileComponent, title: 'Profile' },
   {
     path: 'overview',
     component: OverviewComponent,
     resolve: { currentSettings: SettingsService },
     canActivate: [AuthenticationGuard],
+    title: 'Dashboard'
   },
   {
     path: 'settings',
     component: SettingsComponent,
     canActivate: [AuthenticationGuard],
+    title: 'Settings'
   },
   {
     path: 'gettingstarted',
     component: GettingStartedComponent,
     canActivate: [AuthenticationGuard],
+    title: 'Getting Started'
   },
   {
     path: 'contactus',
     component: ContactUsComponent,
+    title: 'Contact Us'
   },
   { path: '**', redirectTo: '/' }, // redirect to homepage if route not found
 ];
