@@ -220,6 +220,12 @@
   }
 }
 
+@media (max-width: 500px) {
+  .filter {
+    padding-top: 60px;
+  }
+}
+
 @media (max-width: 330px) {
   .filter {
     align-items: center;
