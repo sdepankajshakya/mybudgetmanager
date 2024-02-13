@@ -162,7 +162,7 @@ exports.downloadSpreadsheet = (req, res, next) => {
           });
         });
         const worksheet = xlsx.utils.json_to_sheet(modifiedTransactions); // convert data to sheet
-        xlsx.utils.sheet_add_aoa(worksheet, [["date", "category", "amount", "note"]], { origin: "A1" });
+        xlsx.utils.sheet_add_aoa(worksheet, [["date", "category", "amount", "note", "paymentMode"]], { origin: "A1" });
         xlsx.utils.book_append_sheet(workbook, worksheet, "Transactions"); // add sheet to workbook
         const fileName = "BudgetManager.xlsx";
         const workbook_opts = { bookType: "xlsx", type: "binary" }; // workbook options
