@@ -179,7 +179,7 @@
   }
 }
 
-@media (max-width: 938px) {
+@media (max-width: 940px) {
   .charts {
     display: flex;
     flex-direction: column;
@@ -217,12 +217,6 @@
   .recent-transactions {
     min-width: 0;
     width: 100%;
-  }
-}
-
-@media (max-width: 500px) {
-  .filter {
-    padding-top: 60px;
   }
 }
 
