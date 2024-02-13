@@ -298,20 +298,23 @@ export class SettingsComponent implements OnInit {
   }
 
   addPaymentMode() {
-    const paymentModesCount = this.paymentModesList.length + 1;
-    this.addPaymentModeForm.get('type')?.patchValue(paymentModesCount);
-    if (this.addPaymentModeForm.valid) {
-      const formValue: any = this.addPaymentModeForm.getRawValue();
-      this.settingsService
-        .addPaymentMode(formValue)
-        .subscribe((res) => {
-          this.toastr.success('Payment mode added successfully', 'Success!');
-          this.fetchPaymentModes();
-        });
-
-      this.closeModal();
-    } else {
-      this.toastr.error('Failed to add the payment mode', 'Error! Invalid fields');
+    const paymentModesCount = this.paymentModesList[this.paymentModesList.length - 1]?.type + 1;
+    const isValidPaymentMode = this.paymentModesList.findIndex((mode: PaymentMode) => mode.type === paymentModesCount) === -1;
+    if (paymentModesCount && isValidPaymentMode) {
+      this.addPaymentModeForm.get('type')?.patchValue(paymentModesCount);
+      if (this.addPaymentModeForm.valid) {
+        const formValue: any = this.addPaymentModeForm.getRawValue();
+        this.settingsService
+          .addPaymentMode(formValue)
+          .subscribe((res) => {
+            this.toastr.success('Payment mode added successfully', 'Success!');
+            this.fetchPaymentModes();
+          });
+  
+        this.closeModal();
+      } else {
+        this.toastr.error('Failed to add the payment mode', 'Error! Invalid fields');
+      }
     }
   }
 
