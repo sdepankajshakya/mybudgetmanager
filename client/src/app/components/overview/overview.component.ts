@@ -675,6 +675,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
             enabled: true,
             format: this.currency.symbol + '{point.y}',
           },
+          borderRadius: 5,
         },
       },
       tooltip: {
@@ -746,6 +747,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
           groupPadding: 0,
           colorByPoint: true,
           colors: [' #32CD32', '#FF3131'],
+          borderRadius: 5,
         },
       },
       legend: {
