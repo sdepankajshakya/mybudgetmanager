@@ -1,4 +1,4 @@
-import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, HostBinding, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Component, HostBinding, Inject, LOCALE_ID, OnDestroy, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { MatSidenav } from '@angular/material/sidenav';
@@ -6,6 +6,7 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { MessageService } from './services/message.service';
 import { AuthenticationService } from './services/authentication.service';
 import { Router } from '@angular/router';
+import { SharedService } from './services/shared.service';
 
 @Component({
   selector: 'app-root',
@@ -18,6 +19,7 @@ export class AppComponent implements AfterViewChecked, OnDestroy {
   messageSubscription: Subscription;
   loginStatusSubsciption: Subscription;
   isLoadingSubcription: Subscription;
+  userLocale: string = '';
 
   @ViewChild('sidenav') sidenav!: MatSidenav;
   isDarkMode: boolean = false;
@@ -26,15 +28,16 @@ export class AppComponent implements AfterViewChecked, OnDestroy {
   constructor(
     private authService: AuthenticationService,
     private messageService: MessageService,
+    private sharedService: SharedService,
     private router: Router,
-    private cd: ChangeDetectorRef
-  ) {
-    this.loginStatusSubsciption = this.authService
-      .getLoginStatus()
-      .subscribe((status) => {
-        this.isLoggedIn = status;
-      });
-
+    private cd: ChangeDetectorRef,
+    @Inject(LOCALE_ID) private locale: string
+    ) {
+    this.userLocale = locale;
+    this.loginStatusSubsciption = this.authService.getLoginStatus().subscribe((status) => {
+      this.isLoggedIn = status;
+    });
+    
     this.messageSubscription = this.messageService
       .getMessage()
       .subscribe((message) => {
@@ -70,7 +73,10 @@ export class AppComponent implements AfterViewChecked, OnDestroy {
     })
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    const userLocale = navigator.languages && navigator.languages.length ? navigator.languages[0] : navigator.language;
+    this.sharedService.setItemToLocalStorage('userLocale', userLocale);
+  }
 
   ngAfterViewChecked(): void {
     this.cd.detectChanges();

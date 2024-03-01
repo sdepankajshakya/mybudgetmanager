@@ -89,6 +89,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
   paymentModes: PaymentMode[] = [];
   flip: boolean = false;
   total: number = 0;
+  months = config.months;
 
   private transaction: Transaction = {
     _id: null as any,
@@ -144,14 +145,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
     this.getTransactions();
     this.getPaymentModes();
 
-    const userLocale =
-      navigator.languages && navigator.languages.length
-        ? navigator.languages[0]
-        : navigator.language;
-    this.sharedService.setItemToLocalStorage('userLocale', userLocale);
-    this.userLocale =
-      this.sharedService.getItemFromLocalStorage('userLocale') || 'en-IN';
-
+    this.userLocale = this.sharedService.getItemFromLocalStorage('userLocale') || 'en-IN';
     let settings = this.sharedService.getItemFromLocalStorage('settings');
     if (settings && settings.currency) {
       this.currency = settings.currency;
@@ -231,6 +225,10 @@ export class OverviewComponent implements OnInit, AfterViewInit {
     );
   }
 
+  get dashboardView() {
+    return this.paymentModes?.find(mode => mode.type === this.selectedView);
+  }
+
   setCategoryCount(data: Category[]) {
     if (data?.length) {
       data.forEach((category: any) => {
@@ -243,20 +241,9 @@ export class OverviewComponent implements OnInit, AfterViewInit {
   getTransactions() {
     this.messageService.setIsLoading(true);
     this.transactionService.getTransations().subscribe((res) => {
-      const response = res as any;
-      if (response?.data) {
-        let sortedTransactions = response.data.sort(
-          (d1: any, d2: any) =>
-            new Date(d2.date).getTime() - new Date(d1.date).getTime()
-        );
-
-        this.transactions = this.filteredTransactions = sortedTransactions;
-
-        this.filteredTransactions.forEach((trans) => {
-          trans.displayDate = this.sharedService.setDate(trans.date);
-          trans.displayAmount = formatNumber(trans.amount, this.userLocale);
-        });
-
+      const transactions = <Transaction[]>res;
+      if (transactions) {
+        this.transactions = this.filteredTransactions = transactions;
         this.messageService.setIsLoading(false);
 
         // populate month and year dropdown filter
@@ -432,6 +419,14 @@ export class OverviewComponent implements OnInit, AfterViewInit {
       this.formatChartData(this.transactions);
     }
 
+    if (this.selectedView) {
+      this.filteredTransactions = this.filteredTransactions.filter(
+        (trans) => trans.paymentMode === this.selectedView
+      );
+    }
+    this.formatChartData(this.filteredTransactions);
+
+    // Total amount based on search keyword
     if (this.filteredTransactions.length && keyword) {
       this.filteredTransactions.forEach((trans) => {
         this.total += trans.amount;
@@ -498,8 +493,22 @@ export class OverviewComponent implements OnInit, AfterViewInit {
         this.total = 0;
       }
     } else {
-      this.filteredTransactions = this.transactions;
+      this.filterByDate();
     }
+  }
+
+  onViewChange(paymentMode: number) {
+    if (paymentMode === 0) {
+      this.filteredTransactions = this.transactions;
+    } else {
+        this.filteredTransactions = this.transactions.filter(
+          (trans) => trans.paymentMode === paymentMode
+        );
+    }
+
+    this.search = "";
+    if (this.selectedMonth || this.selectedYear) this.filterByDate();
+    this.formatChartData(this.filteredTransactions);
   }
 
   formatChartData(transactions: any) {
@@ -848,18 +857,6 @@ export class OverviewComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       window.dispatchEvent(new Event('resize'));
     }, 300);
-  }
-
-  onViewChange(paymentMode: number) {
-    if (paymentMode === 0) {
-      this.filteredTransactions = this.transactions;
-    } else {
-      this.filteredTransactions = this.transactions.filter(
-        (trans) => trans.paymentMode === paymentMode
-      );
-    }
-
-    this.formatChartData(this.filteredTransactions);
   }
 
   ngOnDestroy() {

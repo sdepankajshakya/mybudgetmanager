@@ -140,5 +140,12 @@
   <section class="welcome centered" *ngIf="!filteredTransactions.length && transactions.length">
     <img src="/assets/images/warning.png" alt="Data not available" width="40px" />
     <h2>Transactions not available</h2>
+    <h3>
+      <span *ngIf="selectedView">for <img src="{{dashboardView?.icon}}" alt="{{dashboardView?.type}}" width="30px">  {{dashboardView?.name}}</span>
+      <span *ngIf="selectedMonth"> in {{months[selectedMonth]?.value}}<span *ngIf="selectedYear">, {{selectedYear}}</span></span>
+      <span *ngIf="search"> with search keyword 
+        <span class="primary-color">{{search}}</span>
+      </span>
+    </h3>
   </section>
 </div>
