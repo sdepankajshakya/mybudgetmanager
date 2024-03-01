@@ -142,7 +142,7 @@
     <h2>Transactions not available</h2>
     <h3>
       <span *ngIf="selectedView">for <img src="{{dashboardView?.icon}}" alt="{{dashboardView?.type}}" width="30px">  {{dashboardView?.name}}</span>
-      <span *ngIf="selectedMonth"> in {{months[selectedMonth]?.value}}<span *ngIf="selectedYear">, {{selectedYear}}</span></span>
+      <span *ngIf="selectedMonth"> in {{months[selectedMonth - 1]?.value}}<span *ngIf="selectedYear">, {{selectedYear}}</span></span>
       <span *ngIf="search"> with search keyword 
         <span class="primary-color">{{search}}</span>
       </span>
