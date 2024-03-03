@@ -18,7 +18,6 @@
 
 .filter-by-date {
   display: flex;
-  gap: 15px;
   align-items: center;
   padding-right: 11px;
 }
@@ -189,14 +188,14 @@
   }
 }
 
-@media (max-width: 780px) {
+@media (max-width: 810px) {
   .filter {
     display: flex;
     flex-direction: column;
     padding: 0;
   }
   .dashboard-view {
-    padding-left: 5px;
+    padding-right: 5px;
   }
 }
 

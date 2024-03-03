@@ -27,26 +27,28 @@
         <label class="text-14 uppercase">Filter</label>
       </div>
       <div class="filter-condition">
-        <mat-form-field>
+        <mat-form-field appearance="outline">
           <mat-label>Select Month</mat-label>
           <mat-select [(ngModel)]="selectedMonth" (selectionChange)="filterByDate()">
             <mat-option *ngFor="let month of transactionMonths" [value]="month.key">{{month.value}}</mat-option>
           </mat-select>
         </mat-form-field>
-        <mat-form-field>
+        <mat-form-field appearance="outline">
           <mat-label>Select Year</mat-label>
           <mat-select [(ngModel)]="selectedYear" (selectionChange)="filterByDate()">
             <mat-option *ngFor="let year of transactionYears" [value]="year">{{year}}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
-      <div class="flexCenter mg-l10">
-        <mat-icon class="pointer" [matTooltip]="'Clear Filter'" (click)="clearFilter()">clear</mat-icon>
+      <div class="flexCenter mg-l10 pd-b20">
+        <button mat-mini-fab color="warn" (click)="clearFilter()">
+          <mat-icon class="pointer" [matTooltip]="'Clear Filter'">clear</mat-icon>
+        </button>
       </div>
     </div>
 
     <div class="dashboard-view">
-      <mat-form-field>
+      <mat-form-field appearance="fill">
         <mat-label>Change Dashboard View</mat-label>
         <mat-select [(ngModel)]="selectedView" (selectionChange)="onViewChange($event.value)">
           <mat-option [value]="0">
