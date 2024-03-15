@@ -4,16 +4,36 @@ const db = require("./db");
 const bodyParser = require("body-parser");
 const path = require("path");
 const compression = require('compression');
+const cors = require('cors');
 const helmet = require("helmet");
+const rateLimit = require('express-rate-limit');
 
 const transactionRoutes = require("./routes/transactions");
 const userRoutes = require("./routes/user");
 const settingsRoute = require("./routes/settings");
 const contactUsRoute = require("./routes/contactus");
 
-app.use(compression());
+app.use(compression()); // Enable gzip compression
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+// Allow requests from localhost
+app.use(cors({
+  origin: 'http://localhost:4200',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}));
+
+app.use(helmet()); // Set various HTTP headers for security
+
+// Implement rate limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100 // limit each IP to 100 requests per windowMs
+});
+app.use(limiter);
+
+const numberOfProxies = 1;
+app.set("trust proxy", numberOfProxies);
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
