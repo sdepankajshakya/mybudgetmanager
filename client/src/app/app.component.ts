@@ -68,11 +68,10 @@ export class AppComponent implements AfterViewChecked, OnDestroy {
 
     if (this.isLoggedIn) this.router.navigate(['overview']);
 
-    this.isLoadingSubcription = this.messageService.isLoading.subscribe(value => {
+    this.isLoadingSubcription = this.messageService.isLoading$.subscribe(value => {
       this.isLoading = value;
     })
   }
-
   ngOnInit() {
     const userLocale = navigator.languages && navigator.languages.length ? navigator.languages[0] : navigator.language;
     this.sharedService.setItemToLocalStorage('userLocale', userLocale);

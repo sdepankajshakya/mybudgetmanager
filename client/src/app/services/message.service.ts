@@ -10,7 +10,7 @@ export class MessageService {
   private subject = new Subject<any>();
   
   private emitIsLoading = new BehaviorSubject(false);
-  isLoading = this.emitIsLoading.asObservable();
+  isLoading$ = this.emitIsLoading.asObservable();
 
   sendMessage(message: string) {
     this.subject.next({ text: message });
