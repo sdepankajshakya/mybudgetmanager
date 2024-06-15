@@ -5,10 +5,12 @@ const UserModel = require("../models/user");
 const config = require("../configuration/config");
 const utils = require("../utilities/utils");
 
-const { OAuth2Client } = require("google-auth-library");
+const { OAuth2Client, JWT } = require("google-auth-library");
 
 const GOOGLE_CLIENT_ID = "530562955070-2r62masjenjk4oksn7s87a9g1f4aq655.apps.googleusercontent.com";
 const client = new OAuth2Client(GOOGLE_CLIENT_ID);
+
+const JWT_SECRET = process.env.JWT_SECRET || config.JWT_SECRET;
 
 exports.signup = (req, res, next) => {
   bcrypt.hash(req.body.password, 10).then((hash) => {
@@ -35,7 +37,7 @@ exports.login = (req, res, next) => {
           if (result) {
             try {
               const obj = { email: user.email, userId: user._id };
-              const token = jwt.sign(obj, config.secret_key, { expiresIn: "24h" });
+              const token = jwt.sign(obj, JWT_SECRET, { expiresIn: "24h" });
               utils.sendSuccessResponse(res, 200, "Login successful!", {
                 access_token: token,
                 expiresIn: "24h",
@@ -69,7 +71,7 @@ exports.signInWithGoogle = (req, res, next) => {
     UserModel.findOne({ email: userDetails.email })
       .then((user) => {
         const obj = { email: user.email, userId: user._id };
-        const token = jwt.sign(obj, config.secret_key, { expiresIn: "24h" });
+        const token = jwt.sign(obj, JWT_SECRET, { expiresIn: "24h" });
         utils.sendSuccessResponse(res, 200, "Login successful!", {
           access_token: token,
           expiresIn: "24h",
