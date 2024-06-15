@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
-const connectionUrl = "mongodb://127.0.0.1:27017/mybudgetmanager";
-// const connectionUrl = "mongodb+srv://pankajshakya:27P09s1994@mybudgetmanagercluster.adar9bs.mongodb.net/mybudgetmanager?retryWrites=true&w=majority";
+const connectionUrl = process.env.MONGODB_URI;
 
 mongoose.set("strictQuery", true);
 
