@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 
 const UserModel = require("../models/user");
 const utils = require("../utilities/utils");
+const HttpStatus = require("../utilities/httpsStatusCodes");
 
 const { OAuth2Client, JWT } = require("google-auth-library");
 
@@ -22,8 +23,8 @@ exports.signup = (req, res, next) => {
 
     user
       .save()
-      .then((result) => utils.sendSuccessResponse(res, 201, "Account created successfully!", null))
-      .catch((err) => utils.sendErrorResponse(res, 400, err.name, err.message));
+      .then((result) => utils.sendSuccessResponse(res, HttpStatus.CREATED, "Account created successfully!", null))
+      .catch((err) => utils.sendErrorResponse(res, HttpStatus.BAD_REQUEST, err.name, err.message));
   });
 };
 
@@ -37,7 +38,7 @@ exports.login = (req, res, next) => {
             try {
               const obj = { email: user.email, userId: user._id };
               const token = jwt.sign(obj, JWT_SECRET, { expiresIn: "24h" });
-              utils.sendSuccessResponse(res, 200, "Login successful!", {
+              utils.sendSuccessResponse(res, HttpStatus.OK, "Login successful!", {
                 access_token: token,
                 expiresIn: "24h",
                 current_user: { _id: user._id, firstName: user.firstName, lastName: user.lastName, email: user.email },
@@ -46,11 +47,11 @@ exports.login = (req, res, next) => {
               console.log(err);
             }
           } else {
-            utils.sendErrorResponse(res, 401, "Unauthorized!", "Incorrect password!");
+            utils.sendErrorResponse(res, HttpStatus.UNAUTHORIZED, "Unauthorized!", "Incorrect password!");
           }
         })
     })
-    .catch((err) => utils.sendErrorResponse(res, 401, "Unauthorized!", "Incorrect email address!"));
+    .catch((err) => utils.sendErrorResponse(res, HttpStatus.UNAUTHORIZED, "Unauthorized!", "Incorrect email address!"));
 };
 
 exports.signInWithGoogle = (req, res, next) => {
@@ -71,13 +72,13 @@ exports.signInWithGoogle = (req, res, next) => {
       .then((user) => {
         const obj = { email: user.email, userId: user._id };
         const token = jwt.sign(obj, JWT_SECRET, { expiresIn: "24h" });
-        utils.sendSuccessResponse(res, 200, "Login successful!", {
+        utils.sendSuccessResponse(res, HttpStatus.OK, "Login successful!", {
           access_token: token,
           expiresIn: "24h",
           current_user: { _id: user._id, firstName: user.firstName, lastName: user.lastName, email: user.email },
         });
       })
-      .catch((err) => utils.sendErrorResponse(res, 401, "Unauthorized!", "Incorrect email address!"));
+      .catch((err) => utils.sendErrorResponse(res, HttpStatus.UNAUTHORIZED, "Unauthorized!", "Incorrect email address!"));
   }
 
   verify().catch(console.error);

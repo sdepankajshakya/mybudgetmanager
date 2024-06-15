@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const utils = require("../utilities/utils");
+const HttpStatus = require("../utilities/httpsStatusCodes");
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -10,6 +11,6 @@ module.exports = (req, res, next) => {
     req.currentUser = { userId: decodedToken.userId, email: decodedToken.email };
     next();
   } catch (err) {
-    utils.sendErrorResponse(res, 401, "Unauthorized!", "Invalid authentication token!");
+    utils.sendErrorResponse(res, HttpStatus.UNAUTHORIZED, "Unauthorized!", "Invalid authentication token!");
   }
 };
