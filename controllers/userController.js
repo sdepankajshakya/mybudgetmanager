@@ -2,15 +2,14 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const UserModel = require("../models/user");
-const config = require("../configuration/config");
 const utils = require("../utilities/utils");
 
 const { OAuth2Client, JWT } = require("google-auth-library");
 
-const GOOGLE_CLIENT_ID = "530562955070-2r62masjenjk4oksn7s87a9g1f4aq655.apps.googleusercontent.com";
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const client = new OAuth2Client(GOOGLE_CLIENT_ID);
 
-const JWT_SECRET = process.env.JWT_SECRET || config.JWT_SECRET;
+const JWT_SECRET = process.env.JWT_SECRET;
 
 exports.signup = (req, res, next) => {
   bcrypt.hash(req.body.password, 10).then((hash) => {

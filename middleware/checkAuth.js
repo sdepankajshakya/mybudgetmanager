@@ -1,8 +1,7 @@
 const jwt = require("jsonwebtoken");
-const config = require("../configuration/config");
 const utils = require("../utilities/utils");
 
-const JWT_SECRET = process.env.JWT_SECRET || config.JWT_SECRET;
+const JWT_SECRET = process.env.JWT_SECRET;
 
 module.exports = (req, res, next) => {
   try {
