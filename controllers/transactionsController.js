@@ -4,9 +4,64 @@ const utils = require("../utilities/utils");
 const HttpStatus = require("../utilities/httpsStatusCodes");
 const TransactionModel = require("../models/transaction");
 
+exports.getTransactionsDateRange = async (req, res, next) => {
+  try {
+    const firstTransaction = await TransactionModel.find().sort({ date: 1 }).limit(1).exec();
+    const lastTransaction = await TransactionModel.find().sort({ date: -1 }).limit(1).exec();
+
+    if (firstTransaction.length === 0 || lastTransaction.length === 0) {
+      return utils.sendSuccessResponse(res, HttpStatus.OK, "No transactions found!", { firstDate: null, lastDate: null });
+    }
+
+    const firstDate = firstTransaction[0].date;
+    const lastDate = lastTransaction[0].date;
+
+    utils.sendSuccessResponse(res, HttpStatus.OK, "Transaction date range fetched successfully!", { firstDate, lastDate });
+  } catch (err) {
+    utils.sendErrorResponse(res, HttpStatus.INTERNAL_SERVER_ERROR, err.name, err.message);
+  }
+};
+
 exports.getTransactions = (req, res, next) => {
   TransactionModel.find({ user: req.currentUser.userId })
     .then((result) => utils.sendSuccessResponse(res, HttpStatus.OK, "Transaction fetched succesfully!", result))
+    .catch((err) => utils.sendErrorResponse(res, HttpStatus.INTERNAL_SERVER_ERROR, err.name, err.message));
+};
+
+exports.getFilteredTransactions = (req, res, next) => {
+  const { paymentMode, month, year, search } = req.query;
+  const query = { user: req.currentUser.userId };
+
+  // Add paymentMode filter if provided
+  if (paymentMode && paymentMode !== '0') {
+    query.paymentMode = Number(paymentMode);
+  }
+  
+  // Add date filter if month and year are provided
+  if (Number(year)) {
+    if (Number(month)) {
+      // Filter for specific month and year
+      const startMonth = month.padStart(2, '0');
+      startDate = `${year}-${startMonth}-01`;
+      const endMonth = month.padStart(2, '0');
+      endDate = new Date(year, month, 0);
+      endDate = `${year}-${endMonth}-${endDate.getDate()}`;
+      query.date = { $gte: startDate, $lte: endDate };
+    } else {
+      // Filter for the entire year
+      const startDate = `${year}-01-01`;
+      const endDate = `${year}-12-31`;
+      query.date = { $gte: startDate, $lte: endDate };
+    }
+  }
+
+  // Add search keyword filter if provided
+  if (search) {
+    query.note = { $regex: search, $options: 'i' }; // Case-insensitive search in notes
+  }
+
+  TransactionModel.find(query)
+    .then((result) => utils.sendSuccessResponse(res, HttpStatus.OK, "Transactions fetched successfully!", result))
     .catch((err) => utils.sendErrorResponse(res, HttpStatus.INTERNAL_SERVER_ERROR, err.name, err.message));
 };
 

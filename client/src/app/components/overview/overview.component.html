@@ -1,5 +1,6 @@
 <div class="overview">
-  <section class="welcome centered" *ngIf="!transactions.length">
+  <!--Welcome-->
+  <section class="welcome centered" *ngIf="!transactions.length && isLoading">
     <label class="welcome-text lh-300">Welcome! {{ currentUser.firstName ? currentUser.firstName : currentUser.email }}
     </label>
     <label class="text-20">Manage all your finances in simplest way</label>
@@ -7,12 +8,10 @@
     <a class="link" [routerLink]="'/gettingstarted'">
       Get Started
       <div class="link-icon">
-        <svg class="icon" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd"
-          clip-rule="evenodd">
+        <svg class="icon" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd">
           <path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z" />
         </svg>
-        <svg class="icon" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd"
-          clip-rule="evenodd">
+        <svg class="icon" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd">
           <path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z" />
         </svg>
       </div>
@@ -20,7 +19,7 @@
   </section>
 
   <!--Filter-->
-  <section class="filter flexStart mg-t15 mg-l10 mg-r10" *ngIf="transactions.length">
+  <section class="filter flexStart mg-t15 mg-l10 mg-r10" *ngIf="!isLoading">
     <div class="filter-by-date">
       <div class="filter mg-r10">
         <mat-icon>filter_list</mat-icon>
@@ -29,13 +28,13 @@
       <div class="filter-condition">
         <mat-form-field appearance="outline">
           <mat-label>Select Month</mat-label>
-          <mat-select [(ngModel)]="selectedMonth" (selectionChange)="filterByDate()">
+          <mat-select [(ngModel)]="selectedMonth" (selectionChange)="onDateChange()">
             <mat-option *ngFor="let month of transactionMonths" [value]="month.key">{{month.value}}</mat-option>
           </mat-select>
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>Select Year</mat-label>
-          <mat-select [(ngModel)]="selectedYear" (selectionChange)="filterByDate()">
+          <mat-select [(ngModel)]="selectedYear" (selectionChange)="onDateChange()">
             <mat-option *ngFor="let year of transactionYears" [value]="year">{{year}}</mat-option>
           </mat-select>
         </mat-form-field>
@@ -50,7 +49,7 @@
     <div class="dashboard-view">
       <mat-form-field appearance="fill">
         <mat-label>Change Dashboard View</mat-label>
-        <mat-select [(ngModel)]="selectedView" (selectionChange)="onViewChange($event.value)">
+        <mat-select [(ngModel)]="paymentMode" (selectionChange)="onViewChange()">
           <mat-option [value]="0">
             <img src="/assets/images/paymentModes/text-file.png" alt="summary" width="30px">
             Summary
@@ -64,8 +63,9 @@
     </div>
   </section>
 
-  <section class="summary">
-    <div class="charts" [hidden]="!filteredTransactions.length">
+  <!--Expense Summary-->
+  <section class="summary" [hidden]="isLoading">
+    <div class="charts">
       <div class="flexCol">
         <!--Income Expense Summary-->
         <mat-card class="overview-bar">
@@ -88,11 +88,9 @@
           <span class="pointer align-right" (click)="toggleFlip()" [matTooltip]="'Flip Chart'">
             <img src="/assets/images/exchange.png" alt="flip" width="30px" />
           </span>
-          <highcharts-chart *ngIf="expenseDistOptions && flip" [Highcharts]="Highcharts"
-            [options]="expenseDistOptions" [callbackFunction]="expenseDistChartCb">
+          <highcharts-chart *ngIf="expenseDistOptions && flip" [Highcharts]="Highcharts" [options]="expenseDistOptions">
           </highcharts-chart>
-          <highcharts-chart *ngIf="expenseDistBarOptions && !flip" [Highcharts]="Highcharts"
-            [options]="expenseDistBarOptions">
+          <highcharts-chart *ngIf="expenseDistBarOptions && !flip" [Highcharts]="Highcharts" [options]="expenseDistBarOptions">
           </highcharts-chart>
           <!-- <div class="card-wrapper" [@flipState]="flip">
             <div class="front">
@@ -118,17 +116,21 @@
     </div>
 
     <!--Transactions List-->
-    <div class="recent-transactions" *ngIf="filteredTransactions.length">
-      <mat-form-field class="search mg-10" [hidden]="!transactions.length">
-        <input type="text" matInput placeholder="Search by category or note" name="search" [(ngModel)]="search"
-          (ngModelChange)="filterbySearch()">
-        <button matSuffix mat-button>
-          <mat-icon>search</mat-icon>
-        </button>
+    <div class="recent-transactions">
+      <mat-form-field class="search mg-lr10">
+        <input type="text" matInput placeholder="Search by category or note" name="search" [(ngModel)]="search" (ngModelChange)="onSearchChange($event)">
+        <button matSuffix mat-button><mat-icon>search</mat-icon></button>
       </mat-form-field>
-      <label class="text-24 mg-lr10 pd-b10" *ngIf="total">Total: {{currency.symbol}} {{total | currency:'':''}}</label>
+      <label class="text-24 mg-lr10 pd-b10" *ngIf="!transactions.length">
+        <span class="warn-color">Transactions not available</span>
+        <span *ngIf="paymentMode"> for <img src="{{dashboardView?.icon}}" alt="{{dashboardView?.type}}" width="30px">  {{dashboardView?.name}}</span>
+        <span *ngIf="selectedMonth"> in {{months[selectedMonth - 1]?.value}}<span *ngIf="selectedYear">, {{selectedYear}}</span></span>
+        <span *ngIf="search"> with search keyword 
+          <span class="primary-color">{{search}}</span>
+        </span>
+      </label>
       <div class="transaction-list">
-        <app-transaction-list [transactions]="filteredTransactions" [currencySymbol]="currency.symbol">
+        <app-transaction-list [transactions]="transactions" [currencySymbol]="currency.symbol">
         </app-transaction-list>
       </div>
     </div>
@@ -139,15 +141,16 @@
     </button>
   </section>
 
-  <section class="welcome centered" *ngIf="!filteredTransactions.length && transactions.length">
+  <!--Transactions Not Available-->
+  <!-- <section class="welcome centered" *ngIf="!transactions.length && !isLoading">
     <img src="/assets/images/warning.png" alt="Data not available" width="40px" />
     <h2>Transactions not available</h2>
     <h3>
-      <span *ngIf="selectedView">for <img src="{{dashboardView?.icon}}" alt="{{dashboardView?.type}}" width="30px">  {{dashboardView?.name}}</span>
+      <span *ngIf="paymentMode">for <img src="{{dashboardView?.icon}}" alt="{{dashboardView?.type}}" width="30px">  {{dashboardView?.name}}</span>
       <span *ngIf="selectedMonth"> in {{months[selectedMonth - 1]?.value}}<span *ngIf="selectedYear">, {{selectedYear}}</span></span>
       <span *ngIf="search"> with search keyword 
         <span class="primary-color">{{search}}</span>
       </span>
     </h3>
-  </section>
+  </section> -->
 </div>

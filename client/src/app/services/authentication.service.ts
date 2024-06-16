@@ -8,6 +8,7 @@ import { tap } from 'rxjs/operators';
 import { config } from '../configuration/config';
 import { LoginResponse } from '../models/LoginResponse';
 import { SharedService } from './shared.service';
+import { MessageService } from './message.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,8 @@ export class AuthenticationService {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private messageService: MessageService
   ) {}
 
   private isLoggedIn = new BehaviorSubject<boolean>(this.hasToken());
@@ -78,6 +80,7 @@ export class AuthenticationService {
     clearTimeout(this.tokenTimer);
     this.router.navigate(['login']);
     this.setLoginStatus(false);
+    this.messageService.setIsLoading(false);
     localStorage.clear();
   }
 }

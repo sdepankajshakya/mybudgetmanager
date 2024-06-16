@@ -37,6 +37,11 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { DateRangeResponse } from 'src/app/models/DateRangeResonse';
+import { Subject } from 'rxjs/internal/Subject';
+import { debounceTime } from 'rxjs/internal/operators/debounceTime';
+import { distinctUntilChanged } from 'rxjs/internal/operators/distinctUntilChanged';
+import { takeUntil } from 'rxjs/internal/operators/takeUntil';
 
 @Component({
   selector: 'app-overview',
@@ -64,8 +69,10 @@ import {
 })
 export class OverviewComponent implements OnInit, AfterViewInit {
   messageSubscription: Subscription;
+  isLoadingSubcription: Subscription;
+  isLoading: boolean = false;
+
   transactions: Transaction[] = [];
-  filteredTransactions: Transaction[] = [];
   currency: any;
   userLocale: string = '';
   Highcharts = Highcharts;
@@ -77,18 +84,24 @@ export class OverviewComponent implements OnInit, AfterViewInit {
   transactionYears: number[] = [];
   selectedMonth: number = 0;
   selectedYear: number = 0;
-  selectedView = null;
+  paymentMode: number = 0;
+
   search: string = '';
+  private searchSubject: Subject<string> = new Subject();
+  private destroy$ = new Subject<void>();
+
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
     plugins: [dayGridPlugin, interactionPlugin],
+    headerToolbar: {
+      right: ''
+    }
   };
   calendarApi!: any;
   color: ThemePalette = 'accent';
   categoryCount: any = {};
   paymentModes: PaymentMode[] = [];
   flip: boolean = false;
-  total: number = 0;
   months = config.months;
 
   private transaction: Transaction = {
@@ -135,14 +148,17 @@ export class OverviewComponent implements OnInit, AfterViewInit {
           message.text === 'transaction deleted' ||
           message.text === 'transaction saved'
         ) {
-          this.getTransactions();
+          this.getFilteredTransactions();
         }
       });
+
+    this.isLoadingSubcription = this.messageService.isLoading$.subscribe(value => {
+      this.isLoading = value;
+    })
   }
 
   ngOnInit(): void {
     this.getCategories();
-    this.getTransactions();
     this.getPaymentModes();
 
     this.userLocale = this.sharedService.getItemFromLocalStorage('userLocale') || 'en-IN';
@@ -156,6 +172,16 @@ export class OverviewComponent implements OnInit, AfterViewInit {
 
     this.selectedMonth = this.sharedService.now.month;
     this.selectedYear = this.sharedService.now.year;
+    this.getTransactionsDateRange();
+    if (this.selectedMonth && this.selectedYear) this.getFilteredTransactions();
+
+    this.searchSubject.pipe(
+      debounceTime(500),
+      distinctUntilChanged(),
+      takeUntil(this.destroy$)
+    ).subscribe(_ => {
+      this.getFilteredTransactions();
+    });
   }
 
   ngAfterViewInit(): void {
@@ -166,12 +192,16 @@ export class OverviewComponent implements OnInit, AfterViewInit {
     this.flip = !this.flip;
   }
 
+  resetTransactions() {
+    this.transactions = [];
+  }
+
   clearFilter() {
-    this.selectedMonth = this.selectedYear = 0;
-    this.selectedView = null;
-    this.total = 0;
+    this.resetTransactions();
     this.search = '';
-    this.filterByDate();
+    this.paymentMode = 0;
+    this.selectedMonth = this.selectedYear = 0;
+    this.getTransactions();
   }
 
   openAddTransactionModal(dateSelectedFromCalendar: Date = new Date()) {
@@ -183,20 +213,14 @@ export class OverviewComponent implements OnInit, AfterViewInit {
   }
 
   getCategories() {
-    let savedCategories =
-      this.sharedService.getItemFromLocalStorage('categories');
+    let savedCategories = this.sharedService.getItemFromLocalStorage('categories');
     if (!savedCategories) {
       this.settingsService.getCategories().subscribe(
         (res) => {
           let response = res as any;
           if (response && response.data && response.data.length) {
-            response.data.sort((a: Category, b: Category) =>
-              a.name.localeCompare(b.name)
-            );
-            this.sharedService.setItemToLocalStorage(
-              'categories',
-              response.data
-            );
+            response.data.sort((a: Category, b: Category) => a.name.localeCompare(b.name));
+            this.sharedService.setItemToLocalStorage('categories', response.data);
 
             this.setCategoryCount(response.data);
           }
@@ -226,7 +250,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
   }
 
   get dashboardView() {
-    return this.paymentModes?.find(mode => mode.type === this.selectedView);
+    return this.paymentModes?.find(mode => mode.type === this.paymentMode);
   }
 
   setCategoryCount(data: Category[]) {
@@ -238,280 +262,207 @@ export class OverviewComponent implements OnInit, AfterViewInit {
     }
   }
 
+  getTransactionsDateRange() {
+    this.transactionService.getTransactionsDateRange().subscribe((res: any) => {
+      const dateRange = <DateRangeResponse>res?.data;
+      const firstDate = new Date(dateRange.firstDate);
+      const lastDate = new Date(dateRange.lastDate);
+      this.populateMonthYearOptions(firstDate, lastDate);
+    });
+  }
+
+  populateMonthYearOptions(firstDate: Date, lastDate: Date) {
+    const firstYear = firstDate.getFullYear();
+    const lastYear = lastDate.getFullYear();
+
+    for (let year = firstYear; year <= lastYear; year++) {
+      if (!this.transactionYears.includes(year)) this.transactionYears.push(year);
+
+      for (let month = 1; month <= 12; month++) {
+        const monthObj = config.months.find(m => m.key === month);
+        if (!this.transactionMonths.includes(monthObj)) {
+          this.transactionMonths.push(monthObj);
+        }
+      }
+    }
+  }
+
+  onDateChange() {
+    this.resetTransactions();
+    this.getFilteredTransactions();
+  }
+
   getTransactions() {
     this.messageService.setIsLoading(true);
     this.transactionService.getTransations().subscribe((res) => {
+      this.messageService.setIsLoading(false);
       const transactions = <Transaction[]>res;
-      if (transactions) {
-        this.transactions = this.filteredTransactions = transactions;
-        this.messageService.setIsLoading(false);
-
-        // populate month and year dropdown filter
-        if (this.transactions.length) {
-          let calendarEvents: any[] = [];
-
-          this.transactions.forEach((trans) => {
-            if (trans.category?.name) {
-              this.categoryCount[trans.category.name]++;
-            }
-
-            let transDate = new Date(trans.date);
-            const month = transDate.getMonth() + 1;
-            const year = transDate.getFullYear();
-
-            config.months.forEach((monthObj) => {
-              if (
-                monthObj.key === month &&
-                !this.transactionMonths.includes(monthObj)
-              ) {
-                this.transactionMonths.push(monthObj);
-              }
-            });
-
-            if (this.transactionMonths && this.transactionMonths.length) {
-              this.transactionMonths.sort((a, b) =>
-                a.key > b.key ? 1 : b.key > a.key ? -1 : 0
-              );
-            }
-
-            if (!this.transactionYears.includes(year))
-              this.transactionYears.push(year);
-          });
-
-          // set most used categories
-          if (this.categoryCount) {
-            const mostUsedCategories = this.sharedService.getTopValues(
-              this.categoryCount,
-              7
-            );
-            const categoryNames = Object.keys(mostUsedCategories);
-            this.sharedService.setItemToLocalStorage(
-              'mostUsedCategories',
-              categoryNames
-            );
-          }
-
-          // filter all the debit and credit transactions
-          let transDebit = this.transactions.filter(
-            (trans) => trans.category?.type === 'expense'
-          );
-          let transCredit = this.transactions.filter(
-            (trans) => trans.category?.type === 'income'
-          );
-
-          // create a map(key: date of transaction, value: debit amount) for calendar event
-          let transDebitMap = new Map();
-          let totalDebitAmount = 0;
-          transDebit.forEach((trans) => {
-            if (transDebitMap.get(trans.date)) {
-              totalDebitAmount = transDebitMap.get(trans.date);
-              totalDebitAmount += trans.amount;
-              transDebitMap.set(trans.date, totalDebitAmount);
-            } else {
-              transDebitMap.set(trans.date, trans.amount);
-            }
-          });
-
-          // loop through the keys and create a calendar event
-          for (const [key, value] of transDebitMap.entries()) {
-            let transactionEvent = {
-              title:
-                '-' +
-                this.currency.symbol +
-                formatNumber(value, this.userLocale),
-              color: '#FFF',
-              textColor: '#FF3131',
-              date: key, // calender event accepts date in the iso format yyyy-mm-dd
-            };
-
-            calendarEvents.push(transactionEvent);
-          }
-
-          // create a map(key: date of transaction, value: credit amount) for calendar event
-          let transCreditMap = new Map();
-          let totalCreditAmount = 0;
-          transCredit.forEach((trans) => {
-            if (transCreditMap.get(trans.date)) {
-              totalCreditAmount = transCreditMap.get(trans.date);
-              totalCreditAmount += trans.amount;
-              transCreditMap.set(trans.date, totalCreditAmount);
-            } else {
-              transCreditMap.set(trans.date, trans.amount);
-            }
-          });
-
-          // loop through the keys and create a calendar event
-          for (const [key, value] of transCreditMap.entries()) {
-            let transactionEvent = {
-              title:
-                '+' +
-                this.currency.symbol +
-                formatNumber(value, this.userLocale),
-              color: '#FFF',
-              textColor: '#32CD32',
-              date: key,
-            };
-            calendarEvents.push(transactionEvent);
-          }
-
-          this.calendarOptions = {
-            events: calendarEvents,
-            dateClick: this.handleDateClick.bind(this),
-          };
-        }
-
-        this.filterByDate();
-        if (this.search) this.filterbySearch();
-      }
+      this.transactions = transactions;
+      this.populateExpenseCharts();
+      this.populateCalendar();
     });
+  }
+
+  onSearchChange(searchKeyword: string): void {
+    this.searchSubject.next(searchKeyword);
+  }
+
+  getFilteredTransactions() {
+    this.messageService.setIsLoading(true);
+    const params = {
+      month: this.selectedMonth,
+      year: this.selectedYear,
+      search: this.search,
+      paymentMode: this.paymentMode
+    }
+    this.transactionService.getFilteredTransactions(params).subscribe((res) => {
+      this.messageService.setIsLoading(false);
+      const transactions = <Transaction[]>res;
+      this.transactions = transactions;
+      this.populateExpenseCharts();
+      this.populateCalendar();
+    });
+  }
+
+  populateCalendar() {
+    if (this.transactions.length) {
+      let calendarEvents: any[] = [];
+
+      // filter all the debit and credit transactions
+      let transDebit = this.transactions.filter((trans) => trans.category?.type === 'expense');
+      let transCredit = this.transactions.filter((trans) => trans.category?.type === 'income');
+
+      // create a map(key: date of transaction, value: debit amount) for calendar event
+      let transDebitMap = new Map();
+      let totalDebitAmount = 0;
+      transDebit.forEach((trans) => {
+        if (transDebitMap.get(trans.date)) {
+          totalDebitAmount = transDebitMap.get(trans.date);
+          totalDebitAmount += trans.amount;
+          transDebitMap.set(trans.date, totalDebitAmount);
+        } else {
+          transDebitMap.set(trans.date, trans.amount);
+        }
+      });
+
+      // loop through the keys and create a calendar event
+      for (const [key, value] of transDebitMap.entries()) {
+        let transactionEvent = {
+          title: '-' + this.currency.symbol + formatNumber(value, this.userLocale),
+          color: '#FFF',
+          textColor: '#FF3131',
+          date: key, // calender event accepts date in the iso format yyyy-mm-dd
+        };
+
+        calendarEvents.push(transactionEvent);
+      }
+
+      // create a map(key: date of transaction, value: credit amount) for calendar event
+      let transCreditMap = new Map();
+      let totalCreditAmount = 0;
+      transCredit.forEach((trans) => {
+        if (transCreditMap.get(trans.date)) {
+          totalCreditAmount = transCreditMap.get(trans.date);
+          totalCreditAmount += trans.amount;
+          transCreditMap.set(trans.date, totalCreditAmount);
+        } else {
+          transCreditMap.set(trans.date, trans.amount);
+        }
+      });
+
+      // loop through the keys and create a calendar event
+      for (const [key, value] of transCreditMap.entries()) {
+        let transactionEvent = {
+          title: '+' + this.currency.symbol + formatNumber(value, this.userLocale),
+          color: '#FFF',
+          textColor: '#32CD32',
+          date: key,
+        };
+        calendarEvents.push(transactionEvent);
+      }
+
+      this.calendarOptions = {
+        events: calendarEvents,
+        dateClick: this.handleDateClick.bind(this),
+      };
+
+      this.goToDate();  // Navigate FullCalendar instance to selected date
+    } else {
+      this.calendarOptions = {
+        events: [],
+        dateClick: this.handleDateClick.bind(this),
+      };
+    }
+  }
+
+  goToDate() {
+    if (this.selectedMonth && this.selectedYear) {
+      const selectedDate = new Date(this.selectedYear, this.selectedMonth - 1, 1);
+      this.calendarApi.gotoDate(selectedDate);
+    }
+    else if (this.selectedYear) {
+      // Navigate to the start of the selected year and restrict navigation to the current year
+      const startDate = new Date(this.selectedYear, 0, 1);
+      const endDate = new Date(this.selectedYear, 11, 31);
+      this.calendarApi.gotoDate(startDate);
+
+      // Manually format dates to YYYY-MM-DD
+      const formatDate = (date: Date) => {
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+        return `${year}-${month}-${day}`;
+      };
+
+      this.calendarOptions = {
+        ...this.calendarOptions,
+        validRange: {
+          start: formatDate(startDate),
+          end: formatDate(endDate)
+        },
+        headerToolbar: {
+          right: 'today prev,next'
+        }
+      };
+    }
+    else {
+      // Move to the current month and show navigation buttons
+      const currentMonth = this.sharedService.now.month;
+      const currentYear = this.sharedService.now.year;
+      const currentDate = new Date(currentYear, currentMonth, 1);
+      this.calendarOptions = {
+        ...this.calendarOptions,
+        headerToolbar: {
+          right: 'today prev,next'
+        }
+      };
+      this.calendarApi.gotoDate(currentDate);
+    }
+  }
+
+  setMostUsedCategories() {
+    if (this.categoryCount) {
+      const mostUsedCategories = this.sharedService.getTopValues(this.categoryCount, 7);
+      const categoryNames = Object.keys(mostUsedCategories);
+      this.sharedService.setItemToLocalStorage('mostUsedCategories', categoryNames);
+    }
   }
 
   handleDateClick(arg: any) {
     this.openAddTransactionModal(arg.date);
   }
 
-  filterByDate() {
-    let keyword = this.search?.toLowerCase();
-    this.total = 0;
-    
-    if (this.selectedMonth && this.selectedYear) {
-      this.filteredTransactions = this.transactions.filter((trans) => {
-        let transDate = new Date(trans.date);
-        const month = transDate.getMonth() + 1;
-        const year = transDate.getFullYear();
-
-        if (keyword) {
-          return (
-            month === this.selectedMonth &&
-            year === this.selectedYear &&
-            (trans.category?.name.toLowerCase().indexOf(keyword) > -1 ||
-              trans.note?.toLowerCase().indexOf(keyword) > -1)
-          );
-        } else {
-          return month === this.selectedMonth && year === this.selectedYear;
-        }
-      });
-      this.formatChartData(this.filteredTransactions);
-
-      let selectedDate = new Date(this.selectedYear, this.selectedMonth - 1, 1);
-      this.calendarApi.gotoDate(selectedDate);
-    } else if (this.selectedYear) {
-      this.filteredTransactions = this.transactions.filter((trans) => {
-        let transDate = new Date(trans.date);
-        const year = transDate.getFullYear();
-
-        if (keyword) {
-          return (
-            year === this.selectedYear &&
-            (trans.category?.name.toLowerCase().indexOf(keyword) > -1 ||
-              trans.note?.toLowerCase().indexOf(keyword) > -1)
-          );
-        } else {
-          return year === this.selectedYear;
-        }
-      });
-      this.formatChartData(this.filteredTransactions);
-
-      let selectedDate = new Date(this.selectedYear, 0, 1);
-      this.calendarApi.gotoDate(selectedDate);
-    } else {
-      this.filteredTransactions = this.transactions;
-      this.formatChartData(this.transactions);
-    }
-
-    if (this.selectedView) {
-      this.filteredTransactions = this.filteredTransactions.filter(
-        (trans) => trans.paymentMode === this.selectedView
-      );
-    }
-    this.formatChartData(this.filteredTransactions);
-
-    // Total amount based on search keyword
-    if (this.filteredTransactions.length && keyword) {
-      this.filteredTransactions.forEach((trans) => {
-        this.total += trans.amount;
-      });
-    }
+  populateExpenseCharts() {
+    this.formatChartData(this.transactions);
   }
 
-  filterbySearch() {
-    this.total = 0;
-    if (this.search) {
-      let keyword = this.search.toLowerCase();
-      let filterTransactionsBasedOnKeyword: Transaction[] = [];
-      let filterTransactionsBasedOnKeywordAndDate: Transaction[] = [];
-      this.transactions.forEach((trans) => {
-        if (
-          (trans.category &&
-            trans.category.name.toLowerCase().indexOf(keyword) > -1) ||
-          (trans.note && trans.note.toLowerCase().indexOf(keyword) > -1)
-        ) {
-          filterTransactionsBasedOnKeyword.push(trans);
-        }
-      });
-
-      if (filterTransactionsBasedOnKeyword?.length) {
-        filterTransactionsBasedOnKeyword.forEach((trans) => {
-          let transDate = new Date(trans.date);
-          const transMonth = transDate.getMonth() + 1;
-          const transYear = transDate.getFullYear();
-
-          if (
-            this.selectedMonth &&
-            this.selectedYear &&
-            transMonth === this.selectedMonth &&
-            transYear === this.selectedYear
-          ) {
-            filterTransactionsBasedOnKeywordAndDate.push(trans);
-          }
-          if (
-            !this.selectedMonth &&
-            this.selectedYear &&
-            transYear === this.selectedYear
-          ) {
-            filterTransactionsBasedOnKeywordAndDate.push(trans);
-          }
-        });
-      }
-
-      this.filteredTransactions = filterTransactionsBasedOnKeywordAndDate.length
-        ? filterTransactionsBasedOnKeywordAndDate
-        : filterTransactionsBasedOnKeyword.length
-        ? filterTransactionsBasedOnKeyword
-        : this.transactions;
-
-      // set Total Expenses
-      if (filterTransactionsBasedOnKeywordAndDate.length) {
-        filterTransactionsBasedOnKeywordAndDate.forEach((trans) => {
-          this.total += trans.amount;
-        });
-      } else if (filterTransactionsBasedOnKeyword.length) {
-        filterTransactionsBasedOnKeyword.forEach((trans) => {
-          this.total += trans.amount;
-        });
-      } else if (this.transactions.length) {
-        this.total = 0;
-      }
-    } else {
-      this.filterByDate();
-    }
+  onViewChange() {
+    this.resetTransactions();
+    this.getFilteredTransactions();
+    this.formatChartData(this.transactions);
   }
 
-  onViewChange(paymentMode: number) {
-    if (paymentMode === 0) {
-      this.filteredTransactions = this.transactions;
-    } else {
-        this.filteredTransactions = this.transactions.filter(
-          (trans) => trans.paymentMode === paymentMode
-        );
-    }
-
-    this.search = "";
-    if (this.selectedMonth || this.selectedYear) this.filterByDate();
-    this.formatChartData(this.filteredTransactions);
-  }
-
-  formatChartData(transactions: any) {
+  formatChartData(transactions: Transaction[]) {
     let categoryAmountMap = new Map();
     let totalIncome = 0;
     let totalExpense = 0;
@@ -546,34 +497,39 @@ export class OverviewComponent implements OnInit, AfterViewInit {
           }
         }
       });
-    }
 
-    // formatting the series data for pie chart
-    let budgetData: any[] = [];
-    categoryAmountMap.forEach((value, key) => {
-      budgetData.push({
-        name: key ? key : 'Uncategorized',
-        y: value,
+      // formatting the series data for pie chart
+      let budgetData: any[] = [];
+      categoryAmountMap.forEach((value, key) => {
+        budgetData.push({
+          name: key ? key : 'Uncategorized',
+          y: value,
+        });
       });
-    });
 
-    if (budgetData?.length) {
-      this.createExpenseDistributionChart(budgetData);
-      this.createExpenseDistributionBarChart(budgetData);
-    }
+      if (budgetData?.length) {
+        this.createExpenseDistributionChart(budgetData);
+        this.createExpenseDistributionBarChart(budgetData);
+      }
 
-    let IncomeExpenseData = [totalIncome, totalExpense];
-    if (IncomeExpenseData?.length && (totalExpense > 0 || totalIncome > 0)) {
-      this.createIncomeExpenseSummaryChart(
-        this.IncomeExpenseSummaryContainer.nativeElement.id,
-        IncomeExpenseData
-      );
+      let IncomeExpenseData = [totalIncome, totalExpense];
+      if (IncomeExpenseData?.length && (totalExpense > 0 || totalIncome > 0)) {
+        this.createIncomeExpenseSummaryChart(
+          this.IncomeExpenseSummaryContainer.nativeElement.id,
+          IncomeExpenseData
+        );
 
-      this.createTotalSavingsChart(
-        this.TotalSavingsContainer.nativeElement.id,
-        totalIncome,
-        totalExpense
-      );
+        this.createTotalSavingsChart(
+          this.TotalSavingsContainer.nativeElement.id,
+          totalIncome,
+          totalExpense
+        );
+      }
+    } else {
+      this.createExpenseDistributionChart([]);
+      this.createExpenseDistributionBarChart([]);
+      this.createIncomeExpenseSummaryChart(this.IncomeExpenseSummaryContainer.nativeElement.id, []);
+      this.createTotalSavingsChart(this.TotalSavingsContainer.nativeElement.id, 0, 0);
     }
   }
 
@@ -862,5 +818,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
   ngOnDestroy() {
     // unsubscribe to ensure no memory leaks
     this.messageSubscription.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
