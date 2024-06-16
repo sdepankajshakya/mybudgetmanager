@@ -36,7 +36,7 @@ exports.getFilteredTransactions = (req, res, next) => {
   if (paymentMode && paymentMode !== '0') {
     query.paymentMode = Number(paymentMode);
   }
-  
+
   // Add date filter if month and year are provided
   if (Number(year)) {
     if (Number(month)) {
@@ -57,7 +57,10 @@ exports.getFilteredTransactions = (req, res, next) => {
 
   // Add search keyword filter if provided
   if (search) {
-    query.note = { $regex: search, $options: 'i' }; // Case-insensitive search in notes
+    query.$or = [
+      { note: { $regex: search, $options: 'i' } }, // Case-insensitive search in notes
+      { 'category.name': { $regex: search, $options: 'i' } } // Case-insensitive search in category name
+    ];
   }
 
   TransactionModel.find(query)
