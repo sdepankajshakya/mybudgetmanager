@@ -1,6 +1,6 @@
 <div class="overview">
   <!--Welcome-->
-  <section class="welcome centered" *ngIf="!transactions.length && isLoading">
+  <section class="welcome centered" *ngIf="isLoading">
     <label class="welcome-text lh-300">Welcome! {{ currentUser.firstName ? currentUser.firstName : currentUser.email }}
     </label>
     <label class="text-20">Manage all your finances in simplest way</label>
@@ -63,8 +63,8 @@
     </div>
   </section>
 
-  <!--Expense Summary-->
   <section class="summary" [hidden]="isLoading">
+    <!--Expense Summary-->
     <div class="charts">
       <div class="flexCol">
         <!--Income Expense Summary-->
@@ -140,17 +140,4 @@
       <img src="/assets/images/plus.png" alt="Add Transaction" width="60px" />
     </button>
   </section>
-
-  <!--Transactions Not Available-->
-  <!-- <section class="welcome centered" *ngIf="!transactions.length && !isLoading">
-    <img src="/assets/images/warning.png" alt="Data not available" width="40px" />
-    <h2>Transactions not available</h2>
-    <h3>
-      <span *ngIf="paymentMode">for <img src="{{dashboardView?.icon}}" alt="{{dashboardView?.type}}" width="30px">  {{dashboardView?.name}}</span>
-      <span *ngIf="selectedMonth"> in {{months[selectedMonth - 1]?.value}}<span *ngIf="selectedYear">, {{selectedYear}}</span></span>
-      <span *ngIf="search"> with search keyword 
-        <span class="primary-color">{{search}}</span>
-      </span>
-    </h3>
-  </section> -->
 </div>

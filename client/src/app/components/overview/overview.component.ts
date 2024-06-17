@@ -38,10 +38,8 @@ import {
   trigger,
 } from '@angular/animations';
 import { DateRangeResponse } from 'src/app/models/DateRangeResonse';
-import { Subject } from 'rxjs/internal/Subject';
-import { debounceTime } from 'rxjs/internal/operators/debounceTime';
-import { distinctUntilChanged } from 'rxjs/internal/operators/distinctUntilChanged';
-import { takeUntil } from 'rxjs/internal/operators/takeUntil';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/internal/operators';
 
 @Component({
   selector: 'app-overview',
@@ -176,7 +174,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
     if (this.selectedMonth && this.selectedYear) this.getFilteredTransactions();
 
     this.searchSubject.pipe(
-      debounceTime(500),
+      debounceTime(1000),
       distinctUntilChanged(),
       takeUntil(this.destroy$)
     ).subscribe(_ => {
@@ -457,7 +455,6 @@ export class OverviewComponent implements OnInit, AfterViewInit {
   }
 
   onViewChange() {
-    this.resetTransactions();
     this.getFilteredTransactions();
     this.formatChartData(this.transactions);
   }
