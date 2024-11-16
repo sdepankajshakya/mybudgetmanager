@@ -22,29 +22,11 @@ app.use(bodyParser.json());
 
 // Allow requests from localhost
 app.use(cors({
-  origin: 'http://localhost:4200',
+  origin: ['http://localhost:4200', 'https://mybudgetmanager.up.railway.app'],
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }));
 
-// Use helmet to set security headers
-app.use(helmet());
-
-// Set Content-Security-Policy to allow Google scripts
-app.use(
-  helmet.contentSecurityPolicy({
-    directives: {
-      defaultSrc: ["'self'"],  // Allows only your own domain by default
-      scriptSrc: ["'self'", "https://accounts.google.com", "https://apis.google.com"],  // Google Sign-In script
-      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],  // Google Fonts and inline styles
-      fontSrc: ["'self'", "https://fonts.gstatic.com"],  // Google Fonts
-      imgSrc: ["'self'", "https://www.gstatic.com"],  // Google images (if needed)
-      connectSrc: ["'self'", "https://accounts.google.com", "https://apis.google.com"],  // Google API connections
-      objectSrc: ["'none'"],  // Prevent embedding objects
-      baseUri: ["'self'"],  // Restrict base URI
-      formAction: ["'self'"]  // Restrict form actions
-    }
-  })
-);
+app.use(helmet()); // Set various HTTP headers for security
 
 // Implement rate limiting
 const limiter = rateLimit({
