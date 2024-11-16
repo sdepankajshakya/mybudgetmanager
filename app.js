@@ -28,6 +28,32 @@ app.use(cors({
 
 app.use(helmet()); // Set various HTTP headers for security
 
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: [
+        "'self'",
+        "'unsafe-inline'", // Allow inline scripts
+        "https://accounts.google.com",  // Allow Google Sign-In script
+        "https://apis.google.com",      // Allow Google APIs
+        "https://www.gstatic.com",      // Allow Google images
+      ],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"], // Allow Google Fonts
+      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      imgSrc: ["'self'", "https://www.gstatic.com"],
+      connectSrc: [
+        "'self'",
+        "https://accounts.google.com",
+        "https://apis.google.com",
+      ],
+      objectSrc: ["'none'"],
+      baseUri: ["'self'"],
+      formAction: ["'self'"],
+    },
+  })
+);
+
 // Implement rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
