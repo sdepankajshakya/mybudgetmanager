@@ -54,14 +54,15 @@ exports.login = (req, res, next) => {
     .catch((err) => utils.sendErrorResponse(res, HttpStatus.UNAUTHORIZED, "Unauthorized!", "Incorrect email address!"));
 };
 
-exports.signInWithGoogle = (req, res, next) => {
+exports.onGoogleSignIn = (req, res, next) => {
   async function verify() {
     const ticket = await client.verifyIdToken({
-      idToken: req.body.idToken,
+      idToken: req.body.token,
       audience: GOOGLE_CLIENT_ID,
     });
 
     const payload = ticket.getPayload();
+
     const userDetails = {
       email: payload["email"],
       firstname: payload["given_name"],

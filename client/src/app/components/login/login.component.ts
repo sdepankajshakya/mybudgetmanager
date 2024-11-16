@@ -8,11 +8,13 @@ import { Subscription } from 'rxjs';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { ErrorHandlerComponent } from '../error-handler/error-handler.component';
 
-import { SocialAuthService } from "@abacritt/angularx-social-login";
-import { FacebookLoginProvider, GoogleLoginProvider } from "@abacritt/angularx-social-login";
 import { ThemePalette } from '@angular/material/core';
 import { LoginResponse } from 'src/app/models/LoginResponse';
 import { MessageService } from 'src/app/services/message.service';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+
+declare var google: any;
 
 @Component({
   selector: 'app-login',
@@ -22,12 +24,13 @@ import { MessageService } from 'src/app/services/message.service';
 export class LoginComponent implements OnInit, OnDestroy {
   loginStatusSubsciption: Subscription;
   isLoggedIn: boolean = false;
+  private accessToken = '';
+  clientId = environment.googleClientId;
 
   constructor(
     private dialog: MatDialog,
     private router: Router,
     private authService: AuthenticationService,
-    private socialAuthService: SocialAuthService,
     private messageService: MessageService
   ) {
     this.loginStatusSubsciption = this.authService
@@ -44,6 +47,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this.isLoggedIn) {
       this.router.navigate(['overview']);
     }
+
+    this.authService.initializeGoogleSignIn();
   }
 
   onLogin(form: NgForm) {
@@ -68,30 +73,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.messageService.setIsLoading(false);
       }
     );
-  }
-
-  signInWithGoogle(): void {
-    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then((socialUser) => {
-      this.authService.signInWithGoogle(socialUser).subscribe(
-        (res) => {
-          this.messageService.setIsLoading(true);
-          const response = res as LoginResponse;
-          if (response.data) {
-            this.authService.setLoginStatus(true);
-            this.router.navigate(['overview']);
-          }
-        },
-        (err) => {
-          this.messageService.setIsLoading(false);
-        }
-      );
-    }).catch(data => {
-      this.router.navigate(['login']);
-    });
-  }
-
-  signInWithFB(): void {
-    this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID);
   }
 
   ngOnDestroy() {

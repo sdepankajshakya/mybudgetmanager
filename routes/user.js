@@ -5,6 +5,6 @@ const userController = require("../controllers/userController");
 
 router.post("/signup", userController.signup);
 router.post("/login", userController.login);
-router.post("/signInWithGoogle", userController.signInWithGoogle);
+router.post("/onGoogleSignIn", userController.onGoogleSignIn);
 
 module.exports = router;

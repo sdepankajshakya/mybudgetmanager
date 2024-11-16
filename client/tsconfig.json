@@ -21,6 +21,10 @@
     ],
     "useDefineForClassFields": false
   },
+  "include": [
+    "src/**/*.ts",
+    "src/app/models/google-signin.d.ts"
+  ],
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,

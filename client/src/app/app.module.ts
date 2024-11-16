@@ -50,9 +50,6 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
-import { SocialLoginModule, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
-import { GoogleLoginProvider, FacebookLoginProvider } from '@abacritt/angularx-social-login';
-
 import { ContactUsComponent } from './components/contact-us/contact-us.component';
 import { CurrencyPipe } from '@angular/common';
 import { GettingStartedComponent } from './components/getting-started/getting-started.component';
@@ -60,18 +57,6 @@ import { FileSaverModule } from 'ngx-filesaver';
 import { FilterPipe } from './shared/filter.pipe';
 import { HomepageComponent } from './components/homepage/homepage.component';
 import { SpinnerComponent } from './shared/spinner/spinner.component';
-
-const web = {
-  client_id:
-    '530562955070-2r62masjenjk4oksn7s87a9g1f4aq655.apps.googleusercontent.com',
-  project_id: 'budget-manager-336320',
-  auth_uri: 'https://accounts.google.com/o/oauth2/auth',
-  token_uri: 'https://oauth2.googleapis.com/token',
-  auth_provider_x509_cert_url: 'https://www.googleapis.com/oauth2/v1/certs',
-  client_secret: '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',
-  redirect_uris: ['https://mybudgetmanager.azurewebsites.net/'],
-  javascript_origins: ['https://mybudgetmanager.azurewebsites.net/'],
-};
 
 @NgModule({
   declarations: [
@@ -122,7 +107,6 @@ const web = {
     ToastrModule.forRoot(),
     ScrollingModule,
     FullCalendarModule,
-    SocialLoginModule,
     MatRadioModule,
     MatButtonToggleModule,
     FileSaverModule,
@@ -142,22 +126,6 @@ const web = {
       multi: true,
     },
     AuthenticationService,
-    {
-      provide: 'SocialAuthServiceConfig',
-      useValue: {
-        autoLogin: false,
-        providers: [
-          {
-            id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(web.client_id),
-          },
-          {
-            id: FacebookLoginProvider.PROVIDER_ID,
-            provider: new FacebookLoginProvider(web.client_id),
-          },
-        ],
-      } as SocialAuthServiceConfig,
-    },
     CurrencyPipe,
   ],
   bootstrap: [AppComponent],
