@@ -26,7 +26,27 @@ app.use(cors({
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }));
 
-app.use(helmet()); // Set various HTTP headers for security
+// Use helmet to set security headers
+app.use(helmet());
+
+// Set Content-Security-Policy to allow Google scripts
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: [
+        "'self'",
+        "https://accounts.google.com", // Allow Google Sign-In script
+        "'unsafe-inline'", // Allow inline scripts
+      ],
+      objectSrc: ["'none'"], // Block all plugins (like Flash, etc.)
+      styleSrc: ["'self'", "'unsafe-inline'"], // Allow inline styles
+      imgSrc: ["'self'", "data:", "https://www.gstatic.com"], // Allow images from Google
+      connectSrc: ["'self'", "https://www.googleapis.com"], // Allow API calls to Google
+      fontSrc: ["'self'", "https://fonts.gstatic.com"], // Allow Google fonts
+    },
+  })
+);
 
 // Implement rate limiting
 const limiter = rateLimit({
