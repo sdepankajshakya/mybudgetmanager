@@ -33,18 +33,16 @@ app.use(helmet());
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: [
-        "'self'",
-        "https://accounts.google.com", // Allow Google Sign-In script
-        "'unsafe-inline'", // Allow inline scripts
-      ],
-      objectSrc: ["'none'"], // Block all plugins (like Flash, etc.)
-      styleSrc: ["'self'", "'unsafe-inline'"], // Allow inline styles
-      imgSrc: ["'self'", "data:", "https://www.gstatic.com"], // Allow images from Google
-      connectSrc: ["'self'", "https://www.googleapis.com"], // Allow API calls to Google
-      fontSrc: ["'self'", "https://fonts.gstatic.com"], // Allow Google fonts
-    },
+      defaultSrc: ["'self'"],  // Allows only your own domain by default
+      scriptSrc: ["'self'", "https://accounts.google.com", "https://apis.google.com"],  // Google Sign-In script
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],  // Google Fonts and inline styles
+      fontSrc: ["'self'", "https://fonts.gstatic.com"],  // Google Fonts
+      imgSrc: ["'self'", "https://www.gstatic.com"],  // Google images (if needed)
+      connectSrc: ["'self'", "https://accounts.google.com", "https://apis.google.com"],  // Google API connections
+      objectSrc: ["'none'"],  // Prevent embedding objects
+      baseUri: ["'self'"],  // Restrict base URI
+      formAction: ["'self'"]  // Restrict form actions
+    }
   })
 );
 
