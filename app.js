@@ -34,20 +34,25 @@ app.use(
       defaultSrc: ["'self'"],
       scriptSrc: [
         "'self'",
-        "'unsafe-inline'", // Allow inline scripts (required for Google Sign-In)
+        "'unsafe-inline'",
         "https://accounts.google.com",
         "https://apis.google.com",
       ],
-      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"], // Allow Google Fonts
-      fontSrc: ["'self'", "https://fonts.gstatic.com"], // Allow Google Fonts
-      imgSrc: ["'self'", "data:", "https://www.gstatic.com"], // Allow images and data URIs
+      styleSrc: [
+        "'self'",
+        "'unsafe-inline'",
+        "https://fonts.googleapis.com",
+        "https://accounts.google.com",
+      ],
+      fontSrc: ["'self'", "https://fonts.gstatic.com", "data:"], // Allow 'data:' URIs
+      imgSrc: ["'self'", "https://www.gstatic.com", "data:"], // Allow 'data:' URIs for images
       connectSrc: [
         "'self'",
         "https://accounts.google.com",
         "https://apis.google.com",
       ],
-      frameSrc: ["https://accounts.google.com"], // Allow iframes for Google Sign-In
-      objectSrc: ["'none'"], // Disallow all objects
+      frameSrc: ["'self'", "https://accounts.google.com"],
+      objectSrc: ["'none'"],
       baseUri: ["'self'"],
       formAction: ["'self'"],
     },
