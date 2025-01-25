@@ -1,0 +1,20 @@
+{
+    "name": "Budget Manager",
+    "short_name": "BudgetManager",
+    "start_url": "/login",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#f7a105",
+    "icons": [
+      {
+        "src": "../assets/images/icon.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      },
+      {
+        "src": "../assets/images/icon.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      }
+    ]
+  }

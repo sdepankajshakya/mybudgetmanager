@@ -26,7 +26,7 @@ export class AuthenticationService {
 
   private isLoggedIn = new BehaviorSubject<boolean>(this.hasToken());
   private tokenTimer: any;
-  private clientId = environment.googleClientId;
+  private clientId = environment.GOOGLE_CLIENT_ID;
 
   private hasToken(): boolean {
     return !!localStorage.getItem('access_token');
@@ -66,6 +66,7 @@ export class AuthenticationService {
     if (window['google'] && window['google'].accounts) {
       window['google'].accounts.id.initialize({
         client_id: this.clientId,
+        ux_mode: "popup",
         callback: (response: any) => this.onGoogleSignIn(response) // Bind `this` correctly here
       });
       this.renderSignInButton();

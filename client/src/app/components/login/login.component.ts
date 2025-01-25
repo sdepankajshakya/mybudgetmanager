@@ -25,7 +25,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   loginStatusSubsciption: Subscription;
   isLoggedIn: boolean = false;
   private accessToken = '';
-  clientId = environment.googleClientId;
 
   constructor(
     private dialog: MatDialog,
