@@ -22,7 +22,7 @@
   <section class="filter flexStart mg-t15 mg-l10 mg-r10" *ngIf="!isLoading">
     <div class="filter-by-date">
       <div class="filter mg-r10">
-        <mat-icon>filter_list</mat-icon>
+        <i class="fa fa-filter"></i>
         <label class="text-14 uppercase">Filter</label>
       </div>
       <div class="filter-condition">
@@ -41,7 +41,7 @@
       </div>
       <div class="flexCenter mg-l10 pd-b20">
         <button mat-mini-fab color="warn" (click)="clearFilter()">
-          <mat-icon class="pointer" [matTooltip]="'Clear Filter'">clear</mat-icon>
+          <i class="fa fa-times pointer" [matTooltip]="'Clear Filter'"></i>
         </button>
       </div>
     </div>
@@ -119,7 +119,7 @@
     <div class="recent-transactions">
       <mat-form-field class="search mg-lr10">
         <input type="text" matInput placeholder="Search by category or note" name="search" [(ngModel)]="search" (ngModelChange)="onSearchChange($event)">
-        <button matSuffix mat-button><mat-icon>search</mat-icon></button>
+        <button matSuffix mat-button><i class="fa fa-search"></i></button>
       </mat-form-field>
       <label class="text-24 mg-lr10 pd-b10" *ngIf="!transactions.length">
         <span class="warn-color">Transactions not available</span>
