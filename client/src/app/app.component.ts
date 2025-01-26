@@ -34,7 +34,7 @@ export class AppComponent implements AfterViewChecked, OnDestroy {
     private cd: ChangeDetectorRef,
     private swUpdate: SwUpdate,
     @Inject(LOCALE_ID) private locale: string
-    ) {
+  ) {
     if (this.swUpdate.isEnabled) {
       this.swUpdate.versionUpdates.subscribe(event => {
         if (event.type === 'VERSION_READY') {
@@ -44,12 +44,12 @@ export class AppComponent implements AfterViewChecked, OnDestroy {
         }
       });
     }
-    
+
     this.userLocale = locale;
     this.loginStatusSubsciption = this.authService.getLoginStatus().subscribe((status) => {
       this.isLoggedIn = status;
     });
-    
+
     this.messageSubscription = this.messageService
       .getMessage()
       .subscribe((message) => {
@@ -87,6 +87,16 @@ export class AppComponent implements AfterViewChecked, OnDestroy {
   ngOnInit() {
     const userLocale = navigator.languages && navigator.languages.length ? navigator.languages[0] : navigator.language;
     this.sharedService.setItemToLocalStorage('userLocale', userLocale);
+
+    const robotoLink = document.createElement('link');
+    robotoLink.href = 'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap';
+    robotoLink.rel = 'stylesheet';
+    document.head.appendChild(robotoLink);
+
+    const materialIconsLink = document.createElement('link');
+    materialIconsLink.href = 'https://fonts.googleapis.com/icon?family=Material+Icons';
+    materialIconsLink.rel = 'stylesheet';
+    document.head.appendChild(materialIconsLink);
   }
 
   ngAfterViewChecked(): void {
