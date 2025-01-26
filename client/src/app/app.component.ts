@@ -1,5 +1,6 @@
 import { AfterViewChecked, ChangeDetectorRef, Component, HostBinding, Inject, LOCALE_ID, OnDestroy, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { SwUpdate } from '@angular/service-worker';
 
 import { MatSidenav } from '@angular/material/sidenav';
 
@@ -31,8 +32,19 @@ export class AppComponent implements AfterViewChecked, OnDestroy {
     private sharedService: SharedService,
     private router: Router,
     private cd: ChangeDetectorRef,
+    private swUpdate: SwUpdate,
     @Inject(LOCALE_ID) private locale: string
     ) {
+    if (this.swUpdate.isEnabled) {
+      this.swUpdate.versionUpdates.subscribe(event => {
+        if (event.type === 'VERSION_READY') {
+          if (confirm("New version available. Load new version?")) {
+            window.location.reload();
+          }
+        }
+      });
+    }
+    
     this.userLocale = locale;
     this.loginStatusSubsciption = this.authService.getLoginStatus().subscribe((status) => {
       this.isLoggedIn = status;
