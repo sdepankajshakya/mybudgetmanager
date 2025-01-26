@@ -12,7 +12,9 @@ platformBrowserDynamic().bootstrapModule(AppModule)
   .catch(err => console.error(err));
 
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.getRegistrations().then((registrations) => {
-    registrations.forEach((registration) => registration.unregister());
+  navigator.serviceWorker.register('/ngsw-worker.js').then(reg => {
+    console.log('Service Worker registered: ', reg);
+  }).catch(err => {
+    console.error('Service Worker registration failed: ', err);
   });
 }
