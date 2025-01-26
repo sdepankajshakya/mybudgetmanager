@@ -4,25 +4,10 @@
   "assetGroups": [
     {
       "name": "app",
-      "installMode": "prefetch",
-      "updateMode": "prefetch",
+      "installMode": "lazy",
+      "updateMode": "lazy",
       "resources": {
         "files": ["/index.html"]
-      }
-    }
-  ],
-  "dataGroups": [
-    {
-      "name": "google-fonts",
-      "urls": [
-        "https://fonts.googleapis.com/icon?family=Material+Icons",
-        "https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap",
-        "https://fonts.gstatic.com/**"
-      ],
-      "cacheConfig": {
-        "strategy": "performance",
-        "maxSize": 50,
-        "maxAge": "7d"
       }
     }
   ]
