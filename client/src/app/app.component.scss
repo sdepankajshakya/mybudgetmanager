@@ -5,3 +5,9 @@
   left: 0;
   right: 0;
 }
+
+@media (max-width: 505px) {
+  .sidebar {
+    top: 55px;
+  }
+}

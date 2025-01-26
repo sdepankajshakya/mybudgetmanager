@@ -11,7 +11,6 @@
 
 .filter {
   display: flex;
-  gap: 15px;
   justify-content: space-between;
   padding: 0 10px 0 3px;
 }
@@ -212,6 +211,7 @@
   }
   .filter-condition {
     flex-direction: column;
+    gap: 0;
   }
   .recent-transactions {
     min-width: 0;

@@ -13,7 +13,6 @@
 .settings {
   display: flex;
   align-items: flex-end;
-  margin: 10px;
   padding: 0 10px;
 }
 
@@ -83,10 +82,21 @@ $color: #f7a105;
     align-items: flex-start;
     flex-direction: column;
     justify-content: space-between;
+    .flexStart {
+      align-self: flex-start;
+    }
+  
+    .flexEnd {
+      align-self: flex-end;
+    }
   }
 
   .login-btn {
     margin: 15px;
+  }
+
+  .profile {
+    margin: 5px;
   }
 }
 
