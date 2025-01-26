@@ -80,7 +80,7 @@ $color: #f7a105;
 @media (max-width: 505px) {
   .navbar {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     flex-direction: column;
     justify-content: space-between;
   }

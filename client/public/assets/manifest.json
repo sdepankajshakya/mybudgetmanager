@@ -7,12 +7,12 @@
     "theme_color": "#f7a105",
     "icons": [
       {
-        "src": "../assets/images/icon.png",
+        "src": "../assets/images/android_icon_192x192.png",
         "type": "image/png",
         "sizes": "192x192"
       },
       {
-        "src": "../assets/images/icon.png",
+        "src": "../assets/images/android_icon_512x512.png",
         "type": "image/png",
         "sizes": "512x512"
       }
