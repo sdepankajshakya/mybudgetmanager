@@ -13,15 +13,16 @@
   ],
   "dataGroups": [
     {
-      "name": "external-resources",
+      "name": "google-fonts",
       "urls": [
-        "https://fonts.googleapis.com/**",
+        "https://fonts.googleapis.com/icon?family=Material+Icons",
+        "https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap",
         "https://fonts.gstatic.com/**"
       ],
       "cacheConfig": {
         "strategy": "performance",
-        "maxSize": 0,
-        "maxAge": "0s"
+        "maxSize": 50,
+        "maxAge": "7d"
       }
     }
   ]
