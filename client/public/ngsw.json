@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1737903285799,
+  "timestamp": 1737905698133,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -11,29 +11,22 @@
         "ignoreVary": true
       },
       "urls": [
-        "/index.html"
+        "/index.html",
+        "/main.713b0efeec3a39db.js",
+        "/polyfills.35e40fa2c363ac61.js",
+        "/runtime.f069c762c1dbc3d4.js",
+        "/styles.d56b6991311fdb7a.css"
       ],
       "patterns": []
     }
   ],
-  "dataGroups": [
-    {
-      "name": "google-fonts",
-      "patterns": [
-        "https:\\/\\/fonts\\.googleapis\\.com\\/.*",
-        "https:\\/\\/fonts\\.gstatic\\.com\\/.*"
-      ],
-      "strategy": "freshness",
-      "maxSize": 0,
-      "maxAge": 0,
-      "cacheQueryOptions": {
-        "ignoreVary": true
-      },
-      "version": 1
-    }
-  ],
+  "dataGroups": [],
   "hashTable": {
-    "/index.html": "eb72a948c3bc4215e0cfe9d5b55abca264d0e8a8"
+    "/index.html": "d63b27780c19f891b2f6ab207b5e0952476d6415",
+    "/main.713b0efeec3a39db.js": "38c84e387044d017ce92d10266379affc8c4f2e5",
+    "/polyfills.35e40fa2c363ac61.js": "b6ee89dded60b2c2b0271a52dff7c49ff0943c9e",
+    "/runtime.f069c762c1dbc3d4.js": "a1e51c6ce18d99d7ea0a365411902fc3ebecbe42",
+    "/styles.d56b6991311fdb7a.css": "421d64fbf119ea2b19431ead463e8483a840e2a1"
   },
   "navigationUrls": [
     {

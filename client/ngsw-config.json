@@ -7,22 +7,9 @@
       "installMode": "lazy",
       "updateMode": "lazy",
       "resources": {
-        "files": ["/index.html"]
+        "files": ["/index.html", "/*.js", "/*.css"]
       }
     }
   ],
-  "dataGroups": [
-    {
-      "name": "google-fonts",
-      "urls": [
-        "https://fonts.googleapis.com/**",
-        "https://fonts.gstatic.com/**"
-      ],
-      "cacheConfig": {
-        "strategy": "freshness",
-        "maxAge": "0s",
-        "maxSize": 0
-      }
-    }
-  ]
+  "dataGroups": []
 }
