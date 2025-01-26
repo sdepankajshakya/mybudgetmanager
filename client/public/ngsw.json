@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1737866292734,
+  "timestamp": 1737877146433,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -141,6 +141,16 @@
         "/assets/scss/_CustomVariable.scss",
         "/assets/scss/global.scss"
       ],
+      "patterns": []
+    },
+    {
+      "name": "font-assets",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [],
       "patterns": []
     }
   ],

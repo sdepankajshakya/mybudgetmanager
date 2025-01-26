@@ -27,6 +27,17 @@
           "/assets/**"
         ]
       }
+    },
+    {
+      "name": "font-assets",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": [
+          "/assets/fonts/**",
+          "/node_modules/font-awesome/fonts/**"
+        ]
+      }
     }
   ],
   "dataGroups": [
