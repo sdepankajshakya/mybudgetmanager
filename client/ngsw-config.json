@@ -10,5 +10,19 @@
         "files": ["/index.html"]
       }
     }
+  ],
+  "dataGroups": [
+    {
+      "name": "google-fonts",
+      "urls": [
+        "https://fonts.googleapis.com/**",
+        "https://fonts.gstatic.com/**"
+      ],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "maxAge": "0s",
+        "maxSize": 0
+      }
+    }
   ]
 }
