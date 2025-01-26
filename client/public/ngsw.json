@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1737877146433,
+  "timestamp": 1737877567235,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -152,6 +152,19 @@
       },
       "urls": [],
       "patterns": []
+    },
+    {
+      "name": "material-icons",
+      "installMode": "lazy",
+      "updateMode": "lazy",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [],
+      "patterns": [
+        "https:\\/\\/fonts\\.googleapis\\.com\\/icon\\?family=Material\\+Icons",
+        "https:\\/\\/fonts\\.gstatic\\.com\\/s\\/materialicons\\/.*"
+      ]
     }
   ],
   "dataGroups": [

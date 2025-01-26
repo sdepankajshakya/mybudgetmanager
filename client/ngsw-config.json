@@ -38,6 +38,17 @@
           "/node_modules/font-awesome/fonts/**"
         ]
       }
+    },
+    {
+      "name": "material-icons",
+      "installMode": "lazy",
+      "updateMode": "lazy",
+      "resources": {
+        "urls": [
+          "https://fonts.googleapis.com/icon?family=Material+Icons",
+          "https://fonts.gstatic.com/s/materialicons/**"
+        ]
+      }
     }
   ],
   "dataGroups": [
