@@ -4,17 +4,12 @@
   "assetGroups": [
     {
       "name": "app",
-      "installMode": "prefetch",
-      "updateMode": "prefetch",
+      "installMode": "lazy",
+      "updateMode": "lazy",
       "resources": {
-        "files": [
-          "/index.html",
-          "/*.js",
-          "/*.css",
-          "/*.html",
-          "assets/**"
-        ]
+        "files": ["/index.html", "/*.js", "/*.css"]
       }
     }
-  ]
+  ],
+  "dataGroups": []
 }
