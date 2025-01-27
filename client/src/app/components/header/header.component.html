@@ -12,8 +12,15 @@
   </div>
   <div class="flexEnd">
     <div class="profile" *ngIf="isLoggedIn">
-      <i class="fa fa-moon-o fa-2x"></i>
-      <input type="checkbox" (click)="toggleDarkmode()" [(ngModel)]="isDarkMode" *ngIf="isLoggedIn" [attr.aria-labelledby]="'toggleDarkMode'">
+      <div class="theme-toggle">
+        <label class="toggle-container mg-b0">
+          <input type="checkbox" (click)="toggleDarkmode()" [(ngModel)]="isDarkMode" [attr.aria-labelledby]="'toggleDarkMode'">
+          <span class="slider">
+            <i class="fa fa-moon-o icon-moon"></i>
+            <i class="fa fa-sun-o icon-sun"></i>
+          </span>
+        </label>
+      </div>
       <button mat-icon-button [matMenuTriggerFor]="menu" [attr.aria-label]="'profile'">
         <i class='fa fa-user-circle fa-3x'></i>
       </button>

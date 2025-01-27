@@ -21,7 +21,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 20px;
+  gap: 10px;
 }
 
 .profile-items {
@@ -100,40 +100,69 @@ $color: #f7a105;
   }
 }
 
-input {
-  --s: 25px;
-  /* control the size */
+/* Container for the toggle */
+.theme-toggle {
+  display: inline-block;
+}
 
-  height: var(--s);
-  width: calc(2*var(--s));
-  border-radius: var(--s);
-  border: calc(var(--s)/10) solid #0000;
-  padding: calc(var(--s)/10);
-  background:
-    conic-gradient(#8FBE00 50%, #CC333F 0)
-    /* the colors here */
-    border-box var(--p, left)/200%;
-  mask:
-    radial-gradient(50% 50%, #000 98%, #0000) no-repeat var(--p, left)/calc(3*var(--s)/5) content-box,
-    linear-gradient(#000 0 0) padding-box,
-    linear-gradient(#000 0 0);
-  mask-composite: source-over, xor;
-  mask-composite: add, exclude;
-  transition: .5s;
+/* The toggle container */
+.toggle-container {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+}
+
+/* Hide the checkbox */
+.toggle-container input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
   cursor: pointer;
-  appearance: none;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #808080;
+  border-radius: 50px;
+  transition: background-color 0.4s;
 }
 
-input:checked {
-  --p: right;
+/* Moon and Sun Icons */
+.icon-moon,
+.icon-sun {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  transition: opacity 0.4s;
 }
 
-input:disabled {
-  background: #948C75;
-  cursor: not-allowed;
-  --p: center;
+.icon-moon {
+  left: 10px;
+  opacity: 1;
 }
 
-input:focus-visible {
-  border-color: #0009;
+.icon-sun {
+  right: 10px;
+  opacity: 0;
+  color: #fdd835;
+}
+
+/* When the checkbox is checked */
+.toggle-container input:checked + .slider {
+  background-color: #000;
+}
+
+.toggle-container input:checked + .slider .icon-moon {
+  opacity: 0;
+}
+
+.toggle-container input:checked + .slider .icon-sun {
+  opacity: 1;
 }
