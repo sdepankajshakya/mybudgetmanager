@@ -7,6 +7,7 @@
   color: #fff;
   z-index: 100;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  height: 82px;
 }
 
 .logo,
@@ -82,6 +83,8 @@ $color: #f7a105;
     align-items: flex-start;
     flex-direction: column;
     justify-content: space-between;
+    height: auto;
+
     .flexStart {
       align-self: flex-start;
     }
