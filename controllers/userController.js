@@ -37,10 +37,10 @@ exports.login = (req, res, next) => {
           if (result) {
             try {
               const obj = { email: user.email, userId: user._id };
-              const token = jwt.sign(obj, JWT_SECRET, { expiresIn: "24h" });
+              const token = jwt.sign(obj, JWT_SECRET, { expiresIn: "7d" });
               utils.sendSuccessResponse(res, HttpStatus.OK, "Login successful!", {
                 access_token: token,
-                expiresIn: "24h",
+                expiresIn: "7d",
                 current_user: { _id: user._id, firstName: user.firstName, lastName: user.lastName, email: user.email },
               });
             } catch (err) {
@@ -72,10 +72,10 @@ exports.onGoogleSignIn = (req, res, next) => {
     UserModel.findOne({ email: userDetails.email })
       .then((user) => {
         const obj = { email: user.email, userId: user._id };
-        const token = jwt.sign(obj, JWT_SECRET, { expiresIn: "24h" });
+        const token = jwt.sign(obj, JWT_SECRET, { expiresIn: "7d" });
         utils.sendSuccessResponse(res, HttpStatus.OK, "Login successful!", {
           access_token: token,
-          expiresIn: "24h",
+          expiresIn: "7d",
           current_user: { _id: user._id, firstName: user.firstName, lastName: user.lastName, email: user.email },
         });
       })
