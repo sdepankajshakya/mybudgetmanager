@@ -24,6 +24,7 @@ exports.getTransactionsDateRange = async (req, res, next) => {
 
 exports.getTransactions = (req, res, next) => {
   TransactionModel.find({ user: req.currentUser.userId })
+    .lean()  // Use lean for better performance if no Mongoose document methods are needed
     .then((result) => utils.sendSuccessResponse(res, HttpStatus.OK, "Transaction fetched succesfully!", result))
     .catch((err) => utils.sendErrorResponse(res, HttpStatus.INTERNAL_SERVER_ERROR, err.name, err.message));
 };
