@@ -15,7 +15,7 @@ import { SharedService } from './services/shared.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements AfterViewChecked, OnDestroy {
-  title = 'budget-manager';
+  title = 'Budget Manager';
   isLoggedIn: boolean = false;
   messageSubscription: Subscription;
   loginStatusSubsciption: Subscription;

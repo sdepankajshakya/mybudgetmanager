@@ -312,12 +312,68 @@ input.numberic-text {
   width: 100%;
   height: 100%;
   z-index: 999;
-  background-color: rgb(0,0,0,0.2);
+  background-color: rgb(0, 0, 0, 0.2);
 }
 
 @media (max-width: 505px) {
+
   .sidebar,
   .settingsForm {
     padding-top: 66px;
+  }
+}
+
+body.darkMode {
+  .mat-dialog-container {
+    background-color: #36454F !important;
+    color: white !important;
+  }
+  
+  .mat-select-panel {
+    background-color: #333 !important;
+    color: white !important;
+  }
+  
+  .mat-select {
+    color: white !important;
+  }
+  
+  .mat-select-value {
+    color: white !important;
+  }
+  
+  .mat-option {
+    color: white !important;
+  }
+  
+  .mat-datepicker-content {
+    background-color: #333 !important;
+    color: white !important;
+  }
+  
+  .mat-calendar-body-cell-content {
+    color: white !important;
+  }
+  
+  .mat-calendar-body-selected {
+    background-color: #f7a105 !important;
+    color: #36454F !important;
+  }
+  
+  .mat-form-field-label {
+    color: white !important;
+  }
+  
+  .mat-input-element {
+    color: white !important;
+    caret-color: white !important;
+  }
+  
+  .mat-form-field-underline {
+    background-color: white !important;
+  }
+  
+  .mat-form-field-ripple {
+    background-color: #f7a105 !important;
   }
 }
