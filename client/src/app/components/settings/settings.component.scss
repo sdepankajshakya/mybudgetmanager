@@ -38,7 +38,7 @@
   flex-wrap: wrap;
   border: 0;
   height: 200px;
-  overflow: scroll;
+  overflow-y: auto;
 
   .mat-button-toggle {
     border: 0;

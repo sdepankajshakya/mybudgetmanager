@@ -336,7 +336,7 @@ input.numberic-text {
 }
 
 body.darkMode {
-  .mat-dialog-container {
+  .mat-dialog-container, .modal-content {
     background-color: #36454F !important;
     color: white !important;
   }
