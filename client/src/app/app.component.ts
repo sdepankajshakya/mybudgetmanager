@@ -84,6 +84,7 @@ export class AppComponent implements AfterViewChecked, OnDestroy {
       this.isLoading = value;
     })
   }
+  
   ngOnInit() {
     const userLocale = navigator.languages && navigator.languages.length ? navigator.languages[0] : navigator.language;
     this.sharedService.setItemToLocalStorage('userLocale', userLocale);
@@ -100,7 +101,13 @@ export class AppComponent implements AfterViewChecked, OnDestroy {
 
   @HostBinding('class')
   get themeMode() {
-    return this.isDarkMode ? 'darkMode' : 'lightMode';
+    if (this.isDarkMode) {
+      document.body.classList.add('darkMode');
+      return 'darkMode';
+    } else {
+      document.body.classList.remove('darkMode');
+      return 'lightMode';
+    }
   }
 
   ngOnDestroy(): void {

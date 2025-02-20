@@ -65,10 +65,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnInit(): void {}
 
   updateDarkModeClass() {
-    if (!this.isDarkMode) {
-      document.body.classList.add('darkMode');
-    } else {
+    if (this.isDarkMode) {
       document.body.classList.remove('darkMode');
+    } else {
+      document.body.classList.add('darkMode');
     }
   }
 

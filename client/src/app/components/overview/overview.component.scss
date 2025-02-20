@@ -18,7 +18,6 @@
 .filter-by-date {
   display: flex;
   align-items: center;
-  padding-right: 11px;
 }
 
 .filter-condition {
@@ -93,8 +92,8 @@
 
 .add-transaction {
   position: fixed;
-  bottom: 10px;
-  right: 15px;
+  bottom: 0;
+  right: 0;
   margin: 10px;
   height: 70px;
   width: 70px;
@@ -169,7 +168,7 @@
   .summary {
     display: flex;
     flex-direction: column;
-    margin: 10px;
+    margin: 0 10px;
   }
   .recent-transactions {
     padding-top: 40px;
@@ -187,18 +186,12 @@
   }
 }
 
-@media (max-width: 810px) {
+@media (max-width: 575px) {
   .filter {
     display: flex;
     flex-direction: column;
     padding: 0;
   }
-  .dashboard-view {
-    padding-right: 53px;
-  }
-}
-
-@media (max-width: 575px) {
   .welcome-text {
     font-size: 25px;
   }
@@ -209,13 +202,12 @@
     height: 60px;
     width: 60px;
   }
-  .filter-condition {
-    flex-direction: column;
-    gap: 0;
-  }
   .recent-transactions {
     min-width: 0;
     width: 90%;
+  }
+  .dashboard-view {
+    margin-left: 24px;
   }
 }
 
@@ -223,9 +215,6 @@
   .filter {
     align-items: center;
   }
-  // .summary {
-  //   padding: 140px 0;
-  // }
   .add-transaction {
     height: 60px;
     width: 60px;
@@ -233,13 +222,6 @@
   .recent-transactions {
     min-width: 0;
     width: 90%;
-  }
-  .filter-by-date {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .dashboard-view {
-    padding-right: 0;
   }
 }
 

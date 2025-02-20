@@ -26,29 +26,28 @@
         <label class="text-16"><i class="fa fa-sliders"></i> Filter</label>
       </div>
       <div class="filter-condition">
-        <mat-form-field appearance="outline">
-          <mat-label>Select Month</mat-label>
+        <mat-form-field appearance="outline" class="width-100">
+          <mat-label>month</mat-label>
           <mat-select [(ngModel)]="selectedMonth" (selectionChange)="onDateChange()">
             <mat-option *ngFor="let month of transactionMonths" [value]="month.key">{{month.value}}</mat-option>
           </mat-select>
         </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Select Year</mat-label>
+        <mat-form-field appearance="outline" class="width-100">
+          <mat-label>year</mat-label>
           <mat-select [(ngModel)]="selectedYear" (selectionChange)="onDateChange()">
             <mat-option *ngFor="let year of transactionYears" [value]="year">{{year}}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
-      <div class="flexCenter mg-l10 pd-b20">
-        <button mat-raised-button (click)="clearFilter()">
-          Reset All
-          <!-- <i class="fa fa-times pointer" [matTooltip]="'Clear Filter'"></i> -->
+      <div class="flexCenter pd-b20">
+        <button mat-icon-button class="text-16" (click)="clearFilter()">
+          <i class="fa fa-times pointer" [matTooltip]="'Clear Filter'"></i>
         </button>
       </div>
     </div>
 
     <div class="dashboard-view">
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="fill" class="width-200">
         <mat-label>Change Dashboard View</mat-label>
         <mat-select [(ngModel)]="paymentMode" (selectionChange)="onViewChange()">
           <mat-option [value]="0">
