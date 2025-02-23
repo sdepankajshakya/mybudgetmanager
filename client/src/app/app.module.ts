@@ -59,6 +59,7 @@ import { HomepageComponent } from './components/homepage/homepage.component';
 import { SpinnerComponent } from './shared/spinner/spinner.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from 'src/environments/environment';
+import { NoInternetComponent } from './components/no-internet/no-internet.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +81,7 @@ import { environment } from 'src/environments/environment';
     FilterPipe,
     HomepageComponent,
     SpinnerComponent,
+    NoInternetComponent,
   ],
   imports: [
     BrowserModule,
