@@ -195,6 +195,9 @@
   .welcome-text {
     font-size: 25px;
   }
+  .dashboard-view {
+    margin-left: 25px;
+  }
 }
 
 @media (max-width: 555px) {
@@ -206,9 +209,6 @@
   .recent-transactions {
     min-width: 0;
     width: 90%;
-  }
-  .dashboard-view {
-    margin-left: 25px;
   }
 }
 
