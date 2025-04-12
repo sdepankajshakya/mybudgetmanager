@@ -12,11 +12,18 @@
 .filter {
   display: flex;
   justify-content: space-between;
-  padding: 0 10px 0 3px;
+  padding: 0 10px 0 10px;
+}
+
+.filter-transactions {
+  display: flex;
+  align-items: baseline;
+  gap: 5rem;
 }
 
 .filter-by-date {
   display: flex;
+  flex-direction: column;
   align-items: center;
 }
 
@@ -30,9 +37,7 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  // display: grid;
-  // grid-template-columns: 3fr 1fr auto;
-  // grid-template-rows: 1fr;
+  margin: 0 10px;
 }
 
 .charts {
@@ -40,7 +45,7 @@
   justify-content: flex-start;
   width: 100%;
   gap: 10px;
-  padding: 10px;
+  padding: 0 10px;
 }
 
 .overview {
@@ -54,6 +59,7 @@
   display: grid;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
   background-color: #fff;
+
   .mat-card {
     background-color: #000 !important;
   }
@@ -63,6 +69,7 @@
   .fc-daygrid {
     cursor: pointer;
   }
+
   .fc-event-main {
     cursor: default;
   }
@@ -113,7 +120,7 @@
   color: #000;
   text-decoration: none;
   display: flex;
-  
+
 }
 
 .link-icon {
@@ -170,6 +177,7 @@
     flex-direction: column;
     margin: 0 10px;
   }
+
   .recent-transactions {
     padding-top: 40px;
     width: 40%;
@@ -181,6 +189,7 @@
     display: flex;
     flex-direction: column;
   }
+
   .recent-transactions {
     width: 40%;
   }
@@ -192,11 +201,9 @@
     flex-direction: column;
     padding: 0;
   }
+
   .welcome-text {
     font-size: 25px;
-  }
-  .dashboard-view {
-    margin-left: 25px;
   }
 }
 
@@ -206,6 +213,7 @@
     width: 60px;
     bottom: 10px;
   }
+
   .recent-transactions {
     min-width: 0;
     width: 90%;
@@ -216,10 +224,12 @@
   .filter {
     align-items: center;
   }
+
   .add-transaction {
     height: 60px;
     width: 60px;
   }
+
   .recent-transactions {
     min-width: 0;
     width: 90%;

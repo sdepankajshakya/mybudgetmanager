@@ -21,11 +21,9 @@ $my-app-warn-dark: mat-palette($mat-red, 500);
 
 // Create the theme object (a Sass map containing all of the palettes).
 $my-app-theme: mat-light-theme($my-app-primary, $my-app-accent, $my-app-warn);
-$my-app-dark-theme: mat-dark-theme(
-  $my-app-primary-dark,
-  $my-app-accent,
-  $my-app-warn-dark
-);
+$my-app-dark-theme: mat-dark-theme($my-app-primary-dark,
+    $my-app-accent,
+    $my-app-warn-dark);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
@@ -46,14 +44,15 @@ $my-app-dark-theme: mat-dark-theme(
   }
 
   .highcharts-background {
-    fill: $offwhite;
+    fill: $softgray;
   }
+
   .highcharts-data-label text {
     font-size: 14px !important;
   }
 
   .mat-card {
-    background-color: $offwhite !important;
+    background-color: $softgray !important;
   }
 
   // calendar
@@ -69,6 +68,7 @@ $my-app-dark-theme: mat-dark-theme(
 
 .darkMode {
   @include angular-material-theme($my-app-dark-theme);
+
   // card
   .mat-card {
     background-color: $charcoal !important;
@@ -78,15 +78,21 @@ $my-app-dark-theme: mat-dark-theme(
   .highcharts-background {
     fill: $charcoal;
   }
+
   .highcharts-title,
   .highcharts-subtitle,
   .highcharts-axis-labels text {
     fill: $white !important;
   }
-  
+
   .highcharts-data-label text {
     // https://owumaro.github.io/text-stroke-generator/
-    text-shadow: rgb(32, 32, 32) 2px 0px 0px, rgb(32, 32, 32) 1.75517px 0.958851px 0px, rgb(32, 32, 32) 1.0806px 1.68294px 0px, rgb(32, 32, 32) 0.141474px 1.99499px 0px, rgb(32, 32, 32) -0.832294px 1.81859px 0px, rgb(32, 32, 32) -1.60229px 1.19694px 0px, rgb(32, 32, 32) -1.97998px 0.28224px 0px, rgb(32, 32, 32) -1.87291px -0.701566px 0px, rgb(32, 32, 32) -1.30729px -1.5136px 0px, rgb(32, 32, 32) -0.421592px -1.95506px 0px, rgb(32, 32, 32) 0.567324px -1.91785px 0px, rgb(32, 32, 32) 1.41734px -1.41108px 0px, rgb(32, 32, 32) 1.92034px -0.558831px 0px;
+    // text-shadow: rgb(32, 32, 32) 2px 0px 0px, rgb(32, 32, 32) 1.75517px 0.958851px 0px, rgb(32, 32, 32) 1.0806px 1.68294px 0px, rgb(32, 32, 32) 0.141474px 1.99499px 0px, rgb(32, 32, 32) -0.832294px 1.81859px 0px, rgb(32, 32, 32) -1.60229px 1.19694px 0px, rgb(32, 32, 32) -1.97998px 0.28224px 0px, rgb(32, 32, 32) -1.87291px -0.701566px 0px, rgb(32, 32, 32) -1.30729px -1.5136px 0px, rgb(32, 32, 32) -0.421592px -1.95506px 0px, rgb(32, 32, 32) 0.567324px -1.91785px 0px, rgb(32, 32, 32) 1.41734px -1.41108px 0px, rgb(32, 32, 32) 1.92034px -0.558831px 0px;
+    text-shadow:
+      -1px -1px 0 #202020,
+      1px -1px 0 #202020,
+      -1px 1px 0 #202020,
+      1px 1px 0 #202020;
     fill: $white !important;
     font-size: 14px !important;
   }
@@ -96,6 +102,7 @@ $my-app-dark-theme: mat-dark-theme(
   .mat-card-content {
     color: $white;
   }
+
   .fc-daygrid-event {
     border-color: $charcoal !important;
     background-color: $charcoal !important;
@@ -120,6 +127,26 @@ $my-app-dark-theme: mat-dark-theme(
 
   .mat-list-item:nth-child(odd) {
     background-color: rgb(128, 128, 128);
+  }
+
+  .transaction-card {
+    background-color: $charcoal;
+    color: $white;
+
+    .category-name,
+    .transaction-date,
+    .transaction-note,
+    .transaction-amount {
+      color: $white; // or adjust per need
+    }
+
+    .transaction-amount.income {
+      color: $limegreen !important;
+    }
+
+    .transaction-amount.expense {
+      color: $neonred !important;
+    }
   }
 }
 

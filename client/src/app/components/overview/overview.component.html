@@ -21,9 +21,9 @@
   <!--Filter-->
   <section class="filter flexStart mg-t15 mg-l10 mg-r10" *ngIf="!isLoading">
     <div class="filter-by-date">
-      <div class="filter mg-r10">
-        
-        <label class="text-16"><i class="fa fa-sliders"></i> Filter</label>
+      <div class="filter-transactions">
+        <label class="text-16"><i class="fa fa-sliders"></i> Filter </label>
+        <button mat-stroked-button color="warn" (click)="clearFilter()">Clear</button>
       </div>
       <div class="filter-condition">
         <mat-form-field appearance="outline" class="width-100">
@@ -38,11 +38,6 @@
             <mat-option *ngFor="let year of transactionYears" [value]="year">{{year}}</mat-option>
           </mat-select>
         </mat-form-field>
-      </div>
-      <div class="flexCenter pd-b20">
-        <button mat-icon-button class="text-16" (click)="clearFilter()">
-          <i class="fa fa-times pointer" [matTooltip]="'Clear Filter'"></i>
-        </button>
       </div>
     </div>
 
@@ -123,9 +118,9 @@
       </mat-form-field>
       <label class="text-24 mg-lr10 pd-b10" *ngIf="!transactions.length">
         <span class="warn-color">Transactions not available</span>
-        <span *ngIf="paymentMode"> for <img src="{{dashboardView?.icon}}" alt="{{dashboardView?.type}}" width="30px">  {{dashboardView?.name}}</span>
+        <span *ngIf="paymentMode"> for <img src="{{dashboardView?.icon}}" alt="{{dashboardView?.type}}" width="30px"> {{dashboardView?.name}}</span>
         <span *ngIf="selectedMonth"> in {{months[selectedMonth - 1]?.value}}<span *ngIf="selectedYear">, {{selectedYear}}</span></span>
-        <span *ngIf="search"> with search keyword 
+        <span *ngIf="search"> with search keyword
           <span class="primary-color">{{search}}</span>
         </span>
       </label>

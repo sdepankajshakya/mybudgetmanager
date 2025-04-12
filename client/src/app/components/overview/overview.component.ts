@@ -531,27 +531,34 @@ export class OverviewComponent implements OnInit, AfterViewInit {
   }
 
   createExpenseDistributionChart(data: any) {
+    const currencySymbol = this.currency?.symbol || '$';
+
     this.expenseDistOptions = {
       chart: {
-        plotBackgroundColor: null,
-        plotBorderWidth: null,
-        plotShadow: false,
         type: 'pie',
+        backgroundColor: 'transparent',
+        plotShadow: false,
         style: {
-          fontFamily: 'Verdana',
+          fontFamily: 'Segoe UI, Verdana, sans-serif',
         },
-      },
-      credits: {
-        enabled: false,
-      },
-      exporting: {
-        enabled: false,
       },
       title: {
         text: 'Expense Distribution by Category',
+        align: 'center',
+        style: {
+          fontSize: '16px',
+          fontWeight: '600',
+          color: '#333',
+        },
       },
       tooltip: {
-        pointFormat: this.currency.symbol + '{point.y}',
+        pointFormat: `${currencySymbol}{point.y}`,
+        backgroundColor: '#fff',
+        borderColor: '#ccc',
+        borderRadius: 8,
+        style: {
+          color: '#333',
+        },
       },
       legend: {
         enabled: false,
@@ -569,8 +576,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
             Highcharts.numberFormat(chart.y, 0, '.', ',') +
             ' (' +
             Highcharts.numberFormat(chart.percentage, 2) +
-            '%' +
-            ')'
+            '%)'
           );
         },
       },
@@ -583,16 +589,28 @@ export class OverviewComponent implements OnInit, AfterViewInit {
             enabled: true,
             format: '<b>{point.name}</b>: {point.percentage:.1f} %',
             distance: 5,
+            style: {
+              color: '#444',
+              fontWeight: '500',
+            },
           },
           showInLegend: true,
-          // size: '30%',
+          borderWidth: 0,
+          innerSize: '0%', // No donut
         },
       },
       series: [
         {
+          name: 'Expenses',
           data: data,
         },
       ],
+      credits: {
+        enabled: false,
+      },
+      exporting: {
+        enabled: false,
+      },
     };
 
     HC_exporting(Highcharts);
@@ -606,42 +624,44 @@ export class OverviewComponent implements OnInit, AfterViewInit {
     chart.reflow();
   };
 
-  createExpenseDistributionBarChart(data: any) {
+  createExpenseDistributionBarChart(data: any[]) {
+    const currencySymbol = this.currency?.symbol || '$';
+
     this.expenseDistBarOptions = {
       chart: {
         type: 'bar',
+        backgroundColor: 'transparent',
+        style: {
+          fontFamily: 'Segoe UI, Verdana, sans-serif',
+        },
       },
       title: {
         text: 'Expense Distribution by Category',
+        align: 'left',
+        style: {
+          fontSize: '16px',
+          fontWeight: '600',
+          color: '#333',
+        },
       },
       xAxis: {
         type: 'category',
+        labels: {
+          style: {
+            color: '#666',
+          },
+        },
       },
       yAxis: {
-        title: false,
+        title: {
+          text: null,
+        },
         gridLineColor: 'transparent',
-      },
-      credits: {
-        enabled: false,
-      },
-      exporting: {
-        enabled: false,
-      },
-      legend: {
-        enabled: false,
-      },
-      plotOptions: {
-        series: {
-          borderWidth: 0,
-          dataLabels: {
-            enabled: true,
-            format: this.currency.symbol + '{point.y}',
-          },
-          borderRadius: 5,
+        labels: {
+          enabled: false,
         },
       },
       tooltip: {
-        // pointFormat: '<b>{point.name}</b>: {point.percentage:.1f} %',
         formatter: function () {
           const chart = this as any;
           let sum = 0;
@@ -652,14 +672,43 @@ export class OverviewComponent implements OnInit, AfterViewInit {
           percent = +percent.toFixed(1);
           return chart.point.name + ': ' + percent + '%';
         },
+        backgroundColor: '#fff',
+        borderColor: '#ccc',
+        borderRadius: 8,
+        style: {
+          color: '#333',
+        },
+      },
+      plotOptions: {
+        series: {
+          borderWidth: 0,
+          borderRadius: 5,
+          dataLabels: {
+            enabled: true,
+            format: `${currencySymbol}{point.y}`,
+            style: {
+              color: '#444',
+              fontWeight: '500',
+            },
+          },
+        },
       },
       series: [
         {
           name: 'Expense',
           colorByPoint: true,
-          data: data,
+          data,
         },
       ],
+      legend: {
+        enabled: false,
+      },
+      credits: {
+        enabled: false,
+      },
+      exporting: {
+        enabled: false,
+      },
     };
   }
 
@@ -669,47 +718,71 @@ export class OverviewComponent implements OnInit, AfterViewInit {
         type: 'bar',
         height: 200,
         style: {
-          fontFamily: 'Verdana',
+          fontFamily: 'Segoe UI, Verdana, sans-serif',
         },
+        backgroundColor: 'transparent',
       },
       title: {
-        text: 'Income Expense Summary',
-      },
-      subtitle: {
-        text: '',
+        text: 'Income vs Expense',
+        style: {
+          fontSize: '16px',
+          fontWeight: '600',
+          color: '#333',
+        },
       },
       xAxis: {
         categories: ['Income', 'Expense'],
-        title: {
-          text: null,
+        lineColor: '#ccc',
+        labels: {
+          style: {
+            color: '#666',
+            fontSize: '13px',
+          },
         },
       },
       yAxis: {
-        min: 0,
         visible: false,
-        title: {
-          text: '',
-          align: 'high',
-        },
-        labels: {
-          overflow: 'justify',
-        },
       },
       tooltip: {
-        pointFormat: this.currency.symbol + '{point.y}',
+        backgroundColor: '#fff',
+        borderColor: '#ccc',
+        borderRadius: 8,
+        style: {
+          color: '#333',
+        },
+        pointFormat: `<span style="color:{point.color}">\u25CF</span> <b>{series.name}</b>: ${this.currency.symbol}{point.y}`,
       },
       plotOptions: {
         series: {
           dataLabels: {
             enabled: true,
             inside: true,
+            style: {
+              fontWeight: '600',
+              color: '#fff',
+            },
             format: this.currency.symbol + '{point.y:,.0f}',
           },
-          pointPadding: 0.1,
-          groupPadding: 0,
+          borderRadius: 8,
+          pointPadding: 0.2,
+          groupPadding: 0.05,
           colorByPoint: true,
-          colors: [' #32CD32', '#FF3131'],
-          borderRadius: 5,
+          colors: [
+            {
+              linearGradient: [0, 0, 300, 0],
+              stops: [
+                [0, '#2ecc71'],
+                [1, '#27ae60'],
+              ],
+            },
+            {
+              linearGradient: [0, 0, 300, 0],
+              stops: [
+                [0, '#ff6b6b'],
+                [1, '#e74c3c'],
+              ],
+            },
+          ],
         },
       },
       legend: {
@@ -723,40 +796,106 @@ export class OverviewComponent implements OnInit, AfterViewInit {
       },
       series: [
         {
+          name: 'Summary',
           data: data,
         },
       ],
     };
 
     Highcharts.chart(container, options);
-    // const colors: any = Highcharts.getOptions().colors?.map(function (color: string) {
-    //   return {
-    //     radialGradient: {
-    //       cx: 0.4,
-    //       cy: 0.3,
-    //       r: 0.5,
-    //     },
-    //     stops: [
-    //       [0, color],
-    //       [1, Highcharts.color(color).brighten(-0.3).get('rgb')],
-    //     ],
-    //   };
-    // });
-
-    // Highcharts.setOptions({
-    //   colors: colors,
-    // });
 
     setTimeout(() => {
       window.dispatchEvent(new Event('resize'));
     }, 300);
   }
 
-  createTotalSavingsChart(container: any, totalIncome: any, totalExpense: any) {
+  createTotalSavingsChart(container: any, totalIncome: number, totalExpense: number) {
+    const remaining = totalIncome - totalExpense;
+    const currencySymbol = this.currency?.symbol || '$';
+
     const options: any = {
       chart: {
-        renderTo: 'container',
         type: 'pie',
+        height: 250,
+        backgroundColor: 'transparent',
+        style: {
+          fontFamily: 'Segoe UI, Verdana, sans-serif',
+        },
+      },
+      title: {
+        text: 'Total Savings',
+        align: 'center',
+        verticalAlign: 'middle',
+        y: -10,
+        style: {
+          fontSize: '16px',
+          fontWeight: '600',
+          color: '#333',
+        },
+      },
+      subtitle: {
+        text: `${currencySymbol}${formatNumber(remaining, this.userLocale)}`,
+        align: 'center',
+        verticalAlign: 'middle',
+        y: 20,
+        style: {
+          fontSize: '20px',
+          fontWeight: 'bold',
+          color: remaining >= 0 ? '#27ae60' : '#e74c3c',
+        },
+      },
+      tooltip: {
+        pointFormat: `<span style="color:{point.color}">\u25CF</span> <b>{point.name}</b>: ${currencySymbol}{point.y:,.0f}`,
+        backgroundColor: '#fff',
+        borderColor: '#ccc',
+        borderRadius: 8,
+        style: {
+          color: '#333',
+        },
+      },
+      plotOptions: {
+        pie: {
+          innerSize: '90%',
+          borderWidth: 0,
+          dataLabels: {
+            enabled: false,
+          },
+          startAngle: 0,
+          endAngle: 360,
+          center: ['50%', '50%'],
+        },
+      },
+      series: [
+        {
+          name: 'Savings',
+          data: [
+            {
+              name: 'Remaining Balance',
+              y: remaining,
+              color: {
+                linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
+                stops: [
+                  [0, '#2ecc71'],
+                  [1, '#27ae60'],
+                ],
+              },
+            },
+            {
+              name: 'Total Expense',
+              y: totalExpense,
+              color: {
+                linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
+                stops: [
+                  [0, '#ff6b6b'],
+                  [1, '#e74c3c'],
+                ],
+              },
+            },
+          ],
+        },
+      ],
+      legend: {
+        enabled: false,
       },
       credits: {
         enabled: false,
@@ -764,45 +903,6 @@ export class OverviewComponent implements OnInit, AfterViewInit {
       exporting: {
         enabled: false,
       },
-      title: {
-        text: 'Total Savings',
-      },
-      subtitle: {
-        text:
-          this.currency.symbol +
-          '' +
-          formatNumber(totalIncome - totalExpense, this.userLocale),
-        verticalAlign: 'middle',
-        y: 40,
-        style: {
-          fontSize: '20px',
-        },
-      },
-      plotOptions: {
-        pie: {
-          shadow: true,
-        },
-      },
-      series: [
-        {
-          name: '',
-          data: [
-            ['Remaining balance', totalIncome - totalExpense],
-            ['Total Expense', totalExpense],
-          ],
-          tooltip: {
-            valuePrefix: this.currency.symbol,
-          },
-          colors: ['#32CD32', '#FF3131'],
-          size: '60%',
-          innerSize: '90%',
-          showInLegend: false,
-          dataLabels: {
-            enabled: false,
-            format: this.currency.symbol + '{point.y:,.0f}',
-          },
-        },
-      ],
     };
 
     Highcharts.chart(container, options);
