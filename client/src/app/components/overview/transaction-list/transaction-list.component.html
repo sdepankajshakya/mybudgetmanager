@@ -2,7 +2,7 @@
   <app-transaction-item [transaction]="trans" [currencySymbol]="currencySymbol"></app-transaction-item>
 </div> -->
 
-<cdk-virtual-scroll-viewport [itemSize]="250">
+<cdk-virtual-scroll-viewport [itemSize]="110">
   <div *cdkVirtualFor="let trans of transactions">
     <app-transaction-item [transaction]="trans" [currencySymbol]="currencySymbol"></app-transaction-item>
   </div>

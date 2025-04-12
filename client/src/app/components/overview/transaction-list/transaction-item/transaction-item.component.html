@@ -1,29 +1,25 @@
 <mat-card class="transaction-card">
-  <mat-card-content>
-    <div class="transaction-details">
-      <time class="date-icon">
-        <em>{{transaction.displayDate?.weekday}}</em>
-        <strong>{{transaction.displayDate?.month}} {{transaction.displayDate?.year}}</strong>
-        <span>{{transaction.displayDate?.day}}</span>
-      </time>
-      <div class="transaction-desc">
-        <label class="text-16 word-break">{{transaction.category.name}}</label>
-        <img class="category-icon" aria-hidden [src]="getCategoryIcon(transaction.category.name!)" alt="category-icon" height="55">
-        <span class="transaction-price text-25"
-          [ngClass]="(transaction.category.type === 'expense') ? 'expense-item' : 'income-item'">
-          {{currencySymbol}}{{transaction.displayAmount}}
-        </span>
+  <div class="transaction-content">
+    <img class="category-icon" [src]="getCategoryIcon(transaction.category.name!)" alt="icon" />
+
+    <div class="transaction-info">
+      <div class="category-name">{{ transaction.category.name }}</div>
+      <div class="transaction-date">{{ transaction.displayDate?.month }} {{ transaction.displayDate?.day }}, {{ transaction.displayDate?.year }}</div>
+      <div class="transaction-note" *ngIf="transaction.note">{{ transaction.note }}</div>
+    </div>
+
+    <div class="transaction-meta">
+      <div class="transaction-amount" [ngClass]="transaction.category.type === 'expense' ? 'expense' : 'income'">
+        {{ currencySymbol }}{{ transaction.displayAmount }}
+      </div>
+      <div class="transaction-actions">
+        <button mat-icon-button class="icon-btn" matTooltip="Edit" (click)="openAddTransactionModal(); sendMessage();">
+          <i class="fa fa-edit"></i>
+        </button>
+        <button mat-icon-button class="icon-btn" matTooltip="Delete" (click)="confirmDialog()">
+          <i class="fa fa-trash"></i>
+        </button>
       </div>
     </div>
-    <label class="text-16 mg-t20 word-break" *ngIf="transaction.note">{{transaction.note}}</label>
-  </mat-card-content>
-
-  <mat-card-actions class="modify">
-    <button mat-icon-button color="primary" class="mg-t5" [matTooltip]="'Edit'" (click)="openAddTransactionModal(); sendMessage();" [attr.aria-label]="'edit'">
-      <i class="fa fa-edit fa-2x"></i>
-    </button>
-    <button mat-icon-button color="warn" [matTooltip]="'Delete'" (click)="confirmDialog()" [attr.aria-label]="'delete'">
-      <i class="fa fa-trash fa-2x"></i>
-    </button>
-  </mat-card-actions>
+  </div>
 </mat-card>
