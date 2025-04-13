@@ -23,6 +23,7 @@ import { FullCalendarComponent } from '@fullcalendar/angular';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import listPlugin from '@fullcalendar/list';
 
 import { SharedService } from 'src/app/services/shared.service';
 import { SettingsService } from 'src/app/services/settings.service';
@@ -90,11 +91,13 @@ export class OverviewComponent implements OnInit, AfterViewInit {
 
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
-    plugins: [dayGridPlugin, interactionPlugin],
+    plugins: [dayGridPlugin, listPlugin, interactionPlugin],
     headerToolbar: {
-      right: ''
-    }
+      left: 'prev,next today',
+      right: 'dayGridMonth,listWeek'
+    },
   };
+
   calendarApi!: any;
   color: ThemePalette = 'accent';
   categoryCount: any = {};
@@ -116,13 +119,9 @@ export class OverviewComponent implements OnInit, AfterViewInit {
     note: '',
   };
 
-  @ViewChild('IncomeExpenseSummaryContainer', { static: false })
-  IncomeExpenseSummaryContainer: ElementRef<HTMLInputElement> =
-    {} as ElementRef;
-  @ViewChild('TotalSavingsContainer', { static: false })
-  TotalSavingsContainer: ElementRef<HTMLInputElement> = {} as ElementRef;
-  @ViewChild('fullCalendar', { static: false })
-  fullCalendar!: FullCalendarComponent;
+  @ViewChild('IncomeExpenseSummaryContainer', { static: false }) IncomeExpenseSummaryContainer: ElementRef<HTMLInputElement> = {} as ElementRef;
+  @ViewChild('TotalSavingsContainer', { static: false }) TotalSavingsContainer: ElementRef<HTMLInputElement> = {} as ElementRef;
+  @ViewChild('fullCalendar', { static: false }) fullCalendar!: FullCalendarComponent;
 
   constructor(
     private transactionService: TransactionService,
@@ -184,6 +183,15 @@ export class OverviewComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.calendarApi = this.fullCalendar.getApi();
+
+    // auto-switch the calendar view
+    window.addEventListener('resize', () => {
+      const newView = window.innerWidth < 768 ? 'listWeek' : 'dayGridMonth';
+
+      if (this.calendarApi.view.type !== newView) {
+        this.calendarApi.changeView(newView);
+      }
+    });
   }
 
   toggleFlip() {
@@ -346,8 +354,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
       // loop through the keys and create a calendar event
       for (const [key, value] of transDebitMap.entries()) {
         let transactionEvent = {
-          title: '-' + this.currency.symbol + formatNumber(value, this.userLocale),
-          color: '#FFF',
+          title: `-${this.currency.symbol}${formatNumber(value, this.userLocale)}`,
           textColor: '#FF3131',
           date: key, // calender event accepts date in the iso format yyyy-mm-dd
         };
@@ -382,6 +389,25 @@ export class OverviewComponent implements OnInit, AfterViewInit {
       this.calendarOptions = {
         events: calendarEvents,
         dateClick: this.handleDateClick.bind(this),
+
+        // Apply color using eventDidMount
+        eventDidMount: (info) => {
+          const titleEl = info.el.querySelector('.fc-list-event-title');
+          const isListView = info.view.type.startsWith('list');
+
+          // Apply text color for both List and Month views
+          if (titleEl) {
+            (titleEl as HTMLElement).style.color = info.event.textColor || ''; // Apply the dynamic color
+          }
+
+          // You can also apply specific styles to background, dots, etc.
+          if (isListView) {
+            const dotEl = info.el.querySelector('.fc-list-event-dot');
+            if (dotEl) {
+              (dotEl as HTMLElement).style.display = 'none'; // Hide dot icon in list view if needed
+            }
+          }
+        }
       };
 
       this.goToDate();  // Navigate FullCalendar instance to selected date

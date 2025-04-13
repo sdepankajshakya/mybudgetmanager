@@ -171,6 +171,16 @@
   transform: translate(0px);
 }
 
+/* Hide the "All-day" label in FullCalendar */
+::ng-deep .fc-list-event-time {
+  display: none !important;
+}
+
+/* To ensure that text color from events applies properly */
+::ng-deep .fc-list-event .fc-list-event-title a {
+  color: inherit !important; /* Ensures textColor is applied correctly */
+}
+
 @media (max-width: 1329px) {
   .summary {
     display: flex;
