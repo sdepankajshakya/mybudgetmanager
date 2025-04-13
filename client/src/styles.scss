@@ -108,6 +108,10 @@ $my-app-dark-theme: mat-dark-theme($my-app-primary-dark,
     background-color: $charcoal !important;
   }
 
+  .fc-theme-standard .fc-list-day-cushion {
+    background-color: $charcoal !important;
+  }
+
   .income-item {
     color: $limegreen !important;
   }
