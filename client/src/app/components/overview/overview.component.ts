@@ -122,6 +122,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
   @ViewChild('IncomeExpenseSummaryContainer', { static: false }) IncomeExpenseSummaryContainer: ElementRef<HTMLInputElement> = {} as ElementRef;
   @ViewChild('TotalSavingsContainer', { static: false }) TotalSavingsContainer: ElementRef<HTMLInputElement> = {} as ElementRef;
   @ViewChild('fullCalendar', { static: false }) fullCalendar!: FullCalendarComponent;
+  @ViewChild('recentTransactionsSection', { static: false }) recentTransactionsSection!: ElementRef;
 
   constructor(
     private transactionService: TransactionService,
@@ -177,7 +178,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
       distinctUntilChanged(),
       takeUntil(this.destroy$)
     ).subscribe(_ => {
-      this.getFilteredTransactions();
+      this.getFilteredTransactions(true);
     });
   }
 
@@ -313,7 +314,15 @@ export class OverviewComponent implements OnInit, AfterViewInit {
     this.searchSubject.next(searchKeyword);
   }
 
-  getFilteredTransactions() {
+  onSearchButtonClick(): void {
+    this.onSearchChange(this.search);
+  }
+
+  isMobileView(): boolean {
+    return window.innerWidth < 768;
+  }
+
+  getFilteredTransactions(maintainScrollPosition: boolean = false) {
     this.messageService.setIsLoading(true);
     const params = {
       month: this.selectedMonth,
@@ -327,6 +336,16 @@ export class OverviewComponent implements OnInit, AfterViewInit {
       this.transactions = transactions;
       this.populateExpenseCharts();
       this.populateCalendar();
+      
+      // Maintain scroll position at the recent transactions section only when requested and on mobile
+      if (maintainScrollPosition && this.recentTransactionsSection && this.isMobileView()) {
+        setTimeout(() => {
+          this.recentTransactionsSection.nativeElement.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'start' 
+          });
+        }, 100);
+      }
     });
   }
 

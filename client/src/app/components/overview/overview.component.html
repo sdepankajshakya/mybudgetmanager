@@ -111,10 +111,10 @@
     </div>
 
     <!--Transactions List-->
-    <div class="recent-transactions">
+    <div class="recent-transactions" #recentTransactionsSection>
       <mat-form-field class="search mg-lr10">
         <input type="text" matInput placeholder="Search by category or note" name="search" [(ngModel)]="search" (ngModelChange)="onSearchChange($event)">
-        <button matSuffix mat-button><i class="fa fa-search"></i></button>
+        <button type="button" matSuffix mat-button (click)="onSearchButtonClick()"><i class="fa fa-search"></i></button>
       </mat-form-field>
       <label class="text-24 mg-lr10 pd-b10" *ngIf="!transactions.length">
         <span class="warn-color">Transactions not available</span>
