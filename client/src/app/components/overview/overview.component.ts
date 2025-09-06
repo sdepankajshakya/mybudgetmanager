@@ -94,7 +94,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
     plugins: [dayGridPlugin, listPlugin, interactionPlugin],
     headerToolbar: {
       left: 'prev,next today',
-      right: 'dayGridMonth,listWeek'
+      right: 'dayGridMonth,listMonth'
     },
   };
 
@@ -186,13 +186,13 @@ export class OverviewComponent implements OnInit, AfterViewInit {
     this.calendarApi = this.fullCalendar.getApi();
 
     // auto-switch the calendar view
-    window.addEventListener('resize', () => {
-      const newView = window.innerWidth < 768 ? 'listWeek' : 'dayGridMonth';
+    // window.addEventListener('resize', () => {
+    //   const newView = window.innerWidth < 768 ? 'listWeek' : 'dayGridMonth';
 
-      if (this.calendarApi.view.type !== newView) {
-        this.calendarApi.changeView(newView);
-      }
-    });
+    //   if (this.calendarApi.view.type !== newView) {
+    //     this.calendarApi.changeView(newView);
+    //   }
+    // });
   }
 
   toggleFlip() {
