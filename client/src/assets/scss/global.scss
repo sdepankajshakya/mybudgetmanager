@@ -285,8 +285,9 @@ input.numberic-text {
   background: #f3a513;
 }
 
-.mat-card {
+.mat-mdc-card {
   overflow: hidden !important;
+  padding: 16px !important;
 }
 
 .mat-list-base .mat-list-item .mat-list-item-content {
@@ -383,5 +384,25 @@ body.darkMode {
   
   .mat-form-field-ripple {
     background-color: #f7a105 !important;
+  }
+}
+
+// Reusable icon button component
+.icon-btn {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .fa {
+    color: inherit;
   }
 }

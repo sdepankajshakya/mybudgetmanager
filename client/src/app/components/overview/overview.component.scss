@@ -60,7 +60,7 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
   background-color: #fff;
 
-  .mat-card {
+  .mat-mdc-card {
     background-color: #000 !important;
   }
 }
@@ -82,7 +82,7 @@
 .recent-transactions {
   display: flex;
   flex-direction: column;
-  min-width: 350px;
+  min-width: 360px;
   padding-right: 5px;
 }
 
@@ -226,7 +226,7 @@
 
   .recent-transactions {
     min-width: 0;
-    width: 90%;
+    width: 100%;
   }
 }
 
@@ -242,7 +242,7 @@
 
   .recent-transactions {
     min-width: 0;
-    width: 90%;
+    width: 100%;
   }
 }
 

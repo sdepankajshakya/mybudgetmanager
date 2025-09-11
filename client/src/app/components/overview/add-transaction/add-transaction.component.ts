@@ -5,9 +5,8 @@ import { Transaction } from 'src/app/models/Transaction';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { ErrorHandlerComponent } from '../../error-handler/error-handler.component';
 
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MessageService } from 'src/app/services/message.service';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SharedService } from 'src/app/services/shared.service';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';

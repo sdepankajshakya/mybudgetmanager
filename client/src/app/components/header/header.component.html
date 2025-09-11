@@ -1,8 +1,8 @@
 <div class="navbar">
   <div class="flexStart">
-    <button mat-icon-button (click)="toggleSidebar()" *ngIf="isLoggedIn" [attr.aria-label]="'toggleSidebar'">
-      <i [ngClass]="sidenav ? 'fa fa-arrow-left fa-2x' : 'fa fa-bars fa-2x'"></i>
-    </button>
+    <div class="icon-btn sidebar-btn" (click)="toggleSidebar()" *ngIf="isLoggedIn" [attr.aria-label]="'toggleSidebar'">
+      <i [ngClass]="sidenav ? 'fa fa-arrow-left' : 'fa fa-bars'"></i>
+    </div>
     <div class="logo">
       <a href="javascript:void(0)" (click)="goToHome()">
         <img src="/assets/images/icon.png" alt="logo" width="60px" />
@@ -21,9 +21,9 @@
           </span>
         </label>
       </div>
-      <button mat-icon-button [matMenuTriggerFor]="menu" [attr.aria-label]="'profile'">
-        <i class='fa fa-user-circle fa-3x'></i>
-      </button>
+      <div class="icon-btn profile-btn" [matMenuTriggerFor]="menu" [attr.aria-label]="'profile'">
+        <i class='fa fa-user-circle'></i>
+      </div>
       <mat-menu #menu="matMenu" class="profile-items">
         <button mat-menu-item (click)="onEditProfile()">
           <i class="fa fa-user-circle"></i>&nbsp;
