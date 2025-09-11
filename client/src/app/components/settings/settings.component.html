@@ -1,91 +1,184 @@
-<section class="settingsForm">
-  <div class="settings">
-    <mat-form-field appearance="fill">
-      <mat-label>Currency</mat-label>
-      <mat-select [compareWith]="compareWith" [(ngModel)]="currentSettings.currency">
-        <mat-option>
-          <ngx-mat-select-search [(ngModel)]="searchCurrency"
-          placeholderLabel="Search country..." 
-          noEntriesFoundLabel="'No Currency found'">
-          </ngx-mat-select-search>
-        </mat-option>
-        <mat-option *ngFor="let currency of currencyList | filter:'name':searchCurrency" [value]="currency">
-          {{currency.name}}({{currency.symbol}})
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <button type="submit" mat-raised-button color="accent" (click)="updateSettings()">Save</button>
-
-    <!--Mode of Payment-->
-    <section class="pd-t10">
-      <label class="text-16 pd-tr10"><strong>Modes of Payment</strong></label>
-      <button mat-icon-button (click)="openPaymentModal(addPaymentModeModal)" [matTooltip]="'Add Mode of Payment'" [attr.aria-label]="'addPayment'">
-        <img src="/assets/images/plus.png" alt="Add Mode of Payment" width="30px" />
-      </button>
-    </section>
-    <section class="flexStart box-shadow">
-      <mat-list role="list" class="payment-list">
-        <mat-list-item role="listitem" *ngFor="let mode of paymentModesList">
-          <div>
-            <img src={{mode.icon}} width="25px" alt="payment-icon" /> {{mode.name}}
-          </div>
-          <div class="pd-l40 flex" *ngIf="mode.user">
-            <button mat-icon-button color="primary" class="mg-t5" [matTooltip]="'Edit'" (click)="openPaymentModal(addPaymentModeModal, mode)" [attr.aria-label]="'edit'">
-              <i class="fa fa-edit fa-2x"></i>
-            </button>
-            <button mat-icon-button color="warn" [matTooltip]="'Delete'" (click)="onDeletePaymentMode(mode)" [attr.aria-label]="'delete'">
-              <i class="fa fa-trash fa-2x"></i>
-            </button>
-          </div>
-        </mat-list-item>
-      </mat-list>
-    </section>
-    
-    <!--Category-->
-    <section class="pd-t10">
-      <label class="text-16 pd-tr10"><strong>Categories</strong></label>
-      <button mat-icon-button (click)="openCategoryModal(addCategoryModal)" [matTooltip]="'Add category'" [attr.aria-label]="'addCategory'">
-        <img src="/assets/images/plus.png" alt="Add Category" width="30px" />
-      </button>
-    </section>
-    <section class="flexStart box-shadow">
-      <mat-list role="list" class="categories-list">
-        <mat-list-item role="listitem" *ngFor="let category of categoryList">
-          <div>
-            <img src={{category.icon}} width="25px" alt="category-icon" /> {{category.name}}
-          </div>
-          <div class="pd-l40 flex" *ngIf="category.user">
-            <button mat-icon-button color="primary" class="mg-t5" [matTooltip]="'Edit'" (click)="openCategoryModal(addCategoryModal, category)" [attr.aria-label]="'edit'">
-              <i class="fa fa-edit fa-2x"></i>
-            </button>
-            <button mat-icon-button color="warn" [matTooltip]="'Delete'" (click)="deleteCategory(category)" [attr.aria-label]="'delete'">
-              <i class="fa fa-trash fa-2x"></i>
-            </button>
-          </div>
-        </mat-list-item>
-      </mat-list>
-    </section>
+<div class="settings-container">
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1 class="page-title">Settings</h1>
+    <p class="page-subtitle">Manage your application preferences and data</p>
   </div>
 
-  <div class="backup-restore">
-    <h2>Backup and Restore</h2>
-    <p>Backup your data by downloading a spreadsheet</p>
-    <button type="button" mat-raised-button color="primary" (click)="downloadSpreadsheet()">Download
-      Spreadsheet</button>
-    <br>
-    <p>Insert data into your account by uploading a spreadsheet</p>
-    <div class="flexStart">
-      <button type="button" mat-raised-button color="primary" (click)="openCategoryModal(confirmUploadModal)">Upload Spreadsheet</button>
-    </div>
-    <input class="hidden" type="file" accept=".xlsx" #filePicker (change)="uploadSpreadsheet($event)">
-  </div>
+  <!-- Settings Grid -->
+  <div class="settings-grid">
 
-  <div class="danger-section">
-    <h2>Danger Section</h2>
-    <button type="button" mat-raised-button color="warn" (click)="deleteTransactions()">Delete all transactions</button>
+    <!-- General Settings Card -->
+    <mat-card class="settings-card">
+      <mat-card-header>
+        <div class="card-header-content">
+          <mat-card-title>
+            <i class="fa fa-cog card-icon"></i>
+            General Settings
+          </mat-card-title>
+          <mat-card-subtitle>Configure basic application settings</mat-card-subtitle>
+        </div>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="setting-item">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Currency</mat-label>
+            <mat-select [compareWith]="compareWith" [(ngModel)]="currentSettings.currency">
+              <mat-option>
+                <ngx-mat-select-search [(ngModel)]="searchCurrency" placeholderLabel="Search currency..." noEntriesFoundLabel="'No Currency found'">
+                </ngx-mat-select-search>
+              </mat-option>
+              <mat-option *ngFor="let currency of currencyList | filter:'name':searchCurrency" [value]="currency">
+                {{currency.name}} ({{currency.symbol}})
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button mat-raised-button color="primary" (click)="updateSettings()">
+          <i class="fa fa-save"></i>
+          Save Changes
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+    <!-- Payment Methods Card -->
+    <mat-card class="settings-card">
+      <mat-card-header>
+        <div class="card-header-content">
+          <mat-card-title>
+            <i class="fa fa-credit-card card-icon"></i>
+            Payment Methods
+          </mat-card-title>
+          <mat-card-subtitle>Manage your payment options</mat-card-subtitle>
+        </div>
+        <button class="icon-btn add-btn" (click)="openPaymentModal(addPaymentModeModal)" [matTooltip]="'Add Payment Method'" [attr.aria-label]="'addPayment'">
+          <i class="fa fa-plus"></i>
+        </button>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="items-list payment-methods-list">
+          <div class="list-item" *ngFor="let mode of paymentModesList">
+            <div class="item-info">
+              <img [src]="mode.icon" class="item-icon" alt="payment-icon" />
+              <span class="item-name">{{mode.name}}</span>
+              <span class="item-badge" *ngIf="!mode.user">Default</span>
+            </div>
+            <div class="item-actions" *ngIf="mode.user">
+              <button class="icon-btn edit-btn" [matTooltip]="'Edit'" (click)="openPaymentModal(addPaymentModeModal, mode)" [attr.aria-label]="'edit'">
+                <i class="fa fa-edit"></i>
+              </button>
+              <button class="icon-btn delete-btn" [matTooltip]="'Delete'" (click)="onDeletePaymentMode(mode)" [attr.aria-label]="'delete'">
+                <i class="fa fa-trash"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Categories Card -->
+    <mat-card class="settings-card">
+      <mat-card-header>
+        <div class="card-header-content">
+          <mat-card-title>
+            <i class="fa fa-tags card-icon"></i>
+            Categories
+          </mat-card-title>
+          <mat-card-subtitle>Organize your transactions</mat-card-subtitle>
+        </div>
+        <button class="icon-btn add-btn" (click)="openCategoryModal(addCategoryModal)" [matTooltip]="'Add Category'" [attr.aria-label]="'addCategory'">
+          <i class="fa fa-plus"></i>
+        </button>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="items-list categories-list">
+          <div class="list-item" *ngFor="let category of categoryList">
+            <div class="item-info">
+              <img [src]="category.icon" class="item-icon" alt="category-icon" />
+              <span class="item-name">{{category.name}}</span>
+              <span class="item-badge" [class]="category.type">{{category.type}}</span>
+              <span class="item-badge" *ngIf="!category.user">Default</span>
+            </div>
+            <div class="item-actions" *ngIf="category.user">
+              <button class="icon-btn edit-btn" [matTooltip]="'Edit'" (click)="openCategoryModal(addCategoryModal, category)" [attr.aria-label]="'edit'">
+                <i class="fa fa-edit"></i>
+              </button>
+              <button class="icon-btn delete-btn" [matTooltip]="'Delete'" (click)="deleteCategory(category)" [attr.aria-label]="'delete'">
+                <i class="fa fa-trash"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Data Management Card -->
+    <mat-card class="settings-card">
+      <mat-card-header>
+        <div class="card-header-content">
+          <mat-card-title>
+            <i class="fa fa-database card-icon"></i>
+            Data Management
+          </mat-card-title>
+          <mat-card-subtitle>Backup and restore your data</mat-card-subtitle>
+        </div>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="data-actions">
+          <div class="action-item">
+            <div class="action-info">
+              <h4>Export Data</h4>
+              <p>Download your data as a spreadsheet</p>
+            </div>
+            <button mat-raised-button color="primary" (click)="downloadSpreadsheet()">
+              <i class="fa fa-download"></i>
+              Download
+            </button>
+          </div>
+          <mat-divider></mat-divider>
+          <div class="action-item">
+            <div class="action-info">
+              <h4>Import Data</h4>
+              <p>Upload transactions from a spreadsheet</p>
+            </div>
+            <button mat-raised-button color="primary" (click)="openCategoryModal(confirmUploadModal)">
+              <i class="fa fa-upload"></i>
+              Upload
+            </button>
+          </div>
+        </div>
+        <input class="hidden" type="file" accept=".xlsx" #filePicker (change)="uploadSpreadsheet($event)">
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Danger Zone Card -->
+    <mat-card class="settings-card danger-card">
+      <mat-card-header>
+        <div class="card-header-content">
+          <mat-card-title>
+            <i class="fa fa-exclamation-triangle card-icon"></i>
+            Danger Zone
+          </mat-card-title>
+          <mat-card-subtitle>Irreversible actions - proceed with caution</mat-card-subtitle>
+        </div>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="action-item">
+          <div class="action-info">
+            <h4>Delete All Transactions</h4>
+            <p>This will permanently remove all your transaction data</p>
+          </div>
+          <button mat-raised-button color="warn" (click)="deleteTransactions()">
+            <i class="fa fa-trash"></i>
+            Delete All
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
   </div>
-</section>
+</div>
 
 <ng-template #confirmUploadModal>
   <div class="modal-header">
