@@ -30,10 +30,10 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatListModule } from '@angular/material/list';
 
 import { AppComponent } from './app.component';
-import { OverviewComponent } from './components/overview/overview.component';
-import { TransactionListComponent } from './components/overview/transaction-list/transaction-list.component';
-import { AddTransactionComponent } from './components/overview/add-transaction/add-transaction.component';
-import { TransactionItemComponent } from './components/overview/transaction-list/transaction-item/transaction-item.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { TransactionListComponent } from './components/dashboard/transaction-list/transaction-list.component';
+import { AddTransactionComponent } from './components/dashboard/add-transaction/add-transaction.component';
+import { TransactionItemComponent } from './components/dashboard/transaction-list/transaction-item/transaction-item.component';
 import { HeaderComponent } from './components/header/header.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
@@ -65,7 +65,7 @@ import { NoInternetComponent } from './components/no-internet/no-internet.compon
 @NgModule({
   declarations: [
     AppComponent,
-    OverviewComponent,
+    DashboardComponent,
     TransactionListComponent,
     AddTransactionComponent,
     TransactionItemComponent,

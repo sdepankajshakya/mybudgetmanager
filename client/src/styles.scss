@@ -21,315 +21,295 @@ $accent-palette: mat.define-palette(mat.$amber-palette, 400);
 $warn-palette: mat.define-palette(mat.$red-palette);
 
 // Create multiple themes
-$blue-theme: mat.define-light-theme((
-  color: (
-    primary: $blue-palette,
-    accent: $accent-palette,
-    warn: $warn-palette,
-  ),
-  typography: mat.define-typography-config(),
-  density: 0,
-));
+$blue-theme: mat.define-light-theme((color: (primary: $blue-palette,
+        accent: $accent-palette,
+        warn: $warn-palette,
+      ),
+      typography: mat.define-typography-config(),
+      density: 0,
+    ));
 
-$green-theme: mat.define-light-theme((
-  color: (
-    primary: $green-palette,
-    accent: $accent-palette,
-    warn: $warn-palette,
-  ),
-  typography: mat.define-typography-config(),
-  density: 0,
-));
+$green-theme: mat.define-light-theme((color: (primary: $green-palette,
+        accent: $accent-palette,
+        warn: $warn-palette,
+      ),
+      typography: mat.define-typography-config(),
+      density: 0,
+    ));
 
-$purple-theme: mat.define-light-theme((
-  color: (
-    primary: $purple-palette,
-    accent: $accent-palette,
-    warn: $warn-palette,
-  ),
-  typography: mat.define-typography-config(),
-  density: 0,
-));
+$purple-theme: mat.define-light-theme((color: (primary: $purple-palette,
+        accent: $accent-palette,
+        warn: $warn-palette,
+      ),
+      typography: mat.define-typography-config(),
+      density: 0,
+    ));
 
-$orange-theme: mat.define-light-theme((
-  color: (
-    primary: $orange-palette,
-    accent: $accent-palette,
-    warn: $warn-palette,
-  ),
-  typography: mat.define-typography-config(),
-  density: 0,
-));
+$orange-theme: mat.define-light-theme((color: (primary: $orange-palette,
+        accent: $accent-palette,
+        warn: $warn-palette,
+      ),
+      typography: mat.define-typography-config(),
+      density: 0,
+    ));
 
-$red-theme: mat.define-light-theme((
-  color: (
-    primary: $red-palette,
-    accent: $accent-palette,
-    warn: $warn-palette,
-  ),
-  typography: mat.define-typography-config(),
-  density: 0,
-));
+$red-theme: mat.define-light-theme((color: (primary: $red-palette,
+        accent: $accent-palette,
+        warn: $warn-palette,
+      ),
+      typography: mat.define-typography-config(),
+      density: 0,
+    ));
 
-$teal-theme: mat.define-light-theme((
-  color: (
-    primary: $teal-palette,
-    accent: $accent-palette,
-    warn: $warn-palette,
-  ),
-  typography: mat.define-typography-config(),
-  density: 0,
-));
+$teal-theme: mat.define-light-theme((color: (primary: $teal-palette,
+        accent: $accent-palette,
+        warn: $warn-palette,
+      ),
+      typography: mat.define-typography-config(),
+      density: 0,
+    ));
 
-$indigo-theme: mat.define-light-theme((
-  color: (
-    primary: $indigo-palette,
-    accent: $accent-palette,
-    warn: $warn-palette,
-  ),
-  typography: mat.define-typography-config(),
-  density: 0,
-));
+$indigo-theme: mat.define-light-theme((color: (primary: $indigo-palette,
+        accent: $accent-palette,
+        warn: $warn-palette,
+      ),
+      typography: mat.define-typography-config(),
+      density: 0,
+    ));
 
-$pink-theme: mat.define-light-theme((
-  color: (
-    primary: $pink-palette,
-    accent: $accent-palette,
-    warn: $warn-palette,
-  ),
-  typography: mat.define-typography-config(),
-  density: 0,
-));
+$pink-theme: mat.define-light-theme((color: (primary: $pink-palette,
+        accent: $accent-palette,
+        warn: $warn-palette,
+      ),
+      typography: mat.define-typography-config(),
+      density: 0,
+    ));
 
 // Define dark themes for each color
-$dark-blue-theme: mat.define-dark-theme((
-  color: (
-    primary: $blue-palette,
-    accent: $accent-palette,
-    warn: $warn-palette,
-  ),
-  typography: mat.define-typography-config(),
-  density: 0,
-));
+$dark-blue-theme: mat.define-dark-theme((color: (primary: $blue-palette,
+        accent: $accent-palette,
+        warn: $warn-palette,
+      ),
+      typography: mat.define-typography-config(),
+      density: 0,
+    ));
 
-$dark-green-theme: mat.define-dark-theme((
-  color: (
-    primary: $green-palette,
-    accent: $accent-palette,
-    warn: $warn-palette,
-  ),
-  typography: mat.define-typography-config(),
-  density: 0,
-));
+$dark-green-theme: mat.define-dark-theme((color: (primary: $green-palette,
+        accent: $accent-palette,
+        warn: $warn-palette,
+      ),
+      typography: mat.define-typography-config(),
+      density: 0,
+    ));
 
-$dark-purple-theme: mat.define-dark-theme((
-  color: (
-    primary: $purple-palette,
-    accent: $accent-palette,
-    warn: $warn-palette,
-  ),
-  typography: mat.define-typography-config(),
-  density: 0,
-));
+$dark-purple-theme: mat.define-dark-theme((color: (primary: $purple-palette,
+        accent: $accent-palette,
+        warn: $warn-palette,
+      ),
+      typography: mat.define-typography-config(),
+      density: 0,
+    ));
 
-$dark-orange-theme: mat.define-dark-theme((
-  color: (
-    primary: $orange-palette,
-    accent: $accent-palette,
-    warn: $warn-palette,
-  ),
-  typography: mat.define-typography-config(),
-  density: 0,
-));
+$dark-orange-theme: mat.define-dark-theme((color: (primary: $orange-palette,
+        accent: $accent-palette,
+        warn: $warn-palette,
+      ),
+      typography: mat.define-typography-config(),
+      density: 0,
+    ));
 
-$dark-red-theme: mat.define-dark-theme((
-  color: (
-    primary: $red-palette,
-    accent: $accent-palette,
-    warn: $warn-palette,
-  ),
-  typography: mat.define-typography-config(),
-  density: 0,
-));
+$dark-red-theme: mat.define-dark-theme((color: (primary: $red-palette,
+        accent: $accent-palette,
+        warn: $warn-palette,
+      ),
+      typography: mat.define-typography-config(),
+      density: 0,
+    ));
 
-$dark-teal-theme: mat.define-dark-theme((
-  color: (
-    primary: $teal-palette,
-    accent: $accent-palette,
-    warn: $warn-palette,
-  ),
-  typography: mat.define-typography-config(),
-  density: 0,
-));
+$dark-teal-theme: mat.define-dark-theme((color: (primary: $teal-palette,
+        accent: $accent-palette,
+        warn: $warn-palette,
+      ),
+      typography: mat.define-typography-config(),
+      density: 0,
+    ));
 
-$dark-indigo-theme: mat.define-dark-theme((
-  color: (
-    primary: $indigo-palette,
-    accent: $accent-palette,
-    warn: $warn-palette,
-  ),
-  typography: mat.define-typography-config(),
-  density: 0,
-));
+$dark-indigo-theme: mat.define-dark-theme((color: (primary: $indigo-palette,
+        accent: $accent-palette,
+        warn: $warn-palette,
+      ),
+      typography: mat.define-typography-config(),
+      density: 0,
+    ));
 
-$dark-pink-theme: mat.define-dark-theme((
-  color: (
-    primary: $pink-palette,
-    accent: $accent-palette,
-    warn: $warn-palette,
-  ),
-  typography: mat.define-typography-config(),
-  density: 0,
-));
+$dark-pink-theme: mat.define-dark-theme((color: (primary: $pink-palette,
+        accent: $accent-palette,
+        warn: $warn-palette,
+      ),
+      typography: mat.define-typography-config(),
+      density: 0,
+    ));
 
 // Define a dark theme
-$dark-theme: mat.define-dark-theme((
-  color: (
-    primary: $blue-palette,
-    accent: $accent-palette,
-    warn: $warn-palette,
-  ),
-  typography: mat.define-typography-config(),
-  density: 0,
-));
+$dark-theme: mat.define-dark-theme((color: (primary: $blue-palette,
+        accent: $accent-palette,
+        warn: $warn-palette,
+      ),
+      typography: mat.define-typography-config(),
+      density: 0,
+    ));
 
 // Include only the base Material styles without any theme
 @include mat.core-theme($blue-theme);
 
 // Light theme classes - Angular Material component theming
-.theme-blue { 
+.theme-blue {
   @include mat.all-component-colors($blue-theme);
-  
+
   mat-card {
-    background-color: mat.get-color-from-palette($blue-palette, 50) !important;
+    background-color: mat.get-color-from-palette($blue-palette, 100) !important;
   }
 }
-.theme-green { 
+
+.theme-green {
   @include mat.all-component-colors($green-theme);
-  
+
   mat-card {
-    background-color: mat.get-color-from-palette($green-palette, 50) !important;
+    background-color: mat.get-color-from-palette($green-palette, 100) !important;
   }
 }
-.theme-purple { 
+
+.theme-purple {
   @include mat.all-component-colors($purple-theme);
-  
+
   mat-card {
-    background-color: mat.get-color-from-palette($purple-palette, 50) !important;
+    background-color: mat.get-color-from-palette($purple-palette, 100) !important;
   }
 }
-.theme-orange { 
+
+.theme-orange {
   @include mat.all-component-colors($orange-theme);
-  
+
   mat-card {
-    background-color: mat.get-color-from-palette($orange-palette, 50) !important;
+    background-color: mat.get-color-from-palette($orange-palette, 100) !important;
   }
 }
-.theme-red { 
+
+.theme-red {
   @include mat.all-component-colors($red-theme);
-  
+
   mat-card {
-    background-color: mat.get-color-from-palette($red-palette, 50) !important;
+    background-color: mat.get-color-from-palette($red-palette, 100) !important;
   }
 }
-.theme-teal { 
+
+.theme-teal {
   @include mat.all-component-colors($teal-theme);
-  
+
   mat-card {
-    background-color: mat.get-color-from-palette($teal-palette, 50) !important;
+    background-color: mat.get-color-from-palette($teal-palette, 100) !important;
   }
 }
-.theme-indigo { 
+
+.theme-indigo {
   @include mat.all-component-colors($indigo-theme);
-  
+
   mat-card {
-    background-color: mat.get-color-from-palette($indigo-palette, 50) !important;
+    background-color: mat.get-color-from-palette($indigo-palette, 100) !important;
   }
 }
-.theme-pink { 
+
+.theme-pink {
   @include mat.all-component-colors($pink-theme);
-  
+
   mat-card {
-    background-color: mat.get-color-from-palette($pink-palette, 50) !important;
+    background-color: mat.get-color-from-palette($pink-palette, 100) !important;
   }
 }
 
 // Dark theme classes
-body.darkMode.theme-blue { 
+body.darkMode.theme-blue {
   @include mat.all-component-colors($dark-blue-theme);
   background-color: #121212;
   color: white;
-  
+
   mat-card {
     background-color: $charcoal !important;
     color: white !important;
   }
 }
-body.darkMode.theme-green { 
+
+body.darkMode.theme-green {
   @include mat.all-component-colors($dark-green-theme);
   background-color: #121212;
   color: white;
-  
+
   mat-card {
     background-color: $charcoal !important;
     color: white !important;
   }
 }
-body.darkMode.theme-purple { 
+
+body.darkMode.theme-purple {
   @include mat.all-component-colors($dark-purple-theme);
   background-color: #121212;
   color: white;
-  
+
   mat-card {
     background-color: $charcoal !important;
     color: white !important;
   }
 }
-body.darkMode.theme-orange { 
+
+body.darkMode.theme-orange {
   @include mat.all-component-colors($dark-orange-theme);
   background-color: #121212;
   color: white;
-  
+
   mat-card {
     background-color: $charcoal !important;
     color: white !important;
   }
 }
-body.darkMode.theme-red { 
+
+body.darkMode.theme-red {
   @include mat.all-component-colors($dark-red-theme);
   background-color: #121212;
   color: white;
-  
+
   mat-card {
     background-color: $charcoal !important;
     color: white !important;
   }
 }
-body.darkMode.theme-teal { 
+
+body.darkMode.theme-teal {
   @include mat.all-component-colors($dark-teal-theme);
   background-color: #121212;
   color: white;
-  
+
   mat-card {
     background-color: $charcoal !important;
     color: white !important;
   }
 }
-body.darkMode.theme-indigo { 
+
+body.darkMode.theme-indigo {
   @include mat.all-component-colors($dark-indigo-theme);
   background-color: #121212;
   color: white;
-  
+
   mat-card {
     background-color: $charcoal !important;
     color: white !important;
   }
 }
-body.darkMode.theme-pink { 
+
+body.darkMode.theme-pink {
   @include mat.all-component-colors($dark-pink-theme);
   background-color: #121212;
   color: white;
-  
+
   mat-card {
     background-color: $charcoal !important;
     color: white !important;

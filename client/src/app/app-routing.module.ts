@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 import { SignupComponent } from './components/signup/signup.component';
-import { OverviewComponent } from './components/overview/overview.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthenticationGuard } from './guards/authentication.guard';
 import { SettingsComponent } from './components/settings/settings.component';
@@ -19,7 +19,7 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent, title: 'Profile' },
   {
     path: 'overview',
-    component: OverviewComponent,
+    component: DashboardComponent,
     resolve: { currentSettings: SettingsService },
     canActivate: [AuthenticationGuard],
     title: 'Dashboard'

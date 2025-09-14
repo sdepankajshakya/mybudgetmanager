@@ -43,9 +43,9 @@ import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/internal/operators';
 
 @Component({
-  selector: 'app-overview',
-  templateUrl: './overview.component.html',
-  styleUrls: ['./overview.component.scss'],
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.scss'],
   animations: [
     fade,
     trigger('flipState', [
@@ -66,7 +66,7 @@ import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/internal/ope
     ]),
   ],
 })
-export class OverviewComponent implements OnInit, AfterViewInit {
+export class DashboardComponent implements OnInit, AfterViewInit {
   messageSubscription: Subscription;
   isLoadingSubcription: Subscription;
   isLoading: boolean = false;
