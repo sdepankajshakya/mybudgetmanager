@@ -25,7 +25,7 @@ export class SignupComponent implements OnInit {
   ) {}
 
   hide = true;
-  color: ThemePalette = 'accent';
+  color: ThemePalette = 'primary';
 
   ngOnInit(): void {}
 
@@ -43,8 +43,7 @@ export class SignupComponent implements OnInit {
     this.authService.createUser(form.value).subscribe((res) => {
       this.messageService.setIsLoading(false);
       this.toastr.success(
-        'Your account has been successfully created. Please login to continue.',
-        'Success!'
+        'Your account has been successfully created. Please login to continue.'
       );
       this.router.navigate(['login']);
     }, (err) => {

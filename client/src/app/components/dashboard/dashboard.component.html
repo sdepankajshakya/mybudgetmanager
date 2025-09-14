@@ -80,26 +80,8 @@
       <!--Expense Distribution by Category-->
       <div class="flexCol min-w60">
         <mat-card class="overview-pie">
-          <span class="pointer align-right" (click)="toggleFlip()" [matTooltip]="'Flip Chart'">
-            <img src="/assets/images/exchange.png" alt="flip" width="30px" />
-          </span>
-          <highcharts-chart *ngIf="expenseDistOptions && flip" [Highcharts]="Highcharts" [options]="expenseDistOptions">
+          <highcharts-chart *ngIf="expenseDistBarOptions" [Highcharts]="Highcharts" [options]="expenseDistBarOptions">
           </highcharts-chart>
-          <highcharts-chart *ngIf="expenseDistBarOptions && !flip" [Highcharts]="Highcharts" [options]="expenseDistBarOptions">
-          </highcharts-chart>
-          <!-- <div class="card-wrapper" [@flipState]="flip">
-            <div class="front">
-              <highcharts-chart *ngIf="expenseDistOptions && flip" [Highcharts]="Highcharts"
-                [options]="expenseDistOptions" [callbackFunction]="expenseDistChartCb">
-              </highcharts-chart>
-            </div>
-            <div class="back">
-              <highcharts-chart *ngIf="expenseDistBarOptions && !flip" [Highcharts]="Highcharts"
-                [options]="expenseDistBarOptions">
-              </highcharts-chart>
-            </div>
-          </div> -->
-          <span *ngIf="!expenseDistOptions" class="dataNotAvailable">Data is not available for this metric.</span>
           <span *ngIf="!expenseDistBarOptions" class="dataNotAvailable">Data is not available for this metric.</span>
         </mat-card>
 

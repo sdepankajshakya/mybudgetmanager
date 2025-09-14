@@ -94,12 +94,12 @@ export class AppComponent implements AfterViewChecked, OnDestroy {
 
         // Initialize theme with fallback if no settings are available
         if (message.text === 'initialize-theme-fallback') {
-          const savedTheme = localStorage.getItem('selectedTheme') || 'blue';
+        const savedTheme = localStorage.getItem('selectedTheme') || 'orange';
           this.applyThemeToBody(savedTheme);
         }
       });
 
-    if (this.isLoggedIn) this.router.navigate(['overview']);
+    if (this.isLoggedIn) this.router.navigate(['dashboard']);
 
     this.isLoadingSubcription = this.messageService.isLoading$.subscribe(value => {
       this.isLoading = value;
@@ -140,7 +140,7 @@ export class AppComponent implements AfterViewChecked, OnDestroy {
   }
 
   private initializeTheme(): void {
-    const savedTheme = localStorage.getItem('selectedTheme') || 'blue';
+  const savedTheme = localStorage.getItem('selectedTheme') || 'orange';
     this.applyThemeToBody(savedTheme);
   }
 
@@ -162,7 +162,7 @@ export class AppComponent implements AfterViewChecked, OnDestroy {
         let response = res as any;
         if (response && response.data && response.data.length) {
           const currentSettings = response.data[0];
-          const theme = currentSettings.theme || 'blue';
+          const theme = currentSettings.theme;
           
           // Apply theme and sync with localStorage
           this.applyThemeToBody(theme);
@@ -180,7 +180,7 @@ export class AppComponent implements AfterViewChecked, OnDestroy {
   }
 
   private initializeFallbackTheme(): void {
-    const savedTheme = localStorage.getItem('selectedTheme') || 'blue';
+  const savedTheme = localStorage.getItem('selectedTheme') || 'orange';
     this.applyThemeToBody(savedTheme);
   }
 

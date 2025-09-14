@@ -18,7 +18,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent, title: 'Login' },
   { path: 'profile', component: ProfileComponent, title: 'Profile' },
   {
-    path: 'overview',
+    path: 'dashboard',
     component: DashboardComponent,
     resolve: { currentSettings: SettingsService },
     canActivate: [AuthenticationGuard],

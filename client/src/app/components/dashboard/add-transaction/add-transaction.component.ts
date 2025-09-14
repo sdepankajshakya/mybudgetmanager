@@ -139,10 +139,10 @@ export class AddTransactionComponent implements OnInit {
         (res) => {
           this.dialogRef.close();
           this.messageService.sendMessage('transaction saved');
-          this.toastr.success('Transaction added successfully', 'Success!');
+          this.toastr.success('Transaction added successfully');
         },
         (err) => {
-          this.toastr.error('Failed to add the transaction', 'Error!');
+          this.toastr.error('Failed to add the transaction');
         }
       );
   }

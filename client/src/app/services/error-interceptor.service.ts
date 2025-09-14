@@ -23,7 +23,7 @@ export class ErrorInterceptorService implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       catchError((err: HttpErrorResponse) => {
-        this.toastr.error(err.error.message, err.error.error);
+        this.toastr.error(err.error.message);
         if (err.status === 401) {
           this.authService.logout();
         }

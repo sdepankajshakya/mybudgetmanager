@@ -18,7 +18,6 @@ import { Transaction } from 'src/app/models/Transaction';
 
 import * as Highcharts from 'highcharts';
 
-import HC_exporting from 'highcharts/modules/exporting';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -31,13 +30,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Category } from 'src/app/models/Category';
 import { fade } from 'src/app/shared/animations';
 import { PaymentMode } from 'src/app/models/PaymentMode';
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
+// Removed flipState animation utilities
 import { DateRangeResponse } from 'src/app/models/DateRangeResonse';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/internal/operators';
@@ -47,23 +40,7 @@ import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/internal/ope
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
   animations: [
-    fade,
-    trigger('flipState', [
-      state(
-        'true',
-        style({
-          transform: 'rotateY(180deg)',
-        })
-      ),
-      state(
-        'false',
-        style({
-          transform: 'none',
-        })
-      ),
-      transition('true => false', animate('500ms ease-out')),
-      transition('false => true', animate('500ms ease-in')),
-    ]),
+  fade,
   ],
 })
 export class DashboardComponent implements OnInit, AfterViewInit {
@@ -75,7 +52,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   currency: any;
   userLocale: string = '';
   Highcharts = Highcharts;
-  expenseDistOptions: any;
   expenseDistBarOptions: any;
   totalSavingOptions: any;
   currentUser: any;
@@ -99,10 +75,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   };
 
   calendarApi!: any;
-  color: ThemePalette = 'accent';
+  color: ThemePalette = 'primary';
   categoryCount: any = {};
   paymentModes: PaymentMode[] = [];
-  flip: boolean = false;
   months = config.months;
 
   private transaction: Transaction = {
@@ -195,9 +170,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     // });
   }
 
-  toggleFlip() {
-    this.flip = !this.flip;
-  }
+  // flip functionality removed
 
   resetTransactions() {
     this.transactions = [];
@@ -233,7 +206,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           }
         },
         (err) => {
-          this.toastr.error('Failed to fetch transaction categories', 'Error!');
+          this.toastr.error('Failed to fetch transaction categories');
         }
       );
     }
@@ -251,7 +224,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         this.sharedService.setItemToLocalStorage('paymentModes', response.data);
       },
       (err) => {
-        this.toastr.error('Failed to fetch payment modes', 'Error!');
+        this.toastr.error('Failed to fetch payment modes');
       }
     );
   }
@@ -550,7 +523,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       });
 
       if (budgetData?.length) {
-        this.createExpenseDistributionChart(budgetData);
         this.createExpenseDistributionBarChart(budgetData);
       }
 
@@ -568,106 +540,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         );
       }
     } else {
-      this.createExpenseDistributionChart([]);
       this.createExpenseDistributionBarChart([]);
       this.createIncomeExpenseSummaryChart(this.IncomeExpenseSummaryContainer.nativeElement.id, []);
       this.createTotalSavingsChart(this.TotalSavingsContainer.nativeElement.id, 0, 0);
     }
   }
-
-  createExpenseDistributionChart(data: any) {
-    const currencySymbol = this.currency?.symbol || '$';
-
-    this.expenseDistOptions = {
-      chart: {
-        type: 'pie',
-        backgroundColor: 'transparent',
-        plotShadow: false,
-        style: {
-          fontFamily: 'Segoe UI, Verdana, sans-serif',
-        },
-      },
-      title: {
-        text: 'Expense Distribution by Category',
-        align: 'center',
-        style: {
-          fontSize: '16px',
-          fontWeight: '600',
-          color: '#333',
-        },
-      },
-      tooltip: {
-        pointFormat: `${currencySymbol}{point.y}`,
-        backgroundColor: '#fff',
-        borderColor: '#ccc',
-        borderRadius: 8,
-        style: {
-          color: '#333',
-        },
-      },
-      legend: {
-        enabled: false,
-        itemStyle: {
-          color: '#A0A0A0',
-        },
-        itemHoverStyle: {
-          color: '#A0A0A0',
-        },
-        labelFormatter: function () {
-          const chart = this as any;
-          return (
-            chart.name +
-            ': ' +
-            Highcharts.numberFormat(chart.y, 0, '.', ',') +
-            ' (' +
-            Highcharts.numberFormat(chart.percentage, 2) +
-            '%)'
-          );
-        },
-      },
-      plotOptions: {
-        pie: {
-          allowPointSelect: true,
-          cursor: 'pointer',
-          shadow: true,
-          dataLabels: {
-            enabled: true,
-            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-            distance: 5,
-            style: {
-              color: '#444',
-              fontWeight: '500',
-            },
-          },
-          showInLegend: true,
-          borderWidth: 0,
-          innerSize: '0%', // No donut
-        },
-      },
-      series: [
-        {
-          name: 'Expenses',
-          data: data,
-        },
-      ],
-      credits: {
-        enabled: false,
-      },
-      exporting: {
-        enabled: false,
-      },
-    };
-
-    HC_exporting(Highcharts);
-
-    setTimeout(() => {
-      window.dispatchEvent(new Event('resize'));
-    }, 300);
-  }
-
-  expenseDistChartCb: Highcharts.ChartCallbackFunction = (chart) => {
-    chart.reflow();
-  };
+  // Remove pie chart logic entirely; bar chart is the only visualization for expense distribution
 
   createExpenseDistributionBarChart(data: any[]) {
     const currencySymbol = this.currency?.symbol || '$';

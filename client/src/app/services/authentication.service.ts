@@ -98,7 +98,7 @@ export class AuthenticationService {
       .subscribe((res) => {
         this.saveTokenInLocalStorage(res),
         this.setLoginStatus(true);
-        this.router.navigate(['overview']);
+        this.router.navigate(['dashboard']);
       })
   }
 

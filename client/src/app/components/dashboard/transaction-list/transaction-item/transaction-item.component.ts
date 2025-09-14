@@ -69,7 +69,7 @@ export class TransactionItemComponent implements OnInit {
           this.sharedService.setItemToLocalStorage('categories', response.data);
         },
         (err) => {
-          this.toastr.error('Failed to fetch transaction categories', 'Error!');
+          this.toastr.error('Failed to fetch transaction categories');
         }
       );
     }
@@ -126,10 +126,10 @@ export class TransactionItemComponent implements OnInit {
     this.transactionService.deleteTransaction(this.transaction).subscribe(
       (res) => {
         this.messageService.sendMessage('transaction deleted');
-        this.toastr.success('Transaction deleted successfully', 'Success!');
+        this.toastr.success('Transaction deleted successfully');
       },
       (err) => {
-        this.toastr.success('Failed to delete the transaction', 'Error!');
+        this.toastr.error('Failed to delete the transaction');
       }
     );
   }

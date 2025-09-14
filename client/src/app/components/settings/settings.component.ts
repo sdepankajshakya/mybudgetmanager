@@ -138,14 +138,14 @@ export class SettingsComponent implements OnInit {
 
   // Theme options for the theme selector
   themeOptions = [
-    { name: 'Default Blue', value: 'blue', primaryColor: '#2196F3' },
-    { name: 'Green Finance', value: 'green', primaryColor: '#4CAF50' },
-    { name: 'Purple Pro', value: 'purple', primaryColor: '#9C27B0' },
-    { name: 'Orange Energy', value: 'orange', primaryColor: '#FF9800' },
-    { name: 'Red Power', value: 'red', primaryColor: '#F44336' },
-    { name: 'Teal Ocean', value: 'teal', primaryColor: '#009688' },
-    { name: 'Indigo Night', value: 'indigo', primaryColor: '#3F51B5' },
-    { name: 'Pink Creative', value: 'pink', primaryColor: '#E91E63' },
+    { name: 'Blue', value: 'blue', primaryColor: '#2196F3' },
+    { name: 'Green', value: 'green', primaryColor: '#4CAF50' },
+    { name: 'Purple', value: 'purple', primaryColor: '#9C27B0' },
+    { name: 'Orange', value: 'orange', primaryColor: '#FF9800' },
+    { name: 'Red', value: 'red', primaryColor: '#F44336' },
+    { name: 'Teal', value: 'teal', primaryColor: '#009688' },
+    { name: 'Indigo', value: 'indigo', primaryColor: '#3F51B5' },
+    { name: 'Pink', value: 'pink', primaryColor: '#E91E63' },
   ];
 
   editCategory: boolean = false;
@@ -180,13 +180,13 @@ export class SettingsComponent implements OnInit {
   }
 
   private initializeTheme(): void {
-    const savedTheme = localStorage.getItem('selectedTheme') || 'blue';
+    const savedTheme = localStorage.getItem('selectedTheme') || 'orange';
     this.applyTheme(savedTheme);
   }
 
   fetchCategoryList() {
     this.categoryList =
-    this.sharedService.getItemFromLocalStorage('categories');
+      this.sharedService.getItemFromLocalStorage('categories');
   }
 
   getSettings() {
@@ -196,13 +196,13 @@ export class SettingsComponent implements OnInit {
         this.currentSettings = response.data[0];
         // Set default theme if not present
         if (!this.currentSettings.theme) {
-          this.currentSettings.theme = 'blue';
+          this.currentSettings.theme = 'orange';
         }
-        
+
         // Apply the theme from database and sync with localStorage
         this.applyTheme(this.currentSettings.theme);
         localStorage.setItem('selectedTheme', this.currentSettings.theme);
-        
+
         // Notify app component about theme change
         this.messageService.sendMessage(`apply-theme:${this.currentSettings.theme}`);
       } else {
@@ -226,7 +226,7 @@ export class SettingsComponent implements OnInit {
           this.currencyList = response.data;
         },
         (err) => {
-          this.toastr.error('Failed to fetch currencies', 'Error!');
+          this.toastr.error('Failed to fetch currencies');
         }
       );
     }
@@ -242,7 +242,7 @@ export class SettingsComponent implements OnInit {
     this.settingsService
       .updateSettings(this.currentSettings)
       .subscribe((res) => {
-        this.toastr.success('Settings have been updated', 'Success!');
+        this.toastr.success('Settings have been updated');
         // Don't fetch settings here since we should have fresh data already
       });
   }
@@ -250,25 +250,25 @@ export class SettingsComponent implements OnInit {
   onThemeChange(event: any) {
     const selectedTheme = event.value;
     console.log('Theme changed to:', selectedTheme);
-    
+
     // Update the theme in current settings
     this.currentSettings.theme = selectedTheme;
-    
+
     // Apply theme immediately by changing body class
     this.applyTheme(selectedTheme);
   }
 
   private applyTheme(themeName: string): void {
     const availableThemes = ['blue', 'green', 'purple', 'orange', 'red', 'teal', 'indigo', 'pink'];
-    
+
     // Remove existing theme classes
     availableThemes.forEach(theme => {
       document.body.classList.remove(`theme-${theme}`);
     });
-    
+
     // Add new theme class
     document.body.classList.add(`theme-${themeName}`);
-    
+
     // Save to localStorage
     localStorage.setItem('selectedTheme', themeName);
   }
@@ -289,14 +289,13 @@ export class SettingsComponent implements OnInit {
       this.settingsService.uploadSpreadsheet(postData).subscribe(
         (res) => {
           this.toastr.success(
-            'Spreadsheet data successfully added',
-            'Success!'
+            'Spreadsheet data successfully added'
           );
           this.messageService.setIsLoading(false);
         },
         (err) => {
           this.messageService.setIsLoading(false);
-          this.toastr.error('Failed to process spreadsheet data', 'Error!');
+          this.toastr.error('Failed to process spreadsheet data');
         }
       );
     }
@@ -306,10 +305,10 @@ export class SettingsComponent implements OnInit {
     this.settingsService.downloadSpreadsheet().subscribe(
       (res) => {
         this.fileSaverService.save(res, 'BudgetManager.xlsx');
-        this.toastr.success('Download spreadsheet successful', 'Success!');
+        this.toastr.success('Download spreadsheet successful');
       },
       (err) => {
-        this.toastr.error('Failed to download spreadsheet', 'Error!');
+        this.toastr.error('Failed to download spreadsheet');
       }
     );
   }
@@ -320,16 +319,15 @@ export class SettingsComponent implements OnInit {
         this.settingsService.deleteTransactions(this.currentUser).subscribe(
           () => {
             this.toastr.success(
-              'Transactions deleted successfully',
-              'Success!'
+              'Transactions deleted successfully'
             );
           },
           (err) => {
-            this.toastr.error('Failed to delete transactions', 'Error!');
+            this.toastr.error('Failed to delete transactions');
           }
         );
       } else {
-        this.toastr.error('Invalid user', 'Error!');
+        this.toastr.error('Invalid user');
       }
     }
   }
@@ -340,13 +338,13 @@ export class SettingsComponent implements OnInit {
       this.settingsService
         .addCategory(formValue)
         .subscribe((res) => {
-          this.toastr.success('Category added successfully', 'Success!');
+          this.toastr.success('Category added successfully');
           this.fetchCategories();
         });
 
       this.closeModal();
     } else {
-      this.toastr.error('Failed to add the category', 'Error! Invalid fields');
+      this.toastr.error('Failed to add the category');
     }
   }
 
@@ -358,7 +356,7 @@ export class SettingsComponent implements OnInit {
         this.fetchCategoryList();
       },
       (err) => {
-        this.toastr.error('Failed to fetch transaction categories', 'Error!');
+        this.toastr.error('Failed to fetch transaction categories');
       }
     );
   }
@@ -367,11 +365,11 @@ export class SettingsComponent implements OnInit {
     if (confirm(`Are you sure you want to delete category ${category.name}?`)) {
       this.settingsService.deleteCategory(category).subscribe(
         (res) => {
-          this.toastr.success('Category deleted successfully', 'Success!');
+          this.toastr.success('Category deleted successfully');
           this.fetchCategories();
         },
         (err) => {
-          this.toastr.error('Failed to delete the category', 'Error!');
+          this.toastr.error('Failed to delete the category');
         }
       );
     }
@@ -379,7 +377,7 @@ export class SettingsComponent implements OnInit {
 
   fetchPaymentModeList() {
     this.paymentModesList =
-    this.sharedService.getItemFromLocalStorage('paymentModes');
+      this.sharedService.getItemFromLocalStorage('paymentModes');
   }
 
   addPaymentMode() {
@@ -392,13 +390,13 @@ export class SettingsComponent implements OnInit {
         this.settingsService
           .addPaymentMode(formValue)
           .subscribe((res) => {
-            this.toastr.success('Payment mode added successfully', 'Success!');
+            this.toastr.success('Payment mode added successfully');
             this.fetchPaymentModes();
           });
-  
+
         this.closeModal();
       } else {
-        this.toastr.error('Failed to add the payment mode', 'Error! Invalid fields');
+        this.toastr.error('Failed to add the payment mode');
       }
     }
   }
@@ -411,7 +409,7 @@ export class SettingsComponent implements OnInit {
         this.fetchPaymentModeList();
       },
       (err) => {
-        this.toastr.error('Failed to fetch payment modes', 'Error!');
+        this.toastr.error('Failed to fetch payment modes');
       }
     );
   }
@@ -420,11 +418,11 @@ export class SettingsComponent implements OnInit {
     if (confirm(`Are you sure you want to delete category ${mode.name}?`)) {
       this.settingsService.deletePaymentMode(mode).subscribe(
         (res) => {
-          this.toastr.success('Payment mode deleted successfully', 'Success!');
+          this.toastr.success('Payment mode deleted successfully');
           this.fetchPaymentModes();
         },
         (err) => {
-          this.toastr.error('Failed to delete the payment mode', 'Error!');
+          this.toastr.error('Failed to delete the payment mode');
         }
       );
     }

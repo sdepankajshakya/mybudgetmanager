@@ -19,7 +19,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   loginStatusSubsciption: Subscription;
   messageSubscription: Subscription;
   sidenav = false; // hamburger menu icon
-  color: ThemePalette = 'accent';
+  color: ThemePalette = 'primary';
   isDarkMode: boolean = false;
   currentSettings!: Settings;
   currentRoute: string = '';
@@ -118,7 +118,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   goToHome() {
     this.isLoggedIn
-      ? this.router.navigate(['overview'])
+      ? this.router.navigate(['dashboard'])
       : this.router.navigate(['']);
   }
 

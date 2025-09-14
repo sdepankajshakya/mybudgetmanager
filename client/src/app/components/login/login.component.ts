@@ -40,11 +40,11 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   hide = true;
-  color: ThemePalette = 'accent';
+  color: ThemePalette = 'primary';
 
   ngOnInit(): void {
     if (this.isLoggedIn) {
-      this.router.navigate(['overview']);
+      this.router.navigate(['dashboard']);
     }
 
     this.authService.initializeGoogleSignIn();
@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         const response = res as LoginResponse;
         if (response.data) {
           this.authService.setLoginStatus(true);
-          this.router.navigate(['overview']);
+          this.router.navigate(['dashboard']);
         }
       },
       (err) => {
