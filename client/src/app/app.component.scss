@@ -7,12 +7,12 @@ mat-sidenav-content {
   overflow-y: auto;
 }
 
-@media (max-width: 505px) {
+@media (max-width: 768px) { // Updated to match header breakpoint
   .sidebar {
-    height: calc(100vh - 52px);
+    height: calc(100vh - 100px); // Updated to match new mobile header height
   }
   
   mat-sidenav-content {
-    height: calc(100vh - 52px);
+    height: calc(100vh - 100px); // Updated to match new mobile header height
   }
 }

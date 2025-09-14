@@ -1,19 +1,20 @@
 <mat-toolbar color="primary" class="app-header">
-  <div class="header-start">
-    <button mat-icon-button (click)="toggleSidebar()" *ngIf="isLoggedIn" [attr.aria-label]="'toggleSidebar'">
-      <i [ngClass]="sidenav ? 'fa fa-arrow-left' : 'fa fa-bars'"></i>
-    </button>
-    <div class="logo">
-      <a href="javascript:void(0)" (click)="goToHome()">
-        <img src="/assets/images/icon.png" alt="logo" width="60px" />
-      </a>
-      <span class="app-title">Budget Manager</span>
+  <div class="header-container">
+    <div class="header-start">
+      <button mat-icon-button (click)="toggleSidebar()" *ngIf="isLoggedIn" [attr.aria-label]="'toggleSidebar'">
+        <i [ngClass]="sidenav ? 'fa fa-arrow-left' : 'fa fa-bars'"></i>
+      </button>
+      <div class="logo">
+        <a href="javascript:void(0)" (click)="goToHome()">
+          <img src="/assets/images/icon.png" alt="logo" width="60px" />
+        </a>
+        <span class="app-title">Budget Manager</span>
+      </div>
     </div>
-  </div>
-  
-  <div class="header-spacer"></div>
-  
-  <div class="header-end" *ngIf="isLoggedIn">
+    
+    <div class="header-spacer"></div>
+    
+    <div class="header-end" *ngIf="isLoggedIn">
     <div class="theme-toggle">
       <label class="toggle-container mg-b0">
         <input type="checkbox" (click)="toggleDarkmode()" [(ngModel)]="isDarkMode" [attr.aria-labelledby]="'toggleDarkMode'">
@@ -42,4 +43,5 @@
     Go to login
     <i class="fa fa-arrow-right"></i>
   </button>
+  </div>
 </mat-toolbar>
