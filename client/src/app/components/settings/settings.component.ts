@@ -33,7 +33,8 @@ export class SettingsComponent implements OnInit {
   ) {
     this.currentSettings = {
       currency: null as any,
-      darkMode: false
+      darkMode: false,
+      theme: 'blue'
     };
   }
 
@@ -135,6 +136,18 @@ export class SettingsComponent implements OnInit {
   ]
   searchCurrency: string = '';
 
+  // Theme options for the theme selector
+  themeOptions = [
+    { name: 'Default Blue', value: 'blue', primaryColor: '#2196F3' },
+    { name: 'Green Finance', value: 'green', primaryColor: '#4CAF50' },
+    { name: 'Purple Pro', value: 'purple', primaryColor: '#9C27B0' },
+    { name: 'Orange Energy', value: 'orange', primaryColor: '#FF9800' },
+    { name: 'Red Power', value: 'red', primaryColor: '#F44336' },
+    { name: 'Teal Ocean', value: 'teal', primaryColor: '#009688' },
+    { name: 'Indigo Night', value: 'indigo', primaryColor: '#3F51B5' },
+    { name: 'Pink Creative', value: 'pink', primaryColor: '#E91E63' },
+  ];
+
   editCategory: boolean = false;
   editPaymentMode: boolean = false;
   confirmUploadmodalRef!: BsModalRef;
@@ -157,13 +170,18 @@ export class SettingsComponent implements OnInit {
   });
 
   ngOnInit() {
-    this.getSettings();
+    this.getSettings(); // This will now handle theme initialization
     this.getCurrencies();
     this.fetchCategoryList();
     this.fetchPaymentModeList();
 
     this.currentUser =
       this.sharedService.getItemFromLocalStorage('current_user');
+  }
+
+  private initializeTheme(): void {
+    const savedTheme = localStorage.getItem('selectedTheme') || 'blue';
+    this.applyTheme(savedTheme);
   }
 
   fetchCategoryList() {
@@ -174,7 +192,26 @@ export class SettingsComponent implements OnInit {
   getSettings() {
     this.settingsService.getSettings().subscribe((res) => {
       let response = res as any;
-      if (response && response.data && response.data.length) this.currentSettings = response.data[0];
+      if (response && response.data && response.data.length) {
+        this.currentSettings = response.data[0];
+        // Set default theme if not present
+        if (!this.currentSettings.theme) {
+          this.currentSettings.theme = 'blue';
+        }
+        
+        // Apply the theme from database and sync with localStorage
+        this.applyTheme(this.currentSettings.theme);
+        localStorage.setItem('selectedTheme', this.currentSettings.theme);
+        
+        // Notify app component about theme change
+        this.messageService.sendMessage(`apply-theme:${this.currentSettings.theme}`);
+      } else {
+        // No settings found, trigger fallback theme initialization
+        this.messageService.sendMessage('initialize-theme-fallback');
+      }
+    }, (error) => {
+      // API error, trigger fallback theme initialization
+      this.messageService.sendMessage('initialize-theme-fallback');
     });
   }
 
@@ -205,9 +242,35 @@ export class SettingsComponent implements OnInit {
     this.settingsService
       .updateSettings(this.currentSettings)
       .subscribe((res) => {
-        this.getSettings();
         this.toastr.success('Settings have been updated', 'Success!');
+        // Don't fetch settings here since we should have fresh data already
       });
+  }
+
+  onThemeChange(event: any) {
+    const selectedTheme = event.value;
+    console.log('Theme changed to:', selectedTheme);
+    
+    // Update the theme in current settings
+    this.currentSettings.theme = selectedTheme;
+    
+    // Apply theme immediately by changing body class
+    this.applyTheme(selectedTheme);
+  }
+
+  private applyTheme(themeName: string): void {
+    const availableThemes = ['blue', 'green', 'purple', 'orange', 'red', 'teal', 'indigo', 'pink'];
+    
+    // Remove existing theme classes
+    availableThemes.forEach(theme => {
+      document.body.classList.remove(`theme-${theme}`);
+    });
+    
+    // Add new theme class
+    document.body.classList.add(`theme-${themeName}`);
+    
+    // Save to localStorage
+    localStorage.setItem('selectedTheme', themeName);
   }
 
   browseFile() {

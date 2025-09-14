@@ -1,12 +1,21 @@
-<div class="sidebar">
-  <div class="sidebar-items">
-    <a [routerLink]="'/overview'" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-      (click)="onSelectItem()">Dashboard</a>
-    <a href="javascript:void(0)" [routerLink]="'/settings'" routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }" (click)="onSelectItem()">Settings</a>
-    <a href="javascript:void(0)" [routerLink]="'/contactus'" routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }" (click)="onSelectItem()">Contact Us</a>
-    <a href="javascript:void(0)" [routerLink]="'/gettingstarted'" routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }" (click)="onSelectItem()">Getting Started</a>
-  </div>
-</div>
+<mat-nav-list class="sidebar-nav">
+  <a mat-list-item routerLink="/overview" routerLinkActive="mdc-list-item--selected" [routerLinkActiveOptions]="{ exact: true }" (click)="onSelectItem()">
+    <i class="fa fa-dashboard"></i>
+    Dashboard
+  </a>
+  
+  <a mat-list-item routerLink="/settings" routerLinkActive="mdc-list-item--selected" [routerLinkActiveOptions]="{ exact: true }" (click)="onSelectItem()">
+    <i class="fa fa-cog"></i>
+    Settings
+  </a>
+  
+  <a mat-list-item routerLink="/contactus" routerLinkActive="mdc-list-item--selected" [routerLinkActiveOptions]="{ exact: true }" (click)="onSelectItem()">
+    <i class="fa fa-envelope"></i>
+    Contact Us
+  </a>
+  
+  <a mat-list-item routerLink="/gettingstarted" routerLinkActive="mdc-list-item--selected" [routerLinkActiveOptions]="{ exact: true }" (click)="onSelectItem()">
+    <i class="fa fa-question-circle"></i>
+    Getting Started
+  </a>
+</mat-nav-list>

@@ -1,40 +1,40 @@
-.navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  background-color: #2f323e;
-  color: #fff;
+.app-header {
+  position: relative;
   z-index: 100;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
-  height: 82px;
+  height: 82px !important; // Override default Material toolbar height
 }
 
-.logo,
-.settings {
-  display: flex;
-  align-items: flex-end;
-  padding: 0 10px;
-}
-
-.profile {
-  margin: 13px;
+.header-start {
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 10px;
 }
 
-.sidebar-btn {  
-  .fa {
-    font-size: 2rem;
+.header-spacer {
+  flex: 1;
+}
+
+.header-end {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  
+  a {
+    display: flex;
+    align-items: center;
   }
 }
 
-.profile-btn {  
-  .fa {
-    font-size: 2.5rem;
-  }
+.app-title {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: inherit;
 }
 
 .profile-items {
@@ -90,28 +90,25 @@ $color: #f7a105;
 }
 
 @media (max-width: 505px) {
-  .navbar {
-    display: flex;
-    align-items: flex-start;
-    flex-direction: column;
-    justify-content: space-between;
-    height: auto;
-
-    .flexStart {
-      align-self: flex-start;
-    }
+  .app-header {
+    height: 52px !important;
+    padding: 0 8px;
+  }
   
-    .flexEnd {
-      align-self: flex-end;
-    }
+  .header-start {
+    gap: 5px;
   }
-
-  .login-btn {
-    margin: 15px;
+  
+  .header-end {
+    gap: 5px;
   }
-
-  .profile {
-    margin: 5px;
+  
+  .app-title {
+    font-size: 1rem;
+  }
+  
+  .logo img {
+    width: 40px;
   }
 }
 

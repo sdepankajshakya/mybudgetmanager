@@ -6,6 +6,7 @@ import { MatSidenav } from '@angular/material/sidenav';
 
 import { MessageService } from './services/message.service';
 import { AuthenticationService } from './services/authentication.service';
+import { SettingsService } from './services/settings.service';
 import { Router } from '@angular/router';
 import { SharedService } from './services/shared.service';
 
@@ -30,11 +31,14 @@ export class AppComponent implements AfterViewChecked, OnDestroy {
     private authService: AuthenticationService,
     private messageService: MessageService,
     private sharedService: SharedService,
+    private settingsService: SettingsService,
     private router: Router,
     private cd: ChangeDetectorRef,
     private swUpdate: SwUpdate,
     @Inject(LOCALE_ID) private locale: string
   ) {
+    // Don't initialize theme here - wait for settings to load
+    
     if (this.swUpdate.isEnabled) {
       this.swUpdate.versionUpdates.subscribe(event => {
         if (event.type === 'VERSION_READY') {
@@ -48,6 +52,11 @@ export class AppComponent implements AfterViewChecked, OnDestroy {
     this.userLocale = locale;
     this.loginStatusSubsciption = this.authService.getLoginStatus().subscribe((status) => {
       this.isLoggedIn = status;
+      
+      // Load theme when user logs in
+      if (status) {
+        this.loadThemeFromSettings();
+      }
     });
 
     this.messageSubscription = this.messageService
@@ -76,6 +85,18 @@ export class AppComponent implements AfterViewChecked, OnDestroy {
         if (message.text === 'enable lightMode') {
           this.isDarkMode = false;
         }
+
+        // Apply theme when received from settings
+        if (message.text && message.text.startsWith('apply-theme:')) {
+          const themeName = message.text.replace('apply-theme:', '');
+          this.applyThemeToBody(themeName);
+        }
+
+        // Initialize theme with fallback if no settings are available
+        if (message.text === 'initialize-theme-fallback') {
+          const savedTheme = localStorage.getItem('selectedTheme') || 'blue';
+          this.applyThemeToBody(savedTheme);
+        }
       });
 
     if (this.isLoggedIn) this.router.navigate(['overview']);
@@ -88,6 +109,14 @@ export class AppComponent implements AfterViewChecked, OnDestroy {
   ngOnInit() {
     const userLocale = navigator.languages && navigator.languages.length ? navigator.languages[0] : navigator.language;
     this.sharedService.setItemToLocalStorage('userLocale', userLocale);
+    
+    // Load theme if user is already logged in
+    if (this.isLoggedIn) {
+      this.loadThemeFromSettings();
+    } else {
+      // Load fallback theme for logged out state
+      this.initializeFallbackTheme();
+    }
   }
 
   ngAfterViewChecked(): void {
@@ -108,6 +137,51 @@ export class AppComponent implements AfterViewChecked, OnDestroy {
       document.body.classList.remove('darkMode');
       return 'lightMode';
     }
+  }
+
+  private initializeTheme(): void {
+    const savedTheme = localStorage.getItem('selectedTheme') || 'blue';
+    this.applyThemeToBody(savedTheme);
+  }
+
+  private applyThemeToBody(themeName: string): void {
+    const availableThemes = ['blue', 'green', 'purple', 'orange', 'red', 'teal', 'indigo', 'pink'];
+    
+    // Remove existing theme classes
+    availableThemes.forEach(theme => {
+      document.body.classList.remove(`theme-${theme}`);
+    });
+    
+    // Add new theme class
+    document.body.classList.add(`theme-${themeName}`);
+  }
+
+  private loadThemeFromSettings(): void {
+    this.settingsService.getSettings().subscribe(
+      (res) => {
+        let response = res as any;
+        if (response && response.data && response.data.length) {
+          const currentSettings = response.data[0];
+          const theme = currentSettings.theme || 'blue';
+          
+          // Apply theme and sync with localStorage
+          this.applyThemeToBody(theme);
+          localStorage.setItem('selectedTheme', theme);
+        } else {
+          // No settings found, use fallback
+          this.initializeFallbackTheme();
+        }
+      },
+      (error) => {
+        // API error, use fallback
+        this.initializeFallbackTheme();
+      }
+    );
+  }
+
+  private initializeFallbackTheme(): void {
+    const savedTheme = localStorage.getItem('selectedTheme') || 'blue';
+    this.applyThemeToBody(savedTheme);
   }
 
   ngOnDestroy(): void {

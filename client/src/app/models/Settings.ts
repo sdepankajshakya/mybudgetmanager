@@ -6,4 +6,5 @@ export interface Settings {
     symbol: string;
   };
   darkMode: boolean;
+  theme: string;
 }

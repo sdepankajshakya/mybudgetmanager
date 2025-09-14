@@ -81,6 +81,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.currentSettings = {
         currency: null as any,
         darkMode: false,
+        theme: 'blue'
       };
     }
 

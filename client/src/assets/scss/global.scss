@@ -260,30 +260,7 @@ input.numberic-text {
   color: #000;
 }
 
-// custom-scrollbar
-/* width */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 3px gainsboro;
-  // border-radius: 10px;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #f2b341;
-  border-radius: 10px;
-  min-height: 50px;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #f3a513;
-}
+// custom-scrollbar - moved to themes.scss for dynamic theming
 
 .mat-mdc-card {
   overflow: hidden !important;
@@ -326,65 +303,6 @@ input.numberic-text {
   height: 100%;
   z-index: 999;
   background-color: rgb(0, 0, 0, 0.2);
-}
-
-@media (max-width: 505px) {
-
-  .sidebar,
-  .settingsForm {
-    padding-top: 74px;
-  }
-}
-
-body.darkMode {
-  
-  .mat-select-panel {
-    background-color: #333 !important;
-    color: white !important;
-  }
-  
-  .mat-select {
-    color: white !important;
-  }
-  
-  .mat-select-value {
-    color: white !important;
-  }
-  
-  .mat-option {
-    color: white !important;
-  }
-  
-  .mat-datepicker-content {
-    background-color: #333 !important;
-    color: white !important;
-  }
-  
-  .mat-calendar-body-cell-content {
-    color: white !important;
-  }
-  
-  .mat-calendar-body-selected {
-    background-color: #f7a105 !important;
-    color: #36454F !important;
-  }
-  
-  .mat-form-field-label {
-    color: white !important;
-  }
-  
-  .mat-input-element {
-    color: white !important;
-    caret-color: white !important;
-  }
-  
-  .mat-form-field-underline {
-    background-color: white !important;
-  }
-  
-  .mat-form-field-ripple {
-    background-color: #f7a105 !important;
-  }
 }
 
 // Reusable icon button component

@@ -114,7 +114,7 @@
     <div class="recent-transactions" #recentTransactionsSection>
       <mat-form-field class="search mg-lr10">
         <input type="text" matInput placeholder="Search by category or note" name="search" [(ngModel)]="search" (ngModelChange)="onSearchChange($event)">
-        <button type="button" matSuffix mat-button (click)="onSearchButtonClick()"><i class="fa fa-search"></i></button>
+        <button type="button" matSuffix mat-button color="primary" (click)="onSearchButtonClick()"><i class="fa fa-search"></i></button>
       </mat-form-field>
       <label class="text-24 mg-lr10 pd-b10" *ngIf="!transactions.length">
         <span class="warn-color">Transactions not available</span>
@@ -131,7 +131,7 @@
     </div>
 
     <!--Add Transaction Button-->
-    <button mat-icon-button class="add-transaction" (click)="openAddTransactionModal()" [matTooltip]="'Add Transaction'" @fade>
+    <button mat-icon-button color="primary" class="add-transaction" (click)="openAddTransactionModal()" [matTooltip]="'Add Transaction'" @fade>
       <img src="/assets/images/plus.png" alt="Add Transaction" width="60px" />
     </button>
   </section>

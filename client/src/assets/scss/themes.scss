@@ -1,0 +1,235 @@
+// Custom theme-specific styles for lightMode and darkMode
+// This file contains all custom styling that varies between light and dark themes
+
+.lightMode {
+    // Links
+    a {
+        color: #000 !important;
+    }
+
+    a:hover {
+        color: #f7a105 !important;
+        text-decoration: none !important;
+    }
+
+    // Highcharts styling
+    // .highcharts-background {
+    //     fill: $softgray;
+    // }
+
+    .highcharts-data-label text {
+        font-size: 14px !important;
+    }
+
+    // Material card theming for light mode
+    //   .mat-mdc-card {
+    //     background-color: $softgray !important;
+    //   }
+
+    // Calendar styling
+    .fc-daygrid-event {
+        border-color: $offwhite !important;
+        background-color: $offwhite !important;
+    }
+
+    // List item alternating colors
+    .mat-list-item:nth-child(odd) {
+        background-color: rgb(230, 228, 228);
+    }
+}
+
+.darkMode {
+    // Include Angular Material dark theme colors
+    // @include mat.all-component-colors($dark-theme);
+
+    // Material card theming for dark mode
+    .mat-mdc-card {
+        background-color: $charcoal !important;
+    }
+
+    // Custom header styling for dark mode - override Angular Material primary color
+    // .mat-toolbar.mat-primary {
+    //     background-color: $darkgray !important;
+    //     color: $white !important;
+    // }
+
+    // Highcharts styling
+    .highcharts-background {
+        fill: $charcoal;
+    }
+
+    .highcharts-title,
+    .highcharts-subtitle,
+    .highcharts-axis-labels text {
+        fill: $white !important;
+    }
+
+    .highcharts-data-label text {
+        text-shadow:
+            -1px -1px 0 #202020,
+            1px -1px 0 #202020,
+            -1px 1px 0 #202020,
+            1px 1px 0 #202020;
+        fill: $white !important;
+        font-size: 14px !important;
+    }
+
+    // Calendar styling
+    .fc .fc-toolbar-title,
+    .mat-mdc-card-content {
+        color: $white;
+    }
+
+    .fc-daygrid-event {
+        border-color: $charcoal !important;
+        background-color: $charcoal !important;
+    }
+
+    .fc-theme-standard .fc-list-day-cushion {
+        background-color: $charcoal !important;
+    }
+
+    // Transaction colors
+    .income-item {
+        color: $limegreen !important;
+    }
+
+    .expense-item {
+        color: $neonred !important;
+    }
+
+    // Links
+    a {
+        color: $white !important;
+    }
+
+    a:hover {
+        color: #f7a105 !important;
+        text-decoration: none !important;
+    }
+
+    // List item alternating colors
+    .mat-list-item:nth-child(odd) {
+        background-color: rgb(128, 128, 128);
+    }
+
+    // Transaction card styling
+    .transaction-card {
+        background-color: $charcoal;
+        color: $white;
+
+        .category-name,
+        .transaction-date,
+        .transaction-note,
+        .transaction-amount {
+            color: $white;
+        }
+
+        .transaction-amount.income {
+            color: $limegreen !important;
+        }
+
+        .transaction-amount.expense {
+            color: $neonred !important;
+        }
+    }
+}
+
+// Theme-specific scrollbar styling
+body.theme-blue {
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 3px gainsboro;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #2196f3;
+    border-radius: 10px;
+    min-height: 50px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #1976d2;
+  }
+}
+
+body.theme-green {
+  ::-webkit-scrollbar-thumb {
+    background: #4caf50;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #388e3c;
+  }
+}
+
+body.theme-purple {
+  ::-webkit-scrollbar-thumb {
+    background: #9c27b0;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #7b1fa2;
+  }
+}
+
+body.theme-orange {
+  ::-webkit-scrollbar-thumb {
+    background: #ff9800;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #f57c00;
+  }
+}
+
+body.theme-red {
+  ::-webkit-scrollbar-thumb {
+    background: #f44336;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #d32f2f;
+  }
+}
+
+body.theme-teal {
+  ::-webkit-scrollbar-thumb {
+    background: #009688;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #00796b;
+  }
+}
+
+body.theme-indigo {
+  ::-webkit-scrollbar-thumb {
+    background: #3f51b5;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #303f9f;
+  }
+}
+
+body.theme-pink {
+  ::-webkit-scrollbar-thumb {
+    background: #e91e63;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #c2185b;
+  }
+}
+
+// Default scrollbar styling (fallback)
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 3px gainsboro;
+}
+::-webkit-scrollbar-thumb {
+  background: #f7a105; // Your primary color as default
+  border-radius: 10px;
+  min-height: 50px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #f3a513; // Slightly darker on hover
+}

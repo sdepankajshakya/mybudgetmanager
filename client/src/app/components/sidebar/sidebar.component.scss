@@ -1,32 +1,14 @@
-.sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: 100px;
+// Pure Angular Material - let Material handle all theming
+.sidebar-nav {
   width: 300px;
-}
-
-.sidebar-items {
-  // text-align: center;
-  a {
-    font-size: 16px;
+  
+  // Override global styles to let Material theming work
+  .mat-mdc-list-item {
+    background-color: transparent !important; // Let Material handle backgrounds
   }
 }
 
-.sidebar a {
-  display: block;
-  padding: 16px;
-  text-decoration: none;
-}
-
-.sidebar a.active {
-  background-color: #f2b341;
-  color: #fff !important;
-}
-
-// .sidebar a:hover:not(.active) {
-//   background-color: #f2b341;
-// }
-
-.footer {
-  padding: 15px;
+// Font Awesome icon spacing only
+.sidebar-nav .fa {
+  margin-right: 16px;
 }

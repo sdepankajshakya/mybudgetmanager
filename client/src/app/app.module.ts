@@ -24,6 +24,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { ToastrModule } from 'ngx-toastr';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatListModule } from '@angular/material/list';
@@ -108,6 +109,7 @@ import { NoInternetComponent } from './components/no-internet/no-internet.compon
     MatAutocompleteModule,
     MatTooltipModule,
     MatProgressSpinnerModule,
+    MatToolbarModule,
     ToastrModule.forRoot(),
     ScrollingModule,
     FullCalendarModule,

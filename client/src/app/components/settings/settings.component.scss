@@ -12,12 +12,10 @@
     font-size: 2.5rem;
     font-weight: 300;
     margin-bottom: 0.5rem;
-    color: var(--primary-color, #333);
   }
 
   .page-subtitle {
     font-size: 1.1rem;
-    color: var(--text-secondary, #666);
     margin: 0;
   }
 }
@@ -78,27 +76,47 @@ mat-card-header {
 
 .setting-item {
   margin-bottom: 1rem;
-}.full-width {
+}
+
+.full-width {
   width: 100%;
+}
+
+// Theme selector styling
+.theme-option {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.25rem 0;
+
+  .theme-color-preview {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+  }
+
+  .theme-name {
+    font-weight: 500;
+  }
 }
 
 .items-list {
   max-height: 300px;
   overflow-y: auto;
+  padding: 0.5rem;
 
   .list-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.75rem;
-    border-radius: 8px;
-    margin-bottom: 0.5rem;
-    background-color: var(--surface-color, #fafafa);
-    transition: background-color 0.2s ease;
-
-    &:hover {
-      background-color: var(--surface-hover, #f0f0f0);
-    }
+    padding: 1rem;
+    border-radius: 12px;
+    margin-bottom: 0.75rem;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease;
 
     &:last-child {
       margin-bottom: 0;
@@ -120,7 +138,6 @@ mat-card-header {
 
   .item-name {
     font-weight: 500;
-    color: var(--text-primary, #333);
   }
 
   .item-badge {
@@ -148,7 +165,13 @@ mat-card-header {
 
   .item-actions {
     display: flex;
-    gap: 0.5rem;
+    align-items: center;
+
+    .icon-btn {
+      i {
+        font-size: 1.2rem;
+      }
+    }
   }
 }
 
@@ -165,13 +188,11 @@ mat-card-header {
       h4 {
         margin: 0 0 0.25rem 0;
         font-weight: 500;
-        color: var(--text-primary, #333);
       }
 
       p {
         margin: 0;
         font-size: 0.9rem;
-        color: var(--text-secondary, #666);
       }
     }
 
@@ -186,43 +207,6 @@ mat-card-header {
 
   mat-divider {
     margin: 0.5rem 0;
-  }
-}
-
-mat-card-actions {
-  padding-top: 1rem;
-  border-top: 1px solid var(--divider-color, #e0e0e0);
-
-  button i {
-    margin-right: 0.5rem;
-  }
-}
-
-// Dark mode support
-.darkMode {
-  .settings-card {
-    background-color: var(--surface-dark, #424242);
-    color: var(--text-dark, #fff);
-  }
-
-  .page-title {
-    color: var(--text-dark, #fff);
-  }
-
-  .items-list .list-item {
-    background-color: var(--surface-dark-elevated, #515151);
-
-    &:hover {
-      background-color: var(--surface-dark-hover, #616161);
-    }
-  }
-
-  .item-name {
-    color: var(--text-dark, #fff);
-  }
-
-  mat-card-actions {
-    border-top-color: var(--divider-dark, #555);
   }
 }
 
@@ -266,14 +250,6 @@ mat-card-actions {
 }
 
 // Legacy styles for existing functionality
-.income {
-  color: #2e7d32;
-}
-
-.expense {
-  color: #c62828;
-}
-
 .upload_instructions {
   margin-left: 2rem;
 }

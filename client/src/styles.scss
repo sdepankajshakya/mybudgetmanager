@@ -6,158 +6,333 @@
 // Import your custom variables after Material core
 @import "../src/assets/scss/CustomVariable";
 
-// Define the palettes for your theme using your original setup converted to Angular 15 syntax
-$my-app-primary: mat.define-palette(mat.$grey-palette, 900);
-$my-app-primary-dark: mat.define-palette(mat.$grey-palette, 200);
-$my-app-accent: mat.define-palette(mat.$amber-palette, 400);
-$my-app-success: mat.define-palette(mat.$green-palette);
+// Define custom palettes for different themes
+$blue-palette: mat.define-palette(mat.$blue-palette);
+$green-palette: mat.define-palette(mat.$green-palette);
+$purple-palette: mat.define-palette(mat.$purple-palette);
+$orange-palette: mat.define-palette(mat.$orange-palette);
+$red-palette: mat.define-palette(mat.$red-palette);
+$teal-palette: mat.define-palette(mat.$teal-palette);
+$indigo-palette: mat.define-palette(mat.$indigo-palette);
+$pink-palette: mat.define-palette(mat.$pink-palette);
 
-// The warn palette is optional (defaults to red).
-$my-app-warn: mat.define-palette(mat.$red-palette);
-$my-app-warn-dark: mat.define-palette(mat.$red-palette, 500);
+// Define accent and warn palettes
+$accent-palette: mat.define-palette(mat.$amber-palette, 400);
+$warn-palette: mat.define-palette(mat.$red-palette);
 
-// Create the theme object using your original structure converted to Angular 15 syntax
-$my-app-theme: mat.define-light-theme((
+// Create multiple themes
+$blue-theme: mat.define-light-theme((
   color: (
-    primary: $my-app-primary,
-    accent: $my-app-accent,
-    warn: $my-app-warn,
+    primary: $blue-palette,
+    accent: $accent-palette,
+    warn: $warn-palette,
   ),
   typography: mat.define-typography-config(),
   density: 0,
 ));
 
-$my-app-dark-theme: mat.define-dark-theme((
+$green-theme: mat.define-light-theme((
   color: (
-    primary: $my-app-primary-dark,
-    accent: $my-app-accent,
-    warn: $my-app-warn-dark,
+    primary: $green-palette,
+    accent: $accent-palette,
+    warn: $warn-palette,
   ),
   typography: mat.define-typography-config(),
   density: 0,
 ));
 
-// Include theme styles for core and each component used in your app using Angular 15 syntax
-@include mat.all-component-themes($my-app-theme);
+$purple-theme: mat.define-light-theme((
+  color: (
+    primary: $purple-palette,
+    accent: $accent-palette,
+    warn: $warn-palette,
+  ),
+  typography: mat.define-typography-config(),
+  density: 0,
+));
 
-.lightMode {
-  a {
-    color: #000 !important;
+$orange-theme: mat.define-light-theme((
+  color: (
+    primary: $orange-palette,
+    accent: $accent-palette,
+    warn: $warn-palette,
+  ),
+  typography: mat.define-typography-config(),
+  density: 0,
+));
+
+$red-theme: mat.define-light-theme((
+  color: (
+    primary: $red-palette,
+    accent: $accent-palette,
+    warn: $warn-palette,
+  ),
+  typography: mat.define-typography-config(),
+  density: 0,
+));
+
+$teal-theme: mat.define-light-theme((
+  color: (
+    primary: $teal-palette,
+    accent: $accent-palette,
+    warn: $warn-palette,
+  ),
+  typography: mat.define-typography-config(),
+  density: 0,
+));
+
+$indigo-theme: mat.define-light-theme((
+  color: (
+    primary: $indigo-palette,
+    accent: $accent-palette,
+    warn: $warn-palette,
+  ),
+  typography: mat.define-typography-config(),
+  density: 0,
+));
+
+$pink-theme: mat.define-light-theme((
+  color: (
+    primary: $pink-palette,
+    accent: $accent-palette,
+    warn: $warn-palette,
+  ),
+  typography: mat.define-typography-config(),
+  density: 0,
+));
+
+// Define dark themes for each color
+$dark-blue-theme: mat.define-dark-theme((
+  color: (
+    primary: $blue-palette,
+    accent: $accent-palette,
+    warn: $warn-palette,
+  ),
+  typography: mat.define-typography-config(),
+  density: 0,
+));
+
+$dark-green-theme: mat.define-dark-theme((
+  color: (
+    primary: $green-palette,
+    accent: $accent-palette,
+    warn: $warn-palette,
+  ),
+  typography: mat.define-typography-config(),
+  density: 0,
+));
+
+$dark-purple-theme: mat.define-dark-theme((
+  color: (
+    primary: $purple-palette,
+    accent: $accent-palette,
+    warn: $warn-palette,
+  ),
+  typography: mat.define-typography-config(),
+  density: 0,
+));
+
+$dark-orange-theme: mat.define-dark-theme((
+  color: (
+    primary: $orange-palette,
+    accent: $accent-palette,
+    warn: $warn-palette,
+  ),
+  typography: mat.define-typography-config(),
+  density: 0,
+));
+
+$dark-red-theme: mat.define-dark-theme((
+  color: (
+    primary: $red-palette,
+    accent: $accent-palette,
+    warn: $warn-palette,
+  ),
+  typography: mat.define-typography-config(),
+  density: 0,
+));
+
+$dark-teal-theme: mat.define-dark-theme((
+  color: (
+    primary: $teal-palette,
+    accent: $accent-palette,
+    warn: $warn-palette,
+  ),
+  typography: mat.define-typography-config(),
+  density: 0,
+));
+
+$dark-indigo-theme: mat.define-dark-theme((
+  color: (
+    primary: $indigo-palette,
+    accent: $accent-palette,
+    warn: $warn-palette,
+  ),
+  typography: mat.define-typography-config(),
+  density: 0,
+));
+
+$dark-pink-theme: mat.define-dark-theme((
+  color: (
+    primary: $pink-palette,
+    accent: $accent-palette,
+    warn: $warn-palette,
+  ),
+  typography: mat.define-typography-config(),
+  density: 0,
+));
+
+// Define a dark theme
+$dark-theme: mat.define-dark-theme((
+  color: (
+    primary: $blue-palette,
+    accent: $accent-palette,
+    warn: $warn-palette,
+  ),
+  typography: mat.define-typography-config(),
+  density: 0,
+));
+
+// Include only the base Material styles without any theme
+@include mat.core-theme($blue-theme);
+
+// Light theme classes - Angular Material component theming
+.theme-blue { 
+  @include mat.all-component-colors($blue-theme);
+  
+  mat-card {
+    background-color: mat.get-color-from-palette($blue-palette, 50) !important;
   }
-
-  a:hover {
-    color: #f7a105 !important;
-    text-decoration: none !important;
+}
+.theme-green { 
+  @include mat.all-component-colors($green-theme);
+  
+  mat-card {
+    background-color: mat.get-color-from-palette($green-palette, 50) !important;
   }
-
-  .highcharts-background {
-    fill: $softgray;
+}
+.theme-purple { 
+  @include mat.all-component-colors($purple-theme);
+  
+  mat-card {
+    background-color: mat.get-color-from-palette($purple-palette, 50) !important;
   }
-
-  .highcharts-data-label text {
-    font-size: 14px !important;
+}
+.theme-orange { 
+  @include mat.all-component-colors($orange-theme);
+  
+  mat-card {
+    background-color: mat.get-color-from-palette($orange-palette, 50) !important;
   }
-
-  .mat-mdc-card {
-    background-color: $softgray !important;
+}
+.theme-red { 
+  @include mat.all-component-colors($red-theme);
+  
+  mat-card {
+    background-color: mat.get-color-from-palette($red-palette, 50) !important;
   }
-
-  // calendar
-  .fc-daygrid-event {
-    border-color: $offwhite !important;
-    background-color: $offwhite !important;
+}
+.theme-teal { 
+  @include mat.all-component-colors($teal-theme);
+  
+  mat-card {
+    background-color: mat.get-color-from-palette($teal-palette, 50) !important;
   }
-
-  .mat-list-item:nth-child(odd) {
-    background-color: rgb(230, 228, 228);
+}
+.theme-indigo { 
+  @include mat.all-component-colors($indigo-theme);
+  
+  mat-card {
+    background-color: mat.get-color-from-palette($indigo-palette, 50) !important;
+  }
+}
+.theme-pink { 
+  @include mat.all-component-colors($pink-theme);
+  
+  mat-card {
+    background-color: mat.get-color-from-palette($pink-palette, 50) !important;
   }
 }
 
-.darkMode {
-  @include mat.all-component-colors($my-app-dark-theme);
-
-  // card
-  .mat-mdc-card {
+// Dark theme classes
+body.darkMode.theme-blue { 
+  @include mat.all-component-colors($dark-blue-theme);
+  background-color: #121212;
+  color: white;
+  
+  mat-card {
     background-color: $charcoal !important;
+    color: white !important;
   }
-
-  // highcharts
-  .highcharts-background {
-    fill: $charcoal;
-  }
-
-  .highcharts-title,
-  .highcharts-subtitle,
-  .highcharts-axis-labels text {
-    fill: $white !important;
-  }
-
-  .highcharts-data-label text {
-    // https://owumaro.github.io/text-stroke-generator/
-    // text-shadow: rgb(32, 32, 32) 2px 0px 0px, rgb(32, 32, 32) 1.75517px 0.958851px 0px, rgb(32, 32, 32) 1.0806px 1.68294px 0px, rgb(32, 32, 32) 0.141474px 1.99499px 0px, rgb(32, 32, 32) -0.832294px 1.81859px 0px, rgb(32, 32, 32) -1.60229px 1.19694px 0px, rgb(32, 32, 32) -1.97998px 0.28224px 0px, rgb(32, 32, 32) -1.87291px -0.701566px 0px, rgb(32, 32, 32) -1.30729px -1.5136px 0px, rgb(32, 32, 32) -0.421592px -1.95506px 0px, rgb(32, 32, 32) 0.567324px -1.91785px 0px, rgb(32, 32, 32) 1.41734px -1.41108px 0px, rgb(32, 32, 32) 1.92034px -0.558831px 0px;
-    text-shadow:
-      -1px -1px 0 #202020,
-      1px -1px 0 #202020,
-      -1px 1px 0 #202020,
-      1px 1px 0 #202020;
-    fill: $white !important;
-    font-size: 14px !important;
-  }
-
-  // calendar
-  .fc .fc-toolbar-title,
-  .mat-mdc-card-content {
-    color: $white;
-  }
-
-  .fc-daygrid-event {
-    border-color: $charcoal !important;
+}
+body.darkMode.theme-green { 
+  @include mat.all-component-colors($dark-green-theme);
+  background-color: #121212;
+  color: white;
+  
+  mat-card {
     background-color: $charcoal !important;
+    color: white !important;
   }
-
-  .fc-theme-standard .fc-list-day-cushion {
+}
+body.darkMode.theme-purple { 
+  @include mat.all-component-colors($dark-purple-theme);
+  background-color: #121212;
+  color: white;
+  
+  mat-card {
     background-color: $charcoal !important;
+    color: white !important;
   }
-
-  .income-item {
-    color: $limegreen !important;
+}
+body.darkMode.theme-orange { 
+  @include mat.all-component-colors($dark-orange-theme);
+  background-color: #121212;
+  color: white;
+  
+  mat-card {
+    background-color: $charcoal !important;
+    color: white !important;
   }
-
-  .expense-item {
-    color: $neonred !important;
+}
+body.darkMode.theme-red { 
+  @include mat.all-component-colors($dark-red-theme);
+  background-color: #121212;
+  color: white;
+  
+  mat-card {
+    background-color: $charcoal !important;
+    color: white !important;
   }
-
-  a {
-    color: $white !important;
+}
+body.darkMode.theme-teal { 
+  @include mat.all-component-colors($dark-teal-theme);
+  background-color: #121212;
+  color: white;
+  
+  mat-card {
+    background-color: $charcoal !important;
+    color: white !important;
   }
-
-  a:hover {
-    color: #f7a105 !important;
-    text-decoration: none !important;
+}
+body.darkMode.theme-indigo { 
+  @include mat.all-component-colors($dark-indigo-theme);
+  background-color: #121212;
+  color: white;
+  
+  mat-card {
+    background-color: $charcoal !important;
+    color: white !important;
   }
-
-  .mat-list-item:nth-child(odd) {
-    background-color: rgb(128, 128, 128);
-  }
-
-  .transaction-card {
-    background-color: $charcoal;
-    color: $white;
-
-    .category-name,
-    .transaction-date,
-    .transaction-note,
-    .transaction-amount {
-      color: $white; // or adjust per need
-    }
-
-    .transaction-amount.income {
-      color: $limegreen !important;
-    }
-
-    .transaction-amount.expense {
-      color: $neonred !important;
-    }
+}
+body.darkMode.theme-pink { 
+  @include mat.all-component-colors($dark-pink-theme);
+  background-color: #121212;
+  color: white;
+  
+  mat-card {
+    background-color: $charcoal !important;
+    color: white !important;
   }
 }
 
@@ -170,6 +345,9 @@ body {
 }
 
 @import "assets/scss/global.scss";
+
+/* Import custom theme-specific styles */
+@import "assets/scss/themes.scss";
 
 /* Importing Bootstrap SCSS file. */
 @import "node_modules/bootstrap/scss/bootstrap";

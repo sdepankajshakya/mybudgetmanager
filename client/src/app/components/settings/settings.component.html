@@ -34,6 +34,21 @@
             </mat-select>
           </mat-form-field>
         </div>
+
+        <div class="setting-item">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Theme</mat-label>
+            <mat-select [(ngModel)]="currentSettings.theme" (selectionChange)="onThemeChange($event)">
+              <mat-option *ngFor="let theme of themeOptions" [value]="theme.value">
+                <div class="theme-option">
+                  <div class="theme-color-preview" [style.background-color]="theme.primaryColor"></div>
+                  <span class="theme-name">{{theme.name}}</span>
+                </div>
+              </mat-option>
+            </mat-select>
+            <mat-hint>Choose your preferred color theme</mat-hint>
+          </mat-form-field>
+        </div>
       </mat-card-content>
       <mat-card-actions align="end">
         <button mat-raised-button color="primary" (click)="updateSettings()">
@@ -63,13 +78,12 @@
             <div class="item-info">
               <img [src]="mode.icon" class="item-icon" alt="payment-icon" />
               <span class="item-name">{{mode.name}}</span>
-              <span class="item-badge" *ngIf="!mode.user">Default</span>
             </div>
             <div class="item-actions" *ngIf="mode.user">
-              <button class="icon-btn edit-btn" [matTooltip]="'Edit'" (click)="openPaymentModal(addPaymentModeModal, mode)" [attr.aria-label]="'edit'">
+              <button mat-icon-button class="icon-btn" matTooltip="Edit" (click)="openPaymentModal(addPaymentModeModal, mode)" [attr.aria-label]="'edit'">
                 <i class="fa fa-edit"></i>
               </button>
-              <button class="icon-btn delete-btn" [matTooltip]="'Delete'" (click)="onDeletePaymentMode(mode)" [attr.aria-label]="'delete'">
+              <button mat-icon-button class="icon-btn" matTooltip="Delete" (click)="onDeletePaymentMode(mode)" [attr.aria-label]="'delete'">
                 <i class="fa fa-trash"></i>
               </button>
             </div>
@@ -99,13 +113,12 @@
               <img [src]="category.icon" class="item-icon" alt="category-icon" />
               <span class="item-name">{{category.name}}</span>
               <span class="item-badge" [class]="category.type">{{category.type}}</span>
-              <span class="item-badge" *ngIf="!category.user">Default</span>
             </div>
             <div class="item-actions" *ngIf="category.user">
-              <button class="icon-btn edit-btn" [matTooltip]="'Edit'" (click)="openCategoryModal(addCategoryModal, category)" [attr.aria-label]="'edit'">
+              <button mat-icon-button class="icon-btn" matTooltip="Edit" (click)="openCategoryModal(addCategoryModal, category)" [attr.aria-label]="'edit'">
                 <i class="fa fa-edit"></i>
               </button>
-              <button class="icon-btn delete-btn" [matTooltip]="'Delete'" (click)="deleteCategory(category)" [attr.aria-label]="'delete'">
+              <button mat-icon-button class="icon-btn" matTooltip="Delete" (click)="deleteCategory(category)" [attr.aria-label]="'delete'">
                 <i class="fa fa-trash"></i>
               </button>
             </div>
