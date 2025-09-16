@@ -344,21 +344,6 @@ input.numberic-text {
   color: #000;
 }
 
-/* Mobile-specific FullCalendar improvements */
-@media (max-width: 480px) {
-  .fc .fc-daygrid-day {
-    min-width: 80px !important; /* Smaller but still adequate for small screens */
-  }
-  
-  .fc .fc-event {
-    font-size: 10px !important;
-  }
-  
-  .fc .fc-daygrid-day-number {
-    font-size: 10px !important;
-  }
-}
-
 // Material UI overrides
 .mat-mdc-card {
   overflow: hidden !important;
