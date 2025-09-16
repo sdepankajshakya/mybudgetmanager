@@ -59,45 +59,18 @@
     </div>
   </section>
 
-  <!--Financial Overview: Total Balance, Income, Expense-->
+  <!--Financial Overview: Semi-Circle Chart-->
   <section class="financial-overview" *ngIf="!isLoading">
-    <!--Total Balance Trend Card-->
-    <mat-card class="balance-trend">
+    <mat-card class="overview-bar">
       <div class="card-title">
-        <i class="fa fa-line-chart"></i>
-        <span class="heading-4">Total Balance</span>
+        <i class="fa fa-pie-chart"></i>
+        <span class="heading-4">Financial Overview</span>
       </div>
-      <div class="amount-display" *ngIf="balanceSeries?.length">{{ currency?.symbol }}{{ totalBalanceAmount | number }}</div>
-      <div class="chart-container" *ngIf="balanceSeries?.length; else noDataTemplate">
-        <app-line-chart [title]="''" [categories]="balanceCategories" [series]="balanceSeries" [legend]="false" [showXAxisLabels]="false" [showYAxisLabels]="false" [gridLines]="false" [tooltipShared]="false" [tooltipFormatter]="balanceTooltipFormatter" [dataLabels]="false" [markers]="false" [spline]="true" [credits]="false" [exporting]="false" [height]="120">
-        </app-line-chart>
-      </div>
-    </mat-card>
-
-    <!--Income Trend Card-->
-    <mat-card class="income-trend">
-      <div class="card-title">
-        <i class="fa fa-arrow-up"></i>
-        <span class="heading-4">Income</span>
-      </div>
-      <div class="amount-display" *ngIf="incomeSeries?.length">{{ currency?.symbol }}{{ totalIncomeAmount | number }}</div>
-      <div class="chart-container" *ngIf="incomeSeries?.length; else noDataTemplate">
-        <app-line-chart [title]="''" [categories]="incomeCategories" [series]="incomeSeries" [legend]="false" [showXAxisLabels]="false" [showYAxisLabels]="false" [gridLines]="false" [tooltipShared]="false" [tooltipFormatter]="incomeTooltipFormatter" [dataLabels]="false" [markers]="false" [spline]="true" [credits]="false" [exporting]="false" [height]="120">
-        </app-line-chart>
-      </div>
-    </mat-card>
-
-    <!--Expense Trend Card-->
-    <mat-card class="expense-trend">
-      <div class="card-title">
-        <i class="fa fa-arrow-down"></i>
-        <span class="heading-4">Expense</span>
-      </div>
-      <div class="amount-display" *ngIf="expenseSeries?.length">{{ currency?.symbol }}{{ totalExpenseAmount | number }}</div>
-      <div class="chart-container" *ngIf="expenseSeries?.length; else noDataTemplate">
-        <app-line-chart [title]="''" [categories]="expenseCategories" [series]="expenseSeries" [legend]="false" [showXAxisLabels]="false" [showYAxisLabels]="false" [gridLines]="false" [tooltipShared]="false" [tooltipFormatter]="expenseTooltipFormatter" [dataLabels]="false" [markers]="false" [spline]="true" [credits]="false" [exporting]="false" [height]="120">
-        </app-line-chart>
-      </div>
+      <app-financial-overview 
+        [income]="totalIncomeAmount"
+        [expense]="totalExpenseAmount"
+        [currency]="currency">
+      </app-financial-overview>
     </mat-card>
   </section>
 

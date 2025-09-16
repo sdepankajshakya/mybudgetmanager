@@ -62,9 +62,9 @@ import { SpinnerComponent } from './shared/spinner/spinner.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from 'src/environments/environment';
 import { NoInternetComponent } from './components/no-internet/no-internet.component';
-import { LineChartComponent } from './shared/line-chart/line-chart.component';
 import { FilterModalComponent } from './components/dashboard/filter-modal/filter-modal.component';
 import { TransactionListComponent } from './components/dashboard/transaction-list/transaction-list.component';
+import { FinancialOverviewComponent } from './components/dashboard/financial-overview/financial-overview.component';
 
 @NgModule({
   declarations: [
@@ -85,9 +85,9 @@ import { TransactionListComponent } from './components/dashboard/transaction-lis
     HomepageComponent,
     SpinnerComponent,
     NoInternetComponent,
-    LineChartComponent,
     FilterModalComponent,
     TransactionListComponent,
+    FinancialOverviewComponent,
   ],
   imports: [
     BrowserModule,
