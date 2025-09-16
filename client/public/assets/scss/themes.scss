@@ -1,0 +1,399 @@
+// Custom theme-specific styles for lightMode and darkMode
+// This file contains all custom styling that varies between light and dark themes
+
+.lightMode {
+    // Links
+    a {
+        color: #000 !important;
+    }
+
+    // Theme-specific hover colors are defined below for each theme
+
+    // Highcharts styling
+    // .highcharts-background {
+    //     fill: $softgray;
+    // }
+
+    .highcharts-data-label text {
+        font-size: 14px !important;
+    }
+
+    // Material card theming for light mode
+    //   .mat-mdc-card {
+    //     background-color: $softgray !important;
+    //   }
+
+    // Calendar styling
+    .fc-daygrid-event {
+        border-color: $offwhite !important;
+        background-color: $offwhite !important;
+    }
+
+    // List item alternating colors
+    .mat-list-item:nth-child(odd) {
+        background-color: rgb(230, 228, 228);
+    }
+}
+
+.darkMode {
+    // Include Angular Material dark theme colors
+    // @include mat.all-component-colors($dark-theme);
+
+    // Material card theming for dark mode
+    .mat-mdc-card {
+        background-color: $charcoal !important;
+        color: $white !important;
+    }
+
+    // Fix Material card titles and content for dark mode
+    .mat-mdc-card-title,
+    .mat-mdc-card-subtitle,
+    .mat-mdc-card-content {
+        color: $white !important;
+    }
+
+    // Common title classes for dark mode
+    .card-title,
+    .setting-title,
+    .section-title {
+        color: $white !important;
+    }
+
+    .card-subtitle,
+    .setting-description {
+        color: rgba(255, 255, 255, 0.7) !important;
+    }
+
+    // Custom header styling for dark mode - override Angular Material primary color
+    // .mat-toolbar.mat-primary {
+    //     background-color: $darkgray !important;
+    //     color: $white !important;
+    // }
+
+    // Highcharts styling
+    .highcharts-background {
+        fill: $charcoal;
+    }
+
+    .highcharts-title,
+    .highcharts-subtitle,
+    .highcharts-axis-labels text {
+        fill: $white !important;
+    }
+
+    .highcharts-data-label text {
+        text-shadow:
+            -1px -1px 0 #202020,
+            1px -1px 0 #202020,
+            -1px 1px 0 #202020,
+            1px 1px 0 #202020;
+        fill: $white !important;
+        font-size: 14px !important;
+    }
+
+    // Calendar styling
+    .fc .fc-toolbar-title {
+        color: $white;
+    }
+
+    .fc-daygrid-event {
+        border-color: $charcoal !important;
+        background-color: $charcoal !important;
+    }
+
+    .fc-theme-standard .fc-list-day-cushion {
+        background-color: $charcoal !important;
+    }
+
+    // Transaction colors
+    .income-item {
+        color: $limegreen !important;
+    }
+
+    .expense-item {
+        color: $neonred !important;
+    }
+
+    // Amount display for financial cards
+    .amount-display {
+        color: $white !important;
+    }
+
+    // Links
+    a {
+        color: $white !important;
+    }
+
+    // Theme-specific hover colors are defined below for each theme
+
+    // List item alternating colors
+    .mat-list-item:nth-child(odd) {
+        background-color: rgb(128, 128, 128);
+    }
+
+    // Transaction card styling
+    .transaction-card {
+        background-color: $charcoal;
+        color: $white;
+
+        .category-name,
+        .transaction-date,
+        .transaction-note,
+        .transaction-amount {
+            color: $white;
+        }
+
+        .transaction-amount.income {
+            color: $limegreen !important;
+        }
+
+        .transaction-amount.expense {
+            color: $neonred !important;
+        }
+    }
+}
+
+// Theme-specific scrollbar styling
+body.theme-blue {
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 3px gainsboro;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #2196f3;
+    border-radius: 10px;
+    min-height: 50px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #1976d2;
+  }
+}
+
+body.theme-green {
+  ::-webkit-scrollbar-thumb {
+    background: #4caf50;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #388e3c;
+  }
+}
+
+body.theme-purple {
+  ::-webkit-scrollbar-thumb {
+    background: #9c27b0;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #7b1fa2;
+  }
+}
+
+body.theme-orange {
+  ::-webkit-scrollbar-thumb {
+    background: #ff9800;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #f57c00;
+  }
+}
+
+body.theme-red {
+  ::-webkit-scrollbar-thumb {
+    background: #f44336;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #d32f2f;
+  }
+}
+
+body.theme-teal {
+  ::-webkit-scrollbar-thumb {
+    background: #009688;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #00796b;
+  }
+}
+
+body.theme-indigo {
+  ::-webkit-scrollbar-thumb {
+    background: #3f51b5;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #303f9f;
+  }
+}
+
+body.theme-pink {
+  ::-webkit-scrollbar-thumb {
+    background: #e91e63;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #c2185b;
+  }
+}
+
+// Default scrollbar styling (fallback)
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 3px gainsboro;
+}
+::-webkit-scrollbar-thumb {
+  background: #f7a105; // Your primary color as default
+  border-radius: 10px;
+  min-height: 50px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #f3a513; // Slightly darker on hover
+}
+
+// Theme-based FullCalendar colors
+.theme-blue {
+  a:hover {
+    color: $blue-primary !important;
+    text-decoration: none !important;
+  }
+  
+  .fc .fc-day-today {
+    background-color: $blue-primary !important;
+  }
+  .fc .fc-daygrid-day:hover {
+    background-color: rgba(33, 150, 243, 0.3) !important;
+    cursor: pointer;
+  }
+}
+
+.theme-green {
+  a:hover {
+    color: $green-primary !important;
+    text-decoration: none !important;
+  }
+  
+  .fc .fc-day-today {
+    background-color: $green-primary !important;
+  }
+  .fc .fc-daygrid-day:hover {
+    background-color: rgba(76, 175, 80, 0.3) !important;
+    cursor: pointer;
+  }
+}
+
+.theme-purple {
+  a:hover {
+    color: $purple-primary !important;
+    text-decoration: none !important;
+  }
+  
+  .fc .fc-day-today {
+    background-color: $purple-primary !important;
+  }
+  .fc .fc-daygrid-day:hover {
+    background-color: rgba(156, 39, 176, 0.3) !important;
+    cursor: pointer;
+  }
+}
+
+.theme-orange {
+  a:hover {
+    color: $orange-primary !important;
+    text-decoration: none !important;
+  }
+  
+  .fc .fc-day-today {
+    background-color: $orange-primary !important;
+  }
+  .fc .fc-daygrid-day:hover {
+    background-color: rgba(255, 152, 0, 0.3) !important;
+    cursor: pointer;
+  }
+}
+
+.theme-red {
+  a:hover {
+    color: $red-primary !important;
+    text-decoration: none !important;
+  }
+  
+  .fc .fc-day-today {
+    background-color: $red-primary !important;
+  }
+  .fc .fc-daygrid-day:hover {
+    background-color: rgba(244, 67, 54, 0.3) !important;
+    cursor: pointer;
+  }
+}
+
+.theme-teal {
+  a:hover {
+    color: $teal-primary !important;
+    text-decoration: none !important;
+  }
+  
+  .fc .fc-day-today {
+    background-color: $teal-primary !important;
+  }
+  .fc .fc-daygrid-day:hover {
+    background-color: rgba(0, 150, 136, 0.3) !important;
+    cursor: pointer;
+  }
+}
+
+.theme-indigo {
+  a:hover {
+    color: $indigo-primary !important;
+    text-decoration: none !important;
+  }
+  
+  .fc .fc-day-today {
+    background-color: $indigo-primary !important;
+  }
+  .fc .fc-daygrid-day:hover {
+    background-color: rgba(63, 81, 181, 0.3) !important;
+    cursor: pointer;
+  }
+}
+
+.theme-pink {
+  a:hover {
+    color: $pink-primary !important;
+    text-decoration: none !important;
+  }
+  
+  .fc .fc-day-today {
+    background-color: $pink-primary !important;
+  }
+  .fc .fc-daygrid-day:hover {
+    background-color: rgba(233, 30, 99, 0.3) !important;
+    cursor: pointer;
+  }
+}
+
+/* Custom Snackbar Styles */
+.success-snackbar {
+  --mdc-snackbar-container-color: #{$green-primary} !important;
+  --mdc-snackbar-supporting-text-color: white !important;
+  --mat-snack-bar-button-color: white !important;
+}
+
+.error-snackbar {
+  --mdc-snackbar-container-color: #{$red-primary} !important;
+  --mdc-snackbar-supporting-text-color: white !important;
+  --mat-snack-bar-button-color: white !important;
+}
+
+.info-snackbar {
+  --mdc-snackbar-container-color: #{$blue-primary} !important;
+  --mdc-snackbar-supporting-text-color: white !important;
+  --mat-snack-bar-button-color: white !important;
+}
+
+.warning-snackbar {
+  --mdc-snackbar-container-color: #{$orange-primary} !important;
+  --mdc-snackbar-supporting-text-color: white !important;
+  --mat-snack-bar-button-color: white !important;
+}
