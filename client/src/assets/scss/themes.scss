@@ -7,10 +7,7 @@
         color: #000 !important;
     }
 
-    a:hover {
-        color: #f7a105 !important;
-        text-decoration: none !important;
-    }
+    // Theme-specific hover colors are defined below for each theme
 
     // Highcharts styling
     // .highcharts-background {
@@ -45,6 +42,26 @@
     // Material card theming for dark mode
     .mat-mdc-card {
         background-color: $charcoal !important;
+        color: $white !important;
+    }
+
+    // Fix Material card titles and content for dark mode
+    .mat-mdc-card-title,
+    .mat-mdc-card-subtitle,
+    .mat-mdc-card-content {
+        color: $white !important;
+    }
+
+    // Common title classes for dark mode
+    .card-title,
+    .setting-title,
+    .section-title {
+        color: $white !important;
+    }
+
+    .card-subtitle,
+    .setting-description {
+        color: rgba(255, 255, 255, 0.7) !important;
     }
 
     // Custom header styling for dark mode - override Angular Material primary color
@@ -75,8 +92,7 @@
     }
 
     // Calendar styling
-    .fc .fc-toolbar-title,
-    .mat-mdc-card-content {
+    .fc .fc-toolbar-title {
         color: $white;
     }
 
@@ -98,15 +114,17 @@
         color: $neonred !important;
     }
 
+    // Amount display for financial cards
+    .amount-display {
+        color: $white !important;
+    }
+
     // Links
     a {
         color: $white !important;
     }
 
-    a:hover {
-        color: #f7a105 !important;
-        text-decoration: none !important;
-    }
+    // Theme-specific hover colors are defined below for each theme
 
     // List item alternating colors
     .mat-list-item:nth-child(odd) {
@@ -232,4 +250,150 @@ body.theme-pink {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #f3a513; // Slightly darker on hover
+}
+
+// Theme-based FullCalendar colors
+.theme-blue {
+  a:hover {
+    color: $blue-primary !important;
+    text-decoration: none !important;
+  }
+  
+  .fc .fc-day-today {
+    background-color: $blue-primary !important;
+  }
+  .fc .fc-daygrid-day:hover {
+    background-color: rgba(33, 150, 243, 0.3) !important;
+    cursor: pointer;
+  }
+}
+
+.theme-green {
+  a:hover {
+    color: $green-primary !important;
+    text-decoration: none !important;
+  }
+  
+  .fc .fc-day-today {
+    background-color: $green-primary !important;
+  }
+  .fc .fc-daygrid-day:hover {
+    background-color: rgba(76, 175, 80, 0.3) !important;
+    cursor: pointer;
+  }
+}
+
+.theme-purple {
+  a:hover {
+    color: $purple-primary !important;
+    text-decoration: none !important;
+  }
+  
+  .fc .fc-day-today {
+    background-color: $purple-primary !important;
+  }
+  .fc .fc-daygrid-day:hover {
+    background-color: rgba(156, 39, 176, 0.3) !important;
+    cursor: pointer;
+  }
+}
+
+.theme-orange {
+  a:hover {
+    color: $orange-primary !important;
+    text-decoration: none !important;
+  }
+  
+  .fc .fc-day-today {
+    background-color: $orange-primary !important;
+  }
+  .fc .fc-daygrid-day:hover {
+    background-color: rgba(255, 152, 0, 0.3) !important;
+    cursor: pointer;
+  }
+}
+
+.theme-red {
+  a:hover {
+    color: $red-primary !important;
+    text-decoration: none !important;
+  }
+  
+  .fc .fc-day-today {
+    background-color: $red-primary !important;
+  }
+  .fc .fc-daygrid-day:hover {
+    background-color: rgba(244, 67, 54, 0.3) !important;
+    cursor: pointer;
+  }
+}
+
+.theme-teal {
+  a:hover {
+    color: $teal-primary !important;
+    text-decoration: none !important;
+  }
+  
+  .fc .fc-day-today {
+    background-color: $teal-primary !important;
+  }
+  .fc .fc-daygrid-day:hover {
+    background-color: rgba(0, 150, 136, 0.3) !important;
+    cursor: pointer;
+  }
+}
+
+.theme-indigo {
+  a:hover {
+    color: $indigo-primary !important;
+    text-decoration: none !important;
+  }
+  
+  .fc .fc-day-today {
+    background-color: $indigo-primary !important;
+  }
+  .fc .fc-daygrid-day:hover {
+    background-color: rgba(63, 81, 181, 0.3) !important;
+    cursor: pointer;
+  }
+}
+
+.theme-pink {
+  a:hover {
+    color: $pink-primary !important;
+    text-decoration: none !important;
+  }
+  
+  .fc .fc-day-today {
+    background-color: $pink-primary !important;
+  }
+  .fc .fc-daygrid-day:hover {
+    background-color: rgba(233, 30, 99, 0.3) !important;
+    cursor: pointer;
+  }
+}
+
+/* Custom Snackbar Styles */
+.success-snackbar {
+  --mdc-snackbar-container-color: #{$green-primary} !important;
+  --mdc-snackbar-supporting-text-color: white !important;
+  --mat-snack-bar-button-color: white !important;
+}
+
+.error-snackbar {
+  --mdc-snackbar-container-color: #{$red-primary} !important;
+  --mdc-snackbar-supporting-text-color: white !important;
+  --mat-snack-bar-button-color: white !important;
+}
+
+.info-snackbar {
+  --mdc-snackbar-container-color: #{$blue-primary} !important;
+  --mdc-snackbar-supporting-text-color: white !important;
+  --mat-snack-bar-button-color: white !important;
+}
+
+.warning-snackbar {
+  --mdc-snackbar-container-color: #{$orange-primary} !important;
+  --mdc-snackbar-supporting-text-color: white !important;
+  --mat-snack-bar-button-color: white !important;
 }

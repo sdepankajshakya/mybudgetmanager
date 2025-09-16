@@ -29,8 +29,9 @@
   margin: 5px 0;
   opacity: 0.85;
   display: inline-block;
-  font-size: 17px;
-  line-height: 20px;
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-normal);
+  font-weight: var(--font-weight-medium);
   text-decoration: none;
 }
 

@@ -4,7 +4,7 @@ import { ThemePalette } from '@angular/material/core';
 
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { MessageService } from 'src/app/services/message.service';
@@ -19,7 +19,7 @@ export class SignupComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private authService: AuthenticationService,
-    private toastr: ToastrService,
+    private snackbar: SnackbarService,
     private messageService: MessageService,
     private router: Router
   ) {}
@@ -42,7 +42,7 @@ export class SignupComponent implements OnInit {
 
     this.authService.createUser(form.value).subscribe((res) => {
       this.messageService.setIsLoading(false);
-      this.toastr.success(
+      this.snackbar.success(
         'Your account has been successfully created. Please login to continue.'
       );
       this.router.navigate(['login']);

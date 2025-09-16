@@ -8,3 +8,72 @@ $bloodred: #880808;
 $neonred: #FF3131;
 $limegreen: #32CD32;
 $softgray: #eeeeee;
+
+/* Theme Colors - Material Design Palette */
+$blue-primary: #2196f3;
+$green-primary: #4caf50;
+$purple-primary: #9c27b0;
+$orange-primary: #ff9800;
+$red-primary: #f44336;
+$teal-primary: #009688;
+$indigo-primary: #3f51b5;
+$pink-primary: #e91e63;
+
+/* CSS Custom Properties for Colors */
+:root {
+  /* Text Colors */
+  --text-primary: #111827;
+  --text-secondary: #374151;
+  --text-tertiary: #6b7280;
+  --text-quaternary: #9ca3af;
+  --text-disabled: #d1d5db;
+  --text-inverse: #ffffff;
+  
+  /* Background Colors */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f9fafb;
+  --bg-tertiary: #f3f4f6;
+  --bg-overlay: rgba(0, 0, 0, 0.5);
+  
+  /* Border Colors */
+  --border-primary: #e5e7eb;
+  --border-secondary: #d1d5db;
+  --border-focus: #3b82f6;
+  
+  /* Status Colors */
+  --success-text: #065f46;
+  --success-bg: #ecfdf5;
+  --success-border: #10b981;
+  
+  --error-text: #991b1b;
+  --error-bg: #fef2f2;
+  --error-border: #ef4444;
+  
+  --warning-text: #92400e;
+  --warning-bg: #fffbeb;
+  --warning-border: #f59e0b;
+  
+  --info-text: #1e40af;
+  --info-bg: #eff6ff;
+  --info-border: #3b82f6;
+  
+  /* Shadow Colors */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Dark mode CSS custom properties */
+.darkMode {
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.87);
+  --text-tertiary: rgba(255, 255, 255, 0.60);
+  --text-quaternary: rgba(255, 255, 255, 0.38);
+  --text-disabled: rgba(255, 255, 255, 0.24);
+  --text-inverse: #111827;
+  
+  --bg-primary: #121212;
+  --bg-secondary: #1e1e1e;
+  --bg-tertiary: #2a2a2a;
+  --bg-overlay: rgba(0, 0, 0, 0.8);
+}

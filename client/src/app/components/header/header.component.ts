@@ -6,8 +6,6 @@ import { ThemePalette } from '@angular/material/core';
 import { MessageService } from 'src/app/services/message.service';
 import { SharedService } from 'src/app/services/shared.service';
 import { NavigationEnd, Router } from '@angular/router';
-import { SettingsService } from 'src/app/services/settings.service';
-import { Settings } from 'src/app/models/Settings';
 
 @Component({
   selector: 'app-header',
@@ -20,15 +18,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   messageSubscription: Subscription;
   sidenav = false; // hamburger menu icon
   color: ThemePalette = 'primary';
-  isDarkMode: boolean = false;
-  currentSettings!: Settings;
+
   currentRoute: string = '';
 
   constructor(
     private authService: AuthenticationService,
     private messageService: MessageService,
     private sharedService: SharedService,
-    private settingsService: SettingsService,
     private router: Router
   ) {
     this.loginStatusSubsciption = this.authService
@@ -47,13 +43,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
         ) {
           this.sidenav = false;
         }
-        // enable/disable darkMode toggle based on settings API
-        if (message.text === 'enable lightMode') {
-          this.isDarkMode = false;
-        }
-        if (message.text === 'enable darkMode') {
-          this.isDarkMode = true;
-        }
       });
 
     this.router.events.subscribe((event) => {
@@ -63,45 +52,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {}
-
-  updateDarkModeClass() {
-    if (this.isDarkMode) {
-      document.body.classList.remove('darkMode');
-    } else {
-      document.body.classList.add('darkMode');
-    }
-  }
-
-  toggleDarkmode() {
-    this.currentSettings =
-      this.sharedService.getItemFromLocalStorage('settings');
-
-    if (!this.currentSettings) {
-      // default current settings
-      this.currentSettings = {
-        currency: null as any,
-        darkMode: false,
-        theme: 'blue'
-      };
-    }
-
-    if (this.isDarkMode) {
-      this.currentSettings.darkMode = false;
-      this.messageService.sendMessage('lightMode');
-    } else {
-      this.currentSettings.darkMode = true;
-      this.messageService.sendMessage('darkMode');
-    }
-
-    this.updateSettings();
-    this.updateDarkModeClass();
-  }
-
-  updateSettings() {
-    this.settingsService
-      .updateSettings(this.currentSettings)
-      .subscribe(() => {});
-  }
 
   toggleSidebar() {
     this.sidenav = !this.sidenav;

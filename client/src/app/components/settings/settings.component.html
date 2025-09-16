@@ -1,8 +1,8 @@
 <div class="settings-container">
   <!-- Page Header -->
   <div class="page-header">
-    <h1 class="page-title">Settings</h1>
-    <p class="page-subtitle">Manage your application preferences and data</p>
+    <h1 class="heading-1">Settings</h1>
+    <p class="body-large">Manage your application preferences and data</p>
   </div>
 
   <!-- Settings Grid -->
@@ -48,6 +48,22 @@
             </mat-select>
             <mat-hint>Choose your preferred color theme</mat-hint>
           </mat-form-field>
+        </div>
+
+        <div class="setting-item">
+          <div class="toggle-setting">
+            <div class="toggle-label">
+              <span class="setting-title">Dark Mode</span>
+              <span class="setting-description">Switch between light and dark themes</span>
+            </div>
+            <mat-slide-toggle 
+              [(ngModel)]="currentSettings.darkMode"
+              (change)="onDarkModeToggle($event)"
+              color="primary">
+              <i class="fa fa-moon" *ngIf="!currentSettings.darkMode"></i>
+              <i class="fa fa-sun" *ngIf="currentSettings.darkMode"></i>
+            </mat-slide-toggle>
+          </div>
         </div>
       </mat-card-content>
       <mat-card-actions align="end">
@@ -141,10 +157,10 @@
       <mat-card-content>
         <div class="data-actions">
           <div class="action-item">
-            <div class="action-info">
-              <h4>Export Data</h4>
-              <p>Download your data as a spreadsheet</p>
-            </div>
+                      <div class="action-info">
+            <h4 class="heading-4">Export Data</h4>
+            <p class="body-normal">Download your data as a spreadsheet</p>
+          </div>
             <button mat-raised-button color="primary" (click)="downloadSpreadsheet()">
               <i class="fa fa-download"></i>
               Download
@@ -153,8 +169,8 @@
           <mat-divider></mat-divider>
           <div class="action-item">
             <div class="action-info">
-              <h4>Import Data</h4>
-              <p>Upload transactions from a spreadsheet</p>
+              <h4 class="heading-4">Import Data</h4>
+              <p class="body-normal">Upload transactions from a spreadsheet</p>
             </div>
             <button mat-raised-button color="primary" (click)="openCategoryModal(confirmUploadModal)">
               <i class="fa fa-upload"></i>
@@ -180,8 +196,8 @@
       <mat-card-content>
         <div class="action-item">
           <div class="action-info">
-            <h4>Delete All Transactions</h4>
-            <p>This will permanently remove all your transaction data</p>
+            <h4 class="heading-4">Delete All Transactions</h4>
+            <p class="body-normal">This will permanently remove all your transaction data</p>
           </div>
           <button mat-raised-button color="warn" (click)="deleteTransactions()">
             <i class="fa fa-trash"></i>
@@ -195,7 +211,7 @@
 
 <ng-template #confirmUploadModal>
   <div class="modal-header">
-    <h2 class="modal-title">Upload Spreadsheet</h2>
+    <h2 class="heading-2">Upload Spreadsheet</h2>
     <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="confirmUploadmodalRef.hide()">
       <span aria-hidden="true" class="visually-hidden">&times;</span>
     </button>
@@ -226,7 +242,7 @@
 
 <ng-template #addCategoryModal>
   <div class="modal-header">
-    <h2 class="modal-title">{{editCategory ? 'Modify' : 'Add'}} a category</h2>
+    <h2 class="heading-2">{{editCategory ? 'Modify' : 'Add'}} a category</h2>
     <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="closeModal()">
       <span aria-hidden="true" class="visually-hidden">&times;</span>
     </button>
@@ -238,13 +254,13 @@
         <input matInput formControlName="name" [maxlength]="30" required>
       </mat-form-field>
 
-      <label class="text-14"><strong>Transaction type</strong></label>
+      <label class="body-normal"><strong>Transaction type</strong></label>
       <mat-radio-group aria-label="Type" formControlName="type" required>
         <mat-radio-button class="pd-r10" value="expense">Expense</mat-radio-button>
         <mat-radio-button value="income">Income</mat-radio-button>
       </mat-radio-group>
 
-      <label class="text-14 pd-t10"><strong>Choose an icon</strong></label>
+      <label class="body-normal pd-t10"><strong>Choose an icon</strong></label>
       <mat-button-toggle-group name="iconPath" aria-label="icon" formControlName="icon">
         <mat-button-toggle [value]="icon" *ngFor="let icon of categoryIconPaths">
           <img class="icon" aria-hidden [src]="icon" alt="category-icon">
@@ -260,7 +276,7 @@
 
 <ng-template #addPaymentModeModal>
   <div class="modal-header">
-    <h2 class="modal-title">{{editPaymentMode ? 'Modify' : 'Add'}} a Payment Mode</h2>
+    <h2 class="heading-2">{{editPaymentMode ? 'Modify' : 'Add'}} a Payment Mode</h2>
     <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="closeModal()">
       <span aria-hidden="true" class="visually-hidden">&times;</span>
     </button>
@@ -272,7 +288,7 @@
         <input matInput formControlName="name" [maxlength]="50" required>
       </mat-form-field>
 
-      <label class="text-14 pd-t10"><strong>Choose an icon</strong></label>
+      <label class="body-normal pd-t10"><strong>Choose an icon</strong></label>
       <mat-button-toggle-group name="iconPath" aria-label="icon" formControlName="icon">
         <mat-button-toggle [value]="icon" *ngFor="let icon of paymentIconPaths">
           <img class="icon" aria-hidden [src]="icon" alt="payment-icon">

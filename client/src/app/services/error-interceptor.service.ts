@@ -6,7 +6,7 @@ import {
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
-import { ToastrService } from 'ngx-toastr';
+import { SnackbarService } from './snackbar.service';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthenticationService } from './authentication.service';
@@ -15,7 +15,7 @@ import { AuthenticationService } from './authentication.service';
   providedIn: 'root',
 })
 export class ErrorInterceptorService implements HttpInterceptor {
-  constructor(private toastr: ToastrService, private authService: AuthenticationService) {}
+  constructor(private snackbar: SnackbarService, private authService: AuthenticationService) {}
 
   intercept(
     req: HttpRequest<any>,
@@ -23,7 +23,7 @@ export class ErrorInterceptorService implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       catchError((err: HttpErrorResponse) => {
-        this.toastr.error(err.error.message);
+        this.snackbar.error(err.error.message);
         if (err.status === 401) {
           this.authService.logout();
         }

@@ -1,0 +1,64 @@
+<h2 mat-dialog-title class="heading-2">
+  <i class="fa fa-filter"></i>
+  Filter Options
+</h2>
+
+<mat-dialog-content>
+  <div class="filter-section">
+    <h3 class="heading-3">Date Range</h3>
+    <div class="filter-row">
+      <mat-form-field appearance="outline" class="filter-field">
+        <mat-label>Month</mat-label>
+        <mat-select [(ngModel)]="filters.selectedMonth">
+          <mat-option [value]="null">Month</mat-option>
+          <mat-option *ngFor="let month of data.transactionMonths" [value]="month.key">
+            {{month.value}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="filter-field">
+        <mat-label>Year</mat-label>
+        <mat-select [(ngModel)]="filters.selectedYear">
+          <mat-option [value]="null">Year</mat-option>
+          <mat-option *ngFor="let year of data.transactionYears" [value]="year">
+            {{year}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="filter-section">
+    <h3 class="heading-3">Dashboard View</h3>
+    <mat-form-field appearance="outline" class="filter-field full-width">
+      <mat-label>Payment Method</mat-label>
+      <mat-select [(ngModel)]="filters.paymentMode">
+        <mat-option [value]="0">
+          <div class="payment-option">
+            <img src="/assets/images/paymentModes/text-file.png" alt="summary" width="20px">
+            <span class="body-normal">Summary</span>
+          </div>
+        </mat-option>
+        <mat-option *ngFor="let mode of data.paymentModes" [value]="mode.type">
+          <div class="payment-option">
+            <img [src]="mode.icon" [alt]="mode.type" width="20px">
+            <span class="body-normal">{{mode.name}}</span>
+          </div>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="clearAllFilters()" style="color: #ff5722;">
+    <i class="fa fa-eraser"></i>
+    Clear All
+  </button>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button color="primary" (click)="applyFilters()">
+    <i class="fa fa-check"></i>
+    Apply Filters
+  </button>
+</mat-dialog-actions>

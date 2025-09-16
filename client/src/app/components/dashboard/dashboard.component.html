@@ -1,9 +1,13 @@
 <div class="overview">
+  <!-- Shared template for no data message - available to all sections -->
+  <ng-template #noDataTemplate>
+    <span class="dataNotAvailable">Data is not available for this metric.</span>
+  </ng-template>
+
   <!--Welcome-->
   <section class="welcome centered" *ngIf="isLoading">
-    <label class="welcome-text lh-300">Welcome! {{ currentUser.firstName ? currentUser.firstName : currentUser.email }}
-    </label>
-    <label class="text-20">Manage all your finances in simplest way</label>
+    <h1 class="heading-1">Welcome! <strong>{{ currentUser.firstName ? currentUser.firstName : currentUser.email }}</strong></h1>
+    <p class="body-large">Manage all your finances in simplest way</p>
     <br>
     <a class="link" [routerLink]="'/gettingstarted'">
       Get Started
@@ -18,103 +22,150 @@
     </a>
   </section>
 
-  <!--Filter-->
-  <section class="filter flexStart mg-t15 mg-l10 mg-r10" *ngIf="!isLoading">
-    <div class="filter-by-date">
-      <div class="filter-transactions">
-        <label class="text-16"><i class="fa fa-sliders"></i> Filter </label>
-        <button mat-stroked-button color="warn" (click)="clearFilter()">Clear</button>
-      </div>
-      <div class="filter-condition">
-        <mat-form-field appearance="outline" class="width-100">
-          <mat-label>month</mat-label>
-          <mat-select [(ngModel)]="selectedMonth" (selectionChange)="onDateChange()">
-            <mat-option *ngFor="let month of transactionMonths" [value]="month.key">{{month.value}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="width-100">
-          <mat-label>year</mat-label>
-          <mat-select [(ngModel)]="selectedYear" (selectionChange)="onDateChange()">
-            <mat-option *ngFor="let year of transactionYears" [value]="year">{{year}}</mat-option>
-          </mat-select>
-        </mat-form-field>
+  <!--Topbar: Greeting + Filter Button-->
+  <section class="topbar" *ngIf="!isLoading">
+    <!-- Active Filters Display -->
+    <div class="active-filters" *ngIf="hasActiveFilters()">
+      <div class="filter-chips">
+        <mat-chip-set>
+          <mat-chip *ngIf="selectedMonth" class="filter-chip" removable (removed)="clearMonthFilter()">
+            <i class="fa fa-calendar chip-icon"></i>
+            {{months[selectedMonth - 1]?.value}}<span *ngIf="selectedYear"> {{selectedYear}}</span>
+            <span matChipRemove>×</span>
+          </mat-chip>
+          <mat-chip *ngIf="paymentMode" class="filter-chip" removable (removed)="clearPaymentModeFilter()">
+            <i class="fa fa-credit-card chip-icon"></i>
+            {{getPaymentModeName(paymentMode)}}
+            <span matChipRemove>×</span>
+          </mat-chip>
+          <mat-chip *ngIf="search" class="filter-chip" removable (removed)="clearSearchFilter()">
+            <i class="fa fa-search chip-icon"></i>
+            "{{search}}"
+            <span matChipRemove>×</span>
+          </mat-chip>
+        </mat-chip-set>
       </div>
     </div>
 
-    <div class="dashboard-view">
-      <mat-form-field appearance="fill" class="width-200">
-        <mat-label>Change Dashboard View</mat-label>
-        <mat-select [(ngModel)]="paymentMode" (selectionChange)="onViewChange()">
-          <mat-option [value]="0">
-            <img src="/assets/images/paymentModes/text-file.png" alt="summary" width="30px">
-            Summary
-          </mat-option>
-          <mat-option *ngFor="let mode of paymentModes" [value]="mode.type">
-            <img src="{{mode.icon}}" alt="{{mode.type}}" width="30px">
-            {{mode.name}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+    <div class="filter-actions">
+      <button mat-raised-button color="primary" (click)="openFilterModal()" [class.has-filters]="hasActiveFilters()">
+        <i class="fa fa-filter"></i>
+        Filter
+      </button>
+      <button mat-raised-button color="primary" (click)="openAddTransactionModal()" [matTooltip]="'Add Transaction'">
+        <i class="fa fa-plus"></i>
+        Add Transaction
+      </button>
     </div>
+  </section>
+
+  <!--Financial Overview: Total Balance, Income, Expense-->
+  <section class="financial-overview" *ngIf="!isLoading">
+    <!--Total Balance Trend Card-->
+    <mat-card class="balance-trend">
+      <div class="card-title">
+        <i class="fa fa-line-chart"></i>
+        <span class="heading-4">Total Balance</span>
+      </div>
+      <div class="amount-display" *ngIf="balanceSeries?.length">{{ currency?.symbol }}{{ totalBalanceAmount | number }}</div>
+      <div class="chart-container" *ngIf="balanceSeries?.length; else noDataTemplate">
+        <app-line-chart [title]="''" [categories]="balanceCategories" [series]="balanceSeries" [legend]="false" [showXAxisLabels]="false" [showYAxisLabels]="false" [gridLines]="false" [tooltipShared]="false" [tooltipFormatter]="balanceTooltipFormatter" [dataLabels]="false" [markers]="false" [spline]="true" [credits]="false" [exporting]="false" [height]="120">
+        </app-line-chart>
+      </div>
+    </mat-card>
+
+    <!--Income Trend Card-->
+    <mat-card class="income-trend">
+      <div class="card-title">
+        <i class="fa fa-arrow-up"></i>
+        <span class="heading-4">Income</span>
+      </div>
+      <div class="amount-display" *ngIf="incomeSeries?.length">{{ currency?.symbol }}{{ totalIncomeAmount | number }}</div>
+      <div class="chart-container" *ngIf="incomeSeries?.length; else noDataTemplate">
+        <app-line-chart [title]="''" [categories]="incomeCategories" [series]="incomeSeries" [legend]="false" [showXAxisLabels]="false" [showYAxisLabels]="false" [gridLines]="false" [tooltipShared]="false" [tooltipFormatter]="incomeTooltipFormatter" [dataLabels]="false" [markers]="false" [spline]="true" [credits]="false" [exporting]="false" [height]="120">
+        </app-line-chart>
+      </div>
+    </mat-card>
+
+    <!--Expense Trend Card-->
+    <mat-card class="expense-trend">
+      <div class="card-title">
+        <i class="fa fa-arrow-down"></i>
+        <span class="heading-4">Expense</span>
+      </div>
+      <div class="amount-display" *ngIf="expenseSeries?.length">{{ currency?.symbol }}{{ totalExpenseAmount | number }}</div>
+      <div class="chart-container" *ngIf="expenseSeries?.length; else noDataTemplate">
+        <app-line-chart [title]="''" [categories]="expenseCategories" [series]="expenseSeries" [legend]="false" [showXAxisLabels]="false" [showYAxisLabels]="false" [gridLines]="false" [tooltipShared]="false" [tooltipFormatter]="expenseTooltipFormatter" [dataLabels]="false" [markers]="false" [spline]="true" [credits]="false" [exporting]="false" [height]="120">
+        </app-line-chart>
+      </div>
+    </mat-card>
   </section>
 
   <section class="summary" [hidden]="isLoading">
     <!--Expense Summary-->
     <div class="charts">
+      <!--Expense Distribution by Category (Left)-->
       <div class="flexCol">
-        <!--Income Expense Summary-->
         <mat-card class="overview-bar">
-          <div #IncomeExpenseSummaryContainer id="IncomeExpenseSummaryContainer">
-            <span class="dataNotAvailable">Data is not available for this metric.</span>
+          <div class="card-title">
+            <i class="fa fa-bar-chart"></i>
+            <span class="heading-4">Expense Distribution</span>
           </div>
-        </mat-card>
-
-        <!--Total Savings-->
-        <mat-card class="totalSavings-pie">
-          <div #TotalSavingsContainer id="TotalSavingsContainer">
-            <span class="dataNotAvailable">Data is not available for this metric.</span>
-          </div>
+          <highcharts-chart *ngIf="expenseDistBarOptions?.series?.[0]?.data?.length; else noDataTemplate" [Highcharts]="Highcharts" [options]="expenseDistBarOptions">
+          </highcharts-chart>
         </mat-card>
       </div>
 
-      <!--Expense Distribution by Category-->
-      <div class="flexCol min-w60">
-        <mat-card class="overview-pie">
-          <highcharts-chart *ngIf="expenseDistBarOptions" [Highcharts]="Highcharts" [options]="expenseDistBarOptions">
-          </highcharts-chart>
-          <span *ngIf="!expenseDistBarOptions" class="dataNotAvailable">Data is not available for this metric.</span>
-        </mat-card>
-
-        <!--Calendar-->
+      <!--Calendar (Right)-->
+      <div class="flexCol">
         <mat-card class="calendar">
           <full-calendar #fullCalendar id="transactionViewCalendar" [options]="calendarOptions"></full-calendar>
         </mat-card>
       </div>
     </div>
+  </section>
 
-    <!--Transactions List-->
-    <div class="recent-transactions" #recentTransactionsSection>
-      <mat-form-field class="search mg-lr10">
-        <input type="text" matInput placeholder="Search by category or note" name="search" [(ngModel)]="search" (ngModelChange)="onSearchChange($event)">
-        <button type="button" matSuffix mat-button color="primary" (click)="onSearchButtonClick()"><i class="fa fa-search"></i></button>
-      </mat-form-field>
-      <label class="text-24 mg-lr10 pd-b10" *ngIf="!transactions.length">
-        <span class="warn-color">Transactions not available</span>
-        <span *ngIf="paymentMode"> for <img src="{{dashboardView?.icon}}" alt="{{dashboardView?.type}}" width="30px"> {{dashboardView?.name}}</span>
-        <span *ngIf="selectedMonth"> in {{months[selectedMonth - 1]?.value}}<span *ngIf="selectedYear">, {{selectedYear}}</span></span>
-        <span *ngIf="search"> with search keyword
-          <span class="primary-color">{{search}}</span>
-        </span>
-      </label>
-      <div class="transaction-list">
-        <app-transaction-list [transactions]="transactions" [currencySymbol]="currency.symbol">
-        </app-transaction-list>
-      </div>
+  <!--Transactions List (Full width bottom)-->
+  <section class="recent-transactions" #recentTransactionsSection *ngIf="!isLoading">
+    <div class="transaction-list">
+      <mat-card class="transactions-card">
+        <div class="card-title">
+          <i class="fa fa-list"></i>
+          <span class="heading-4">Recent Transactions</span>
+        </div>
+        <mat-form-field appearance="outline" class="search-field">
+          <mat-label>Search transactions</mat-label>
+          <input type="text" matInput placeholder="Search by category or note" name="search" [(ngModel)]="search" (ngModelChange)="onSearchChange($event)">
+          <i class="fa fa-search" matSuffix></i>
+        </mat-form-field>
+
+        <div class="no-transactions-message" *ngIf="!transactions.length">
+          <div class="empty-state">
+            <p class="body-normal">
+              <span *ngIf="paymentMode || selectedMonth || search">No transactions match your current filters:</span>
+            </p>
+            <div class="filter-details" *ngIf="paymentMode || selectedMonth || search">
+              <div class="filter-item" *ngIf="paymentMode">
+                <i class="fa fa-credit-card"></i>
+                <img src="{{dashboardView?.icon}}" alt="{{dashboardView?.type}}" width="16px"> 
+                <span>{{dashboardView?.name}}</span>
+              </div>
+              <div class="filter-item" *ngIf="selectedMonth">
+                <i class="fa fa-calendar"></i>
+                <span>{{months[selectedMonth - 1]?.value}}<span *ngIf="selectedYear"> {{selectedYear}}</span></span>
+              </div>
+              <div class="filter-item" *ngIf="search">
+                <i class="fa fa-search"></i>
+                <span>"{{search}}"</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <mat-card-content class="list-content" *ngIf="transactions.length">
+          <app-transaction-list [transactions]="transactions" [currencySymbol]="currency?.symbol"></app-transaction-list>
+        </mat-card-content>
+      </mat-card>
     </div>
-
-    <!--Add Transaction Button-->
-    <button mat-icon-button color="primary" class="add-transaction" (click)="openAddTransactionModal()" [matTooltip]="'Add Transaction'" @fade>
-      <img src="/assets/images/plus.png" alt="Add Transaction" width="60px" />
-    </button>
   </section>
 </div>

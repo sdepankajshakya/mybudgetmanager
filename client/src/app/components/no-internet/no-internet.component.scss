@@ -10,7 +10,6 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    font-size: 20px;
     z-index: 9999;
 }
 
@@ -24,7 +23,7 @@ button {
     color: white;
     border: none;
     padding: 10px 20px;
-    font-size: 18px;
+    font-size: var(--font-size-md);
     border-radius: 5px;
     cursor: pointer;
     margin-top: 10px;

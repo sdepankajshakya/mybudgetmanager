@@ -1,0 +1,31 @@
+
+.filter-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filter-field {
+  flex: 1;
+  min-width: 200px;
+}
+
+.filter-field.full-width {
+  width: 100%;
+}
+
+.payment-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@media (max-width: 600px) {
+  .filter-row {
+    flex-direction: column;
+  }
+  
+  .filter-field {
+    min-width: 0;
+  }
+}

@@ -8,7 +8,7 @@ import { ErrorHandlerComponent } from '../../error-handler/error-handler.compone
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MessageService } from 'src/app/services/message.service';
 import { SharedService } from 'src/app/services/shared.service';
-import { ToastrService } from 'ngx-toastr';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 import { Subscription } from 'rxjs';
 import { Category } from 'src/app/models/Category';
 
@@ -25,8 +25,8 @@ export class AddTransactionComponent implements OnInit {
     private dialog: MatDialog,
     private messageService: MessageService,
     private sharedService: SharedService,
-    private toastr: ToastrService,
-    @Inject(MAT_DIALOG_DATA) private transactionDetails: Transaction
+    private snackbar: SnackbarService,
+    @Inject(MAT_DIALOG_DATA) private data: { transaction: Transaction, isEdit: boolean }
   ) {
     this.messageSubscription = this.messageService
       .getMessage()
@@ -35,6 +35,10 @@ export class AddTransactionComponent implements OnInit {
           this.isEditTransaction = true;
         }
       });
+    
+    // Set edit mode based on injected data
+    this.isEditTransaction = this.data?.isEdit || false;
+    this.transactionDetails = this.data?.transaction || null;
   }
 
   categories: Category[] = [];
@@ -42,6 +46,7 @@ export class AddTransactionComponent implements OnInit {
   isEditTransaction: boolean = false;
   addTransactionForm: any;
   paymentModesList: any;
+  transactionDetails: Transaction | null = null;
 
   ngOnInit(): void {
     this.categories = this.sharedService.getItemFromLocalStorage('categories');
@@ -139,10 +144,10 @@ export class AddTransactionComponent implements OnInit {
         (res) => {
           this.dialogRef.close();
           this.messageService.sendMessage('transaction saved');
-          this.toastr.success('Transaction added successfully');
+          this.snackbar.success('Transaction added successfully');
         },
         (err) => {
-          this.toastr.error('Failed to add the transaction');
+          this.snackbar.error('Failed to add the transaction');
         }
       );
   }

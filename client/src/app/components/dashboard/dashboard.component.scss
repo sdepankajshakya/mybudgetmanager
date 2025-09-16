@@ -1,3 +1,57 @@
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 15px;
+}
+
+.filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Filter button and actions */
+.filter-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  
+  button.has-filters {
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 8px;
+      height: 8px;
+      background: var(--warn-color, #ff4444);
+      border-radius: 50%;
+      border: 2px solid white;
+    }
+  }
+  
+  /* Mobile button adjustments */
+  @media (max-width: 480px) {
+    gap: 6px;
+    
+    button {
+      font-size: 0.8rem;
+      padding: 8px 12px;
+      min-width: unset;
+      
+      i {
+        margin-right: 4px;
+      }
+    }
+  }
+}
+
+/* Welcome section */
 .welcome {
   display: flex;
   flex-direction: column;
@@ -5,107 +59,231 @@
   padding: 100px;
 }
 
-.welcome-text {
-  font-size: 35px;
+/* Main layout */
+.overview {
+  overflow: hidden;
+  padding: 0 10px;
 }
 
-.filter {
-  display: flex;
-  justify-content: space-between;
-  padding: 0 10px 0 10px;
+.overview > section:not(:first-child) {
+  margin: 15px 0;
 }
 
-.filter-transactions {
-  display: flex;
-  align-items: baseline;
-  gap: 5rem;
-}
-
-.filter-by-date {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.filter-condition {
-  display: flex;
-  justify-content: flex-start;
-  gap: 5px;
-}
-
-.summary {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  margin: 0 10px;
-}
-
+/* Charts section */
 .charts {
   display: flex;
   justify-content: flex-start;
   width: 100%;
   gap: 10px;
-  padding: 0 10px;
+  align-items: stretch; /* Ensure equal heights */
+  
+  /* Stack vertically on mobile */
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 20px;
+  }
 }
 
-.overview {
-  overflow: hidden;
-}
-
-.overview-pie,
-.overview-bar,
-.calendar,
-.totalSavings-pie {
-  display: grid;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
-}
-
-.overview-pie {
-  width: 100%;
-}
-
-.recent-transactions {
+.flexCol {
+  flex: 1 1 0; /* Allow shrinking and growing equally */
   display: flex;
   flex-direction: column;
-  min-width: 360px;
-  padding-right: 5px;
+  min-width: 0; /* Allow content to shrink below its natural width */
+  
+  /* Full width on mobile when stacked */
+  @media (max-width: 768px) {
+    flex: none;
+    width: 100%;
+  }
 }
 
-// .transaction-list {
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   justify-content: flex-start;
-//   font-size: calc(10px + 2vmin);
-//   height: calc(100vh - 330px);
-//   overflow-y: scroll;
-//   overflow-x: hidden;
-// }
-
-.add-transaction {
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  margin: 10px;
-  height: 70px;
-  width: 70px;
-  background-color: #4caf50;
-  opacity: 0.9;
-  z-index: 1;
+.overview-bar,
+.calendar {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
+  height: 520px; /* Set equal heights */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Prevent content overflow */
+  min-width: 0; /* Allow cards to shrink */
+  width: 100%; /* Take full width of flex container */
+  
+  @media (max-width: 768px) {
+    height: 400px;
+    /* Remove flex constraints on mobile when stacked */
+    min-width: unset;
+  }
+  
+  @media (max-width: 480px) {
+    height: 350px;
+  }
 }
 
-.add-transaction:hover {
-  transform: rotate(90deg);
-  transition: all 0.25s ease-in-out;
+/* Specific FullCalendar containment */
+::ng-deep .calendar full-calendar {
+  flex: 1;
+  min-height: 0;
 }
 
+::ng-deep .calendar .fc {
+  height: 100% !important;
+}
+
+::ng-deep .calendar .fc-view-harness {
+  height: 100% !important;
+}
+
+/* Ensure Highcharts in expense distribution can resize */
+::ng-deep .overview-bar highcharts-chart {
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+}
+
+::ng-deep .overview-bar .highcharts-container {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.overview-bar {
+  width: 100%;
+  
+  highcharts-chart {
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+}
+
+/* Transactions section */
+.transactions-card {
+  display: flex;
+  flex-direction: column;
+  height: 600px;
+  
+  @media (max-width: 768px) {
+    height: 450px;
+  }
+  
+  @media (max-width: 480px) {
+    height: 400px;
+  }
+}
+
+.transactions-card mat-card-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 8px;
+}
+
+.transactions-card .spacer {
+  flex: 1;
+}
+
+.transactions-card .search-field {
+  width: 300px;
+  min-width: 250px;
+}
+
+.transactions-card .search-field .fa-search {
+  margin-right: 8px;
+  color: #757575;
+}
+
+.transactions-card .no-data-message {
+  margin: 16px;
+  font-size: var(--font-size-md);
+  color: var(--text-tertiary);
+  text-align: center;
+}
+
+.transactions-card .list-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0 !important;
+  overflow: hidden;
+  min-height: 0; /* Important for flex children to shrink */
+}
+
+/* Empty state for no transactions */
+.no-transactions-message {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.empty-state {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.empty-icon {
+  font-size: 4rem;
+  color: var(--text-disabled);
+  margin-bottom: 20px;
+  display: block;
+}
+
+.empty-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-secondary);
+  margin: 0 0 12px 0;
+  line-height: var(--line-height-tight);
+}
+
+.empty-description {
+  font-size: var(--font-size-base);
+  color: var(--text-tertiary);
+  margin: 0 0 24px 0;
+  line-height: var(--line-height-relaxed);
+}
+
+.filter-details {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 20px 0;
+  border-left: 4px solid #2196f3;
+}
+
+.filter-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0;
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  line-height: var(--line-height-normal);
+}
+
+.filter-item i {
+  color: #2196f3;
+  width: 16px;
+  text-align: center;
+}
+
+.filter-item img {
+  border-radius: 4px;
+}
+
+.add-first-transaction {
+  margin-top: 8px;
+  padding: 12px 24px;
+  font-weight: 500;
+}
+
+.add-first-transaction i {
+  margin-right: 8px;
+}
+
+/* Get started link animation */
 .link {
   height: 30px;
   align-items: center;
   color: #000;
   text-decoration: none;
   display: flex;
-
 }
 
 .link-icon {
@@ -118,8 +296,6 @@
   justify-content: center;
   align-items: center;
   margin-left: 10px;
-
-  /*  Remove overflow to see how it works　:) */
   overflow: hidden;
 }
 
@@ -133,21 +309,6 @@
   transform: translate(-40px);
 }
 
-/* Move up two texts (20px = font-size) */
-.link:hover .link-container {
-  transform: translateY(-20px);
-}
-
-/* Rotate texts a little bit */
-.link:hover .link-title1 {
-  transform: rotate(20deg);
-}
-
-.link:hover .link-title2 {
-  transform: rotate(0);
-}
-
-/* Move arrows to right */
 .link:hover .icon:first-child {
   transform: translate(40px);
 }
@@ -156,85 +317,106 @@
   transform: translate(0px);
 }
 
-/* Hide the "All-day" label in FullCalendar */
+/* FullCalendar customization */
 ::ng-deep .fc-list-event-time {
   display: none !important;
 }
 
-/* To ensure that text color from events applies properly */
 ::ng-deep .fc-list-event .fc-list-event-title a {
-  color: inherit !important; /* Ensures textColor is applied correctly */
+  color: inherit !important;
 }
 
-@media (max-width: 1329px) {
-  .summary {
-    display: flex;
-    flex-direction: column;
-    margin: 0 10px;
-  }
-
-  .recent-transactions {
-    padding-top: 40px;
-    width: 40%;
-  }
+.financial-overview {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: stretch;
 }
 
+.financial-overview > mat-card {
+  flex: 1 1 320px;
+  padding: 16px;
+}
+
+/* Financial Overview Cards */
+.card-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.card-title i {
+  font-size: var(--font-size-base);
+  color: var(--text-tertiary);
+}
+
+.title {
+  font-size: var(--font-size-sm);
+  color: var(--text-tertiary);
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.amount-display {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+  line-height: var(--line-height-tight);
+  margin-top: 8px;
+}
+
+.chart-container {
+  height: 100px;
+  overflow: hidden;
+}
+
+/* Responsive design */
 @media (max-width: 940px) {
-  .charts {
-    display: flex;
-    flex-direction: column;
+  .financial-overview > mat-card {
+    flex: 1 1 100%;
   }
-
-  .recent-transactions {
-    width: 40%;
+  
+  .charts {
+    flex-wrap: wrap;
   }
 }
 
 @media (max-width: 575px) {
-  .filter {
-    display: flex;
+  /* Mobile typography adjustments - fluid types handle most scaling */
+  .financial-overview > mat-card {
+    padding: 12px;
+  }
+  
+  .card-title {
+    margin-bottom: 8px;
+  }
+  
+  .amount-display {
+    margin-top: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .transactions-card {
+    height: 450px;
+  }
+}
+
+@media (max-width: 768px) {
+  .transactions-card {
+    height: 500px;
+  }
+  
+  .transactions-card mat-card-header {
     flex-direction: column;
-    padding: 0;
+    align-items: stretch;
+    gap: 12px;
   }
-
-  .welcome-text {
-    font-size: 25px;
-  }
-}
-
-@media (max-width: 555px) {
-  .add-transaction {
-    height: 60px;
-    width: 60px;
-    bottom: 10px;
-  }
-
-  .recent-transactions {
-    min-width: 0;
+  
+  .transactions-card .search-field {
     width: 100%;
+    min-width: unset;
   }
-}
-
-@media (max-width: 330px) {
-  .filter {
-    align-items: center;
-  }
-
-  .add-transaction {
-    height: 60px;
-    width: 60px;
-  }
-
-  .recent-transactions {
-    min-width: 0;
-    width: 100%;
-  }
-}
-
-.card-wrapper {
-  transform-style: preserve-3d;
-}
-
-.front {
-  transform: rotateY(180deg);
 }

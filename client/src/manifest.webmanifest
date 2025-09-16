@@ -1,8 +1,7 @@
 {
   "name": "budget-manager",
   "short_name": "budget-manager",
-  "theme_color": "#f7a105",
-  "background_color": "#000000",
+  "background_color": "#ffffff",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",

@@ -1,7 +1,7 @@
 <section class="contact-details">
     <mat-card *ngIf="!messageSent && !contactedUs">
-        <h1>How can we help?</h1>
-        <h3>For all enquires, please email us using the form below.</h3>
+        <h1 class="heading-1">How can we help?</h1>
+        <h3 class="heading-3">For all enquires, please email us using the form below.</h3>
         <form class="contact-us-form" [formGroup]="contactUsForm">
             <mat-form-field appearance="outline">
                 <mat-label>First Name</mat-label>
@@ -25,6 +25,6 @@
 
     <mat-card class="pd-10" *ngIf="messageSent || contactedUs">
         <i class="fa fa-check-circle check-circle"></i>
-        <h2>Thank you for getting in touch. We have received your message. Someone from team will connect with you soon!</h2>
+        <h2 class="heading-2">Thank you for getting in touch. We have received your message. Someone from team will connect with you soon!</h2>
     </mat-card>
 </section>

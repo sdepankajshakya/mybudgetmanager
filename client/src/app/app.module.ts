@@ -25,15 +25,16 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { ToastrModule } from 'ngx-toastr';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatListModule } from '@angular/material/list';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatChipsModule } from '@angular/material/chips';
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { TransactionListComponent } from './components/dashboard/transaction-list/transaction-list.component';
 import { AddTransactionComponent } from './components/dashboard/add-transaction/add-transaction.component';
-import { TransactionItemComponent } from './components/dashboard/transaction-list/transaction-item/transaction-item.component';
 import { HeaderComponent } from './components/header/header.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
@@ -61,14 +62,15 @@ import { SpinnerComponent } from './shared/spinner/spinner.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from 'src/environments/environment';
 import { NoInternetComponent } from './components/no-internet/no-internet.component';
+import { LineChartComponent } from './shared/line-chart/line-chart.component';
+import { FilterModalComponent } from './components/dashboard/filter-modal/filter-modal.component';
+import { TransactionListComponent } from './components/dashboard/transaction-list/transaction-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
-    TransactionListComponent,
     AddTransactionComponent,
-    TransactionItemComponent,
     HeaderComponent,
     ConfirmDialogComponent,
     SidebarComponent,
@@ -83,6 +85,9 @@ import { NoInternetComponent } from './components/no-internet/no-internet.compon
     HomepageComponent,
     SpinnerComponent,
     NoInternetComponent,
+    LineChartComponent,
+    FilterModalComponent,
+    TransactionListComponent,
   ],
   imports: [
     BrowserModule,
@@ -110,28 +115,16 @@ import { NoInternetComponent } from './components/no-internet/no-internet.compon
     MatTooltipModule,
     MatProgressSpinnerModule,
     MatToolbarModule,
-    ToastrModule.forRoot({
-      timeOut: 4000,
-      positionClass: 'toast-bottom-center',
-      preventDuplicates: true,
-      closeButton: true,
-      enableHtml: false,
-      tapToDismiss: true,
-      maxOpened: 3,
-      autoDismiss: true,
-      newestOnTop: false,
-      countDuplicates: false,
-      resetTimeoutOnDuplicate: false,
-      includeTitleDuplicates: false,
-      easeTime: 300,
-      progressAnimation: 'increasing'
-    }),
     ScrollingModule,
     FullCalendarModule,
     MatRadioModule,
     MatButtonToggleModule,
     FileSaverModule,
     MatListModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatChipsModule,
     ModalModule.forRoot(),
     NgxMatSelectSearchModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
@@ -158,4 +151,4 @@ import { NoInternetComponent } from './components/no-internet/no-internet.compon
   bootstrap: [AppComponent],
   // entryComponents: [ErrorHandlerComponent]
 })
-export class AppModule {}
+export class AppModule { }

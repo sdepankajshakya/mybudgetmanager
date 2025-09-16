@@ -9,7 +9,7 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FileSaverService } from 'ngx-filesaver';
 
-import { ToastrService } from 'ngx-toastr';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 import { Category } from 'src/app/models/Category';
 import { PaymentMode } from 'src/app/models/PaymentMode';
 import { Settings } from 'src/app/models/Settings';
@@ -26,7 +26,7 @@ export class SettingsComponent implements OnInit {
   constructor(
     private settingsService: SettingsService,
     private sharedService: SharedService,
-    private toastr: ToastrService,
+    private snackbar: SnackbarService,
     private modalService: BsModalService,
     private fileSaverService: FileSaverService,
     private messageService: MessageService
@@ -203,6 +203,9 @@ export class SettingsComponent implements OnInit {
         this.applyTheme(this.currentSettings.theme);
         localStorage.setItem('selectedTheme', this.currentSettings.theme);
 
+        // Apply dark mode setting
+        this.applyDarkMode(this.currentSettings.darkMode);
+
         // Notify app component about theme change
         this.messageService.sendMessage(`apply-theme:${this.currentSettings.theme}`);
       } else {
@@ -226,7 +229,7 @@ export class SettingsComponent implements OnInit {
           this.currencyList = response.data;
         },
         (err) => {
-          this.toastr.error('Failed to fetch currencies');
+          this.snackbar.error('Failed to fetch currencies');
         }
       );
     }
@@ -242,7 +245,7 @@ export class SettingsComponent implements OnInit {
     this.settingsService
       .updateSettings(this.currentSettings)
       .subscribe((res) => {
-        this.toastr.success('Settings have been updated');
+        this.snackbar.success('Settings have been updated');
         // Don't fetch settings here since we should have fresh data already
       });
   }
@@ -256,6 +259,34 @@ export class SettingsComponent implements OnInit {
 
     // Apply theme immediately by changing body class
     this.applyTheme(selectedTheme);
+  }
+
+  onDarkModeToggle(event: any) {
+    const isDarkMode = event.checked; // mat-slide-toggle uses checked property
+    console.log('Dark mode toggled to:', isDarkMode);
+
+    // Update the dark mode setting
+    this.currentSettings.darkMode = isDarkMode;
+
+    // Apply dark mode immediately
+    this.applyDarkMode(isDarkMode);
+
+    // Send message to notify other components
+    if (isDarkMode) {
+      this.messageService.sendMessage('darkMode');
+    } else {
+      this.messageService.sendMessage('lightMode');
+    }
+
+    // Note: Settings are saved when user clicks "Save Changes" button
+  }
+
+  private applyDarkMode(isDarkMode: boolean): void {
+    if (isDarkMode) {
+      document.body.classList.add('darkMode');
+    } else {
+      document.body.classList.remove('darkMode');
+    }
   }
 
   private applyTheme(themeName: string): void {
@@ -288,14 +319,14 @@ export class SettingsComponent implements OnInit {
       postData.append('spreadsheet', file);
       this.settingsService.uploadSpreadsheet(postData).subscribe(
         (res) => {
-          this.toastr.success(
+          this.snackbar.success(
             'Spreadsheet data successfully added'
           );
           this.messageService.setIsLoading(false);
         },
         (err) => {
           this.messageService.setIsLoading(false);
-          this.toastr.error('Failed to process spreadsheet data');
+          this.snackbar.error('Failed to process spreadsheet data');
         }
       );
     }
@@ -305,10 +336,10 @@ export class SettingsComponent implements OnInit {
     this.settingsService.downloadSpreadsheet().subscribe(
       (res) => {
         this.fileSaverService.save(res, 'BudgetManager.xlsx');
-        this.toastr.success('Download spreadsheet successful');
+        this.snackbar.success('Download spreadsheet successful');
       },
       (err) => {
-        this.toastr.error('Failed to download spreadsheet');
+        this.snackbar.error('Failed to download spreadsheet');
       }
     );
   }
@@ -318,16 +349,16 @@ export class SettingsComponent implements OnInit {
       if (this.currentUser) {
         this.settingsService.deleteTransactions(this.currentUser).subscribe(
           () => {
-            this.toastr.success(
+            this.snackbar.success(
               'Transactions deleted successfully'
             );
           },
           (err) => {
-            this.toastr.error('Failed to delete transactions');
+            this.snackbar.error('Failed to delete transactions');
           }
         );
       } else {
-        this.toastr.error('Invalid user');
+        this.snackbar.error('Invalid user');
       }
     }
   }
@@ -338,13 +369,13 @@ export class SettingsComponent implements OnInit {
       this.settingsService
         .addCategory(formValue)
         .subscribe((res) => {
-          this.toastr.success('Category added successfully');
+          this.snackbar.success('Category added successfully');
           this.fetchCategories();
         });
 
       this.closeModal();
     } else {
-      this.toastr.error('Failed to add the category');
+      this.snackbar.error('Failed to add the category');
     }
   }
 
@@ -356,7 +387,7 @@ export class SettingsComponent implements OnInit {
         this.fetchCategoryList();
       },
       (err) => {
-        this.toastr.error('Failed to fetch transaction categories');
+        this.snackbar.error('Failed to fetch transaction categories');
       }
     );
   }
@@ -365,11 +396,11 @@ export class SettingsComponent implements OnInit {
     if (confirm(`Are you sure you want to delete category ${category.name}?`)) {
       this.settingsService.deleteCategory(category).subscribe(
         (res) => {
-          this.toastr.success('Category deleted successfully');
+          this.snackbar.success('Category deleted successfully');
           this.fetchCategories();
         },
         (err) => {
-          this.toastr.error('Failed to delete the category');
+          this.snackbar.error('Failed to delete the category');
         }
       );
     }
@@ -390,13 +421,13 @@ export class SettingsComponent implements OnInit {
         this.settingsService
           .addPaymentMode(formValue)
           .subscribe((res) => {
-            this.toastr.success('Payment mode added successfully');
+            this.snackbar.success('Payment mode added successfully');
             this.fetchPaymentModes();
           });
 
         this.closeModal();
       } else {
-        this.toastr.error('Failed to add the payment mode');
+        this.snackbar.error('Failed to add the payment mode');
       }
     }
   }
@@ -409,7 +440,7 @@ export class SettingsComponent implements OnInit {
         this.fetchPaymentModeList();
       },
       (err) => {
-        this.toastr.error('Failed to fetch payment modes');
+        this.snackbar.error('Failed to fetch payment modes');
       }
     );
   }
@@ -418,11 +449,11 @@ export class SettingsComponent implements OnInit {
     if (confirm(`Are you sure you want to delete category ${mode.name}?`)) {
       this.settingsService.deletePaymentMode(mode).subscribe(
         (res) => {
-          this.toastr.success('Payment mode deleted successfully');
+          this.snackbar.success('Payment mode deleted successfully');
           this.fetchPaymentModes();
         },
         (err) => {
-          this.toastr.error('Failed to delete the payment mode');
+          this.snackbar.error('Failed to delete the payment mode');
         }
       );
     }

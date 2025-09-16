@@ -17,7 +17,7 @@
       <mat-error *ngIf="password.touched && password.invalid">Please enter a password</mat-error>
 
       <button type="submit" class="login" mat-raised-button color="primary">Login</button>
-      <label class="text-16 mg-t20">Don't have an account? <a [routerLink]="'/signup'">Sign up</a></label>
+      <p class="body-normal mg-t20">Don't have an account? <a [routerLink]="'/signup'">Sign up</a></p>
 
       <div class="social">
         <!-- Google Sign-In button will be rendered here -->
@@ -26,7 +26,7 @@
     </form>
     <div class="logo">
       <img src="assets/images/icon.png" alt="icon" width="150px">
-      <label class="text-20 primary-color">Budget Manager</label>
+      <h2 class="heading-2 primary-color">Budget Manager</h2>
     </div>
   </div>
 </div>

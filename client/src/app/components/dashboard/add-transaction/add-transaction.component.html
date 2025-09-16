@@ -1,7 +1,7 @@
-<h2 mat-dialog-title>{{isEditTransaction? 'Edit transaction' : 'Add transaction'}}</h2>
+<h2 mat-dialog-title class="heading-2">{{isEditTransaction? 'Edit transaction' : 'Add transaction'}}</h2>
 <mat-dialog-content>
   <section class="pd-b10" *ngIf="mostUsedCategories?.length">
-    <mat-label>Mostly used categories</mat-label>
+    <label class="body-large">Mostly used categories</label>
     <div class="mostly-used-categories pd-10">
       <button *ngFor="let category of mostUsedCategories" mat-fab color="primary" 
       [style.backgroundImage]="'url(' + category.icon + ')'"
@@ -17,7 +17,7 @@
       <mat-select [compareWith]="compareWith" formControlName="category">
         <mat-option *ngFor="let category of categories" [value]="category">
           <img class="category-icon" aria-hidden [src]="category.icon" alt="category-icon" height="25">
-            <span>{{category.name}}</span>
+            <span class="body-normal">{{category.name}}</span>
         </mat-option>
       </mat-select>
     </mat-form-field>
@@ -39,7 +39,7 @@
       <mat-select formControlName="paymentMode">
         <mat-option *ngFor="let mode of paymentModesList" [value]="mode.type">
           <img class="payment-icon" aria-hidden [src]="mode.icon" alt="payment-icon" height="25">
-            <span>{{mode.name}}</span>
+            <span class="body-normal">{{mode.name}}</span>
         </mat-option>
       </mat-select>
     </mat-form-field>

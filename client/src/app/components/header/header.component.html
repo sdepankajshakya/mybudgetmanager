@@ -1,47 +1,30 @@
-<mat-toolbar color="primary" class="app-header">
-  <div class="header-container">
-    <div class="header-start">
-      <button mat-icon-button (click)="toggleSidebar()" *ngIf="isLoggedIn" [attr.aria-label]="'toggleSidebar'">
-        <i [ngClass]="sidenav ? 'fa fa-arrow-left' : 'fa fa-bars'"></i>
-      </button>
-      <div class="logo">
-        <a href="javascript:void(0)" (click)="goToHome()">
-          <img src="/assets/images/icon.png" alt="logo" width="60px" />
-        </a>
-        <span class="app-title">Budget Manager</span>
-      </div>
-    </div>
-    
-    <div class="header-spacer"></div>
-    
-    <div class="header-end" *ngIf="isLoggedIn">
-    <div class="theme-toggle">
-      <label class="toggle-container mg-b0">
-        <input type="checkbox" (click)="toggleDarkmode()" [(ngModel)]="isDarkMode" [attr.aria-labelledby]="'toggleDarkMode'">
-        <span class="slider">
-          <i class="fa fa-moon-o icon-moon"></i>
-          <i class="fa fa-sun-o icon-sun"></i>
-        </span>
-      </label>
-    </div>
-    <button mat-icon-button [matMenuTriggerFor]="menu" [attr.aria-label]="'profile'">
-      <i class='fa fa-user-circle'></i>
-    </button>
-    <mat-menu #menu="matMenu" class="profile-items">
-      <button mat-menu-item (click)="onEditProfile()">
-        <i class="fa fa-user-circle"></i>&nbsp;
-        <span>Profile</span>
-      </button>
-      <button mat-menu-item (click)="onLogout()">
-        <i class="fa fa-sign-out"></i>&nbsp;
-        <span>Logout</span>
-      </button>
-    </mat-menu>
-  </div>
-  
-  <button mat-raised-button color="primary" class="login-btn" *ngIf="!isLoggedIn && currentRoute !== '/login'" (click)="goToLogin()">
-    Go to login
-    <i class="fa fa-arrow-right"></i>
+<mat-toolbar color="primary" class="d-flex align-items-center gap-3">
+  <button mat-icon-button (click)="toggleSidebar()" *ngIf="isLoggedIn">
+    <i [ngClass]="sidenav ? 'fa fa-arrow-left' : 'fa fa-bars'"></i>
   </button>
-  </div>
+  
+  <span (click)="goToHome()" class="d-flex align-items-center logo-container" style="cursor: pointer;">
+    <img src="/assets/images/icon.png" alt="logo" width="48px" class="logo-img" />
+    <span class="heading-4">Budget Manager</span>
+  </span>
+  
+  <span class="spacer"></span>
+  
+  <button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="isLoggedIn">
+    <i class='fa fa-user-circle'></i>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="onEditProfile()">
+      <i class="fa fa-user-circle"></i>&nbsp;
+      <span>Profile</span>
+    </button>
+    <button mat-menu-item (click)="onLogout()">
+      <i class="fa fa-sign-out"></i>&nbsp;
+      <span>Logout</span>
+    </button>
+  </mat-menu>
+  
+  <button mat-raised-button color="accent" *ngIf="!isLoggedIn && currentRoute !== '/login'" (click)="goToLogin()">
+    Login
+  </button>
 </mat-toolbar>

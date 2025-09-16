@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 import { User } from 'src/app/models/User';
 import { SettingsService } from 'src/app/services/settings.service';
 import { SharedService } from 'src/app/services/shared.service';
@@ -16,7 +16,7 @@ export class ContactUsComponent implements OnInit {
     private sharedService: SharedService, 
     private settingsService: SettingsService, 
     private fb: UntypedFormBuilder,
-    private toastr: ToastrService) { }
+    private snackbar: SnackbarService) { }
 
   currentUser!: User;
   contactUsForm!: UntypedFormGroup;
@@ -45,10 +45,10 @@ export class ContactUsComponent implements OnInit {
         this.contactUsForm.reset();
         this.messageSent = true;
         this.sharedService.setItemToLocalStorage('contacted_us', true);
-        this.toastr.success('Your message has been sent!');
+        this.snackbar.success('Your message has been sent!');
       })
     } else {
-      this.toastr.error('Your message can\'t be empty');
+      this.snackbar.error('Your message can\'t be empty');
     }
   }
 

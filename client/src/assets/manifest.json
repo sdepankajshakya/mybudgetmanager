@@ -4,7 +4,6 @@
     "start_url": "/login",
     "display": "standalone",
     "background_color": "#ffffff",
-    "theme_color": "#f7a105",
     "icons": [
       {
         "src": "../assets/images/android_icon_192x192.png",

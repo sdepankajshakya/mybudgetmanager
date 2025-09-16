@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   OnInit,
@@ -14,6 +15,7 @@ import { config } from 'src/app/configuration/config';
 import { MessageService } from 'src/app/services/message.service';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { AddTransactionComponent } from './add-transaction/add-transaction.component';
+import { FilterModalComponent } from './filter-modal/filter-modal.component';
 import { Transaction } from 'src/app/models/Transaction';
 
 import * as Highcharts from 'highcharts';
@@ -26,7 +28,7 @@ import listPlugin from '@fullcalendar/list';
 
 import { SharedService } from 'src/app/services/shared.service';
 import { SettingsService } from 'src/app/services/settings.service';
-import { ToastrService } from 'ngx-toastr';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 import { Category } from 'src/app/models/Category';
 import { fade } from 'src/app/shared/animations';
 import { PaymentMode } from 'src/app/models/PaymentMode';
@@ -44,6 +46,7 @@ import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/internal/ope
   ],
 })
 export class DashboardComponent implements OnInit, AfterViewInit {
+  
   messageSubscription: Subscription;
   isLoadingSubcription: Subscription;
   isLoading: boolean = false;
@@ -53,6 +56,20 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   userLocale: string = '';
   Highcharts = Highcharts;
   expenseDistBarOptions: any;
+  // Line chart data for Income and Expense trends (two separate charts)
+  incomeCategories: string[] = [];
+  incomeSeries: Highcharts.SeriesOptionsType[] = [];
+  expenseCategories: string[] = [];
+  expenseSeries: Highcharts.SeriesOptionsType[] = [];
+  // Total Balance (running) trend
+  balanceCategories: string[] = [];
+  balanceSeries: Highcharts.SeriesOptionsType[] = [];
+  totalBalanceAmount: number = 0;
+  totalIncomeAmount: number = 0;
+  totalExpenseAmount: number = 0;
+  incomeTooltipFormatter?: Highcharts.TooltipFormatterCallbackFunction;
+  expenseTooltipFormatter?: Highcharts.TooltipFormatterCallbackFunction;
+  balanceTooltipFormatter?: Highcharts.TooltipFormatterCallbackFunction;
   totalSavingOptions: any;
   currentUser: any;
   transactionMonths: any[] = [];
@@ -67,9 +84,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
+    initialDate: new Date(),
     plugins: [dayGridPlugin, listPlugin, interactionPlugin],
     headerToolbar: {
-      left: 'prev,next today',
+      left: 'prev,next',
       right: 'dayGridMonth,listMonth'
     },
   };
@@ -94,8 +112,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     note: '',
   };
 
-  @ViewChild('IncomeExpenseSummaryContainer', { static: false }) IncomeExpenseSummaryContainer: ElementRef<HTMLInputElement> = {} as ElementRef;
-  @ViewChild('TotalSavingsContainer', { static: false }) TotalSavingsContainer: ElementRef<HTMLInputElement> = {} as ElementRef;
+  // Removed Income vs Expense and Total Savings charts
   @ViewChild('fullCalendar', { static: false }) fullCalendar!: FullCalendarComponent;
   @ViewChild('recentTransactionsSection', { static: false }) recentTransactionsSection!: ElementRef;
 
@@ -105,7 +122,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     private messageService: MessageService,
     private sharedService: SharedService,
     private settingsService: SettingsService,
-    private toastr: ToastrService
+    private snackbar: SnackbarService,
+    private cdr: ChangeDetectorRef
   ) {
     // set default currency
     this.currency = {
@@ -127,7 +145,14 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
     this.isLoadingSubcription = this.messageService.isLoading$.subscribe(value => {
       this.isLoading = value;
-    })
+      
+      // When loading completes, ensure calendar renders properly
+      if (!value && this.fullCalendar) {
+        setTimeout(() => {
+          this.fullCalendar.getApi().render();
+        }, 100);
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -159,18 +184,13 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.calendarApi = this.fullCalendar.getApi();
-
-    // auto-switch the calendar view
-    // window.addEventListener('resize', () => {
-    //   const newView = window.innerWidth < 768 ? 'listWeek' : 'dayGridMonth';
-
-    //   if (this.calendarApi.view.type !== newView) {
-    //     this.calendarApi.changeView(newView);
-    //   }
-    // });
+    // Navigate to current date after calendar is initialized
+    setTimeout(() => {
+      if (this.calendarApi) {
+        this.calendarApi.gotoDate(new Date());
+      }
+    }, 100);
   }
-
-  // flip functionality removed
 
   resetTransactions() {
     this.transactions = [];
@@ -182,6 +202,42 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.paymentMode = 0;
     this.selectedMonth = this.selectedYear = 0;
     this.getTransactions();
+  }
+
+  hasActiveFilters(): boolean {
+    return !!(this.selectedMonth || this.paymentMode || this.search?.trim());
+  }
+
+  getActiveFilterCount(): number {
+    let count = 0;
+    if (this.selectedMonth) count++;
+    if (this.paymentMode) count++;
+    if (this.search?.trim()) count++;
+    return count;
+  }
+
+  getPaymentModeName(paymentModeId: number): string {
+    const paymentMode = this.paymentModes.find(pm => pm.type === paymentModeId);
+    return paymentMode?.name || 'Unknown';
+  }
+
+  clearMonthFilter(): void {
+    this.selectedMonth = 0;
+    this.selectedYear = 0;
+    this.getFilteredTransactions();
+    this.cdr.detectChanges();
+  }
+
+  clearPaymentModeFilter(): void {
+    this.paymentMode = 0;
+    this.getFilteredTransactions();
+    this.cdr.detectChanges();
+  }
+
+  clearSearchFilter(): void {
+    this.search = '';
+    this.getFilteredTransactions();
+    this.cdr.detectChanges();
   }
 
   openAddTransactionModal(dateSelectedFromCalendar: Date = new Date()) {
@@ -206,7 +262,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           }
         },
         (err) => {
-          this.toastr.error('Failed to fetch transaction categories');
+          this.snackbar.error('Failed to fetch transaction categories');
         }
       );
     }
@@ -224,7 +280,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         this.sharedService.setItemToLocalStorage('paymentModes', response.data);
       },
       (err) => {
-        this.toastr.error('Failed to fetch payment modes');
+        this.snackbar.error('Failed to fetch payment modes');
       }
     );
   }
@@ -437,19 +493,17 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           end: formatDate(endDate)
         },
         headerToolbar: {
-          right: 'today prev,next'
+          right: 'prev,next'
         }
       };
     }
     else {
       // Move to the current month and show navigation buttons
-      const currentMonth = this.sharedService.now.month;
-      const currentYear = this.sharedService.now.year;
-      const currentDate = new Date(currentYear, currentMonth, 1);
+      const currentDate = new Date(); // Use current date directly
       this.calendarOptions = {
         ...this.calendarOptions,
         headerToolbar: {
-          right: 'today prev,next'
+          right: 'prev,next'
         }
       };
       this.calendarApi.gotoDate(currentDate);
@@ -478,6 +532,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   formatChartData(transactions: Transaction[]) {
+  // First populate the trend charts for Income and Expense
+  this.populateIncomeExpenseTrendCharts(transactions);
+
     let categoryAmountMap = new Map();
     let totalIncome = 0;
     let totalExpense = 0;
@@ -528,24 +585,128 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
       let IncomeExpenseData = [totalIncome, totalExpense];
       if (IncomeExpenseData?.length && (totalExpense > 0 || totalIncome > 0)) {
-        this.createIncomeExpenseSummaryChart(
-          this.IncomeExpenseSummaryContainer.nativeElement.id,
-          IncomeExpenseData
-        );
-
-        this.createTotalSavingsChart(
-          this.TotalSavingsContainer.nativeElement.id,
-          totalIncome,
-          totalExpense
-        );
+  // summary and savings charts removed
       }
     } else {
       this.createExpenseDistributionBarChart([]);
-      this.createIncomeExpenseSummaryChart(this.IncomeExpenseSummaryContainer.nativeElement.id, []);
-      this.createTotalSavingsChart(this.TotalSavingsContainer.nativeElement.id, 0, 0);
+  // summary and savings charts removed
+  this.incomeCategories = [];
+  this.incomeSeries = [];
+  this.expenseCategories = [];
+  this.expenseSeries = [];
     }
   }
   // Remove pie chart logic entirely; bar chart is the only visualization for expense distribution
+
+  /**
+   * Build time-series line charts for Income and Expense separately.
+   * If any filter is active (month/year/search/paymentMode), group by day; otherwise group by month.
+   */
+  populateIncomeExpenseTrendCharts(transactions: Transaction[]) {
+    if (!transactions || !transactions.length) {
+      this.incomeCategories = [];
+      this.incomeSeries = [];
+      this.expenseCategories = [];
+      this.expenseSeries = [];
+  this.balanceCategories = [];
+  this.balanceSeries = [];
+  this.totalIncomeAmount = 0;
+  this.totalExpenseAmount = 0;
+  this.totalBalanceAmount = 0;
+  this.incomeTooltipFormatter = this.getLineTooltipFormatter(this.currency?.symbol || '');
+  this.expenseTooltipFormatter = this.getLineTooltipFormatter(this.currency?.symbol || '');
+  this.balanceTooltipFormatter = this.getLineTooltipFormatter(this.currency?.symbol || '');
+      return;
+    }
+
+    const isFiltered = !!(this.selectedMonth || this.selectedYear || (this.search && this.search.trim()) || this.paymentMode);
+    const groupByDay = isFiltered; // daily if filtered, else monthly
+
+    // Helper maps
+    const incomeMap = new Map<string, number>();
+    const expenseMap = new Map<string, number>();
+
+    const toKey = (d: Date) => {
+      const yyyy = d.getFullYear();
+      const mm = (d.getMonth() + 1).toString().padStart(2, '0');
+      const dd = d.getDate().toString().padStart(2, '0');
+      return groupByDay ? `${yyyy}-${mm}-${dd}` : `${yyyy}-${mm}`; // month key
+    };
+
+    for (const t of transactions) {
+      const d = new Date(t.date as any);
+      const key = toKey(d);
+      if (t.category?.type === 'income') {
+        incomeMap.set(key, (incomeMap.get(key) || 0) + t.amount);
+      } else {
+        expenseMap.set(key, (expenseMap.get(key) || 0) + t.amount);
+      }
+    }
+
+    // Collect and sort keys chronologically
+    const keys = Array.from(new Set([ ...incomeMap.keys(), ...expenseMap.keys() ])).sort();
+
+    // Format display labels
+    const labels = keys.map(k => {
+      if (groupByDay) {
+        // yyyy-mm-dd -> dd MMM
+        const [y, m, d] = k.split('-').map(Number);
+        const date = new Date(y, m - 1, d);
+        const monthName = config.months[date.getMonth()].value;
+        return `${d} ${monthName}`; // e.g., 05 Jan
+      } else {
+        // yyyy-mm -> MMM yyyy
+        const [y, m] = k.split('-').map(Number);
+        const monthName = config.months[m - 1].value;
+        return `${monthName} ${y}`;
+      }
+    });
+
+    const incomeData = keys.map(k => incomeMap.get(k) || 0);
+    const expenseData = keys.map(k => expenseMap.get(k) || 0);
+  const netData = keys.map((k, i) => (incomeMap.get(k) || 0) - (expenseMap.get(k) || 0));
+  let running = 0; const runningBalance: number[] = [];
+  netData.forEach(v => { running += v; runningBalance.push(running); });
+
+    this.incomeCategories = labels;
+    this.expenseCategories = labels;
+  this.balanceCategories = labels;
+
+    this.incomeSeries = [
+      { name: 'Income', type: 'line', data: incomeData, color: '#2ecc71' } as any,
+    ];
+    this.expenseSeries = [
+      { name: 'Expense', type: 'line', data: expenseData, color: '#e74c3c' } as any,
+    ];
+    this.balanceSeries = [
+      { name: 'Balance', type: 'line', data: runningBalance, color: '#2e8b57' } as any,
+    ];
+
+  // Totals for display on the cards
+  this.totalIncomeAmount = incomeData.reduce((a, b) => a + b, 0);
+  this.totalExpenseAmount = expenseData.reduce((a, b) => a + b, 0);
+    this.totalBalanceAmount = this.totalIncomeAmount - this.totalExpenseAmount;
+
+  // Tooltip formatters with currency symbol
+  const currencySymbol = this.currency?.symbol || '';
+  this.incomeTooltipFormatter = this.getLineTooltipFormatter(currencySymbol);
+  this.expenseTooltipFormatter = this.getLineTooltipFormatter(currencySymbol);
+    this.balanceTooltipFormatter = this.getLineTooltipFormatter(currencySymbol);
+  }
+
+  private getLineTooltipFormatter(currencySymbol: string) {
+    const h = Highcharts;
+    const self = this;
+    return function (this: any) {
+      // shared tooltip context provides points array
+      const points = this.points || (this.point ? [this.point] : []);
+      let s = `<b>${this.x}</b>`;
+      points.forEach((p: any) => {
+        s += `<br/><span style=\"color:${p.color}\">●</span> ${p.series.name}: ${currencySymbol}${h.numberFormat(p.y, 0)}`;
+      });
+      return s;
+    } as Highcharts.TooltipFormatterCallbackFunction;
+  }
 
   createExpenseDistributionBarChart(data: any[]) {
     const currencySymbol = this.currency?.symbol || '$';
@@ -559,7 +720,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         },
       },
       title: {
-        text: 'Expense Distribution by Category',
+        text: '',
         align: 'left',
         style: {
           fontSize: '16px',
@@ -635,204 +796,37 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     };
   }
 
-  createIncomeExpenseSummaryChart(container: any, data: any) {
-    const options: any = {
-      chart: {
-        type: 'bar',
-        height: 200,
-        style: {
-          fontFamily: 'Segoe UI, Verdana, sans-serif',
-        },
-        backgroundColor: 'transparent',
-      },
-      title: {
-        text: 'Income vs Expense',
-        style: {
-          fontSize: '16px',
-          fontWeight: '600',
-          color: '#333',
-        },
-      },
-      xAxis: {
-        categories: ['Income', 'Expense'],
-        lineColor: '#ccc',
-        labels: {
-          style: {
-            color: '#666',
-            fontSize: '13px',
-          },
-        },
-      },
-      yAxis: {
-        visible: false,
-      },
-      tooltip: {
-        backgroundColor: '#fff',
-        borderColor: '#ccc',
-        borderRadius: 8,
-        style: {
-          color: '#333',
-        },
-        pointFormat: `<span style="color:{point.color}">\u25CF</span> <b>{series.name}</b>: ${this.currency.symbol}{point.y}`,
-      },
-      plotOptions: {
-        series: {
-          dataLabels: {
-            enabled: true,
-            inside: true,
-            style: {
-              fontWeight: '600',
-              color: '#fff',
-            },
-            format: this.currency.symbol + '{point.y:,.0f}',
-          },
-          borderRadius: 8,
-          pointPadding: 0.2,
-          groupPadding: 0.05,
-          colorByPoint: true,
-          colors: [
-            {
-              linearGradient: [0, 0, 300, 0],
-              stops: [
-                [0, '#2ecc71'],
-                [1, '#27ae60'],
-              ],
-            },
-            {
-              linearGradient: [0, 0, 300, 0],
-              stops: [
-                [0, '#ff6b6b'],
-                [1, '#e74c3c'],
-              ],
-            },
-          ],
-        },
-      },
-      legend: {
-        enabled: false,
-      },
-      exporting: {
-        enabled: false,
-      },
-      credits: {
-        enabled: false,
-      },
-      series: [
-        {
-          name: 'Summary',
-          data: data,
-        },
-      ],
-    };
+  // Filter Modal Methods
+  openFilterModal(): void {
+    const dialogRef = this.dialog.open(FilterModalComponent, {
+      width: '500px',
+      maxWidth: '90vw',
+      data: {
+        transactionMonths: this.transactionMonths,
+        transactionYears: this.transactionYears,
+        paymentModes: this.paymentModes,
+        currentFilters: {
+          selectedMonth: this.selectedMonth || null,
+          selectedYear: this.selectedYear || null,
+          paymentMode: this.paymentMode
+        }
+      }
+    });
 
-    Highcharts.chart(container, options);
-
-    setTimeout(() => {
-      window.dispatchEvent(new Event('resize'));
-    }, 300);
-  }
-
-  createTotalSavingsChart(container: any, totalIncome: number, totalExpense: number) {
-    const remaining = totalIncome - totalExpense;
-    const currencySymbol = this.currency?.symbol || '$';
-
-    const options: any = {
-      chart: {
-        type: 'pie',
-        height: 250,
-        backgroundColor: 'transparent',
-        style: {
-          fontFamily: 'Segoe UI, Verdana, sans-serif',
-        },
-      },
-      title: {
-        text: 'Total Savings',
-        align: 'center',
-        verticalAlign: 'middle',
-        y: -10,
-        style: {
-          fontSize: '16px',
-          fontWeight: '600',
-          color: '#333',
-        },
-      },
-      subtitle: {
-        text: `${currencySymbol}${formatNumber(remaining, this.userLocale)}`,
-        align: 'center',
-        verticalAlign: 'middle',
-        y: 20,
-        style: {
-          fontSize: '20px',
-          fontWeight: 'bold',
-          color: remaining >= 0 ? '#27ae60' : '#e74c3c',
-        },
-      },
-      tooltip: {
-        pointFormat: `<span style="color:{point.color}">\u25CF</span> <b>{point.name}</b>: ${currencySymbol}{point.y:,.0f}`,
-        backgroundColor: '#fff',
-        borderColor: '#ccc',
-        borderRadius: 8,
-        style: {
-          color: '#333',
-        },
-      },
-      plotOptions: {
-        pie: {
-          innerSize: '90%',
-          borderWidth: 0,
-          dataLabels: {
-            enabled: false,
-          },
-          startAngle: 0,
-          endAngle: 360,
-          center: ['50%', '50%'],
-        },
-      },
-      series: [
-        {
-          name: 'Savings',
-          data: [
-            {
-              name: 'Remaining Balance',
-              y: remaining,
-              color: {
-                linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
-                stops: [
-                  [0, '#2ecc71'],
-                  [1, '#27ae60'],
-                ],
-              },
-            },
-            {
-              name: 'Total Expense',
-              y: totalExpense,
-              color: {
-                linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
-                stops: [
-                  [0, '#ff6b6b'],
-                  [1, '#e74c3c'],
-                ],
-              },
-            },
-          ],
-        },
-      ],
-      legend: {
-        enabled: false,
-      },
-      credits: {
-        enabled: false,
-      },
-      exporting: {
-        enabled: false,
-      },
-    };
-
-    Highcharts.chart(container, options);
-
-    setTimeout(() => {
-      window.dispatchEvent(new Event('resize'));
-    }, 300);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.selectedMonth = result.selectedMonth;
+        this.selectedYear = result.selectedYear;
+        this.paymentMode = result.paymentMode;
+        
+        // Trigger the data refresh
+        this.onDateChange();
+        this.onViewChange();
+        
+        // Force change detection to update the UI
+        this.cdr.detectChanges();
+      }
+    });
   }
 
   ngOnDestroy() {

@@ -26,7 +26,6 @@ $blue-theme: mat.define-light-theme((color: (primary: $blue-palette,
         warn: $warn-palette,
       ),
       typography: mat.define-typography-config(),
-      density: 0,
     ));
 
 $green-theme: mat.define-light-theme((color: (primary: $green-palette,
@@ -34,7 +33,6 @@ $green-theme: mat.define-light-theme((color: (primary: $green-palette,
         warn: $warn-palette,
       ),
       typography: mat.define-typography-config(),
-      density: 0,
     ));
 
 $purple-theme: mat.define-light-theme((color: (primary: $purple-palette,
@@ -42,7 +40,6 @@ $purple-theme: mat.define-light-theme((color: (primary: $purple-palette,
         warn: $warn-palette,
       ),
       typography: mat.define-typography-config(),
-      density: 0,
     ));
 
 $orange-theme: mat.define-light-theme((color: (primary: $orange-palette,
@@ -50,7 +47,6 @@ $orange-theme: mat.define-light-theme((color: (primary: $orange-palette,
         warn: $warn-palette,
       ),
       typography: mat.define-typography-config(),
-      density: 0,
     ));
 
 $red-theme: mat.define-light-theme((color: (primary: $red-palette,
@@ -58,7 +54,6 @@ $red-theme: mat.define-light-theme((color: (primary: $red-palette,
         warn: $warn-palette,
       ),
       typography: mat.define-typography-config(),
-      density: 0,
     ));
 
 $teal-theme: mat.define-light-theme((color: (primary: $teal-palette,
@@ -66,7 +61,6 @@ $teal-theme: mat.define-light-theme((color: (primary: $teal-palette,
         warn: $warn-palette,
       ),
       typography: mat.define-typography-config(),
-      density: 0,
     ));
 
 $indigo-theme: mat.define-light-theme((color: (primary: $indigo-palette,
@@ -74,7 +68,6 @@ $indigo-theme: mat.define-light-theme((color: (primary: $indigo-palette,
         warn: $warn-palette,
       ),
       typography: mat.define-typography-config(),
-      density: 0,
     ));
 
 $pink-theme: mat.define-light-theme((color: (primary: $pink-palette,
@@ -82,7 +75,6 @@ $pink-theme: mat.define-light-theme((color: (primary: $pink-palette,
         warn: $warn-palette,
       ),
       typography: mat.define-typography-config(),
-      density: 0,
     ));
 
 // Define dark themes for each color
@@ -91,7 +83,6 @@ $dark-blue-theme: mat.define-dark-theme((color: (primary: $blue-palette,
         warn: $warn-palette,
       ),
       typography: mat.define-typography-config(),
-      density: 0,
     ));
 
 $dark-green-theme: mat.define-dark-theme((color: (primary: $green-palette,
@@ -99,7 +90,6 @@ $dark-green-theme: mat.define-dark-theme((color: (primary: $green-palette,
         warn: $warn-palette,
       ),
       typography: mat.define-typography-config(),
-      density: 0,
     ));
 
 $dark-purple-theme: mat.define-dark-theme((color: (primary: $purple-palette,
@@ -107,7 +97,6 @@ $dark-purple-theme: mat.define-dark-theme((color: (primary: $purple-palette,
         warn: $warn-palette,
       ),
       typography: mat.define-typography-config(),
-      density: 0,
     ));
 
 $dark-orange-theme: mat.define-dark-theme((color: (primary: $orange-palette,
@@ -115,7 +104,6 @@ $dark-orange-theme: mat.define-dark-theme((color: (primary: $orange-palette,
         warn: $warn-palette,
       ),
       typography: mat.define-typography-config(),
-      density: 0,
     ));
 
 $dark-red-theme: mat.define-dark-theme((color: (primary: $red-palette,
@@ -123,7 +111,6 @@ $dark-red-theme: mat.define-dark-theme((color: (primary: $red-palette,
         warn: $warn-palette,
       ),
       typography: mat.define-typography-config(),
-      density: 0,
     ));
 
 $dark-teal-theme: mat.define-dark-theme((color: (primary: $teal-palette,
@@ -131,7 +118,6 @@ $dark-teal-theme: mat.define-dark-theme((color: (primary: $teal-palette,
         warn: $warn-palette,
       ),
       typography: mat.define-typography-config(),
-      density: 0,
     ));
 
 $dark-indigo-theme: mat.define-dark-theme((color: (primary: $indigo-palette,
@@ -139,7 +125,6 @@ $dark-indigo-theme: mat.define-dark-theme((color: (primary: $indigo-palette,
         warn: $warn-palette,
       ),
       typography: mat.define-typography-config(),
-      density: 0,
     ));
 
 $dark-pink-theme: mat.define-dark-theme((color: (primary: $pink-palette,
@@ -147,7 +132,6 @@ $dark-pink-theme: mat.define-dark-theme((color: (primary: $pink-palette,
         warn: $warn-palette,
       ),
       typography: mat.define-typography-config(),
-      density: 0,
     ));
 
 // Define a dark theme
@@ -156,7 +140,6 @@ $dark-theme: mat.define-dark-theme((color: (primary: $blue-palette,
         warn: $warn-palette,
       ),
       typography: mat.define-typography-config(),
-      density: 0,
     ));
 
 // Include only the base Material styles with orange as default theme
