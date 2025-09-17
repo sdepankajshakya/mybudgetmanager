@@ -82,6 +82,19 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   private searchSubject: Subject<string> = new Subject();
   private destroy$ = new Subject<void>();
 
+  // Computed properties to avoid method calls in template
+  get showWelcome(): boolean {
+    return this.isLoading || (!this.hasActiveFilters() && this.transactions.length === 0);
+  }
+
+  get hasTransactionData(): boolean {
+    return this.transactions.length > 0 || this.hasActiveFilters();
+  }
+
+  get showFinancialOverviewData(): boolean {
+    return this.totalIncomeAmount > 0 || this.totalExpenseAmount > 0;
+  }
+
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
     initialDate: new Date(),

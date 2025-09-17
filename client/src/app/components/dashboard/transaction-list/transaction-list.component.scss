@@ -19,8 +19,8 @@ cdk-virtual-scroll-viewport {
 }
 
 .category-icon {
-  width: 44px;
-  height: 44px;
+  width: 58px;
+  height: 58px;
   padding: 6px;
   background-color: #f2f2f2;
   border-radius: 12px;
@@ -36,21 +36,18 @@ cdk-virtual-scroll-viewport {
 
 .category-name {
   font-weight: 600;
-  font-size: var(--font-size-base, 1rem);
-  color: var(--text-primary, #333);
+  font-size: calc(var(--font-size-md, 1rem) * 0.9); /* Smaller on desktop */
   line-height: var(--line-height-tight, 1.25);
 }
 
 .transaction-date {
-  font-size: var(--font-size-xs, 0.75rem);
-  color: var(--text-tertiary, #888);
+  font-size: calc(var(--font-size-sm, 1rem) * 0.9); /* Smaller on desktop */
   margin-top: 2px;
   line-height: var(--line-height-normal, 1.5);
 }
 
 .transaction-note {
-  font-size: var(--font-size-sm, 0.875rem);
-  color: var(--text-secondary, #555);
+  font-size: calc(var(--font-size-sm, 1rem) * 0.9); /* Smaller on desktop */
   margin-top: 4px;
   line-height: var(--line-height-normal, 1.5);
 }
@@ -64,7 +61,7 @@ cdk-virtual-scroll-viewport {
 }
 
 .transaction-amount {
-  font-size: var(--font-size-lg, 1.125rem);
+  font-size: var(--font-size-lg, 1.125rem); /* Keep large on desktop for prominence */
   font-weight: var(--font-weight-bold, 700);
   margin-bottom: 1rem;
   line-height: var(--line-height-tight, 1.25);
@@ -88,7 +85,7 @@ cdk-virtual-scroll-viewport {
     justify-content: center;
     width: 30px;
     height: 30px;
-    font-size: var(--font-size-base, 1rem);
+    font-size: calc(var(--font-size-lg, 1rem) * 0.85); /* Smaller icons on desktop */
     border-radius: 6px;
     transition: background-color 0.2s ease;
 
@@ -103,48 +100,9 @@ cdk-virtual-scroll-viewport {
   }
 }
 
-/* Responsive font adjustments */
-@media (max-width: 768px) {
-  .category-name {
-    font-size: var(--font-size-sm, 0.875rem);
-  }
-  
-  .transaction-amount {
-    font-size: var(--font-size-base, 1rem);
-  }
-  
-  .transaction-date {
-    font-size: var(--font-size-xs, 0.7rem);
-  }
-  
-  .transaction-note {
-    font-size: var(--font-size-xs, 0.75rem);
-  }
-}
-
 @media (max-width: 480px) {
   .transaction-card {
     padding: 10px 12px;
     margin: 3px;
-  }
-  
-  .category-icon {
-    width: 36px;
-    height: 36px;
-  }
-  
-  .category-name {
-    font-size: var(--font-size-xs, 0.8rem);
-  }
-  
-  .transaction-amount {
-    font-size: var(--font-size-sm, 0.9rem);
-    margin-bottom: 0.5rem;
-  }
-  
-  .icon-btn {
-    width: 28px;
-    height: 28px;
-    font-size: var(--font-size-sm, 0.875rem);
   }
 }

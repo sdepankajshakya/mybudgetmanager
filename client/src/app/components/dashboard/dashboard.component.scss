@@ -55,8 +55,35 @@
 .welcome {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 20px;
   padding: 100px;
+  
+  .welcome-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+    
+    button {
+      min-width: 180px;
+      height: 45px;
+      font-size: 16px;
+      
+      i {
+        margin-right: 8px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      flex-direction: column;
+      align-items: center;
+      
+      button {
+        width: 100%;
+        max-width: 250px;
+      }
+    }
+  }
 }
 
 /* Main layout */
@@ -84,101 +111,120 @@
   }
 }
 
-.flexCol {
-  flex: 1 1 0; /* Allow shrinking and growing equally */
-  display: flex;
-  flex-direction: column;
-  min-width: 0; /* Allow content to shrink below its natural width */
-  
-  /* Full width on mobile when stacked */
-  @media (max-width: 768px) {
-    flex: none;
-    width: 100%;
-  }
-}
+/* =================================
+   DASHBOARD GRID LAYOUT
+   ================================= */
 
-.overview-bar,
-.calendar {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
-  height: 520px; /* Set equal heights */
-  display: flex;
-  flex-direction: column;
-  overflow: hidden; /* Prevent content overflow */
-  min-width: 0; /* Allow cards to shrink */
-  width: 100%; /* Take full width of flex container */
+/* Main grid container */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 3fr 2fr; /* Financial overview gets more space than expense distribution */
+  grid-template-rows: 520px 520px; /* Two equal height rows */
+  gap: 10px;
+  margin: 15px 0;
   
-  @media (max-width: 768px) {
-    height: 400px;
-    /* Remove flex constraints on mobile when stacked */
-    min-width: unset;
+  /* Define grid areas for semantic placement */
+  grid-template-areas: 
+    "expense-distribution financial-overview"
+    "calendar transactions";
+    
+  @media (max-width: 868px) {
+    /* Stack in single column on mobile */
+    grid-template-columns: 1fr;
+    grid-template-rows: 400px 400px 400px 400px;
+    grid-template-areas: 
+      "financial-overview"
+      "expense-distribution" 
+      "calendar"
+      "transactions";
+    gap: 20px;
   }
   
   @media (max-width: 480px) {
-    height: 350px;
+    grid-template-rows: 350px 350px 350px 350px;
   }
 }
 
-/* Specific FullCalendar containment */
-::ng-deep .calendar full-calendar {
+/* =================================
+   GRID ITEM POSITIONING
+   ================================= */
+
+.financial-overview-card {
+  grid-area: financial-overview;
+}
+
+.expense-distribution-card {
+  grid-area: expense-distribution;
+}
+
+.calendar-card {
+  grid-area: calendar;
+}
+
+.transactions-card {
+  grid-area: transactions;
+}
+
+/* =================================
+   CARD BASE STYLES
+   ================================= */
+
+/* Base styles for all dashboard cards */
+.financial-overview-card,
+.expense-distribution-card,
+.calendar-card,
+.transactions-card {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 16px;
+  min-width: 0; /* Allow content to shrink within grid */
+}
+
+/* Cards with empty states should be more compact */
+.card-with-empty-state {
+  height: auto !important;
+  min-height: 200px !important;
+}
+
+/* =================================
+   CHART CONTAINMENT
+   ================================= */
+
+/* FullCalendar containment */
+::ng-deep .calendar-card full-calendar {
   flex: 1;
   min-height: 0;
 }
 
-::ng-deep .calendar .fc {
+::ng-deep .calendar-card .fc {
   height: 100% !important;
 }
 
-::ng-deep .calendar .fc-view-harness {
+::ng-deep .calendar-card .fc-view-harness {
   height: 100% !important;
 }
 
-/* Ensure Highcharts in expense distribution can resize */
-::ng-deep .overview-bar highcharts-chart {
+/* Highcharts containment for all chart cards */
+::ng-deep .financial-overview-card highcharts-chart,
+::ng-deep .expense-distribution-card highcharts-chart {
   flex: 1;
   min-height: 0;
   min-width: 0;
+  display: flex;
+  align-items: center;
 }
 
-::ng-deep .overview-bar .highcharts-container {
+::ng-deep .financial-overview-card .highcharts-container,
+::ng-deep .expense-distribution-card .highcharts-container {
   width: 100% !important;
   height: 100% !important;
 }
 
-.overview-bar {
-  width: 100%;
-  
-  highcharts-chart {
-    flex: 1;
-    display: flex;
-    align-items: center;
-  }
-}
-
-/* Transactions section */
-.transactions-card {
-  display: flex;
-  flex-direction: column;
-  height: 600px;
-  
-  @media (max-width: 768px) {
-    height: 450px;
-  }
-  
-  @media (max-width: 480px) {
-    height: 400px;
-  }
-}
-
-.transactions-card mat-card-header {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding-bottom: 8px;
-}
-
-.transactions-card .spacer {
-  flex: 1;
-}
+/* =================================
+   TRANSACTIONS CARD SPECIFIC STYLES
+   ================================= */
 
 .transactions-card .search-field {
   width: 300px;
@@ -203,7 +249,37 @@
   flex-direction: column;
   padding: 0 !important;
   overflow: hidden;
-  min-height: 0; /* Important for flex children to shrink */
+  min-height: 0;
+}
+
+/* =================================
+   EMPTY STATE STYLES
+   ================================= */
+
+.empty-state-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--text-tertiary);
+  
+  .empty-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+  }
+  
+  .body-normal {
+    margin: 8px 0 4px 0;
+    font-weight: 500;
+  }
+  
+  .body-small {
+    margin: 0;
+    opacity: 0.7;
+  }
 }
 
 /* Empty state for no transactions */
@@ -277,46 +353,6 @@
   margin-right: 8px;
 }
 
-/* Get started link animation */
-.link {
-  height: 30px;
-  align-items: center;
-  color: #000;
-  text-decoration: none;
-  display: flex;
-}
-
-.link-icon {
-  position: relative;
-  width: 35px;
-  height: 35px;
-  background: #f2b341;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-left: 10px;
-  overflow: hidden;
-}
-
-.icon {
-  display: block;
-  position: absolute;
-  transition: transform 0.4s ease;
-}
-
-.icon:nth-child(2) {
-  transform: translate(-40px);
-}
-
-.link:hover .icon:first-child {
-  transform: translate(40px);
-}
-
-.link:hover .icon:nth-child(2) {
-  transform: translate(0px);
-}
-
 /* FullCalendar customization */
 ::ng-deep .fc-list-event-time {
   display: none !important;
@@ -324,18 +360,6 @@
 
 ::ng-deep .fc-list-event .fc-list-event-title a {
   color: inherit !important;
-}
-
-.financial-overview {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  align-items: stretch;
-}
-
-.financial-overview > mat-card {
-  flex: 1 1 320px;
-  padding: 16px;
 }
 
 /* Financial Overview Cards */
@@ -351,70 +375,31 @@
   color: var(--text-tertiary);
 }
 
-.title {
-  font-size: var(--font-size-sm);
-  color: var(--text-tertiary);
-  font-weight: var(--font-weight-medium);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.amount-display {
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-bold);
-  color: var(--text-primary);
-  line-height: var(--line-height-tight);
-  margin-top: 8px;
-}
-
-.chart-container {
-  height: 100px;
-  overflow: hidden;
-}
-
-/* Responsive design */
-@media (max-width: 940px) {
-  .financial-overview > mat-card {
-    flex: 1 1 100%;
-  }
-  
-  .charts {
-    flex-wrap: wrap;
-  }
-}
-
-@media (max-width: 575px) {
-  /* Mobile typography adjustments - fluid types handle most scaling */
-  .financial-overview > mat-card {
-    padding: 12px;
-  }
-  
-  .card-title {
-    margin-bottom: 8px;
-  }
-  
-  .amount-display {
-    margin-top: 4px;
-  }
-}
-
-@media (max-width: 480px) {
-  .transactions-card {
-    height: 450px;
-  }
-}
+/* =================================
+   RESPONSIVE DESIGN
+   ================================= */
 
 @media (max-width: 768px) {
-  .transactions-card {
-    height: 500px;
+  .transactions-card .search-field {
+    width: 100%;
+    min-width: unset;
   }
-  
-  .transactions-card mat-card-header {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-  }
-  
+}
+
+/* FullCalendar customization */
+::ng-deep .fc-list-event-time {
+  display: none !important;
+}
+
+::ng-deep .fc-list-event .fc-list-event-title a {
+  color: inherit !important;
+}
+
+/* =================================
+   RESPONSIVE DESIGN
+   ================================= */
+
+@media (max-width: 768px) {
   .transactions-card .search-field {
     width: 100%;
     min-width: unset;
