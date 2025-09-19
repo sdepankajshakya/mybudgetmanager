@@ -9,10 +9,6 @@
     <h1 class="heading-1">Welcome! <strong>{{ currentUser.firstName ? currentUser.firstName : currentUser.email }}</strong></h1>
     <p class="body-large">Manage all your finances in simplest way</p>
     <div class="welcome-actions">
-      <button mat-raised-button color="primary" [routerLink]="'/gettingstarted'">
-        <i class="fa fa-rocket"></i>
-        Get Started
-      </button>
       <button mat-raised-button color="primary" (click)="openAddTransactionModal()">
         <i class="fa fa-plus"></i>
         Add First Transaction

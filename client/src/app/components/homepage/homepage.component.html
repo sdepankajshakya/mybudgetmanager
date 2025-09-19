@@ -1,23 +1,51 @@
-<section class="background">
-    <div class="header">
-        <nav class="fixed">
-            <ul>
-                <li><a href="javascript:void(0)">Home</a></li>
-                <li><a href="javascript:void(0)">Features</a></li>
-                <li><a href="javascript:void(0)" [routerLink]="['/contactus']">Contact Us</a></li>
-            </ul>
-        </nav>
-    </div>
-    <section class="title">
-        <div class="text">
-        <h1>Welcome to<br> <span>Budget Manager</span></h1>
-        <p>Manage all your finances in simplest way
-        </p>
+<main class="homepage">
+    <!-- Hero Section -->
+  <section class="hero-section" aria-label="Hero section">
+    <div class="hero-container container">
+      <div class="hero-content">
+        <h1 class="hero-title">Take Control of Your Finances</h1>
+        <p class="hero-subtitle">Track expenses, manage budgets, and achieve your financial goals with our intuitive budget management platform.</p>
+        <div class="hero-actions">
+          <button mat-raised-button color="primary" [routerLink]="['/login']" aria-label="Get started with Budget Manager">
+            Get Started
+          </button>
+          <button mat-button [routerLink]="['/contactus']" aria-label="Learn more about our services">
+            Learn More
+          </button>
         </div>
-    </section>
-</section>
+      </div>
+      <div class="hero-image flexRowCenter">
+        <article class="feature-card">
+          <i class="fa fa-credit-card" aria-hidden="true"></i>
+          <h2>Smart Budgeting</h2>
+          <p>Set budgets and track spending in real-time</p>
+        </article>
+      </div>
+    </div>
+  </section>
 
-<div class="bg"></div>
-<div class="bg bg2"></div>
-<div class="bg bg3"></div>
+  <!-- Features Section -->
+  <section class="features" aria-label="Features section">
+    <div class="features-container container">
+      <h2 class="section-title">Why Choose Budget Manager?</h2>
+      <div class="features-grid">
+        <article class="feature-item">
+          <i class="fa fa-line-chart feature-icon" aria-hidden="true"></i>
+          <h3>Expense Tracking</h3>
+          <p>Monitor your spending patterns with detailed analytics and insights</p>
+        </article>
+        <article class="feature-item">
+          <i class="fa fa-pie-chart feature-icon" aria-hidden="true"></i>
+          <h3>Budget Planning</h3>
+          <p>Create and manage budgets across multiple categories effortlessly</p>
+        </article>
+        <article class="feature-item">
+          <i class="fa fa-shield feature-icon" aria-hidden="true"></i>
+          <h3>Secure & Private</h3>
+          <p>Your financial data is protected with bank-level security</p>
+        </article>
+      </div>
+    </div>
+  </section>
+</main>
  

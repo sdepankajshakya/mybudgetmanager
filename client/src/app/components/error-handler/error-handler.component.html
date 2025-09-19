@@ -1,7 +1,7 @@
-<h2 mat-dialog-title class="heading-2 warn-color">Error!</h2>
+<h1 mat-dialog-title class="heading-1 warn-color">Error!</h1>
 <mat-dialog-content>
   <p class="body-normal">{{message}}</p>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-raised-button color="primary" [mat-dialog-close]="true">Ok</button>
+  <button mat-raised-button color="primary" [mat-dialog-close]="true" aria-label="Close error dialog">Ok</button>
 </mat-dialog-actions>

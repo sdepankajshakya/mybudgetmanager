@@ -1,32 +1,76 @@
-<div class="centered">
-  <div class="login-card">
-    <form class="login-form" (submit)="onLogin(loginForm)" #loginForm="ngForm">
-      <mat-form-field appearance="outline">
-        <mat-label>Email</mat-label>
-        <input matInput name="email" ngModel #email="ngModel" required email>
-      </mat-form-field>
-      <mat-error *ngIf="email.touched && email.invalid">Please enter a valid email</mat-error>
+<main class="login-page">
+  <!-- Navigation Header -->
+  <app-header></app-header>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Password</mat-label>
-        <input matInput [type]="hide ? 'password' : 'text'" name="password" ngModel #password="ngModel" required>
-        <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-          <i class="fa" [class.fa-eye-slash]="hide" [class.fa-eye]="!hide"></i>
-        </button>
-      </mat-form-field>
-      <mat-error *ngIf="password.touched && password.invalid">Please enter a password</mat-error>
+  <!-- Login Section -->
+  <section class="login-section" aria-label="Login form section">
+    <div class="login-container container">
+      <div class="login-content">
+        <div class="login-header">
+          <h1 class="login-title gradient-text">Welcome Back</h1>
+          <p class="login-subtitle">Sign in to your Budget Manager account</p>
+        </div>
 
-      <button type="submit" class="login" mat-raised-button color="primary">Login</button>
-      <p class="body-normal mg-t20">Don't have an account? <a [routerLink]="'/signup'">Sign up</a></p>
+        <div class="login-card">
+          <form class="login-form" (submit)="onLogin(loginForm)" #loginForm="ngForm" aria-label="Login form">
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>Email</mat-label>
+              <input matInput name="email" ngModel #email="ngModel" required email aria-describedby="email-error">
+              <mat-error *ngIf="email.touched && email.invalid" id="email-error">
+                Please enter a valid email
+              </mat-error>
+            </mat-form-field>
 
-      <div class="social">
-        <!-- Google Sign-In button will be rendered here -->
-        <div id="googleSignInButton"></div>
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>Password</mat-label>
+              <input matInput [type]="hide ? 'password' : 'text'" name="password" ngModel #password="ngModel" required aria-describedby="password-error">
+              <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="hide ? 'Show password' : 'Hide password'" [attr.aria-pressed]="!hide">
+                <i class="fa" [class.fa-eye-slash]="hide" [class.fa-eye]="!hide" aria-hidden="true"></i>
+              </button>
+              <mat-error *ngIf="password.touched && password.invalid" id="password-error">
+                Please enter a password
+              </mat-error>
+            </mat-form-field>
+
+            <button type="submit" class="login-button" mat-raised-button color="primary" aria-label="Sign in to your account">
+              Sign In
+            </button>
+
+            <div class="divider" role="separator" aria-label="or">
+              <span>or</span>
+            </div>
+
+            <div class="social-login">
+              <div id="googleSignInButton" class="google-signin" role="button" aria-label="Sign in with Google"></div>
+            </div>
+
+            <p class="signup-link-text">
+              Don't have an account? 
+              <a [routerLink]="'/signup'" class="link" aria-label="Create a new account">Create account</a>
+            </p>
+          </form>
+        </div>
       </div>
-    </form>
-    <div class="logo">
-      <img src="assets/images/icon.png" alt="icon" width="150px">
-      <h2 class="heading-2 primary-color">Budget Manager</h2>
+
+      <aside class="login-image" aria-label="Feature showcase">
+        <div class="feature-showcase">
+          <article class="showcase-item">
+            <i class="fa fa-chart-line" aria-hidden="true"></i>
+            <h2>Track Expenses</h2>
+            <p>Monitor your spending in real-time</p>
+          </article>
+          <article class="showcase-item">
+            <i class="fa fa-pie-chart" aria-hidden="true"></i>
+            <h2>Budget Planning</h2>
+            <p>Set and manage your budgets</p>
+          </article>
+          <article class="showcase-item">
+            <i class="fa fa-shield" aria-hidden="true"></i>
+            <h2>Secure</h2>
+            <p>Bank-level security</p>
+          </article>
+        </div>
+      </aside>
     </div>
-  </div>
-</div>
+  </section>
+</main>

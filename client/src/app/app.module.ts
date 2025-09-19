@@ -54,7 +54,6 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 import { ContactUsComponent } from './components/contact-us/contact-us.component';
 import { CurrencyPipe } from '@angular/common';
-import { GettingStartedComponent } from './components/getting-started/getting-started.component';
 import { FileSaverModule } from 'ngx-filesaver';
 import { FilterPipe } from './shared/filter.pipe';
 import { HomepageComponent } from './components/homepage/homepage.component';
@@ -80,7 +79,6 @@ import { FinancialOverviewComponent } from './components/dashboard/financial-ove
     SettingsComponent,
     ProfileComponent,
     ContactUsComponent,
-    GettingStartedComponent,
     FilterPipe,
     HomepageComponent,
     SpinnerComponent,

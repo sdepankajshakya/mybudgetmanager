@@ -1,12 +1,12 @@
 <!-- <img src="assets/images/broke-wallet.gif" alt="Broke Wallet" alt="Preload GIF" style="display: none;"/> -->
 
-<div class="no-internet-overlay" *ngIf="isOffline">
+<main class="no-internet-overlay" *ngIf="isOffline" role="alert" aria-live="polite">
     <div class="content">
-        <img src="assets/images/broke-wallet.gif" alt="Broke Wallet" />
+        <img src="assets/images/broke-wallet.gif" alt="Animated broke wallet illustration" />
         <h1 class="heading-1">Oops! No Internet... 💸</h1>
         <p class="body-large">Looks like your internet budget ran out! 🫠</p>
         <p class="body-large">Try reconnecting before your savings disappear too!</p>
 
-        <button (click)="retryConnection()">💰 Try Again</button>
+        <button (click)="retryConnection()" aria-label="Retry internet connection">💰 Try Again</button>
     </div>
-</div>
+</main>

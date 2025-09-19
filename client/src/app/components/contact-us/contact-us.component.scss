@@ -1,5 +1,15 @@
 .contact-details {
-  padding: 1rem;
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: var(--container-padding-desktop);
+  
+  @media (max-width: 768px) {
+    padding: var(--container-padding-desktop) var(--container-padding-tablet);
+  }
+  
+  @media (max-width: 480px) {
+    padding: var(--container-padding-tablet) var(--container-padding-mobile);
+  }
 }
 
 .contact-us-form {

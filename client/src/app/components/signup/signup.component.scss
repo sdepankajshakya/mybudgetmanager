@@ -1,31 +1,218 @@
-.signup-card {
+.signup-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+// Signup Section
+.signup-section {
+  padding-top: 6rem;
+  padding-bottom: 4rem;
+  min-height: 100vh;
   display: flex;
-  flex-direction: row;
   align-items: center;
-  justify-content: space-between;
-  gap: 3rem;
+}
+
+.signup-container {
+  // Uses global .container utility class with additional grid layout
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.signup-content {
+  max-width: 520px;
+}
+
+.signup-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.signup-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary, #333);
+  background: linear-gradient(135deg, var(--primary-color, #ff9800), #ff5722);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.signup-subtitle {
+  font-size: 1.1rem;
+  color: var(--text-secondary, #666);
+  margin-bottom: 0;
+}
+
+.signup-card {
+  background: white;
+  border-radius: 16px;
+  padding: 2.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .signup-form {
   display: flex;
   flex-direction: column;
-  .signup {
-    margin-top: 1rem;
-    margin-left: 15rem;
+  gap: 1rem;
+}
+
+.name-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-field {
+  width: 100%;
+  
+  ::ng-deep .mat-mdc-form-field-outline {
+    border-radius: 8px;
   }
 }
 
-.logo {
-  display: flex;
-  flex-direction: column;
+.error-message {
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
 }
 
-@media (max-width: 715px) {
+.signup-button {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  margin-top: 1rem;
+  background: var(--primary-color, #ff9800);
+  color: white;
+  text-transform: none;
+  
+  &:hover {
+    background: #fb8c00;
+  }
+}
+
+.login-link-text {
+  text-align: center;
+  margin-top: 1.5rem;
+  color: var(--text-secondary, #666);
+  font-size: 0.95rem;
+  
+  .link {
+    color: var(--primary-color, #ff9800);
+    text-decoration: none;
+    font-weight: 600;
+    
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+// Benefits Showcase
+.signup-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.benefits-showcase {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.benefit-item {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  
+  .fa {
+    font-size: 2rem;
+    color: var(--primary-color, #ff9800);
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+  
+  h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary, #333);
+  }
+  
+  p {
+    color: var(--text-secondary, #666);
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin: 0;
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .signup-container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    text-align: center;
+  }
+  
+  .signup-title {
+    font-size: 2rem;
+  }
+  
   .signup-card {
-    display: flex;
-    align-items: center;
-    flex-direction: column-reverse;
-    justify-content: space-between;
+    padding: 2rem;
+  }
+  
+  .name-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .benefits-showcase {
+    grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
+  }
+  
+  .benefit-item {
+    padding: 1rem;
+    
+    .fa {
+      font-size: 1.5rem;
+    }
+    
+    h3 {
+      font-size: 1rem;
+    }
+    
+    p {
+      font-size: 0.8rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .signup-section {
+    padding-top: 8rem;
+  }
+  
+  .signup-container {
+    padding: 0 1rem;
+  }
+  
+  .signup-title {
+    font-size: 1.75rem;
+  }
+  
+  .signup-card {
+    padding: 1.5rem;
+  }
+  
+  .benefits-showcase {
+    grid-template-columns: 1fr;
   }
 }

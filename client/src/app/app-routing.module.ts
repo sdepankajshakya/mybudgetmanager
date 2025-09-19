@@ -9,7 +9,6 @@ import { SettingsComponent } from './components/settings/settings.component';
 import { SettingsService } from './services/settings.service';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ContactUsComponent } from './components/contact-us/contact-us.component';
-import { GettingStartedComponent } from './components/getting-started/getting-started.component';
 import { HomepageComponent } from './components/homepage/homepage.component';
 
 const routes: Routes = [
@@ -29,12 +28,6 @@ const routes: Routes = [
     component: SettingsComponent,
     canActivate: [AuthenticationGuard],
     title: 'Settings'
-  },
-  {
-    path: 'gettingstarted',
-    component: GettingStartedComponent,
-    canActivate: [AuthenticationGuard],
-    title: 'Getting Started'
   },
   {
     path: 'contactus',

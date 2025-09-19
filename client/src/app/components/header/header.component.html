@@ -1,30 +1,50 @@
-<mat-toolbar color="primary" class="d-flex align-items-center gap-3">
-  <button mat-icon-button (click)="toggleSidebar()" *ngIf="isLoggedIn">
-    <i [ngClass]="sidenav ? 'fa fa-arrow-left' : 'fa fa-bars'"></i>
-  </button>
-  
-  <span (click)="goToHome()" class="d-flex align-items-center logo-container" style="cursor: pointer;">
-    <img src="/assets/images/icon.png" alt="logo" width="48px" class="logo-img" />
-    <span class="heading-4">Budget Manager</span>
-  </span>
-  
-  <span class="spacer"></span>
-  
-  <button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="isLoggedIn">
-    <i class='fa fa-user-circle'></i>
-  </button>
-  <mat-menu #menu="matMenu">
-    <button mat-menu-item (click)="onEditProfile()">
-      <i class="fa fa-user-circle"></i>&nbsp;
-      <span>Profile</span>
-    </button>
-    <button mat-menu-item (click)="onLogout()">
-      <i class="fa fa-sign-out"></i>&nbsp;
-      <span>Logout</span>
-    </button>
-  </mat-menu>
-  
-  <button mat-raised-button color="accent" *ngIf="!isLoggedIn && currentRoute !== '/login'" (click)="goToLogin()">
-    Login
-  </button>
-</mat-toolbar>
+<header role="banner">
+  <mat-toolbar [color]="isLoggedIn ? 'primary' : null" class="professional-header">
+    <div class="header-container">
+      <!-- Left Side: Logo/Brand -->
+      <div class="header-left">
+        <button mat-icon-button (click)="toggleSidebar()" *ngIf="isLoggedIn" class="sidebar-toggle" [attr.aria-label]="sidenav ? 'Close sidebar' : 'Open sidebar'">
+          <i [ngClass]="sidenav ? 'fa fa-arrow-left' : 'fa fa-bars'" aria-hidden="true"></i>
+        </button>
+        
+        <div class="logo" (click)="goToHome()" role="button" tabindex="0" aria-label="Go to homepage">
+          <img src="/assets/images/icon.png" alt="Budget Manager logo" class="logo-img">
+          <span class="logo-text" [class.gradient-text]="!isLoggedIn">Budget Manager</span>
+        </div>
+      </div>
+
+      <!-- Right Side: Navigation -->
+      <div class="header-right">
+        <!-- Public Navigation (when not logged in) -->
+        <nav class="nav-menu" *ngIf="!isLoggedIn" role="navigation" aria-label="Main navigation">
+          <a (click)="goToHome()" class="nav-link" [class.active]="currentRoute === '/'" role="button" tabindex="0" aria-label="Go to homepage">Home</a>
+          <a class="nav-link" role="button" tabindex="0" aria-label="View features">Features</a>
+          <a routerLink="/contactus" class="nav-link" [class.active]="currentRoute === '/contactus'" aria-label="Contact us">Contact Us</a>
+          <button mat-raised-button [color]="isLoggedIn ? 'primary' : null" (click)="goToLogin()" *ngIf="currentRoute !== '/login'" aria-label="Sign in to your account">
+            Login
+          </button>
+          <button mat-raised-button [color]="isLoggedIn ? 'primary' : null" routerLink="/signup" *ngIf="currentRoute === '/login'" aria-label="Create new account">
+            Sign Up
+          </button>
+        </nav>
+
+        <!-- User Menu (when logged in) -->
+        <div class="user-menu" *ngIf="isLoggedIn">
+          <button mat-icon-button [matMenuTriggerFor]="menu" class="user-button" aria-label="Open user menu">
+            <i class='fa fa-user-circle' aria-hidden="true"></i>
+          </button>
+          <mat-menu #menu="matMenu" class="user-dropdown">
+            <button mat-menu-item (click)="onEditProfile()" aria-label="Edit your profile">
+              <i class="fa fa-user-circle" aria-hidden="true"></i>&nbsp;
+              <span>Profile</span>
+            </button>
+            <button mat-menu-item (click)="onLogout()" aria-label="Sign out of your account">
+              <i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;
+              <span>Logout</span>
+            </button>
+          </mat-menu>
+        </div>
+      </div>
+    </div>
+  </mat-toolbar>
+</header>

@@ -1,38 +1,80 @@
-<div class="centered">
-  <div class="signup-card">
-    <form class="signup-form" (submit)="onSignup(signupForm)" #signupForm="ngForm">
-      <mat-form-field appearance="outline">
-        <mat-label>First name</mat-label>
-        <input matInput name="firstName" ngModel #firstName="ngModel">
-      </mat-form-field>
+<main class="signup-page">
+  <!-- Navigation Header -->
+  <app-header></app-header>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Last name</mat-label>
-        <input matInput name="lastName" ngModel #lastName="ngModel">
-      </mat-form-field>
+  <!-- Signup Section -->
+  <section class="signup-section" aria-label="Account registration form">
+    <div class="signup-container container">
+      <div class="signup-content">
+        <div class="signup-header">
+          <h1 class="signup-title">Create Account</h1>
+          <p class="signup-subtitle">Join Budget Manager and take control of your finances</p>
+        </div>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Email</mat-label>
-        <input matInput name="email" ngModel #email="ngModel" required email>
-      </mat-form-field>
-      <mat-error *ngIf="email.touched && email.invalid">Please enter a valid email</mat-error>
+        <div class="signup-card">
+          <form class="signup-form" (submit)="onSignup(signupForm)" #signupForm="ngForm" aria-label="Registration form">
+            <div class="name-row">
+              <mat-form-field appearance="outline" class="form-field">
+                <mat-label>First name</mat-label>
+                <input matInput name="firstName" ngModel #firstName="ngModel" aria-label="Enter your first name">
+              </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Password</mat-label>
-        <input matInput [type]="hide ? 'password' : 'text'" name="password" ngModel #password="ngModel" required>
-        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
-          [attr.aria-pressed]="hide">
-          <i class="fa" [class.fa-eye-slash]="hide" [class.fa-eye]="!hide"></i>
-        </button>
-      </mat-form-field>
-      <mat-error *ngIf="password.touched && password.invalid">Please enter a password</mat-error>
+              <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Last name</mat-label>
+                <input matInput name="lastName" ngModel #lastName="ngModel" aria-label="Enter your last name">
+              </mat-form-field>
+            </div>
 
-      <button type="submit" class="signup" mat-raised-button color="primary">Signup</button>
-      <p class="body-normal mg-t20">Have you an account? <a [routerLink]="'/login'">Sign In</a></p>
-    </form>
-    <div class="logo">
-      <img src="assets/images/icon.png" width="150px" alt="logo">
-      <h2 class="heading-2 primary-color">Budget Manager</h2>
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>Email</mat-label>
+              <input matInput name="email" ngModel #email="ngModel" required email aria-describedby="email-error">
+            </mat-form-field>
+            <mat-error *ngIf="email.touched && email.invalid" class="error-message" id="email-error">
+              Please enter a valid email
+            </mat-error>
+
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>Password</mat-label>
+              <input matInput [type]="hide ? 'password' : 'text'" name="password" ngModel #password="ngModel" required aria-describedby="password-error">
+              <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="hide ? 'Show password' : 'Hide password'" [attr.aria-pressed]="!hide">
+                <i class="fa" [class.fa-eye-slash]="hide" [class.fa-eye]="!hide" aria-hidden="true"></i>
+              </button>
+            </mat-form-field>
+            <mat-error *ngIf="password.touched && password.invalid" class="error-message" id="password-error">
+              Please enter a password
+            </mat-error>
+
+            <button type="submit" class="signup-button" mat-raised-button color="primary" aria-label="Create your account">
+              Create Account
+            </button>
+
+            <p class="login-link-text">
+              Already have an account? 
+              <a [routerLink]="'/login'" class="link" aria-label="Sign in to your existing account">Sign in</a>
+            </p>
+          </form>
+        </div>
+      </div>
+
+      <aside class="signup-image" aria-label="Benefits showcase">
+        <div class="benefits-showcase">
+          <article class="benefit-item">
+            <i class="fa fa-rocket" aria-hidden="true"></i>
+            <h2>Get Started Quickly</h2>
+            <p>Set up your budget in minutes</p>
+          </article>
+          <article class="benefit-item">
+            <i class="fa fa-mobile" aria-hidden="true"></i>
+            <h2>Mobile Friendly</h2>
+            <p>Access anywhere, anytime</p>
+          </article>
+          <article class="benefit-item">
+            <i class="fa fa-users" aria-hidden="true"></i>
+            <h2>Trusted by Thousands</h2>
+            <p>Join our growing community</p>
+          </article>
+        </div>
+      </aside>
     </div>
-  </div>
-</div>
+  </section>
+</main>

@@ -1,4 +1,4 @@
-<h1 mat-dialog-title class="heading-2">
+<h1 mat-dialog-title class="heading-1">
   {{title}}
 </h1>
 
@@ -7,6 +7,6 @@
 </div>
 
 <div mat-dialog-actions align="end">
-  <button mat-button (click)="onDismiss()">No</button>
-  <button mat-raised-button color="warn" (click)="onConfirm()">Yes</button>
+  <button mat-button (click)="onDismiss()" aria-label="Cancel action">No</button>
+  <button mat-raised-button color="warn" (click)="onConfirm()" aria-label="Confirm action">Yes</button>
 </div>

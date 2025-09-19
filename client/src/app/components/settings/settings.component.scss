@@ -1,26 +1,10 @@
 .settings-container {
-  max-width: 1200px;
+  max-width: var(--container-max-width);
   margin: 0 auto;
-  padding: 2rem;
-}
-
-.page-header {
-  margin-bottom: 2rem;
-  text-align: center;
-
-  .page-title {
-    font-size: var(--font-size-3xl);
-    font-weight: var(--font-weight-bold);
-    color: var(--text-primary);
-    margin-bottom: 0.5rem;
-    line-height: var(--line-height-tight);
-  }
-
-  .page-subtitle {
-    font-size: var(--font-size-md);
-    color: var(--text-tertiary);
-    margin: 0;
-    line-height: var(--line-height-normal);
+  padding: var(--container-padding-desktop);
+  
+  @media (max-width: 768px) {
+    padding: var(--container-padding-desktop) var(--container-padding-tablet);
   }
 }
 

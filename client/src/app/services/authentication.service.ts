@@ -121,5 +121,21 @@ export class AuthenticationService {
     this.setLoginStatus(false);
     this.messageService.setIsLoading(false);
     localStorage.clear();
+    
+    // Force remove all theme-related classes to ensure clean public pages
+    document.body.classList.remove('darkMode');
+    document.body.classList.remove('lightMode');
+    
+    // Remove any existing theme classes
+    const themeClasses = ['theme-orange', 'theme-blue', 'theme-green', 'theme-purple', 'theme-red', 'theme-teal', 'theme-indigo', 'theme-pink'];
+    themeClasses.forEach(themeClass => {
+      document.body.classList.remove(themeClass);
+    });
+    
+    // Force apply default light theme
+    document.body.classList.add('lightMode', 'theme-orange');
+    
+    // Force light mode message to override any pending dark mode
+    this.messageService.sendMessage('enable lightMode');
   }
 }

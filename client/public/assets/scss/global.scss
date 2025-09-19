@@ -93,16 +93,16 @@
   padding: 20px 0 20px 0;
 }
 
-/* Modern Typography Scale - More aggressive mobile scaling */
+/* Modern Typography Scale - Optimized for desktop */
 :root {
-  --font-size-xs: clamp(0.7rem, 0.5rem + 0.5vw, 0.8rem);       /* 11-13px */
-  --font-size-sm: clamp(0.8rem, 0.6rem + 0.6vw, 0.9rem);       /* 13-14px */
-  --font-size-base: clamp(0.9rem, 0.7rem + 0.7vw, 1.1rem);     /* 14-18px */
-  --font-size-md: clamp(1rem, 0.8rem + 0.8vw, 1.25rem);        /* 16-20px */
-  --font-size-lg: clamp(1.1rem, 0.9rem + 1vw, 1.5rem);         /* 18-24px */
-  --font-size-xl: clamp(1.25rem, 1rem + 1.25vw, 1.875rem);     /* 20-30px */
-  --font-size-2xl: clamp(1.5rem, 1.2rem + 1.5vw, 2.25rem);     /* 24-36px */
-  --font-size-3xl: clamp(1.875rem, 1.4rem + 2.375vw, 3rem);    /* 30-48px */
+  --font-size-xs: clamp(0.7rem, 0.5rem + 0.3vw, 0.75rem);      /* 11-12px */
+  --font-size-sm: clamp(0.8rem, 0.6rem + 0.3vw, 0.85rem);      /* 13-14px */
+  --font-size-base: clamp(0.9rem, 0.7rem + 0.4vw, 1rem);       /* 14-16px */
+  --font-size-md: clamp(1rem, 0.8rem + 0.4vw, 1.125rem);       /* 16-18px */
+  --font-size-lg: clamp(1.1rem, 0.9rem + 0.5vw, 1.25rem);      /* 18-20px */
+  --font-size-xl: clamp(1.25rem, 1rem + 0.6vw, 1.5rem);        /* 20-24px */
+  --font-size-2xl: clamp(1.5rem, 1.2rem + 0.8vw, 1.875rem);    /* 24-30px */
+  --font-size-3xl: clamp(1.875rem, 1.4rem + 1.2vw, 2.5rem);    /* 30-40px */
   
   /* Line heights for optimal readability */
   --line-height-tight: 1.25;
@@ -114,6 +114,12 @@
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
+  
+  /* Container and Layout Variables */
+  --container-max-width: 1200px;
+  --container-padding-desktop: 2rem;
+  --container-padding-tablet: 1rem;
+  --container-padding-mobile: 1rem;
 }
 
 /* Semantic heading classes */
@@ -188,6 +194,43 @@
   line-height: var(--line-height-normal);
   font-weight: var(--font-weight-normal);
   color: var(--text-tertiary);
+}
+
+/* Container Utility Classes */
+.container {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: 0 var(--container-padding-desktop);
+  
+  @media (max-width: 768px) {
+    padding: 0 var(--container-padding-tablet);
+  }
+  
+  @media (max-width: 480px) {
+    padding: 0 var(--container-padding-mobile);
+  }
+}
+
+.page-container {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: var(--container-padding-desktop);
+  
+  @media (max-width: 768px) {
+    padding: var(--container-padding-desktop) var(--container-padding-tablet);
+  }
+  
+  @media (max-width: 480px) {
+    padding: var(--container-padding-tablet) var(--container-padding-mobile);
+  }
+}
+
+/* Gradient Text Effect */
+.gradient-text {
+  background: linear-gradient(135deg, var(--primary-color, #ff9800), #ff5722);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /* Common title classes for cards and settings */

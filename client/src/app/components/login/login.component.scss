@@ -1,56 +1,238 @@
-.login-card {
+.login-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+// Login Section
+.login-section {
+  padding-top: 6rem;
+  padding-bottom: 4rem;
+  min-height: 100vh;
   display: flex;
-  flex-direction: row;
   align-items: center;
-  justify-content: space-between;
-  gap: 3rem;
+}
+
+.login-container {
+  // Uses global .container utility class with additional grid layout
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.login-content {
+  max-width: 480px;
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.login-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary, #333);
+}
+
+.login-subtitle {
+  font-size: 1.1rem;
+  color: var(--text-secondary, #666);
+  margin-bottom: 0;
+}
+
+.login-card {
+  background: white;
+  border-radius: 16px;
+  padding: 2.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .login-form {
   display: flex;
   flex-direction: column;
-  .login {
-    margin-top: 1rem;
-    margin-left: 15rem;
+  gap: 1rem;
+}
+
+.form-field {
+  width: 100%;
+  
+  ::ng-deep .mat-mdc-form-field-outline {
+    border-radius: 8px;
   }
 }
 
-.logo {
-  display: flex;
-  flex-direction: column;
+.error-message {
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
 }
 
-.google-btn,
-.fb-btn {
+.login-button {
   width: 100%;
-  padding: 12px;
-  border: none;
-  border-radius: 4px;
-  margin: 5px 0;
-  opacity: 0.85;
-  display: inline-block;
-  font-size: var(--font-size-base);
-  line-height: var(--line-height-normal);
-  font-weight: var(--font-weight-medium);
-  text-decoration: none;
-}
-
-.google {
-  background-color: #dd4b39;
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  margin-top: 1rem;
+  background: var(--primary-color, #ff9800);
   color: white;
+  text-transform: none;
+  
+  &:hover {
+    background: #fb8c00;
+  }
 }
 
-.fb {
-  background-color: #3b5998;
-  color: white;
+.divider {
+  text-align: center;
+  margin: 1.5rem 0;
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #e0e0e0;
+  }
+  
+  span {
+    background: white;
+    padding: 0 1rem;
+    color: var(--text-secondary, #666);
+    font-size: 0.875rem;
+  }
 }
 
-@media (max-width: 715px) {
+.social-login {
+  display: flex;
+  justify-content: center;
+}
+
+.google-signin {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.signup-link-text {
+  text-align: center;
+  margin-top: 1.5rem;
+  color: var(--text-secondary, #666);
+  font-size: 0.95rem;
+  
+  .link {
+    color: var(--primary-color, #ff9800);
+    text-decoration: none;
+    font-weight: 600;
+    
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+// Feature Showcase
+.login-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.feature-showcase {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.showcase-item {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  
+  .fa {
+    font-size: 2rem;
+    color: var(--primary-color, #ff9800);
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+  
+  h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary, #333);
+  }
+  
+  p {
+    color: var(--text-secondary, #666);
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin: 0;
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .login-container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    text-align: center;
+  }
+  
+  .login-title {
+    font-size: 2rem;
+  }
+  
   .login-card {
-    display: flex;
-    align-items: center;
-    flex-direction: column-reverse;
-    justify-content: space-between;
+    padding: 2rem;
+  }
+  
+  .feature-showcase {
+    grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
+  }
+  
+  .showcase-item {
+    padding: 1rem;
+    
+    .fa {
+      font-size: 1.5rem;
+    }
+    
+    h3 {
+      font-size: 1rem;
+    }
+    
+    p {
+      font-size: 0.8rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .login-section {
+    padding-top: 8rem;
+  }
+  
+  .login-container {
+    padding: 0 1rem;
+  }
+  
+  .login-title {
+    font-size: 1.75rem;
+  }
+  
+  .login-card {
+    padding: 1.5rem;
+  }
+  
+  .feature-showcase {
+    grid-template-columns: 1fr;
   }
 }

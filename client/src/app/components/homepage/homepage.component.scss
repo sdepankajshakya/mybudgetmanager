@@ -1,121 +1,209 @@
-.background {
-    height: 100vh;
-    width: 100%;
-    // background-image: url(../../../assets/images/bg.png);
-    background-position: center;
-    background-size: cover;
-    padding-right: 3%;
-    padding-left: 5%;
-    box-sizing: border-box;
-    position: relative;
+.homepage {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
 }
 
-.bg-gold {
-    background: -webkit-linear-gradient(110deg, #fdcd3b 60%, #ffed4b 60%);
-    background: -o-linear-gradient(110deg, #fdcd3b 60%, #ffed4b 60%);
-    background: -moz-linear-gradient(110deg, #fdcd3b 60%, #ffed4b 60%);
-    background: linear-gradient(110deg, #fdcd3b 60%, #ffed4b 60%);
+// Hero Section
+.hero-section {
+  padding-top: 8rem;
+  padding-bottom: 4rem;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
 }
 
-.bg {
-    animation: slide 3s ease-in-out infinite alternate;
-    background-image: linear-gradient(-60deg, #ffed4b 50%, #f7a105 50%);
-    bottom: 0;
-    left: -50%;
-    opacity: .5;
-    position: fixed;
-    right: -50%;
-    top: 0;
-    z-index: -1;
+.hero-container {
+  // Uses global .container utility class with additional grid layout
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
 }
 
-.bg2 {
-    animation-direction: alternate-reverse;
-    animation-duration: 4s;
+.hero-content {
+  max-width: 500px;
 }
 
-.bg3 {
-    animation-duration: 5s;
+.hero-title {
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  color: var(--text-primary, #333);
+  
+  background: linear-gradient(135deg, var(--primary-color, #ff9800), #ff5722);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-@keyframes slide {
-    0% {
-        transform: translateX(-25%);
-    }
-
-    100% {
-        transform: translateX(25%);
-    }
+.hero-subtitle {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: var(--text-secondary, #666);
+  margin-bottom: 2.5rem;
+  font-weight: 400;
 }
 
-.header {
-    width: 100%;
-    height: 15vh;
-    margin: auto;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
-.fixed {
-    position: fixed;
-    z-index: 1;
-    backdrop-filter: blur(5px);
-}
+// Feature Card (hero-image uses global .flexRowCenter utility class)
 
-nav ul li {
-    display: inline-block;
-    list-style: none;
-    margin: 0 15px;
-}
-
-nav ul li a {
-    text-decoration: none;
-    font-size: 15px;
+.feature-card {
+  background: white;
+  border-radius: 16px;
+  padding: 2.5rem;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  max-width: 300px;
+  
+  .fa {
+    font-size: 3rem;
+    color: var(--primary-color, #ff9800);
+    margin-bottom: 1rem;
+    display: block;
+  }
+  
+  h3 {
+    font-size: 1.5rem;
     font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary, #333);
+  }
+  
+  p {
+    color: var(--text-secondary, #666);
+    line-height: 1.5;
+  }
 }
 
-.title {
-    position: relative;
-    display: flex;
-    width: 100%;
-    align-items: center;
-    justify-content: space-between;
+// Features Section
+.features {
+  background: white;
+  padding: 5rem 0;
 }
 
-.title .text {
-    position: relative;
-    max-width: 600px;
+.features-container {
+  // Uses global .container utility class with additional styles
+  text-align: center;
 }
 
-.title .text h1 {
-    font-weight: 800;
-    margin-top: 80px;
-    line-height: 1.5em;
-    letter-spacing: .1em;
-    font-size: 40px;
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 3rem;
+  color: var(--text-primary, #333);
 }
 
-.title .text h1 span {
-    font-size: 50px;
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2.5rem;
+  margin-top: 3rem;
 }
 
-.title .text p {
-    font-size: 17px;
+.feature-item {
+  padding: 2rem;
+  border-radius: 12px;
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  }
+  
+  .feature-icon {
+    font-size: 2.5rem;
+    color: var(--primary-color, #ff9800);
+    margin-bottom: 1rem;
+    display: block;
+  }
+  
+  h3 {
+    font-size: 1.3rem;
     font-weight: 600;
-    letter-spacing: .1em;
+    margin-bottom: 0.75rem;
+    color: var(--text-primary, #333);
+  }
+  
+  p {
+    color: var(--text-secondary, #666);
+    line-height: 1.6;
+  }
 }
 
-@media (max-width: 490px) {
-    .title .text h1 {
-        font-size: 30px;
-    }
+// Responsive Design
+@media (max-width: 768px) {
+  .hero-container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    text-align: center;
+  }
+  
+  .hero-title {
+    font-size: 2.2rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+  }
+}
 
-    .title .text h1 span {
-        font-size: 40px;
-    }
+@media (max-width: 480px) {
+  .hero {
+    padding-top: 8rem;
+  }
+  
+  .hero-container {
+    padding: 0 1rem;
+  }
+  
+  .hero-title {
+    font-size: 1.8rem;
+  }
+  
+  .hero-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+}
 
-    .title .text p {
-        font-size: 13px;
+// Extra small screens - hide some nav items for space
+@media (max-width: 360px) {
+  .nav-menu {
+    gap: 0.25rem;
+  }
+  
+  .nav-link {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.4rem;
+    
+    &:nth-child(2) {
+      display: none; // Hide "Features" on very small screens
     }
+  }
+  
+  .logo h2 {
+    font-size: 1rem;
+  }
+  
+  .logo-img {
+    width: 20px;
+    height: 20px;
+  }
 }

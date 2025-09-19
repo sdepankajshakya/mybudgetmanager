@@ -35,7 +35,7 @@ import { PaymentMode } from 'src/app/models/PaymentMode';
 // Removed flipState animation utilities
 import { DateRangeResponse } from 'src/app/models/DateRangeResonse';
 import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/internal/operators';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard',

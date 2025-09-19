@@ -21,6 +21,12 @@ $pink-primary: #e91e63;
 
 /* CSS Custom Properties for Colors */
 :root {
+  /* Primary Theme Colors */
+  --primary-color: #f7a105;
+  --primary-rgb: 247, 161, 5;
+  --primary-dark: #e6910a;
+  --primary-light: #ffc947;
+  
   /* Text Colors */
   --text-primary: #111827;
   --text-secondary: #374151;
@@ -76,4 +82,54 @@ $pink-primary: #e91e63;
   --bg-secondary: #1e1e1e;
   --bg-tertiary: #2a2a2a;
   --bg-overlay: rgba(0, 0, 0, 0.8);
+}
+
+/* Theme-specific CSS custom properties */
+.blue-theme {
+  --primary-color: #2196f3;
+  --primary-rgb: 33, 150, 243;
+  --primary-dark: #1976d2;
+  --primary-light: #64b5f6;
+}
+
+.green-theme {
+  --primary-color: #4caf50;
+  --primary-rgb: 76, 175, 80;
+  --primary-dark: #388e3c;
+  --primary-light: #81c784;
+}
+
+.orange-theme {
+  --primary-color: #ff9800;
+  --primary-rgb: 255, 152, 0;
+  --primary-dark: #f57c00;
+  --primary-light: #ffb74d;
+}
+
+.purple-theme {
+  --primary-color: #9c27b0;
+  --primary-rgb: 156, 39, 176;
+  --primary-dark: #7b1fa2;
+  --primary-light: #ba68c8;
+}
+
+.red-theme {
+  --primary-color: #f44336;
+  --primary-rgb: 244, 67, 54;
+  --primary-dark: #d32f2f;
+  --primary-light: #ef5350;
+}
+
+.teal-theme {
+  --primary-color: #009688;
+  --primary-rgb: 0, 150, 136;
+  --primary-dark: #00796b;
+  --primary-light: #4db6ac;
+}
+
+.indigo-theme {
+  --primary-color: #3f51b5;
+  --primary-rgb: 63, 81, 181;
+  --primary-dark: #303f9f;
+  --primary-light: #7986cb;
 }

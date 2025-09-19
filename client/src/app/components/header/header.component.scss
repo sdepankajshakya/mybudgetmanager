@@ -1,11 +1,242 @@
-.spacer {
-  flex: 1 1 auto;
+.professional-header {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: 64px !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  
+  &.mat-toolbar {
+    padding: 0 !important;
+  }
+  
+  // Clean white styling when not using primary theme (logged out)
+  &:not(.mat-primary) {
+    background: rgba(255, 255, 255, 0.95) !important;
+    color: #333 !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    
+    // Force light theme colors when logged out, override all dark mode variables
+    --text-primary: #333 !important;
+    --text-secondary: #666 !important;
+    --text-tertiary: #999 !important;
+    
+    // Force all text elements to be dark
+    *,
+    *::before,
+    *::after {
+      color: #333 !important;
+    }
+    
+    .nav-link {
+      color: #333 !important;
+      
+      &:hover,
+      &.active {
+        color: var(--primary-color, #ff9800) !important;
+        opacity: 1;
+      }
+    }
+    
+    // Style buttons when not using primary theme
+    button[mat-raised-button]:not(.mat-primary) {
+      background-color: var(--primary-color, #ff9800) !important;
+      color: white !important;
+      
+      &:hover {
+        background-color: #fb8c00 !important;
+      }
+      
+      // Ensure button text is white
+      * {
+        color: white !important;
+      }
+    }
+    
+    // Force Material components to use dark text
+    .mat-icon,
+    .mat-button-wrapper,
+    .mat-icon-button,
+    .mat-menu-item,
+    span,
+    a,
+    div {
+      color: #333 !important;
+    }
+    
+    // Override any theme-specific text colors
+    .mat-toolbar *:not(button) {
+      color: #333 !important;
+    }
+  }
 }
 
-.logo-container {
+.header-container {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: 0 var(--container-padding-desktop);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+  
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.logo-img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.logo h2 {
+  margin: 0;
+  font-weight: 500;
+  font-size: 1.25rem;
+  transition: opacity 0.3s ease;
+  
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.nav-menu {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.nav-link {
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: opacity 0.3s ease;
   cursor: pointer;
   
+  &:hover,
+  &.active {
+    opacity: 0.7;
+  }
+}
+
+.user-menu {
+  margin-left: 1rem;
+}
+
+.user-button {
+  font-size: 1.5rem !important;
+  
+  i {
+    font-size: 1.5rem;
+  }
+}
+
+.user-dropdown {
+  margin-top: 0.5rem;
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .header-container {
+    padding: 0 1rem;
+  }
+  
   .logo-img {
-    margin-right: 8px;
+    width: 28px;
+    height: 28px;
+  }
+  
+  .logo h2 {
+    font-size: 1.3rem;
+  }
+  
+  .nav-menu {
+    gap: 1rem;
+  }
+  
+  .nav-link {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-container {
+    padding: 0 1rem;
+    gap: 0.5rem;
+  }
+  
+  .header-left {
+    gap: 0.5rem;
+  }
+  
+  .logo {
+    gap: 0.3rem;
+  }
+  
+  .logo-img {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .logo h2 {
+    font-size: 1.1rem;
+  }
+  
+  .nav-menu {
+    gap: 0.5rem;
+  }
+  
+  .nav-link {
+    font-size: 0.8rem;
+    
+    &:nth-child(2) {
+      display: none; // Hide "Features" on very small screens
+    }
+  }
+}
+
+// Extra small screens
+@media (max-width: 360px) {
+  .nav-menu {
+    gap: 0.25rem;
+  }
+  
+  .nav-link {
+    font-size: 0.75rem;
+  }
+  
+  .logo h2 {
+    font-size: 1rem;
+  }
+  
+  .logo-img {
+    width: 20px;
+    height: 20px;
   }
 }

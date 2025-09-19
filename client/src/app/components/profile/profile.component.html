@@ -1,29 +1,31 @@
-<div class="edit-profile flexRowCenter centered">
-    <div class="profile-picture">
-        <label class="hoverable" for="fileInput">
-            <img [src]="url ? url : '/assets/images/blank-profile.png'" alt="blank-profile">
+<main class="edit-profile flexRowCenter centered">
+    <section class="profile-picture" aria-label="Profile picture section">
+        <label class="hoverable" for="fileInput" aria-label="Upload profile picture">
+            <img [src]="url ? url : '/assets/images/blank-profile.png'" alt="Profile picture">
             <div class="hover-text">Choose file</div>
             <div class="background"></div>
         </label>
         <br />
-        <input id="fileInput" type='file' (change)="onSelectFile($event)">
-        <button mat-raised-button color="warn" *ngIf="url" (click)="delete()">Remove</button>
-    </div>
+        <input id="fileInput" type='file' (change)="onSelectFile($event)" aria-label="Select profile picture file">
+        <button mat-raised-button color="warn" *ngIf="url" (click)="delete()" aria-label="Remove current profile picture">Remove</button>
+    </section>
 
-    <div class="update-profile flexColCenter">
-        <mat-form-field appearance="outline">
-            <mat-label>First Name</mat-label>
-            <input matInput type="text" [(ngModel)]="currentUser.firstName">
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-            <mat-label>Last Name</mat-label>
-            <input matInput type="text" [(ngModel)]="currentUser.lastName">
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-            <mat-label>Email</mat-label>
-            <input matInput type="text" [(ngModel)]="currentUser.email">
-        </mat-form-field>
+    <section class="update-profile flexColCenter" aria-label="Profile information form">
+        <form aria-label="Update profile form">
+            <mat-form-field appearance="outline">
+                <mat-label>First Name</mat-label>
+                <input matInput type="text" [(ngModel)]="currentUser.firstName" name="firstName" aria-label="Enter your first name">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Last Name</mat-label>
+                <input matInput type="text" [(ngModel)]="currentUser.lastName" name="lastName" aria-label="Enter your last name">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Email</mat-label>
+                <input matInput type="email" [(ngModel)]="currentUser.email" name="email" aria-label="Enter your email address">
+            </mat-form-field>
 
-        <button mat-raised-button color="primary">Save</button>
-    </div>
-</div>
+            <button mat-raised-button color="primary" type="submit" aria-label="Save profile changes">Save</button>
+        </form>
+    </section>
+</main>
