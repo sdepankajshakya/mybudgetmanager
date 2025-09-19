@@ -18,7 +18,7 @@
         <!-- Public Navigation (when not logged in) -->
         <nav class="nav-menu" *ngIf="!isLoggedIn" role="navigation" aria-label="Main navigation">
           <a (click)="goToHome()" class="nav-link" [class.active]="currentRoute === '/'" role="button" tabindex="0" aria-label="Go to homepage">Home</a>
-          <a class="nav-link" role="button" tabindex="0" aria-label="View features">Features</a>
+          <!-- <a class="nav-link" role="button" tabindex="0" aria-label="View features">Features</a> -->
           <a routerLink="/contactus" class="nav-link" [class.active]="currentRoute === '/contactus'" aria-label="Contact us">Contact Us</a>
           <button mat-raised-button [color]="isLoggedIn ? 'primary' : null" (click)="goToLogin()" *ngIf="currentRoute !== '/login'" aria-label="Sign in to your account">
             Login

@@ -2,10 +2,9 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 16px;
+  gap: 8px;
   flex-wrap: wrap;
-  margin: 20px 0 24px 0;
-  padding: 16px 0;
+  margin: 10px 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
 
@@ -147,7 +146,6 @@
     
     strong {
       font-weight: 600;
-      color: var(--primary-color, #f7a105);
     }
   }
   
@@ -357,7 +355,6 @@
 .transactions-card .search-field {
   width: 100%;
   min-width: 250px;
-  margin-bottom: 16px;
   
   .mat-mdc-form-field-outline {
     border-radius: 6px !important;
@@ -430,16 +427,6 @@
   }
 }
 
-/* Empty state for no transactions */
-.no-transactions-message {
-  padding: 48px 24px;
-  text-align: center;
-  background: rgba(0, 0, 0, 0.01);
-  border-radius: 8px;
-  border: 1px dashed rgba(0, 0, 0, 0.1);
-  margin: 16px 0;
-}
-
 .empty-state {
   max-width: 420px;
   margin: 0 auto;
@@ -468,35 +455,12 @@
   line-height: var(--line-height-relaxed, 1.6);
 }
 
-.filter-details {
-  background: rgba(33, 150, 243, 0.04);
-  border-radius: 8px;
-  padding: 20px;
-  margin: 24px 0;
-  border-left: 3px solid #2196f3;
-  border: 1px solid rgba(33, 150, 243, 0.1);
-}
-
 .filter-item {
   display: flex;
   align-items: center;
   gap: 10px;
   margin: 10px 0;
-  font-size: var(--font-size-sm, 14px);
-  color: var(--text-secondary, #666666);
-  line-height: var(--line-height-normal, 1.5);
   font-weight: 500;
-}
-
-.filter-item i {
-  color: #2196f3;
-  width: 18px;
-  text-align: center;
-  font-size: 14px;
-}
-
-.filter-item img {
-  border-radius: 4px;
 }
 
 .add-first-transaction {

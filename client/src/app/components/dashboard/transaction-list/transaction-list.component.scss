@@ -1,17 +1,17 @@
 cdk-virtual-scroll-viewport {
-  height: 350px;
+  height: 330px;
   width: 100%;
 
   @media (max-width: 868px) {
-    height: 240px;
+    height: 200px;
   }
 
   @media (max-width: 768px) {
-    height: 250px;
+    height: 215px;
   }
 
   @media (max-width: 480px) {
-    height: 200px;
+    height: 150px;
   }
 }
 
@@ -113,12 +113,5 @@ cdk-virtual-scroll-viewport {
       outline: 2px solid var(--primary-color, rgba(0, 0, 0, 0.2));
       outline-offset: 1px;
     }
-  }
-}
-
-@media (max-width: 480px) {
-  .transaction-card {
-    padding: 10px 12px;
-    margin: 3px;
   }
 }

@@ -111,7 +111,7 @@
           <p class="body-normal">
             <span *ngIf="paymentMode || selectedMonth || search">No transactions match your current filters:</span>
           </p>
-          <div class="filter-details" *ngIf="paymentMode || selectedMonth || search">
+          <div *ngIf="paymentMode || selectedMonth || search">
             <div class="filter-item" *ngIf="paymentMode">
               <i class="fa fa-credit-card"></i>
               <img src="{{dashboardView?.icon}}" alt="{{dashboardView?.type}}" width="16px">

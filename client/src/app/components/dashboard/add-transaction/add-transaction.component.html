@@ -1,16 +1,5 @@
 <h2 mat-dialog-title class="heading-2">{{isEditTransaction? 'Edit transaction' : 'Add transaction'}}</h2>
 <mat-dialog-content>
-  <section class="pd-b10" *ngIf="mostUsedCategories?.length">
-    <label class="body-large">Mostly used categories</label>
-    <div class="mostly-used-categories pd-10">
-      <button *ngFor="let category of mostUsedCategories" mat-fab color="primary" 
-      [style.backgroundImage]="'url(' + category.icon + ')'"
-      [style.backgroundSize]="'cover'"
-      [matTooltip]="category.name"
-      (click)="setCategory(category)"></button>
-    </div>
-  </section>
-
   <form class="add-transaction-form" [formGroup]="addTransactionForm" (ngSubmit)="newTransaction()">
     <mat-form-field appearance="outline">
       <mat-label>Category</mat-label>

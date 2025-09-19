@@ -257,7 +257,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.transaction.date = dateSelectedFromCalendar;
     this.dialog.open(AddTransactionComponent, {
       width: '550px',
-      data: this.transaction,
+      data: {
+        transaction: this.transaction,
+        isEdit: false
+      },
     });
   }
 
@@ -520,14 +523,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         }
       };
       this.calendarApi.gotoDate(currentDate);
-    }
-  }
-
-  setMostUsedCategories() {
-    if (this.categoryCount) {
-      const mostUsedCategories = this.sharedService.getTopValues(this.categoryCount, 7);
-      const categoryNames = Object.keys(mostUsedCategories);
-      this.sharedService.setItemToLocalStorage('mostUsedCategories', categoryNames);
     }
   }
 
