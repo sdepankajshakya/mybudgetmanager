@@ -19,8 +19,8 @@
   <!--Topbar: Greeting + Filter Button-->
   <section class="topbar" [hidden]="showWelcome">
     <!-- Active Filters Display -->
-    <div class="active-filters" *ngIf="hasActiveFilters()">
-      <div class="filter-chips">
+    <div class="active-filters">
+      <div class="filter-chips" *ngIf="hasActiveFilters()">
         <mat-chip-set>
           <mat-chip *ngIf="selectedMonth" class="filter-chip" removable (removed)="clearMonthFilter()">
             <i class="fa fa-calendar chip-icon"></i>
