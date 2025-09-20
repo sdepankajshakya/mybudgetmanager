@@ -234,17 +234,34 @@
 }
 
 /* Common title classes for cards and settings */
-.card-title,
-.setting-title {
+.card-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-semibold);
   line-height: var(--line-height-tight);
   color: var(--text-primary);
-  margin: 0 0 8px 0;
+  
+  .heading-4 {
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--text-primary, #1a1a1a);
+    letter-spacing: -0.01em;
+  }
+  
+  i {
+    font-size: 18px;
+    color: var(--text-secondary, #666666);
+    width: 20px;
+    text-align: center;
+  }
 }
 
-.card-subtitle,
-.setting-description {
+.card-subtitle {
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-normal);
   line-height: var(--line-height-normal);

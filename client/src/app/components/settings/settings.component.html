@@ -6,10 +6,10 @@
     <mat-card class="settings-card">
       <mat-card-header>
         <div class="card-header-content">
-          <mat-card-title>
-            <i class="fa fa-cog card-icon"></i>
-            General Settings
-          </mat-card-title>
+          <div class="card-title">
+            <i class="fa fa-cog"></i>
+            <span class="heading-4">General Settings</span>
+          </div>
           <mat-card-subtitle>Configure basic application settings</mat-card-subtitle>
         </div>
       </mat-card-header>
@@ -18,10 +18,8 @@
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Currency</mat-label>
             <mat-select [compareWith]="compareWith" [(ngModel)]="currentSettings.currency">
-              <mat-option>
-                <ngx-mat-select-search [(ngModel)]="searchCurrency" placeholderLabel="Search currency..." noEntriesFoundLabel="'No Currency found'">
-                </ngx-mat-select-search>
-              </mat-option>
+              <ngx-mat-select-search [(ngModel)]="searchCurrency" placeholderLabel="Search currency..." noEntriesFoundLabel="'No Currency found'">
+              </ngx-mat-select-search>
               <mat-option *ngFor="let currency of currencyList | filter:'name':searchCurrency" [value]="currency">
                 {{currency.name}} ({{currency.symbol}})
               </mat-option>
@@ -47,8 +45,8 @@
         <div class="setting-item">
           <div class="toggle-setting">
             <div class="toggle-label">
-              <span class="setting-title">Dark Mode</span>
-              <span class="setting-description">Switch between light and dark themes</span>
+              <span class="heading-4">Dark Mode</span>
+              <span class="card-subtitle">Switch between light and dark themes</span>
             </div>
             <mat-slide-toggle 
               [(ngModel)]="currentSettings.darkMode"
@@ -72,13 +70,13 @@
     <mat-card class="settings-card">
       <mat-card-header>
         <div class="card-header-content">
-          <mat-card-title>
-            <i class="fa fa-credit-card card-icon"></i>
-            Payment Methods
-          </mat-card-title>
+          <div class="card-title">
+            <i class="fa fa-credit-card"></i>
+            <span class="heading-4">Payment Methods</span>
+          </div>
           <mat-card-subtitle>Manage your payment options</mat-card-subtitle>
         </div>
-        <button class="icon-btn add-btn" (click)="openPaymentModal(addPaymentModeModal)" [matTooltip]="'Add Payment Method'" [attr.aria-label]="'addPayment'">
+        <button class="icon-btn" (click)="openPaymentModal(addPaymentModeModal)" [matTooltip]="'Add Payment Method'" [attr.aria-label]="'addPayment'">
           <i class="fa fa-plus"></i>
         </button>
       </mat-card-header>
@@ -106,13 +104,13 @@
     <mat-card class="settings-card">
       <mat-card-header>
         <div class="card-header-content">
-          <mat-card-title>
-            <i class="fa fa-tags card-icon"></i>
-            Categories
-          </mat-card-title>
+          <div class="card-title">
+            <i class="fa fa-tags"></i>
+            <span class="heading-4">Categories</span>
+          </div>
           <mat-card-subtitle>Organize your transactions</mat-card-subtitle>
         </div>
-        <button class="icon-btn add-btn" (click)="openCategoryModal(addCategoryModal)" [matTooltip]="'Add Category'" [attr.aria-label]="'addCategory'">
+        <button class="icon-btn" (click)="openCategoryModal(addCategoryModal)" [matTooltip]="'Add Category'" [attr.aria-label]="'addCategory'">
           <i class="fa fa-plus"></i>
         </button>
       </mat-card-header>
@@ -141,10 +139,10 @@
     <mat-card class="settings-card">
       <mat-card-header>
         <div class="card-header-content">
-          <mat-card-title>
-            <i class="fa fa-database card-icon"></i>
-            Data Management
-          </mat-card-title>
+          <div class="card-title">
+            <i class="fa fa-database"></i>
+            <span class="heading-4">Data Management</span>
+          </div>
           <mat-card-subtitle>Backup and restore your data</mat-card-subtitle>
         </div>
       </mat-card-header>
@@ -180,10 +178,10 @@
     <mat-card class="settings-card danger-card">
       <mat-card-header>
         <div class="card-header-content">
-          <mat-card-title>
-            <i class="fa fa-exclamation-triangle card-icon"></i>
-            Danger Zone
-          </mat-card-title>
+          <div class="card-title">
+            <i class="fa fa-exclamation-triangle"></i>
+            <span class="heading-4">Danger Zone</span>
+          </div>
           <mat-card-subtitle>Irreversible actions - proceed with caution</mat-card-subtitle>
         </div>
       </mat-card-header>

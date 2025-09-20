@@ -30,6 +30,11 @@
       color: #333 !important;
     }
     
+    // Logo styling for light background (not logged in) - keep original colors
+    .logo-img {
+      filter: none;
+    }
+    
     .nav-link {
       color: #333 !important;
       
@@ -107,6 +112,10 @@
   width: 32px;
   height: 32px;
   object-fit: contain;
+  transition: filter 0.3s ease, opacity 0.3s ease;
+  
+  // Default styling for light theme with primary header
+  filter: brightness(0) saturate(100%) invert(100%);
 }
 
 .logo h2 {
