@@ -1,11 +1,45 @@
 .edit-profile {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
   gap: 50px;
+  padding: 2rem;
+  min-height: calc(100vh - 200px);
+  width: 100%;
+}
+
+.profile-picture {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.update-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 400px;
+  width: 100%;
+}
+
+.update-profile form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+.update-profile mat-form-field {
+  width: 100%;
 }
 
 img {
   height: 100%;
   width: 100%;
   border-radius: 50%;
+  object-fit: cover;
 }
 
 .hoverable {
@@ -16,6 +50,7 @@ img {
   width: 200px;
   border: 2px solid gainsboro;
   border-radius: 50%;
+  overflow: hidden;
 }
 
 .hoverable .hover-text {
@@ -52,10 +87,44 @@ img {
   display: none;
 }
 
-@media (max-width: 546px) {
+// Mobile responsiveness
+@media (max-width: 768px) {
   .edit-profile {
     flex-direction: column;
-    gap: 10px;
-    padding: 18rem 0;
+    align-items: center;
+    gap: 2rem;
+    padding: 1rem;
+  }
+  
+  .hoverable {
+    height: 150px;
+    width: 150px;
+  }
+  
+  .update-profile {
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+// Small mobile devices
+@media (max-width: 480px) {
+  .edit-profile {
+    gap: 1.5rem;
+    padding: 0.75rem;
+  }
+  
+  .hoverable {
+    height: 120px;
+    width: 120px;
+  }
+  
+  .update-profile form {
+    gap: 0.75rem;
+  }
+  
+  .profile-picture button {
+    width: 100%;
+    max-width: 200px;
   }
 }

@@ -10,9 +10,9 @@ export class FinancialOverviewComponent implements OnInit, OnChanges, AfterViewI
   @Input() income: number = 0;
   @Input() expense: number = 0;
   @Input() currency: any = { symbol: '$' };
-  
+
   @ViewChild('chartContainer', { static: true }) chartContainer!: ElementRef;
-  
+
   private chart: Highcharts.Chart | null = null;
 
   ngOnInit(): void {
@@ -43,7 +43,7 @@ export class FinancialOverviewComponent implements OnInit, OnChanges, AfterViewI
         text: `Net Balance<br>${this.currency.symbol}${this.balance.toLocaleString()}`,
         y: this.getTitleYPosition()
       });
-      
+
       // Update chart center and data label positioning
       this.chart.update({
         plotOptions: {
@@ -55,7 +55,7 @@ export class FinancialOverviewComponent implements OnInit, OnChanges, AfterViewI
           }
         }
       });
-      
+
       // Trigger chart reflow to handle size changes
       this.chart.reflow();
     }
@@ -153,14 +153,9 @@ export class FinancialOverviewComponent implements OnInit, OnChanges, AfterViewI
           dataLabels: {
             enabled: true,
             distance: this.getDataLabelDistance(),
-            formatter: function() {
+            formatter: function () {
               const point = this.point as any;
-              // Use responsive font size based on screen width
-              const fontSize = window.innerWidth <= 480 ? '0.7rem' : 
-                              window.innerWidth <= 768 ? '0.8rem' : '0.9rem';
-              return `<span style="font-size: ${fontSize}; font-weight: bold; color: white;">
-                ${point.currency}${this.y?.toLocaleString()}
-              </span>`;
+              return `${point.currency}${this.y?.toLocaleString()}`;
             },
             useHTML: true
           },
@@ -172,7 +167,7 @@ export class FinancialOverviewComponent implements OnInit, OnChanges, AfterViewI
           borderWidth: 0,
           animation: false,
           tooltip: {
-            pointFormatter: function() {
+            pointFormatter: function () {
               const point = this as any;
               return `${point.currency}${this.y?.toLocaleString()}`;
             }

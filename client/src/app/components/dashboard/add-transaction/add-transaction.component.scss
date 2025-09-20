@@ -26,3 +26,108 @@
 ::ng-deep .mdc-dialog__header + .mdc-dialog__content {
   padding-top: 5px !important;
 }
+
+// Voice Input Styles
+.voice-input-section {
+  margin-bottom: 20px;
+  
+  .voice-input-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    
+    .voice-button {
+      transition: all 0.3s ease;
+      
+      &.listening {
+        animation: pulse 1.5s infinite;
+      }
+      
+      i.fa {
+        font-size: 20px;
+      }
+      
+      mat-icon {
+        font-size: 24px;
+      }
+    }
+    
+    .voice-instructions {
+      text-align: center;
+      color: var(--mat-sys-on-surface-variant);
+      max-width: 400px;
+    }
+    
+    .listening-indicator {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      color: var(--mat-sys-primary);
+      
+      mat-spinner {
+        margin: 0;
+      }
+      
+      .dots {
+        animation: blink 1.5s infinite;
+      }
+    }
+    
+    .listening-message {
+      margin: 10px auto;
+      text-align: center;
+      color: var(--mat-sys-on-surface-variant);
+      max-width: 300px;
+    }
+    
+    .live-transcript {
+      margin: 15px auto;
+      padding: 15px;
+      background-color: var(--mat-sys-surface-variant);
+      border-radius: 8px;
+      border-left: 4px solid var(--mat-sys-primary);
+      min-height: 30px;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      
+      .live-text {
+        color: var(--mat-sys-on-surface);
+        font-style: italic;
+        font-size: 16px;
+        font-weight: 500;
+      }
+    }
+  }
+  
+  .voice-divider {
+    margin: 20px 0;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes blink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0.3;
+  }
+}

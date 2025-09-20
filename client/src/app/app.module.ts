@@ -23,6 +23,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -112,6 +113,7 @@ import { FinancialOverviewComponent } from './components/dashboard/financial-ove
     MatAutocompleteModule,
     MatTooltipModule,
     MatProgressSpinnerModule,
+    MatDividerModule,
     MatToolbarModule,
     ScrollingModule,
     FullCalendarModule,

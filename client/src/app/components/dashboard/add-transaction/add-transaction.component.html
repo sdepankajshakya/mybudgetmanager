@@ -1,5 +1,52 @@
 <h2 mat-dialog-title class="heading-2">{{isEditTransaction? 'Edit transaction' : 'Add transaction'}}</h2>
 <mat-dialog-content>
+  
+  <!-- Voice Input Section -->
+  <div class="voice-input-section" *ngIf="!isEditTransaction">
+    <div class="voice-input-controls">
+      <button 
+        mat-fab 
+        color="primary" 
+        (click)="startVoiceInput()" 
+        [disabled]="isListening"
+        matTooltip="Click to speak your transaction"
+        class="voice-button"
+        *ngIf="!isListening">
+        <i class="fa fa-microphone"></i>
+      </button>
+      
+      <button 
+        mat-fab 
+        color="warn" 
+        (click)="stopVoiceInput()" 
+        *ngIf="isListening"
+        class="voice-button listening">
+        <i class="fa fa-microphone"></i>
+      </button>
+      
+      <div class="voice-instructions" *ngIf="!isListening">
+        <span class="body-small">Try saying: "Spent 50 dollars on groceries yesterday" or "Paid 25 for coffee last Monday using credit card"</span>
+      </div>
+      
+      <div class="listening-indicator" *ngIf="isListening">
+        <mat-spinner diameter="20"></mat-spinner>
+        <span class="body-normal">Listening<span class="dots">...</span></span>
+      </div>
+      
+      <!-- Live Transcript - Show outside the listening indicator for better visibility -->
+      <div class="live-transcript" *ngIf="isListening && liveTranscript">
+        <span class="live-text">"{{liveTranscript}}"</span>
+      </div>
+      
+      <!-- Fallback message when no live transcript is available -->
+      <div class="listening-message" *ngIf="isListening && !liveTranscript">
+        <span class="body-small">Speak now... Your transaction will be processed automatically</span>
+      </div>
+    </div>
+    
+    <mat-divider class="voice-divider"></mat-divider>
+  </div>
+
   <form class="add-transaction-form" [formGroup]="addTransactionForm" (ngSubmit)="newTransaction()">
     <mat-form-field appearance="outline">
       <mat-label>Category</mat-label>

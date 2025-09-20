@@ -162,7 +162,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       // When loading completes, ensure calendar renders properly
       if (!value && this.fullCalendar) {
         setTimeout(() => {
-          this.fullCalendar.getApi().render();
+          this.fullCalendar?.getApi().render();
         }, 100);
       }
     });
@@ -418,7 +418,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       // loop through the keys and create a calendar event
       for (const [key, value] of transDebitMap.entries()) {
         let transactionEvent = {
-          title: `-${this.currency.symbol}${formatNumber(value, this.userLocale)}`,
+          title: `-${formatNumber(value, this.userLocale)}`,
           textColor: '#FF3131',
           date: key, // calender event accepts date in the iso format yyyy-mm-dd
         };
@@ -442,7 +442,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       // loop through the keys and create a calendar event
       for (const [key, value] of transCreditMap.entries()) {
         let transactionEvent = {
-          title: '+' + this.currency.symbol + formatNumber(value, this.userLocale),
+          title: `+${formatNumber(value, this.userLocale)}`,
           color: '#FFF',
           textColor: '#32CD32',
           date: key,

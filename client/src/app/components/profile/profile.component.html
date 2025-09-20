@@ -1,7 +1,7 @@
-<main class="edit-profile flexRowCenter centered">
+<main class="edit-profile" aria-label="Profile page">
     <section class="profile-picture" aria-label="Profile picture section">
         <label class="hoverable" for="fileInput" aria-label="Upload profile picture">
-            <img [src]="url ? url : '/assets/images/-profile.png'" alt="Profile picture">
+            <img [src]="url ? url : '/assets/images/blank-profile.png'" alt="Profile picture">
             <div class="hover-text">Choose file</div>
             <div class="background"></div>
         </label>
@@ -10,7 +10,7 @@
         <button mat-raised-button color="warn" *ngIf="url" (click)="delete()" aria-label="Remove current profile picture">Remove</button>
     </section>
 
-    <section class="update-profile flexColCenter" aria-label="Profile information form">
+    <section class="update-profile" aria-label="Profile information form">
         <form aria-label="Update profile form">
             <mat-form-field appearance="outline">
                 <mat-label>First Name</mat-label>
