@@ -10,9 +10,9 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FileSaverService } from 'ngx-filesaver';
 
 import { SnackbarService } from 'src/app/services/snackbar.service';
-import { Category } from 'src/app/models/Category';
-import { PaymentMode } from 'src/app/models/PaymentMode';
-import { Settings } from 'src/app/models/Settings';
+import { Category } from '../../models/Category';
+import { PaymentMode } from '../../models/PaymentMode';
+import { Settings } from '../../models/Settings';
 import { MessageService } from 'src/app/services/message.service';
 import { SettingsService } from 'src/app/services/settings.service';
 import { SharedService } from 'src/app/services/shared.service';

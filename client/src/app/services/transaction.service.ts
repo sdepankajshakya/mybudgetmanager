@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { config } from '../configuration/config';
-import { Transaction } from 'src/app/models/Transaction';
+import { Transaction } from '../models/Transaction';
 import { map } from 'rxjs/operators';
 import { SharedService } from './shared.service';
 import { formatNumber } from '@angular/common';

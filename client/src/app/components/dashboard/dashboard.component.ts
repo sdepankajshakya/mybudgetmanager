@@ -16,7 +16,7 @@ import { MessageService } from 'src/app/services/message.service';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { AddTransactionComponent } from './add-transaction/add-transaction.component';
 import { FilterModalComponent } from './filter-modal/filter-modal.component';
-import { Transaction } from 'src/app/models/Transaction';
+import { Transaction } from '../../models/Transaction';
 
 import * as Highcharts from 'highcharts';
 
@@ -29,11 +29,11 @@ import listPlugin from '@fullcalendar/list';
 import { SharedService } from 'src/app/services/shared.service';
 import { SettingsService } from 'src/app/services/settings.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
-import { Category } from 'src/app/models/Category';
+import { Category } from '../../models/Category';
 import { fade } from 'src/app/shared/animations';
-import { PaymentMode } from 'src/app/models/PaymentMode';
+import { PaymentMode } from '../../models/PaymentMode';
 // Removed flipState animation utilities
-import { DateRangeResponse } from 'src/app/models/DateRangeResonse';
+import { DateRangeResponse } from '../../models/DateRangeResonse';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 

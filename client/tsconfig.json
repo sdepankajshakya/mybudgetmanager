@@ -3,9 +3,6 @@
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./",
-     "paths": {
-      "src/*": ["src/*"]
-    },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
@@ -26,7 +23,7 @@
   },
   "include": [
     "src/**/*.ts",
-    "src/app/models/google-signin.d.ts"
+    "../../models/google-signin.d.ts"
   ],
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
@@ -39,6 +36,6 @@
         "nullishCoalescingNotNullable": "warning"
       },
       "defaultCategory": "suppress"
-    },
+    }
   }
 }

@@ -9,7 +9,7 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 import { ErrorHandlerComponent } from '../error-handler/error-handler.component';
 
 import { ThemePalette } from '@angular/material/core';
-import { LoginResponse } from 'src/app/models/LoginResponse';
+import { LoginResponse } from '../../models/LoginResponse';
 import { MessageService } from 'src/app/services/message.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';

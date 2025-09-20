@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { UntypedFormGroup, UntypedFormControl, Validators, Form } from '@angular/forms';
 
-import { Transaction } from 'src/app/models/Transaction';
+import { Transaction } from '../../../models/Transaction';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { ErrorHandlerComponent } from '../../error-handler/error-handler.component';
 
@@ -11,7 +11,7 @@ import { SharedService } from 'src/app/services/shared.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { TransactionParserService, ParsedTransaction, SpeechResult } from 'src/app/services/transaction-parser.service';
 import { Subscription } from 'rxjs';
-import { Category } from 'src/app/models/Category';
+import { Category } from '../../../models/Category';
 
 @Component({
   selector: 'app-add-transaction',
