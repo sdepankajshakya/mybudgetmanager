@@ -180,13 +180,14 @@ export class AddTransactionComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (result: SpeechResult) => {
           if (result.isFinal) {
-            // Final result - parse and auto-fill form
-            this.clearListeningState();
+            // Final result - store transcript but don't auto-process
             this.voiceInput = result.transcript;
+            this.liveTranscript = result.transcript; // Keep showing the final transcript
             
-            // Parse the transcript and automatically apply to form
+            // Parse the transcript but don't apply to form yet
             this.parsedResults = this.parserService.parseTransactionText(result.transcript, this.categories, this.paymentModesList);
-            this.autoApplyToForm();
+            
+            // Don't auto-apply - wait for user to manually stop
           } else {
             // Interim result - show live transcription
             this.liveTranscript = result.transcript;
@@ -206,7 +207,6 @@ export class AddTransactionComponent implements OnInit, OnDestroy {
     this.addTransactionForm.patchValue({
       category: null,
       amount: null,
-      date: new Date(),
       paymentMode: null,
       note: null
     });
@@ -226,6 +226,16 @@ export class AddTransactionComponent implements OnInit, OnDestroy {
 
   stopVoiceInput() {
     this.parserService.stopListening();
+    
+    // Process the voice input only when user manually stops
+    if (this.parsedResults && this.voiceInput) {
+      this.autoApplyToForm();
+    } else if (this.voiceInput) {
+      // If we have voice input but no parsed results, try to parse again
+      this.parsedResults = this.parserService.parseTransactionText(this.voiceInput, this.categories, this.paymentModesList);
+      this.autoApplyToForm();
+    }
+    
     this.clearListeningState();
   }
 

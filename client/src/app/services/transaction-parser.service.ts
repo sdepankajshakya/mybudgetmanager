@@ -248,6 +248,9 @@ export class TransactionParserService {
       }
     }
 
+    // Initialize note text early for processing
+    let noteText = text;
+
     // Parse Category (fuzzy matching against available categories)
     let matchedCategory = null;
     let categoryText = '';
@@ -258,6 +261,9 @@ export class TransactionParserService {
         parsed.category = matchedCategory.name;
         parsed.confidence += 0.2;
         categoryText = (matchedCategory.name && typeof matchedCategory.name === 'string') ? matchedCategory.name.toLowerCase() : '';
+        
+        // Also remove category indicators from the text for better note extraction
+        noteText = noteText.replace(/\b(category|cat)\s+(is|was|are|were)?\s*/gi, '');
       }
     }
 
@@ -272,6 +278,9 @@ export class TransactionParserService {
         parsed.paymentMode = matchedPaymentMode.name || matchedPaymentMode.type?.toString();
         parsed.confidence += 0.1;
         paymentModeText = (matchedPaymentMode.name && typeof matchedPaymentMode.name === 'string') ? matchedPaymentMode.name.toLowerCase() : '';
+        
+        // Remove payment mode indicators from note text
+        noteText = noteText.replace(/\b(mode of payment|payment mode|paid via|paid using|using|via)\s+(is|was|are|were)?\s*/gi, '');
       }
     }
     
@@ -304,51 +313,39 @@ export class TransactionParserService {
     }
 
     // Extract note with fallback logic
-    let noteText = text;
-    let unmatchedTerms: string[] = [];
     
     // Remove amount from note
     if (parsed.amount) {
       noteText = noteText.replace(/(\d+(?:\.\d{2})?)\s*(?:rupees?|dollars?|\$|₹|rs\.?)?/i, '');
     }
     
-    // Remove matched category from note, but add unmatched category-like terms to note
+    // Remove matched category from note
     if (parsed.category && categoryText) {
       noteText = noteText.replace(new RegExp(categoryText, 'i'), '');
-    } else {
-      // Look for potential category terms that weren't matched
-      const potentialCategories = this.extractPotentialCategories(lowerText);
-      unmatchedTerms.push(...potentialCategories);
     }
     
-    // Remove matched payment mode from note, but add unmatched payment-like terms to note
+    // Remove matched payment mode from note
     if (parsed.paymentMode && paymentModeText) {
       noteText = noteText.replace(new RegExp(paymentModeText, 'i'), '');
-    } else {
-      // Look for potential payment mode terms that weren't matched
-      const potentialPaymentModes = this.extractPotentialPaymentModes(lowerText);
-      unmatchedTerms.push(...potentialPaymentModes);
     }
     
     // Remove dates from note
     if (parsed.date) {
       noteText = noteText.replace(/\b(today|yesterday|\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4})\b/gi, '');
+      // Remove date-related phrases
+      noteText = noteText.replace(/\b(on|from|date|dated|day|days?\s+ago|weeks?\s+ago|last\s+\w+|this\s+\w+)\b/gi, '');
     }
     
-    // Clean up common words and extra spaces
+    // Remove field indicators and common transaction phrases
     noteText = noteText.replace(/\b(spent|paid|bought|for|on|via|using|with|the|a|an)\b/gi, '')
+                     .replace(/\b(mode of payment|payment mode|category|amount|rupees?|dollars?|rs\.?|\$|₹)\b/gi, '')
+                     .replace(/\b(is|was|were|are)\b/gi, '') // Remove linking verbs
                      .replace(/\s+/g, ' ')
                      .trim();
     
-    // Combine cleaned note with unmatched terms
-    const finalNoteTerms = [];
+    // Only use the cleaned note text if it has meaningful content
     if (noteText.length > 2) {
-      finalNoteTerms.push(noteText);
-    }
-    finalNoteTerms.push(...unmatchedTerms);
-    
-    if (finalNoteTerms.length > 0) {
-      parsed.note = finalNoteTerms.join(' ').trim();
+      parsed.note = noteText;
     }
 
     return parsed;
@@ -372,6 +369,14 @@ export class TransactionParserService {
         return category;
       }
       
+      // Check for plural/singular variations
+      const pluralVariations = this.generateWordVariations(categoryName);
+      for (const variation of pluralVariations) {
+        if (text.includes(variation)) {
+          return category;
+        }
+      }
+      
       // Partial match scoring
       const words = categoryName.split(' ');
       let score = 0;
@@ -379,6 +384,14 @@ export class TransactionParserService {
       for (const word of words) {
         if (word && text.includes(word)) {
           score += word.length;
+        }
+        
+        // Also check variations of each word
+        const wordVariations = this.generateWordVariations(word);
+        for (const variation of wordVariations) {
+          if (text.includes(variation)) {
+            score += word.length * 0.9; // Slightly lower score for variations
+          }
         }
       }
       
@@ -389,6 +402,29 @@ export class TransactionParserService {
     }
 
     return bestMatch;
+  }
+
+  private generateWordVariations(word: string): string[] {
+    const variations = [word];
+    
+    // Handle plural to singular
+    if (word.endsWith('ies')) {
+      variations.push(word.slice(0, -3) + 'y'); // groceries -> grocery
+    } else if (word.endsWith('es')) {
+      variations.push(word.slice(0, -2)); // clothes -> cloth
+    } else if (word.endsWith('s') && word.length > 3) {
+      variations.push(word.slice(0, -1)); // books -> book
+    }
+    
+    // Handle singular to plural
+    if (word.endsWith('y') && word.length > 2) {
+      variations.push(word.slice(0, -1) + 'ies'); // grocery -> groceries
+    } else if (!word.endsWith('s')) {
+      variations.push(word + 's'); // book -> books
+      variations.push(word + 'es'); // cloth -> clothes
+    }
+    
+    return variations;
   }
 
   private findBestPaymentModeMatch(text: string, paymentModes: any[]): any | null {
@@ -438,44 +474,5 @@ export class TransactionParserService {
     }
 
     return bestMatch;
-  }
-
-  private extractPotentialCategories(text: string): string[] {
-    const potentialCategories: string[] = [];
-    
-    // Common category-like words that might not be in the user's category list
-    const categoryKeywords = [
-      'food', 'groceries', 'shopping', 'transport', 'transportation', 'travel',
-      'entertainment', 'dining', 'restaurant', 'gas', 'fuel', 'clothes', 'clothing',
-      'medical', 'healthcare', 'medicine', 'bills', 'utilities', 'rent',
-      'education', 'books', 'coffee', 'snacks', 'movies', 'gym', 'fitness'
-    ];
-    
-    for (const keyword of categoryKeywords) {
-      if (text.includes(keyword)) {
-        potentialCategories.push(keyword);
-      }
-    }
-    
-    return potentialCategories;
-  }
-
-  private extractPotentialPaymentModes(text: string): string[] {
-    const potentialPaymentModes: string[] = [];
-    
-    // Common payment mode keywords that might not be in the user's payment mode list
-    const paymentKeywords = [
-      'cash', 'credit', 'debit', 'card', 'upi', 'gpay', 'paytm', 'phonepe',
-      'paypal', 'venmo', 'apple pay', 'google pay', 'online', 'bank transfer',
-      'check', 'cheque', 'wallet', 'bitcoin', 'crypto'
-    ];
-    
-    for (const keyword of paymentKeywords) {
-      if (text.includes(keyword)) {
-        potentialPaymentModes.push(keyword);
-      }
-    }
-    
-    return potentialPaymentModes;
   }
 }

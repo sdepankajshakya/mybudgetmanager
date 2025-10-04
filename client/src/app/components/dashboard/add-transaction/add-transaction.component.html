@@ -6,41 +6,26 @@
     <div class="voice-input-controls">
       <button 
         mat-fab 
-        color="primary" 
-        (click)="startVoiceInput()" 
-        [disabled]="isListening"
-        matTooltip="Click to speak your transaction"
+        [color]="isListening ? 'warn' : 'primary'"
+        (click)="isListening ? stopVoiceInput() : startVoiceInput()" 
+        [matTooltip]="isListening ? 'Tap to stop' : 'Tap to speak'"
         class="voice-button"
-        *ngIf="!isListening">
-        <i class="fa fa-microphone"></i>
-      </button>
-      
-      <button 
-        mat-fab 
-        color="warn" 
-        (click)="stopVoiceInput()" 
-        *ngIf="isListening"
-        class="voice-button listening">
+        [class.listening]="isListening">
         <i class="fa fa-microphone"></i>
       </button>
       
       <div class="voice-instructions" *ngIf="!isListening">
-        <span class="body-small">Try saying: "Spent 50 dollars on groceries yesterday" or "Paid 25 for coffee last Monday using credit card"</span>
+        <span class="body-small">Tap to speak</span>
       </div>
       
       <div class="listening-indicator" *ngIf="isListening">
-        <mat-spinner diameter="20"></mat-spinner>
-        <span class="body-normal">Listening<span class="dots">...</span></span>
+        <mat-spinner diameter="16"></mat-spinner>
+        <span class="body-small">Listening... Tap again to stop</span>
       </div>
       
-      <!-- Live Transcript - Show outside the listening indicator for better visibility -->
+      <!-- Live Transcript -->
       <div class="live-transcript" *ngIf="isListening && liveTranscript">
         <span class="live-text">"{{liveTranscript}}"</span>
-      </div>
-      
-      <!-- Fallback message when no live transcript is available -->
-      <div class="listening-message" *ngIf="isListening && !liveTranscript">
-        <span class="body-small">Speak now... Your transaction will be processed automatically</span>
       </div>
     </div>
     
