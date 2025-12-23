@@ -22,7 +22,7 @@ app.use(bodyParser.json());
 
 // Allow requests from localhost
 app.use(cors({
-  origin: ['http://localhost:4200', 'https://mybudgetmanager.up.railway.app'],
+  origin: ['http://localhost:4200', 'https://mybudgetmanager-c2ae.onrender.com/login'],
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }));
 
