@@ -142,8 +142,17 @@ export class FinancialOverviewComponent implements OnInit, OnChanges, AfterViewI
         y: this.getTitleYPosition(),
       },
       tooltip: {
-        pointFormat: '<b>{point.name}</b><br>Amount: <b>{series.chart.options.plotOptions.pie.tooltip.pointFormatter}</b><br>Percentage: <b>{point.percentage:.1f}%</b>',
-        animation: false
+        useHTML: true,
+        formatter: function () {
+          const point = (this as Highcharts.Point);
+          const currency = (point.options as any).currency;
+
+          return `
+            <b>${point.name}</b><br>
+            Amount: <b>${currency}${point.y?.toLocaleString()}</b><br>
+            Percentage: <b>${this.percentage?.toFixed(1)}%</b>
+          `;
+        }
       },
       accessibility: {
         enabled: false
@@ -154,8 +163,10 @@ export class FinancialOverviewComponent implements OnInit, OnChanges, AfterViewI
             enabled: true,
             distance: this.getDataLabelDistance(),
             formatter: function () {
-              const point = this.points as any;
-              return `${point.currency}${this.y?.toLocaleString()}`;
+              const point = (this as Highcharts.Point);
+              const y = point.y;
+              const currency = (point.options as any).currency;
+              return `${currency}${y?.toLocaleString()}`;
             },
             useHTML: true
           },
@@ -210,7 +221,7 @@ export class FinancialOverviewComponent implements OnInit, OnChanges, AfterViewI
             currency: this.currency.symbol
           } as any
         ],
-        animation: false
+        animation: true
       }]
     };
 
