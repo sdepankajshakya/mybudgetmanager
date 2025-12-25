@@ -1,0 +1,468 @@
+// global reset
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.mg-10 {
+  margin: 10px;
+}
+
+.mg-t5 {
+  margin-top: 5px;
+}
+
+.mg-t10 {
+  margin-top: 10px;
+}
+
+.mg-t15 {
+  margin-top: 15px;
+}
+
+.mg-t20 {
+  margin-top: 20px;
+}
+
+.mg-l5 {
+  margin-left: 5px;
+}
+
+.mg-l10 {
+  margin-left: 10px;
+}
+
+.mg-r10 {
+  margin-right: 10px;
+}
+
+.mg-b0 {
+  margin-bottom: 0;
+}
+
+.mg-b10 {
+  margin-bottom: 10px;
+}
+
+.mg-b20 {
+  margin-bottom: 20px;
+}
+
+.mg-lr10 {
+  margin: 0 10px;
+}
+
+.pd-10 {
+  padding: 10px;
+}
+
+.pd-t10 {
+  padding-top: 10px;
+}
+
+.pd-tr10 {
+  padding: 10px 10px 0 0;
+}
+
+.pd-t20 {
+  padding-top: 20px;
+}
+
+.pd-b10 {
+  padding-bottom: 10px;
+}
+
+.pd-b20 {
+  padding-bottom: 20px;
+}
+
+.pd-b30 {
+  padding-bottom: 30px;
+}
+
+.pd-r10 {
+  padding-right: 10px;
+}
+
+.pd-l40 {
+  padding-left: 40px;
+}
+
+.pd-tb20 {
+  padding: 20px 0 20px 0;
+}
+
+/* Modern Typography Scale - Optimized for desktop */
+:root {
+  --font-size-xs: clamp(0.7rem, 0.5rem + 0.3vw, 0.75rem);      /* 11-12px */
+  --font-size-sm: clamp(0.8rem, 0.6rem + 0.3vw, 0.85rem);      /* 13-14px */
+  --font-size-base: clamp(0.9rem, 0.7rem + 0.4vw, 1rem);       /* 14-16px */
+  --font-size-md: clamp(1rem, 0.8rem + 0.4vw, 1.125rem);       /* 16-18px */
+  --font-size-lg: clamp(1.1rem, 0.9rem + 0.5vw, 1.25rem);      /* 18-20px */
+  --font-size-xl: clamp(1.25rem, 1rem + 0.6vw, 1.5rem);        /* 20-24px */
+  --font-size-2xl: clamp(1.5rem, 1.2rem + 0.8vw, 1.875rem);    /* 24-30px */
+  --font-size-3xl: clamp(1.875rem, 1.4rem + 1.2vw, 2.5rem);    /* 30-40px */
+  
+  /* Line heights for optimal readability */
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+  
+  /* Font weights */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  
+  /* Container and Layout Variables */
+  --container-max-width: 1200px;
+  --container-padding-desktop: 2rem;
+  --container-padding-tablet: 1rem;
+  --container-padding-mobile: 1rem;
+}
+
+/* Semantic heading classes */
+.heading-1 {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  letter-spacing: -0.025em;
+}
+
+.heading-2 {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  letter-spacing: -0.015em;
+}
+
+.heading-3 {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+}
+
+.heading-4 {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-normal);
+}
+
+/* Body text variants */
+.body-large {
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-relaxed);
+  font-weight: var(--font-weight-normal);
+}
+
+.body-normal {
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-normal);
+  font-weight: var(--font-weight-normal);
+}
+
+.body-small {
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
+  font-weight: var(--font-weight-normal);
+}
+
+/* Display text for large numbers/amounts */
+.display-large {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  letter-spacing: -0.025em;
+}
+
+.display-medium {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+}
+
+.display-small {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-tight);
+}
+
+/* Caption and helper text */
+.caption {
+  font-size: var(--font-size-xs);
+  line-height: var(--line-height-normal);
+  font-weight: var(--font-weight-normal);
+  color: var(--text-tertiary);
+}
+
+/* Container Utility Classes */
+.container {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: 0 var(--container-padding-desktop);
+  
+  @media (max-width: 768px) {
+    padding: 0 var(--container-padding-tablet);
+  }
+  
+  @media (max-width: 480px) {
+    padding: 0 var(--container-padding-mobile);
+  }
+}
+
+.page-container {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: var(--container-padding-desktop);
+  
+  @media (max-width: 768px) {
+    padding: var(--container-padding-desktop) var(--container-padding-tablet);
+  }
+  
+  @media (max-width: 480px) {
+    padding: var(--container-padding-tablet) var(--container-padding-mobile);
+  }
+}
+
+/* Gradient Text Effect */
+.gradient-text {
+  background: linear-gradient(135deg, var(--primary-color, #ff9800), #ff5722);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Common title classes for cards and settings */
+.card-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  color: var(--text-primary);
+  
+  .heading-4 {
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--text-primary, #1a1a1a);
+    letter-spacing: -0.01em;
+  }
+  
+  i {
+    font-size: 18px;
+    color: var(--text-secondary, #666666);
+    width: 20px;
+    text-align: center;
+  }
+}
+
+.card-subtitle {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+  color: var(--text-tertiary);
+  margin: 0 0 16px 0;
+}
+
+.section-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  color: var(--text-primary);
+  margin: 0 0 16px 0;
+}
+
+/* Legacy classes for backward compatibility - gradually being replaced */
+.text-14 {
+  font-size: var(--font-size-sm);
+}
+
+.text-16 {
+  font-size: var(--font-size-base);
+}
+
+.text-18 {
+  font-size: var(--font-size-md);
+}
+
+.text-20 {
+  font-size: var(--font-size-lg);
+}
+
+.text-25 {
+  font-size: var(--font-size-xl);
+}
+
+.text-35 {
+  font-size: var(--font-size-2xl);
+}
+
+.primary-color {
+  color: #f2b341;
+}
+
+.warn-color {
+  color: red;
+}
+
+.dataNotAvailable {
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: var(--font-size-md);
+  color: var(--text-tertiary);
+  margin-top: 20px;
+  text-align: center;
+  line-height: var(--line-height-normal);
+}
+
+.centered {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.align-right {
+  position: absolute !important;
+  right: 10px;
+  top: 15px;
+  z-index: 1;
+}
+
+.text-truction {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.flex {
+  display: flex;
+}
+
+.flexStart {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.flexEnd {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.flexColCenter {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.flexCol {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.flexRowCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+input.numberic-text::-webkit-outer-spin-button,
+input.numberic-text::-webkit-inner-spin-button {
+  display: none;
+}
+
+input.numberic-text {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+// fullcalendar
+.fc .fc-col-header-cell-cushion {
+  color: #000;
+}
+
+.fc .fc-daygrid-day-number {
+  color: #000;
+}
+
+.fc .fc-toolbar-title {
+  color: #000;
+}
+
+// Material UI overrides
+.mat-mdc-card {
+  overflow: hidden !important;
+  padding: 16px !important;
+}
+
+.mat-list-base .mat-list-item .mat-list-item-content {
+  justify-content: space-between !important;
+}
+
+// Utility classes
+.word-break {
+  word-break: break-all;
+}
+
+.text-overflow {
+  text-overflow: ellipsis;
+  width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.text-truction {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.box-shadow {
+  -webkit-box-shadow: 10px 10px 10px -7px rgba(0, 0, 0, 0.33);
+  -moz-box-shadow: 10px 10px 10px -7px rgba(0, 0, 0, 0.33);
+  box-shadow: 10px 10px 10px -7px rgba(0, 0, 0, 0.33);
+}
+
+.backdrop {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  background-color: rgb(0, 0, 0, 0.2);
+}
+
+// Reusable icon button component
+.icon-btn {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .fa {
+    color: inherit;
+  }
+}
