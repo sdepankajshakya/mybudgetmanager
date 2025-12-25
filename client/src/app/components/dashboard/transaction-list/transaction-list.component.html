@@ -1,4 +1,4 @@
-<cdk-virtual-scroll-viewport [itemSize]="70">
+<cdk-virtual-scroll-viewport [itemSize]="90">
   <div *cdkVirtualFor="let transaction of transactions" class="transaction-item">
     <div class="transaction-content">
       <img class="category-icon" [src]="getCategoryIcon(transaction.category.name!)" alt="icon" />
