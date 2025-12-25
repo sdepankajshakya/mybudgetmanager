@@ -154,7 +154,7 @@ export class FinancialOverviewComponent implements OnInit, OnChanges, AfterViewI
             enabled: true,
             distance: this.getDataLabelDistance(),
             formatter: function () {
-              const point = this.point as any;
+              const point = this.points as any;
               return `${point.currency}${this.y?.toLocaleString()}`;
             },
             useHTML: true
