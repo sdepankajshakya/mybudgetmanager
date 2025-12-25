@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { config } from '../configuration/config';
 import { tap } from 'rxjs/operators';
-import { Resolve } from '@angular/router';
+
 import { MessageService } from './message.service';
 import { Settings } from '../models/Settings';
 import { Category } from '../models/Category';
@@ -13,7 +13,7 @@ import { PaymentMode } from '../models/PaymentMode';
 @Injectable({
   providedIn: 'root',
 })
-export class SettingsService implements Resolve<any> {
+export class SettingsService  {
   constructor(
     private http: HttpClient,
     private messageService: MessageService
