@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators, Form } from '@angular/forms';
+import { FormGroup, FormControl, Validators, Form } from '@angular/forms';
 
 import { Transaction } from '../../../models/Transaction';
 import { TransactionService } from 'src/app/services/transaction.service';
@@ -46,7 +46,7 @@ export class AddTransactionComponent implements OnInit, OnDestroy {
 
   categories: Category[] = [];
   isEditTransaction: boolean = false;
-  addTransactionForm: any;
+  addTransactionForm!: FormGroup;
   paymentModesList: any;
   transactionDetails: Transaction | null = null;
   
@@ -61,13 +61,13 @@ export class AddTransactionComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.categories = this.sharedService.getItemFromLocalStorage('categories');
 
-    this.addTransactionForm = new UntypedFormGroup({
-      _id: new UntypedFormControl(null),
-      category: new UntypedFormControl(null),
-      amount: new UntypedFormControl(null, Validators.required),
-      date: new UntypedFormControl(new Date(), Validators.required),
-      paymentMode: new UntypedFormControl(null),
-      note: new UntypedFormControl(null),
+    this.addTransactionForm = new FormGroup({
+      _id: new FormControl<string | null>(null),
+      category: new FormControl<any>(null),
+      amount: new FormControl<number | null>(null, Validators.required),
+      date: new FormControl<Date | string>(new Date(), Validators.required),
+      paymentMode: new FormControl<any>(null),
+      note: new FormControl<string | null>(null),
     });
     
     if (this.transactionDetails) {
@@ -113,7 +113,7 @@ export class AddTransactionComponent implements OnInit, OnDestroy {
   }
 
   newTransaction() {
-    let transDate = this.addTransactionForm.get('date')!.value;
+    let transDate = this.addTransactionForm.get('date')!.value as Date;
     // converting single digit date and month to double digits because fullCalendar accepts 2 digits
     let date = ('0' + transDate.getDate()).slice(-2);
     let month = ('0' + (transDate.getMonth() + 1)).slice(-2);

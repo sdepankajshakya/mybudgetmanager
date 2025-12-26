@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { User } from 'src/app/models/User';
 import { SettingsService } from 'src/app/services/settings.service';
@@ -13,13 +13,18 @@ import { SharedService } from 'src/app/services/shared.service';
 export class ContactUsComponent implements OnInit {
 
   constructor(
-    private sharedService: SharedService, 
-    private settingsService: SettingsService, 
+    private sharedService: SharedService,
+    private settingsService: SettingsService,
     private fb: UntypedFormBuilder,
     private snackbar: SnackbarService) { }
 
   currentUser!: User;
-  contactUsForm!: UntypedFormGroup;
+  contactUsForm!: FormGroup<{
+    firstName: FormControl<string>;
+    lastName: FormControl<string>;
+    email: FormControl<string>;
+    message: FormControl<string>;
+  }>;
   messageSent: boolean = false;
   contactedUs: boolean = false;
 
@@ -31,10 +36,10 @@ export class ContactUsComponent implements OnInit {
     }
 
     this.contactUsForm = this.fb.group({
-      firstName: new UntypedFormControl(this.currentUser ? this.currentUser.firstName: ''),
-      lastName: new UntypedFormControl(this.currentUser ? this.currentUser.lastName: ''),
-      email: new UntypedFormControl(this.currentUser ? this.currentUser.email : '', Validators.required),
-      message: new UntypedFormControl('', Validators.required),
+      firstName: new FormControl<string>(this.currentUser ? this.currentUser.firstName : ''),
+      lastName: new FormControl<string>(this.currentUser ? this.currentUser.lastName : ''),
+      email: new FormControl<string>(this.currentUser ? this.currentUser.email : '', Validators.required),
+      message: new FormControl<string>('', Validators.required),
     });
   }
 

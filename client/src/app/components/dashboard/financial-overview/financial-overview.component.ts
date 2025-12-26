@@ -142,17 +142,8 @@ export class FinancialOverviewComponent implements OnInit, OnChanges, AfterViewI
         y: this.getTitleYPosition(),
       },
       tooltip: {
-        useHTML: true,
-        formatter: function () {
-          const point = (this as Highcharts.Point);
-          const currency = (point.options as any).currency;
-
-          return `
-            <b>${point.name}</b><br>
-            Amount: <b>${currency}${point.y?.toLocaleString()}</b><br>
-            Percentage: <b>${this.percentage?.toFixed(1)}%</b>
-          `;
-        }
+        pointFormat: '<b>{point.name}</b><br>Amount: <b>{series.chart.options.plotOptions.pie.tooltip.pointFormatter}</b><br>Percentage: <b>{point.percentage:.1f}%</b>',
+        animation: false
       },
       accessibility: {
         enabled: false
