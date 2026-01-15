@@ -143,7 +143,10 @@ $dark-theme: mat.define-dark-theme((color: (primary: $blue-palette,
     ));
 
 // Include only the base Material styles with orange as default theme
-@include mat.core-theme($orange-theme);
+// @include mat.core-theme($orange-theme);
+
+// Apply default orange theme to all Material components
+@include mat.all-component-themes($orange-theme);
 
 // Light theme classes - Angular Material component theming
 .theme-blue {

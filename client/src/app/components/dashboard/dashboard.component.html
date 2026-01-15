@@ -6,7 +6,7 @@
 
   <!--Welcome/Empty State-->
   <section class="welcome centered" *ngIf="showWelcome">
-    <h1 class="heading-1">Welcome! <strong>{{ currentUser.firstName ? currentUser.firstName : currentUser.email }}</strong></h1>
+    <h1 class="heading-2">Welcome! <strong>{{ currentUser.firstName ? currentUser.firstName : currentUser.email }}</strong></h1>
     <p class="body-large">Manage all your finances in simplest way</p>
     <div class="welcome-actions">
       <button mat-raised-button color="primary" (click)="openAddTransactionModal()">

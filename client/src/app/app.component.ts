@@ -115,6 +115,11 @@ export class AppComponent implements AfterViewChecked, OnDestroy {
   ngOnInit() {
     const userLocale = navigator.languages && navigator.languages.length ? navigator.languages[0] : navigator.language;
     this.sharedService.setItemToLocalStorage('userLocale', userLocale);
+
+    // Show loader immediately if logged in
+    if (this.isLoggedIn) {
+      this.messageService.setIsLoading(true);
+    }
     
     // Load theme if user is already logged in
     if (this.isLoggedIn) {

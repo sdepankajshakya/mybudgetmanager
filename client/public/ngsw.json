@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1768476486573,
+  "timestamp": 1768488886547,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -13,10 +13,10 @@
       "urls": [
         "/favicon.ico",
         "/index.html",
-        "/main.702d9014db53868c.js",
+        "/main.66d33b61a516a6bd.js",
         "/polyfills.eca96af4468e89c3.js",
         "/runtime.ed5aea0510b3d052.js",
-        "/styles.ad6cb344a5436bd0.css"
+        "/styles.15424a3a4864f28f.css"
       ],
       "patterns": []
     },
@@ -58,6 +58,7 @@
         "/assets/images/categories/computer.png",
         "/assets/images/categories/corrupt.png",
         "/assets/images/categories/cosmetics.png",
+        "/assets/images/categories/couple.png",
         "/assets/images/categories/credit.png",
         "/assets/images/categories/diet.png",
         "/assets/images/categories/education.png",
@@ -172,6 +173,7 @@
     "/assets/images/categories/computer.png": "190a8fd1d46a4d2b69f4c2fb75ddec016e4b080e",
     "/assets/images/categories/corrupt.png": "4a8f9c5feae4a0539337d761029ca74bb2bf8616",
     "/assets/images/categories/cosmetics.png": "fa7d1b8c241a5313fff6a93fcbf32990295a9fd0",
+    "/assets/images/categories/couple.png": "f9a3acadb569b00ae7e87f77c29dccdafcfbd229",
     "/assets/images/categories/credit.png": "cb699c55842bb47e91e186549486de97d438a2b5",
     "/assets/images/categories/diet.png": "a4da48ff0aa452dc948afb17e8147d485cd965e8",
     "/assets/images/categories/education.png": "68288d73ab0cd65c51132d68eb23ffcf56184468",
@@ -251,11 +253,11 @@
     "/assets/scss/global.scss": "2bb8ba854c5ed5d904894953c93d1210a08e3949",
     "/assets/scss/themes.scss": "de9ce341a8df3c7ace7ef40921a3b1093ffd39e5",
     "/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
-    "/index.html": "29c459ff95a1136b9bab9ae60bb3f2f91514b4f1",
-    "/main.702d9014db53868c.js": "d97944d5b9f9f15f0094311f7ddbc176050a9b97",
+    "/index.html": "4d3110bae7fef3bbb4c2db8569e86086b4827182",
+    "/main.66d33b61a516a6bd.js": "44e553061c29655eae9e6246105e77849cd44e78",
     "/polyfills.eca96af4468e89c3.js": "fb182278b0b596f81f51e4571c30a57cefcce15f",
     "/runtime.ed5aea0510b3d052.js": "9472621f6e10d081f2312ece37cc90f8438667ef",
-    "/styles.ad6cb344a5436bd0.css": "6d6781a89dab900bc009832f46e1523c4a1f209f"
+    "/styles.15424a3a4864f28f.css": "e13b6576e2825edf53d28f4f5068103215fdb89a"
   },
   "navigationUrls": [
     {
