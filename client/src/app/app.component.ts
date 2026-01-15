@@ -37,16 +37,6 @@ export class AppComponent implements AfterViewChecked, OnDestroy {
     private swUpdate: SwUpdate,
     @Inject(LOCALE_ID) private locale: string
   ) {
-    // Hide the initial HTML loader once Angular is ready
-    setTimeout(() => {
-      const loader = document.getElementById('app-loader');
-      if (loader) {
-        loader.classList.add('hidden');
-      }
-    }, 100);
-    
-    // Don't initialize theme here - wait for settings to load
-    
     if (this.swUpdate.isEnabled) {
       this.swUpdate.versionUpdates.subscribe(event => {
         if (event.type === 'VERSION_READY') {
@@ -111,6 +101,14 @@ export class AppComponent implements AfterViewChecked, OnDestroy {
 
     this.isLoadingSubcription = this.messageService.isLoading$.subscribe(value => {
       this.isLoading = value;
+      
+      // Hide HTML loader when first API call completes
+      if (!value) {
+        const loader = document.getElementById('app-loader');
+        if (loader) {
+          loader.classList.add('hidden');
+        }
+      }
     })
   }
   
