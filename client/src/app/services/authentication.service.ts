@@ -95,11 +95,17 @@ export class AuthenticationService {
 
     this.http
       .post<any>(config.apiBaseUrl + config.urls.onGoogleSignIn, { token })
-      .subscribe((res) => {
-        this.saveTokenInLocalStorage(res),
-        this.setLoginStatus(true);
-        this.router.navigate(['dashboard']);
-      })
+      .subscribe(
+        (res) => {
+          this.saveTokenInLocalStorage(res);
+          this.setLoginStatus(true);
+          this.router.navigate(['dashboard']);
+        },
+        (err) => {
+          console.error('Google sign-in error:', err);
+          this.messageService.setIsLoading(false);
+        }
+      );
   }
 
   saveTokenInLocalStorage(response: LoginResponse) {

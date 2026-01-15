@@ -1,37 +1,5 @@
 <h2 mat-dialog-title class="heading-2">{{isEditTransaction? 'Edit transaction' : 'Add transaction'}}</h2>
 <mat-dialog-content>
-  
-  <!-- Voice Input Section -->
-  <div class="voice-input-section" *ngIf="!isEditTransaction">
-    <div class="voice-input-controls">
-      <button 
-        mat-fab 
-        [color]="isListening ? 'warn' : 'primary'"
-        (click)="isListening ? stopVoiceInput() : startVoiceInput()" 
-        [matTooltip]="isListening ? 'Tap to stop' : 'Tap to speak'"
-        class="voice-button"
-        [class.listening]="isListening">
-        <i class="fa fa-microphone"></i>
-      </button>
-      
-      <div class="voice-instructions" *ngIf="!isListening">
-        <span class="body-small">Tap to speak</span>
-      </div>
-      
-      <div class="listening-indicator" *ngIf="isListening">
-        <mat-spinner diameter="16"></mat-spinner>
-        <span class="body-small">Listening... Tap again to stop</span>
-      </div>
-      
-      <!-- Live Transcript -->
-      <div class="live-transcript" *ngIf="isListening && liveTranscript">
-        <span class="live-text">"{{liveTranscript}}"</span>
-      </div>
-    </div>
-    
-    <mat-divider class="voice-divider"></mat-divider>
-  </div>
-
   <form class="add-transaction-form" [formGroup]="addTransactionForm" (ngSubmit)="newTransaction()">
     <mat-form-field appearance="outline">
       <mat-label>Category</mat-label>

@@ -7,7 +7,6 @@ import { Subscription } from 'rxjs';
 
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { ErrorHandlerComponent } from '../error-handler/error-handler.component';
-import { ServerStatusService } from 'src/app/services/server-status.service';
 
 import { ThemePalette } from '@angular/material/core';
 import { LoginResponse } from '../../models/LoginResponse';
@@ -31,8 +30,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private router: Router,
     private authService: AuthenticationService,
-    private messageService: MessageService,
-    private serverStatusService: ServerStatusService
+    private messageService: MessageService
   ) {
     this.loginStatusSubsciption = this.authService
       .getLoginStatus()
@@ -54,14 +52,12 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   onLogin(form: NgForm) {
     this.messageService.setIsLoading(true);
-    this.serverStatusService.showServerWaking();
     
     if (form.invalid) {
       this.dialog.open(ErrorHandlerComponent, {
         data: { message: 'Invalid email or password' },
       });
       this.messageService.setIsLoading(false);
-      this.serverStatusService.hideServerWaking();
       return;
     }
 
@@ -76,7 +72,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       },
       (err) => {
         this.messageService.setIsLoading(false);
-        this.serverStatusService.hideServerWaking();
       }
     );
   }

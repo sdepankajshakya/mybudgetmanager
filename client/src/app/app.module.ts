@@ -65,7 +65,6 @@ import { NoInternetComponent } from './components/no-internet/no-internet.compon
 import { FilterModalComponent } from './components/dashboard/filter-modal/filter-modal.component';
 import { TransactionListComponent } from './components/dashboard/transaction-list/transaction-list.component';
 import { FinancialOverviewComponent } from './components/dashboard/financial-overview/financial-overview.component';
-import { ServerWakingComponent } from './components/server-waking/server-waking.component';
 
 @NgModule({
   declarations: [
@@ -88,7 +87,6 @@ import { ServerWakingComponent } from './components/server-waking/server-waking.
     FilterModalComponent,
     TransactionListComponent,
     FinancialOverviewComponent,
-    ServerWakingComponent,
   ],
   imports: [
     BrowserModule,

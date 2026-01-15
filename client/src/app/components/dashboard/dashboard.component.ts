@@ -30,7 +30,6 @@ import listPlugin from '@fullcalendar/list';
 import { SharedService } from 'src/app/services/shared.service';
 import { SettingsService } from 'src/app/services/settings.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
-import { ServerStatusService } from 'src/app/services/server-status.service';
 import { Category } from '../../models/Category';
 import { fade } from 'src/app/shared/animations';
 import { PaymentMode } from '../../models/PaymentMode';
@@ -138,8 +137,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     private sharedService: SharedService,
     private settingsService: SettingsService,
     private snackbar: SnackbarService,
-    private cdr: ChangeDetectorRef,
-    private serverStatusService: ServerStatusService
+    private cdr: ChangeDetectorRef
   ) {
     // set default currency
     this.currency = {
@@ -172,9 +170,6 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // Show server waking overlay
-    this.serverStatusService.showServerWaking();
-
     this.getCategories();
     this.getPaymentModes();
 
@@ -355,8 +350,6 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.transactionService.getTransations().subscribe(
       (res) => {
         this.messageService.setIsLoading(false);
-        // Hide server waking overlay
-        this.serverStatusService.hideServerWaking();
         
         const transactions = <Transaction[]>res;
         this.transactions = transactions;
@@ -365,8 +358,6 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       (err) => {
         this.messageService.setIsLoading(false);
-        // Hide server waking overlay on error
-        this.serverStatusService.hideServerWaking();
         this.snackbar.error('Failed to fetch transactions.');
       }
     );
@@ -395,8 +386,6 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.transactionService.getFilteredTransactions(params).subscribe(
       (res) => {
         this.messageService.setIsLoading(false);
-        // Hide server waking overlay when data loads
-        this.serverStatusService.hideServerWaking();
         
         const transactions = <Transaction[]>res;
         this.transactions = transactions;
@@ -415,8 +404,6 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       (err) => {
         this.messageService.setIsLoading(false);
-        // Hide server waking overlay on error
-        this.serverStatusService.hideServerWaking();
         this.snackbar.error('Failed to fetch transactions. Please check your connection.');
       }
     );
@@ -870,7 +857,5 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.messageSubscription.unsubscribe();
     this.destroy$.next();
     this.destroy$.complete();
-    // Make sure to hide server waking overlay when component is destroyed
-    this.serverStatusService.hideServerWaking();
   }
 }

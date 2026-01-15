@@ -1,0 +1,110 @@
+<div class="mobile-dashboard">
+  <!-- Content Area -->
+  <div class="content-area">
+    <!-- Analytics Tab -->
+    <div class="tab-content" *ngIf="selectedTab === 0">
+      <h2 class="tab-title">💰 Financial Overview</h2>
+      <div class="overview-cards">
+        <mat-card class="stat-card income">
+          <div class="stat-label">Income</div>
+          <div class="stat-value">{{currency?.symbol}}{{totalIncomeAmount | number:'1.2-2'}}</div>
+        </mat-card>
+        <mat-card class="stat-card expense">
+          <div class="stat-label">Expenses</div>
+          <div class="stat-value">{{currency?.symbol}}{{totalExpenseAmount | number:'1.2-2'}}</div>
+        </mat-card>
+        <mat-card class="stat-card balance">
+          <div class="stat-label">Balance</div>
+          <div class="stat-value">{{currency?.symbol}}{{totalBalanceAmount | number:'1.2-2'}}</div>
+        </mat-card>
+      </div>
+      
+      <mat-card class="chart-card">
+        <h3 class="chart-title">Expense Distribution</h3>
+        <highcharts-chart 
+          *ngIf="expenseDistBarOptions?.series?.[0]?.data?.length; else noChart" 
+          [Highcharts]="Highcharts" 
+          [options]="expenseDistBarOptions">
+        </highcharts-chart>
+        <ng-template #noChart>
+          <div class="empty-state">
+            <p>No expense data available</p>
+            <p class="hint">Add expense transactions to see distribution</p>
+          </div>
+        </ng-template>
+      </mat-card>
+      
+      <mat-card class="chart-card">
+        <h3 class="chart-title">Balance Overview</h3>
+        <app-financial-overview 
+          *ngIf="totalIncomeAmount > 0 || totalExpenseAmount > 0"
+          [income]="totalIncomeAmount" 
+          [expense]="totalExpenseAmount" 
+          [currency]="currency">
+        </app-financial-overview>
+        <div *ngIf="totalIncomeAmount === 0 && totalExpenseAmount === 0" class="empty-state">
+          <p>No financial data available</p>
+          <p class="hint">Add transactions to see your overview</p>
+        </div>
+      </mat-card>
+    </div>
+
+    <!-- Calendar Tab -->
+    <div class="tab-content" *ngIf="selectedTab === 1">
+      <h2 class="tab-title">📅 Calendar</h2>
+      <mat-card class="calendar-card">
+        <p class="coming-soon">Calendar view coming soon...</p>
+      </mat-card>
+    </div>
+
+    <!-- Transactions Tab -->
+    <div class="tab-content" *ngIf="selectedTab === 2">
+      <h2 class="tab-title">💸 Transactions</h2>
+      <div *ngIf="transactions.length === 0" class="empty-state">
+        <p>No transactions yet</p>
+        <p class="hint">Tap the + button below to add your first transaction</p>
+      </div>
+      <app-transaction-list 
+        *ngIf="transactions.length > 0"
+        [transactions]="transactions" 
+        [currencySymbol]="currency?.symbol">
+      </app-transaction-list>
+    </div>
+
+    <!-- Settings Tab -->
+    <div class="tab-content" *ngIf="selectedTab === 3">
+      <h2 class="tab-title">⚙️ Settings</h2>
+      <mat-card class="settings-card">
+        <button mat-raised-button color="primary" (click)="goToSettings()">
+          Open Settings
+        </button>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- FAB for Add Transaction -->
+  <button mat-fab class="fab-add" color="primary" (click)="openAddTransactionModal()">
+    <i class="fa fa-plus"></i>
+  </button>
+
+  <!-- Bottom Navigation -->
+  <mat-toolbar class="bottom-nav">
+    <button mat-button class="nav-item" [class.active]="selectedTab === 0" (click)="selectedTab = 0">
+      <i class="fa fa-chart-pie"></i>
+      <span>Analytics</span>
+    </button>
+    <button mat-button class="nav-item" [class.active]="selectedTab === 1" (click)="selectedTab = 1">
+      <i class="fa fa-calendar"></i>
+      <span>Calendar</span>
+    </button>
+    <div class="nav-spacer"></div>
+    <button mat-button class="nav-item" [class.active]="selectedTab === 2" (click)="selectedTab = 2">
+      <i class="fa fa-list"></i>
+      <span>Transactions</span>
+    </button>
+    <button mat-button class="nav-item" [class.active]="selectedTab === 3" (click)="selectedTab = 3">
+      <i class="fa fa-cog"></i>
+      <span>Settings</span>
+    </button>
+  </mat-toolbar>
+</div>

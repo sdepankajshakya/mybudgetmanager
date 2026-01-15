@@ -15,9 +15,87 @@
   <script src="https://accounts.google.com/gsi/client" async="" defer=""></script>
   <link rel="manifest" href="manifest.webmanifest">
   <meta name="theme-color" content="#000000">
+  <style>
+    #app-loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 204, 0, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999999;
+      flex-direction: column;
+      text-align: center;
+      padding: 20px;
+    }
+    #app-loader.hidden {
+      display: none;
+    }
+    .loader-spinner {
+      border: 4px solid rgba(51, 51, 51, 0.2);
+      border-top: 4px solid #333;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    #app-loader h1 {
+      color: #333;
+      font-size: 24px;
+      margin: 0 0 10px 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    #app-loader p {
+      color: #555;
+      font-size: 16px;
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    #slow-message {
+      margin-top: 20px;
+      padding: 15px;
+      background: rgba(255, 152, 0, 0.2);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 152, 0, 0.5);
+      display: none;
+    }
+    #slow-message.show {
+      display: block;
+    }
+    #slow-message p {
+      margin: 5px 0;
+      font-size: 14px;
+    }
+  </style>
+  <script>
+    // Show slow server message after 5 seconds
+    setTimeout(function() {
+      var slowMsg = document.getElementById('slow-message');
+      if (slowMsg) slowMsg.classList.add('show');
+    }, 5000);
+  </script>
 <link rel="stylesheet" href="styles.ad6cb344a5436bd0.css"></head>
 <body class="mat-typography">
+  <!-- Initial Loading Overlay -->
+  <div id="app-loader">
+    <div class="loader-spinner"></div>
+    <h1>Loading Budget Manager... 💰</h1>
+    <p>Please wait while we start the app</p>
+    <div id="slow-message">
+      <p><strong>⏱️ Server is waking up...</strong></p>
+      <p><small>Our free server sleeps when not in use. This usually takes 30-60 seconds.</small></p>
+    </div>
+  </div>
+  
   <app-root></app-root>
   <noscript>Please enable JavaScript to continue using this application.</noscript>
-<script src="runtime.ed5aea0510b3d052.js" type="module"></script><script src="polyfills.eca96af4468e89c3.js" type="module"></script><script src="main.b2701536770dbbc5.js" type="module"></script></body>
+<script src="runtime.ed5aea0510b3d052.js" type="module"></script><script src="polyfills.eca96af4468e89c3.js" type="module"></script><script src="main.cdacb323d53b59ef.js" type="module"></script></body>
 </html>
