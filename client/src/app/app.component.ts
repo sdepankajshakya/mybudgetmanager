@@ -9,6 +9,7 @@ import { AuthenticationService } from './services/authentication.service';
 import { SettingsService } from './services/settings.service';
 import { Router } from '@angular/router';
 import { SharedService } from './services/shared.service';
+import { ServerStatusService } from './services/server-status.service';
 
 @Component({
   selector: 'app-root',
@@ -26,6 +27,7 @@ export class AppComponent implements AfterViewChecked, OnDestroy {
   @ViewChild('sidenav') sidenav!: MatSidenav;
   isDarkMode: boolean = false;
   isLoading: boolean = false;
+  isServerWaking$ = this.serverStatusService.isServerWaking$;
 
   constructor(
     private authService: AuthenticationService,
@@ -35,6 +37,7 @@ export class AppComponent implements AfterViewChecked, OnDestroy {
     private router: Router,
     private cd: ChangeDetectorRef,
     private swUpdate: SwUpdate,
+    private serverStatusService: ServerStatusService,
     @Inject(LOCALE_ID) private locale: string
   ) {
     // Don't initialize theme here - wait for settings to load

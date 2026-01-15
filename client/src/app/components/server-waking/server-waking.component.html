@@ -1,0 +1,17 @@
+<main class="server-waking-overlay" role="status" aria-live="polite">
+    <div class="content">
+        <div class="spinner-container">
+            <mat-spinner diameter="60"></mat-spinner>
+        </div>
+        
+        <h1>Loading Your Dashboard... 💰</h1>
+        <p>Please wait while we fetch your data</p>
+        
+        <p *ngIf="!showSlowMessage"><small><i class="fa fa-info-circle"></i> First time loading might take a moment</small></p>
+
+        <div class="slow-server-notice" *ngIf="showSlowMessage">
+            <p><i class="fa fa-clock-o"></i> <strong>Server is waking up...</strong></p>
+            <p><small>Our free server sleeps when not in use. This usually takes 30-60 seconds.</small></p>
+        </div>
+    </div>
+</main>

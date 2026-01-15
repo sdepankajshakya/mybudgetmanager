@@ -1,3 +1,4 @@
+<app-server-waking *ngIf="isServerWaking$ | async"></app-server-waking>
 <no-internet></no-internet>
 <app-header></app-header>
 <mat-sidenav-container class="sidebar" (backdropClick)="close('backdrop')" autosize>

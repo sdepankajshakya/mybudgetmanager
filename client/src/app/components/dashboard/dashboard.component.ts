@@ -4,6 +4,7 @@ import {
   Component,
   ElementRef,
   OnInit,
+  OnDestroy,
   ViewChild,
 } from '@angular/core';
 import { Subscription } from 'rxjs/internal/Subscription';
@@ -29,6 +30,7 @@ import listPlugin from '@fullcalendar/list';
 import { SharedService } from 'src/app/services/shared.service';
 import { SettingsService } from 'src/app/services/settings.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
+import { ServerStatusService } from 'src/app/services/server-status.service';
 import { Category } from '../../models/Category';
 import { fade } from 'src/app/shared/animations';
 import { PaymentMode } from '../../models/PaymentMode';
@@ -45,7 +47,7 @@ import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
   fade,
   ],
 })
-export class DashboardComponent implements OnInit, AfterViewInit {
+export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   
   messageSubscription: Subscription;
   isLoadingSubcription: Subscription;
@@ -136,7 +138,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     private sharedService: SharedService,
     private settingsService: SettingsService,
     private snackbar: SnackbarService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private serverStatusService: ServerStatusService
   ) {
     // set default currency
     this.currency = {
@@ -169,6 +172,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    // Show server waking overlay
+    this.serverStatusService.showServerWaking();
+
     this.getCategories();
     this.getPaymentModes();
 
@@ -346,13 +352,24 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   getTransactions() {
     this.messageService.setIsLoading(true);
-    this.transactionService.getTransations().subscribe((res) => {
-      this.messageService.setIsLoading(false);
-      const transactions = <Transaction[]>res;
-      this.transactions = transactions;
-      this.populateExpenseCharts();
-      this.populateCalendar();
-    });
+    this.transactionService.getTransations().subscribe(
+      (res) => {
+        this.messageService.setIsLoading(false);
+        // Hide server waking overlay
+        this.serverStatusService.hideServerWaking();
+        
+        const transactions = <Transaction[]>res;
+        this.transactions = transactions;
+        this.populateExpenseCharts();
+        this.populateCalendar();
+      },
+      (err) => {
+        this.messageService.setIsLoading(false);
+        // Hide server waking overlay on error
+        this.serverStatusService.hideServerWaking();
+        this.snackbar.error('Failed to fetch transactions.');
+      }
+    );
   }
 
   onSearchChange(searchKeyword: string): void {
@@ -375,23 +392,34 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       search: this.search,
       paymentMode: this.paymentMode
     }
-    this.transactionService.getFilteredTransactions(params).subscribe((res) => {
-      this.messageService.setIsLoading(false);
-      const transactions = <Transaction[]>res;
-      this.transactions = transactions;
-      this.populateExpenseCharts();
-      this.populateCalendar();
-      
-      // Maintain scroll position at the recent transactions section only when requested and on mobile
-      if (maintainScrollPosition && this.recentTransactionsSection && this.isMobileView()) {
-        setTimeout(() => {
-          this.recentTransactionsSection.nativeElement.scrollIntoView({ 
-            behavior: 'smooth', 
-            block: 'start' 
-          });
-        }, 100);
+    this.transactionService.getFilteredTransactions(params).subscribe(
+      (res) => {
+        this.messageService.setIsLoading(false);
+        // Hide server waking overlay when data loads
+        this.serverStatusService.hideServerWaking();
+        
+        const transactions = <Transaction[]>res;
+        this.transactions = transactions;
+        this.populateExpenseCharts();
+        this.populateCalendar();
+        
+        // Maintain scroll position at the recent transactions section only when requested and on mobile
+        if (maintainScrollPosition && this.recentTransactionsSection && this.isMobileView()) {
+          setTimeout(() => {
+            this.recentTransactionsSection.nativeElement.scrollIntoView({ 
+              behavior: 'smooth', 
+              block: 'start' 
+            });
+          }, 100);
+        }
+      },
+      (err) => {
+        this.messageService.setIsLoading(false);
+        // Hide server waking overlay on error
+        this.serverStatusService.hideServerWaking();
+        this.snackbar.error('Failed to fetch transactions. Please check your connection.');
       }
-    });
+    );
   }
 
   populateCalendar() {
@@ -842,5 +870,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.messageSubscription.unsubscribe();
     this.destroy$.next();
     this.destroy$.complete();
+    // Make sure to hide server waking overlay when component is destroyed
+    this.serverStatusService.hideServerWaking();
   }
 }
